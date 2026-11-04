@@ -1,5 +1,5 @@
 {
- "_not": "Lead kataloğu (4 Kas). Videolar ÖRNEKTİR; başlıklar ve süreler dokümanın seri tablosuna göre. 'tarif' = gerçek Gastro tarif slug'ı (yerel gastro_v2_video). 'vitrin' = hub spotlight sekmesi. 'ornek_ilerleme' = 'İzlemeye devam et' prototip örneği. 'fit' = Fit Tarifler süzgeci (kalori ≤ 300/porsiyon ya da pişirmesiz hafif tarif). Konsept süzgeci seri.konsept'ten; süre süzgeci tarif süresine (hazırlık+pişirme), tarifsizde video süresine bakar (3 Kas karar 7).",
+ "_not": "Lead kataloğu (4 Kas). Videolar ÖRNEKTİR; başlıklar ve süreler dokümanın seri tablosuna göre. 'tarif' = gerçek Gastro tarif slug'ı (yerel gastro_v2_video). 'vitrin' = hub spotlight sekmesi. 'ornek_ilerleme' = 'İzlemeye devam et' prototip örneği. 'fit' = Fit Tarifler süzgeci (kalori ≤ 300/porsiyon ya da pişirmesiz hafif tarif). Konsept süzgeci seri.konsept'ten; süre süzgeci tarif süresine (hazırlık+pişirme), tarifsizde video süresine bakar (3 Kas karar 7). 'poster_tarif' = tarifsiz videoda poster görseli olarak kapağı kullanılan gerçek tarif (bağ değil; yalnız görsel).",
  "konseptler": [
   "10 Dakikada Pratik",
   "Şef Teknikleri",
@@ -374,7 +374,8 @@
      381,
      "Saklama"
     ]
-   ]
+   ],
+   "poster_tarif": "acili-ezme-gavurdagi-usulu-cevizli"
   },
   {
    "slug": "dokum-tava-mi-yapismaz-mi-ayni-biftekle-test",
@@ -447,7 +448,8 @@
     "3 yumurta",
     "1 su bardağı rendelenmiş kaşar",
     "1 yemek kaşığı tereyağı"
-   ]
+   ],
+   "poster_tarif": "peynirli-sufle-firinda-kabarik-yumurta-yemegi"
   },
   {
    "slug": "tavada-citir-kasarli-tost",
