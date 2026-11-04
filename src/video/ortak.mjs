@@ -14,7 +14,7 @@ export const var_ = (p) => existsSync(path.join(KOK, p));
 
 export const MARKA = 'Dada Gastro Video Mutfağı';
 export const GASTRO = 'https://dadagastro.com';
-export const YAYIN = 'https://gaviaworks-dev.github.io/DadaVideo/';
+export const YAYIN = 'https://gaviaworks-dev.github.io/DadaGastroVideo/';
 /** Örnek etkileşimlerin görünür etiketi (sahte veri yasak; örnek olduğu yazılır). */
 export const PROTOTIP_ORNEGI = 'Prototip örneği';
 export const TEMSILI = 'Görüntü temsilîdir · prototip';

@@ -4,14 +4,14 @@
 // (etiket + sınıf) dizileri aynı olmalı; her öğe için boyut (w,h) + bölgeye göre konum (x, y − bölge üstü) 4px içinde olmalı.
 // Mutlak y kullanılmaz (footer'ın sayfadaki yeri içerik boyuna bağlı); bölge kutusunun kendi boyutu ve x'i de ölçülür.
 // Görsel/yazı yüklenmesi beklenir (load + fonts.ready); hareket kapalı (reducedMotion).
-// Kullanım: node araclar/parite-kapisi.mjs     TABAN=… (vars. http://localhost:8795/DadaVideo/) · DONOR=… (vars. http://127.0.0.1:8960)
+// Kullanım: node araclar/parite-kapisi.mjs     TABAN=… (vars. http://localhost:8795/DadaGastroVideo/) · DONOR=… (vars. http://127.0.0.1:8960)
 //           BOZ=1 → index'in kopyasında logo 20px kaydırılır, footer bir sütun daraltılır; kapı kırmızı vermeli (çıkış 1).
 import { chromium } from 'playwright';
 import { readFile, writeFile, rm } from 'node:fs/promises';
 import path from 'node:path';
 
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const TABAN = process.env.TABAN || 'http://localhost:8795/DadaVideo/';
+const TABAN = process.env.TABAN || 'http://localhost:8795/DadaGastroVideo/';
 const DONOR = process.env.DONOR || 'http://127.0.0.1:8960';
 const TOL = 4;
 const BOZ = !!process.env.BOZ;

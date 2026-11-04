@@ -10,12 +10,12 @@
 //  6 kaydet: kartın yer imi → aria-pressed=true, aynı slug'lı bütün düğmeler, bildirim cümlesi görünür
 //  7 kaydırdıkça yükleme: ilk 12 kart · dibe inince 26 · "Hepsi bu kadar" görünür · son satır tam (kart + kutu yayılımı sütunun katı)
 //  8 depo: localStorage/sessionStorage boş
-// Kullanım: node araclar/davranis-hub.mjs   (TABAN=http://localhost:8796/DadaVideo/  GENISLIK=1440,390)
+// Kullanım: node araclar/davranis-hub.mjs   (TABAN=http://localhost:8796/DadaGastroVideo/  GENISLIK=1440,390)
 //           BOZ=1 → süzgeç adres yazmaz, IntersectionObserver yok, bar yapışmaz, kaydet tıklaması yutulur (kırmızı vermeli)
 import { chromium } from 'playwright';
 import * as O from '../src/video/ortak.mjs';
 
-const TABAN = process.env.TABAN || 'http://localhost:8796/DadaVideo/';
+const TABAN = process.env.TABAN || 'http://localhost:8796/DadaGastroVideo/';
 const GENISLIK = (process.env.GENISLIK || '1440,390').split(',').map(Number);
 const BOZ = !!process.env.BOZ;
 const konseptKodu = (ad) => String(ad || '').toLocaleLowerCase('tr').replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');

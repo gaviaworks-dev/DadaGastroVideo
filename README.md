@@ -3,7 +3,7 @@
 Dada Gastro'nun **Video Mutfağı** alanının yeniden tasarlanmış statik prototipi: keşif sayfası, seriler, seri, video izleme,
 şef, 30 Saniyede Tat kısa videoları ve yazılı tarif köprüsü.
 Kaynak: "Dada Gastro Video Mutfağı Ürün Geliştirme ve İcra İş Listesi" (DADA-VID-2026/Q4 · REV 1.2). Yöntem Dada Gastro Kids ve Health prototipleriyle aynı.
-Yayın: GitHub Pages (`noindex`) → https://gaviaworks-dev.github.io/DadaVideo/
+Yayın: GitHub Pages (`noindex`) → https://gaviaworks-dev.github.io/DadaGastroVideo/
 
 > **Videolar örnektir; oynatıcı görüntüsü temsilîdir.** Oynatıcı, gerçek tarif kapağı üzerinde simüle edilen bir zaman çizgisidir.
 > İzlenme, puan, takipçi, yorum ya da abone sayısı gösterilmez. Örnek etkileşimler (izleme ilerlemesi, sponsor yuvası, şef tanıtım metni)
@@ -32,7 +32,7 @@ npm i                                   # yalnız playwright (kapılar için)
 node araclar/snapshot.mjs               # yerel Gastro (127.0.0.1:8960) → src/donor/*.html + varlik/gastro/** (yollar göreli, token/oturum temizliği)
 python3 -I araclar/veri-hazirla.py      # gastro_v2_video (yalnız SELECT) → veri/tarifler.json, veri/sefler.json + kapaklar (cwebp)
 node araclar/build.mjs                  # src/donor + src/video + veri → kökte statik HTML
-node araclar/sunucu.mjs                 # http://localhost:8795/DadaVideo/  (PORT=… ile başka port)
+node araclar/sunucu.mjs                 # http://localhost:8795/DadaGastroVideo/  (PORT=… ile başka port)
 node araclar/varlik-kapisi.mjs          # her sayfa 1440/390: 404 0 · JS hatası 0 · yatay taşma 0 · kırık görsel 0 · izinsiz dış istek 0
 node araclar/bag-kapisi.mjs             # her iç bağ depoda bir dosyaya çözülür; # ve javascript: bağı 0; dış bağ yalnız izinli kökenler
 node araclar/parite-kapisi.mjs          # üst bant + header + footer = yerel Gastro donörü (1440/390, 4px)

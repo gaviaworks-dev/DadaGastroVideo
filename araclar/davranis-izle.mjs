@@ -2,7 +2,7 @@
 // Gerçek tıklama (force YOK): önce scrollIntoView, sonra elementFromPoint isabeti; isabet yoksa "ölçülmedi" (kırmızı sayılır).
 // Görünürlük checkVisibility({checkOpacity, checkVisibilityCSS}) ile. Mesajlar kullanıcının okuduğu cümleyle aranır.
 //
-// Kullanım:  TABAN=http://localhost:8797/DadaVideo/ node araclar/davranis-izle.mjs
+// Kullanım:  TABAN=http://localhost:8797/DadaGastroVideo/ node araclar/davranis-izle.mjs
 //            BOZ=<ad> … → bilerek bozulmuş girdi (kapının kırmızı verdiğinin kanıtı); BOZ=liste → bozma adlarını yazar.
 //   Bozmalar ağdan gelen yanıtı değiştirir (page.route), diskteki dosyaya dokunmaz.
 import { createRequire } from 'node:module';
@@ -12,7 +12,7 @@ const { chromium } = require('playwright');
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const ortak = await import(path.join(KOK, 'src/video/ortak.mjs'));
 
-const TABAN = process.env.TABAN || 'http://localhost:8797/DadaVideo/';
+const TABAN = process.env.TABAN || 'http://localhost:8797/DadaGastroVideo/';
 const BOZ = process.env.BOZ || '';
 const IZLE = 'video-izle-tek-tavada-klasik-menemen.html';
 const V = ortak.VIDEO['tek-tavada-klasik-menemen'];

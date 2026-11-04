@@ -3,7 +3,7 @@
 // · yatay taşma (scrollWidth − innerWidth > 0) · kırık görsel (yüklenmiş ama naturalWidth 0, görünür).
 // Sayfa sonuna dek gerçek tekerlek kaydırması yapılır (tembel görseller ve kaydırınca yüklenen içerik ölçüme girsin).
 //
-// Kullanım: node araclar/varlik-kapisi.mjs [sayfa.html …]     TABAN=… (vars. http://localhost:8795/DadaVideo/) · GENISLIK=1440,390
+// Kullanım: node araclar/varlik-kapisi.mjs [sayfa.html …]     TABAN=… (vars. http://localhost:8795/DadaGastroVideo/) · GENISLIK=1440,390
 //           BOZ=1 → bilerek bozulmuş sınama sayfası (eksik CSS, kırık görsel, JS hatası, taşan kutu) üretip YALNIZ onu ölçer;
 //                   kapı dört kusurun dördünü de kırmızı göstermelidir (çıkış kodu 1). Sınama dosyası ölçümden sonra silinir.
 import { chromium } from 'playwright';
@@ -12,7 +12,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const TABAN = process.env.TABAN || 'http://localhost:8795/DadaVideo/';
+const TABAN = process.env.TABAN || 'http://localhost:8795/DadaGastroVideo/';
 const KOKEN = new URL(TABAN).origin;
 const IZINLI_DIS = [/^https:\/\/dadagastro\.com\//, /^https:\/\/gaviaworks-dev\.github\.io\//, /^data:/, /^blob:/];
 const GENISLIK = (process.env.GENISLIK || '1440,390').split(',').map(Number);

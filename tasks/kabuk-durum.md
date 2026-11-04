@@ -1,7 +1,7 @@
 # kabuk ajanı — durum
 
 ## Adımlar
-- [x] 1 Araçlar: package.json (playwright), araclar/temizle.mjs, araclar/sunucu.mjs (PORT, /DadaVideo/)
+- [x] 1 Araçlar: package.json (playwright), araclar/temizle.mjs, araclar/sunucu.mjs (PORT, /DadaGastroVideo/)
 - [x] 2 Anlık görüntü: araclar/snapshot.mjs → src/donor/{ana,kabuk,tarif-<30 slug>}.html + varlik/gastro/** (240 varlık, hatalı 0)
 - [x] 3 Veri: araclar/veri-hazirla.py → veri/tarifler.json (31: 30 sayfalı + 1 yalnız poster), veri/sefler.json (29), varlik/video/tarif/*-640/-1600.webp
 - [x] 4 Derleme: araclar/build.mjs + src/video/ortak.mjs + varlik/video/kabuk.{css,js} — `BOS_MODUL=1 node araclar/build.mjs sinama` → video-sinama.html (1440/390: 404 0 · JS 0 · taşma 0)
@@ -37,7 +37,7 @@
   - `videoSefi(v)` = serinin şefi (katalog), yoksa tarifin şefi.
 - CSS değişkenleri (kabuk.css): `--vd-bar-alt` (sayfa yapışkan barları `top: var(--vd-bar-alt)`), `--vd-ust-bosluk`, `--vd-bar-h`, `--vd-font-kalin` (GilroyBd 700), `--vd-font-ekstra` (GilroyXB 800). Gilroy yalnız 500 ağırlıkta; kalın için bu aileler.
 - Yapışkan davranış: aşağı kayınca `html.vd-ust-gizli` (yalnız Gastro header.header gizlenir), `window.VDKabuk.gizliMi()`.
-- Sunucu: `PORT=879x node araclar/sunucu.mjs` → `http://localhost:879x/DadaVideo/`. Kapı: `node araclar/varlik-kapisi.mjs <sayfa…>` (TABAN=… ile kendi portun).
+- Sunucu: `PORT=879x node araclar/sunucu.mjs` → `http://localhost:879x/DadaGastroVideo/`. Kapı: `node araclar/varlik-kapisi.mjs <sayfa…>` (TABAN=… ile kendi portun).
 
 ## Veri notları (diğer ajanlar için)
 - `TARIF[slug].sayfa === false` → yalnız poster kaynağı (katalogdaki `poster_tarif`); tarif sayfası YOK, `tarifAdresi()` dadagastro.com'a döner.

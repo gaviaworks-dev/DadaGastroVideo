@@ -8,7 +8,7 @@
 // Kullanım: node araclar/yapiskan-kapisi.mjs [sayfa.html]   (vars. video-mutfagi.html)
 //           BOZ=1 → kabuk.js yüklenmeden (istek engellenir) ölçülür; header aşağı kayınca gizlenmediği için kırmızı vermeli.
 import { chromium } from 'playwright';
-const TABAN = process.env.TABAN || 'http://localhost:8795/DadaVideo/';
+const TABAN = process.env.TABAN || 'http://localhost:8795/DadaGastroVideo/';
 const SAYFA = process.argv[2] || 'video-mutfagi.html';
 const BOZ = !!process.env.BOZ;
 const b = await chromium.launch();

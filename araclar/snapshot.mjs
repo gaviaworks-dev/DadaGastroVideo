@@ -17,7 +17,7 @@ import { kabukTemizle, tokenTaramasi } from './temizle.mjs';
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const KAYNAK = process.env.KAYNAK || 'http://127.0.0.1:8960';
 const CANLI = 'https://dadagastro.com';
-const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) DadaVideoPrototip/1.0';
+const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) DadaGastroVideoPrototip/1.0';
 const VARLIK = 'varlik/gastro';
 const DM = path.join(os.homedir(), 'Developer/Revenge Projects/DadaMentor');
 // İçerik hattının yayına çıkan kapakları (yeni "pilot" tarifler gastro-mysql kopyasında henüz yok): <ad>-kapak.webp → yayin/ klasörü

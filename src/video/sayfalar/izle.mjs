@@ -6,7 +6,7 @@ import { oynatici, malzemeBolumleri, adimBolumu, posterYolu } from '../oynatici.
 import * as kart from '../kart.mjs';
 
 const DONOR = '<!-- Video Mutfağı izleme sayfası · donör: Gastro tarif detayı kabuğu (yerel 8960 render) + .rd-crumb/.sec-head/.r-card kalıpları · oynatıcı/panel/damga/pişirme modu yeni (vd-) -->';
-const YAYIN = 'https://gaviaworks-dev.github.io/DadaVideo/';
+const YAYIN = 'https://gaviaworks-dev.github.io/DadaGastroVideo/';
 const ORNEK_TARIH = '2026-10-'; // VideoObject uploadDate (örnek; bölüm sırasına göre gün)
 
 export default async (o) => {
