@@ -57,6 +57,22 @@
     k.hidden = true;
   }
 
+  /* ---------- kelime sınırında kırpma (Revize 1: kelime ortasından kesme yok) ----------
+     Modülün CSS'i bu öğelerde text-overflow: ellipsis / -webkit-line-clamp kullanır (harf ortasından keser). Her öğeye o genişlikteki
+     kipine göre data-vd-kirp yazılır (nowrap → 1 satır, line-clamp N → N satır, kısıt yoksa 9 = tam metin) ve hub'ın kırpıcısı
+     (video.js VD.kirp) kelime sınırında kısaltır; genişlik değişince (kip değişebilir: masaüstü tek satır, mobil iki satır) yeniden. */
+  const KIRP = '.rk-kart .r-body h4, .rk-kart-metin, .rk-serit-metin > b, .rk-serit-metin > span, .rk-std-yazi > b, .rk-std-yazi > p, .eslik-kart-ad, .eslik-kart-bilgi > span > span';
+  function kirpAyarla(kok) {
+    if (!acik || !w.VD || typeof w.VD.kirp !== 'function') return;
+    (kok || d).querySelectorAll(`[data-vd-reklam] :is(${KIRP})`).forEach((el) => {
+      if (!el.getClientRects().length) return;
+      const cs = getComputedStyle(el); const clamp = parseInt(cs.webkitLineClamp || cs.getPropertyValue('-webkit-line-clamp'), 10);
+      const n = cs.whiteSpace === 'nowrap' ? 1 : clamp > 0 ? clamp : 9;
+      if (el.getAttribute('data-vd-kirp') !== String(n)) el.setAttribute('data-vd-kirp', String(n));
+    });
+    w.VD.kirp(kok || d);
+  }
+
   /* ---------- standart katman ---------- */
   const gorunur = (n) => !!n && !n.closest('[hidden]') && (n.checkVisibility ? n.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) : n.getClientRects().length > 0);
   const kapatilan = new Set();
@@ -115,7 +131,10 @@
       // prototip eki: sabit (perde) altbilgi göründüğünde bar onu örtmesin diye gizlenir — side'ın "footer görünür" kuralı (karar R10)
       const ftr = d.querySelector('footer.footer, body > footer'); let ft = ftr ? ftr.getBoundingClientRect().top : Infinity;
       if (ftr && getComputedStyle(ftr).position === 'fixed') ft = Math.max(ft, d.querySelector('main')?.getBoundingClientRect().bottom ?? Infinity);
-      const izin = !engel && !kapatilan.has('altbar') && !d.querySelector('.rd-actbar, #actbar') && ft >= w.innerHeight - 1;
+      // prototip eki (R15): ilk ekranda hero/oynatıcının üstüne binmesin — side'ın hero kapısıyla aynı (hero başlık çizgisini geçince)
+      const hero = d.querySelector('main [data-rk-hero]');
+      const heroGecti = !hero || (w.scrollY > 0 && hero.getBoundingClientRect().bottom <= baslikAlti());
+      const izin = !engel && !kapatilan.has('altbar') && !d.querySelector('.rd-actbar, #actbar') && ft >= w.innerHeight - 1 && heroGecti;
       bar.hidden = !izin;
       if (izin) { const b = altbarHizala(bar); kok.style.setProperty('--vd-rk-alt-bosluk', Math.ceil(bar.getBoundingClientRect().height + b + 12) + 'px'); }
       else kok.style.removeProperty('--vd-rk-alt-bosluk');
@@ -172,9 +191,11 @@
       if (dlg && e.target === dlg) dlg.close();
     }, { signal: sinyal });
     d.querySelectorAll('[data-vd-reklam] form[data-vd-rk-form]').forEach((f) => f.addEventListener('submit', (e) => e.preventDefault(), { signal: sinyal }));
-    let bekle = 0; const plan = () => { cancelAnimationFrame(bekle); bekle = requestAnimationFrame(standartGuncelle); };
+    let bekle = 0; const plan = () => { cancelAnimationFrame(bekle); bekle = requestAnimationFrame(() => { const once = kaplar().map((k) => k.querySelectorAll('[hidden]').length).join(); standartGuncelle(); if (kaplar().map((k) => k.querySelectorAll('[hidden]').length).join() !== once) kirpAyarla(); }); };
+    let kz = 0; w.addEventListener('resize', () => { clearTimeout(kz); kz = setTimeout(() => kirpAyarla(), 120); }, { signal: sinyal });
     w.addEventListener('scroll', plan, { passive: true, signal: sinyal }); w.addEventListener('resize', plan, { signal: sinyal });
     d.addEventListener('visibilitychange', plan, { signal: sinyal }); d.addEventListener('fullscreenchange', plan, { signal: sinyal });
+    d.addEventListener('transitionend', plan, { signal: sinyal }); // .bottom-nav ve başlık kaydırmada kayarak gizlenip açılır (modül: transitionend)
     const izle = new MutationObserver(plan); // tam ekran katmanlar (pişirme modu, kısa video, oynatıcı) hidden/class değiştirir
     d.querySelectorAll('#cookmode, #vdPisirme, .vd-pisirme, .vd-dikey--katman, .vd-oyn').forEach((n) => izle.observe(n, { attributes: true, attributeFilter: ['hidden', 'class', 'style'] }));
     sinyal.addEventListener('abort', () => izle.disconnect());
@@ -190,6 +211,7 @@
     kok.classList.remove('vd-reklamli-yukleniyor'); kok.classList.add('vd-reklamli');
     kaplar().forEach(doldur);
     baglariCevir(d, true);
+    requestAnimationFrame(() => kirpAyarla()); (d.fonts?.ready || Promise.resolve()).then(() => kirpAyarla());
     gozcu = new MutationObserver((ml) => { for (const m of ml) for (const n of m.addedNodes) if (n.nodeType === 1) { if (n.matches('a[href]')) bagCevir(n, true); baglariCevir(n, true); } });
     gozcu.observe(d.body, { childList: true, subtree: true });
     iptal = new AbortController(); kapatilan.clear(); etkilesimKur(iptal.signal);
@@ -210,7 +232,7 @@
     e.preventDefault(); const yeni = !acik; adresYaz(yeni); if (yeni) ac(); else kapat();
   });
 
-  w.vdReklam = { acik: () => acik, guncelle: () => acik && standartGuncelle() };
+  w.vdReklam = { acik: () => acik, guncelle: () => { if (acik) { standartGuncelle(); kirpAyarla(); } } };
   const basla = () => { kaplar().forEach((k) => { k.hidden = true; }); if (new URLSearchParams(w.location.search).get(PARAM) === '1') ac(); else anahtarYaz(); };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', basla); else basla();
 })();

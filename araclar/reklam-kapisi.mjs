@@ -7,7 +7,7 @@
 //   anahtar    : force'suz, isabeti doğrulanmış tıklama → adres ?reklam=1 olur / kalkar; iç bağlar (*.html) parametreyi taşır / bırakır
 // Kullanım: TABAN=http://localhost:8798/DadaGastroVideo/ node araclar/reklam-kapisi.mjs [--sinama] [tip…]
 //   --sinama : reklam ajanının geçici rk-sinama-<tip>.html sayfaları (entegrasyondan önce)
-//   BOZ=gorunur|depo|bag|gorsel|ortu|anahtar → bilerek bozulmuş düzenek; kapı KIRMIZI vermeli
+//   BOZ=gorunur|depo|bag|gorsel|ortu|anahtar|kesme → bilerek bozulmuş düzenek; kapı KIRMIZI vermeli
 import { chromium } from 'playwright';
 
 const TABAN = process.env.TABAN || 'http://localhost:8798/DadaGastroVideo/';
@@ -40,11 +40,12 @@ async function sayfaAc(b, t, gen, sorgu) {
   const hata = [], kotu = [], reklamYanit = [];
   p.on('pageerror', (e) => hata.push(e.message));
   p.on('response', (r) => { const u = r.url(); if (r.status() >= 400) kotu.push(`${r.status()} ${u.replace(TABAN, '')}`); if (/varlik\/(video|gastro)\/reklam\//.test(u)) reklamYanit.push([r.status(), u.replace(TABAN, '')]); });
-  if (BOZ === 'gorunur' || BOZ === 'bag' || BOZ === 'depo') {
+  if (BOZ === 'gorunur' || BOZ === 'bag' || BOZ === 'depo' || BOZ === 'kesme') {
     await p.route('**/varlik/video/js/reklam.js*', async (rt) => {
       const yan = await rt.fetch(); let js = await yan.text();
       if (BOZ === 'gorunur') js = js.replace('kaplar().forEach((k) => { k.hidden = true; });', 'kaplar().forEach(doldur);');
       if (BOZ === 'bag') js = js.replace('baglariCevir(d, true);\n', '\n');
+      if (BOZ === 'kesme') js = js.replace('w.VD.kirp(kok || d);', '');
       if (BOZ === 'depo') js = js.replace("const PARAM = 'reklam';", "const PARAM = 'reklam'; try { localStorage.setItem('vd-reklam', '1'); } catch {}");
       await rt.fulfill({ response: yan, body: js });
     });
@@ -76,6 +77,7 @@ async function yuvaDenetle(p, kod) {
     if (!kaplar.length) return { yok: true };
     const s = [];
     for (const k of kaplar) {
+      if (k.closest('[data-katman][hidden], [role="dialog"][hidden]')) { s.push({ dolu: true, std: true, katman: true }); continue; } // kapalı katman (hub'daki kısa video katmanı): ölçülmedi
       const ic = k.querySelector(':scope > :not(template)');
       const hedef = (getComputedStyle(k).display === 'contents' ? ic : k);
       if (!ic) { s.push({ dolu: false }); continue; }
@@ -139,11 +141,15 @@ async function ortmeDenetle(p) {
 
 async function anahtarDenetle(p) {
   const tikla = async () => {
-    const b = p.locator('[data-vd-reklam-anahtari]').first();
-    await b.evaluate((n) => n.scrollIntoView({ block: 'center', behavior: 'instant' }));
-    await bekle(p, 250);
-    const isabet = await b.evaluate((n) => { const r = n.getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && (e === n || n.contains(e)); });
-    if (!isabet) return false;
+    // sayfada birden çok anahtar olabilir (alt menü + kısa video görüntüleyicisinin üst satırı): isabet edilebilen ilki tıklanır
+    const hepsi = p.locator('[data-vd-reklam-anahtari]'); let b = null;
+    for (let i = 0; i < await hepsi.count(); i++) {
+      const a = hepsi.nth(i);
+      await a.evaluate((n) => n.scrollIntoView({ block: 'center', behavior: 'instant' })); await bekle(p, 250);
+      const isabet = await a.evaluate((n) => { const r = n.getBoundingClientRect(); if (!r.width) return false; const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && (e === n || n.contains(e)); });
+      if (isabet) { b = a; break; }
+    }
+    if (!b) return false;
     if (BOZ === 'anahtar') await p.evaluate(() => { const b = document.querySelector('[data-vd-reklam-anahtari]'); b.replaceWith(b.cloneNode(true)); document.querySelector('[data-vd-reklam-anahtari]').addEventListener('click', (e) => e.stopImmediatePropagation(), true); });
     await b.click(); await bekle(p, 900); return true;
   };
@@ -200,6 +206,7 @@ for (const t of SECIM) {
         y.s.forEach((x, i) => {
           const e = `${et}: ${kod}${y.s.length > 1 ? `#${i + 1}` : ''}`;
           sonuc(x.dolu, `${e} boş`);
+          if (x.katman) console.log(`  ⚪ ${e}: kapalı katmanda (hub'daki kısa video katmanı) — görünürlük ÖLÇÜLMEDİ, sayfasında (kisa) ölçülür`);
           if (x.std || !x.dolu) return;
           sonuc(x.gorunur, `${e} görünmüyor`);
           sonuc(x.kotuImg.length === 0 && x.bgYok === 0, `${e} kırık görsel ${x.kotuImg.join(', ')}${x.bgYok ? ` · zemin görseli yok ${x.bgYok}` : ''}`);
@@ -220,6 +227,19 @@ for (const t of SECIM) {
       }
       const ib = await p.evaluate(() => { const ic = [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')).filter((h) => !/^(?:[a-z]+:|\/\/|#)/i.test(h) && /^[^?#]*\.html(?:[?#]|$)/.test(h)); return [ic.filter((h) => /[?&]reklam=1(?:&|#|$)/.test(h)).length, ic.length]; });
       sonuc(ib[1] > 0 && ib[0] === ib[1], `${et}: iç bağlar parametre taşımıyor (${ib[0]}/${ib[1]})`);
+      // kelime ortasından kesme yok: reklam yuvalarında CSS'in (ellipsis / line-clamp) metin sakladığı görünür öğe kalmamalı
+      const kesik = await p.evaluate(async () => {
+        const out = [];
+        const tara = () => document.querySelectorAll('[data-vd-reklam] *').forEach((el) => {
+          if (!el.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) || !el.getClientRects().length) return;
+          if (![...el.childNodes].some((n) => n.nodeType === 3 && n.nodeValue.trim())) return;
+          const cs = getComputedStyle(el); const clamp = parseInt(cs.webkitLineClamp, 10) > 0;
+          if ((cs.textOverflow === 'ellipsis' && el.scrollWidth > el.clientWidth + 1) || (clamp && el.scrollHeight > el.clientHeight + 1)) out.push(`${el.className || el.tagName} "${el.textContent.trim().slice(0, 40)}"`);
+        });
+        tara(); window.scrollTo({ top: Math.round(document.documentElement.scrollHeight * 0.42), behavior: 'instant' }); await new Promise((r) => setTimeout(r, 600)); tara();
+        return [...new Set(out)];
+      });
+      sonuc(kesik.length === 0, `${et}: CSS kesmesi (kelime ortası) → ${kesik.slice(0, 3).join(' | ')}`);
       const o = await ortmeDenetle(p);
       sonuc(o.length === 0, `${et}: örtme → ${o.slice(0, 3).join(' | ')}`);
       sonuc((await p.evaluate(OLC.tasma)) <= 0, `${et}: yatay taşma ${await p.evaluate(OLC.tasma)}`);

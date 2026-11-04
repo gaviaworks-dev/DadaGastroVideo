@@ -78,9 +78,9 @@ export function kisaReklamOgesi() {
     <div class="vd-dikey__sahne" data-vd-dikey-sahne>
      <video class="vd-dikey__poster" poster="${poster}" preload="none" playsinline muted loop data-vd-rk-src="${kaynak}" aria-label="${esc(k.marka)} tanıtım filmi"></video>
      <span class="vd-dikey__perde" aria-hidden="true"></span>
-     <span class="rk-native-hap">Sponsorlu<span class="vd-rk-not"> · prototip örneği</span></span>
+     <span class="rk-native-hap">Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span>
      <div class="vd-dikey__bilgi">
-      <h2 class="vd-dikey__baslik">${esc(k.baslik)}</h2>
+      <h2 class="vd-dikey__baslik" data-vd-kirp="2" title="${esc(k.baslik)}">${esc(k.baslik)}</h2>
       <p class="vd-dikey__ozet">Kahve deneyimini keşfet.</p>
       <p class="vd-dikey__kim"><span class="rk-native-kimlik"><span class="rk-native-wordmark">${logo}</span><a class="rk-native-kesfet" href="${esc(k.hedef_url)}" target="_blank" rel="sponsored nofollow noopener"><span class="rk-native-prefix">Sponsorlu · </span>Keşfet <span class="rk-native-ok" aria-hidden="true">→</span></a></span></p>
      </div>
@@ -92,7 +92,7 @@ export function kisaReklamOgesi() {
  *  Sponsoru olmayan seride ''. Reklamsız görünümde gizli (CSS: html:not(.vd-reklamli) [data-vd-reklam]). */
 export function sponsorEtiketi(seri, { medya = false } = {}) {
   const sp = SERI_SPONSORU[typeof seri === 'string' ? seri : seri?.slug]; if (!sp) return '';
-  const hap = `${esc(REKLAM.sponsor_kalibi.replace('%AD%', sp.ad))}<span class="vd-rk-not"> · prototip örneği</span>`;
+  const hap = `${esc(REKLAM.sponsor_kalibi.replace('%AD%', sp.ad))}<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span>`;
   // medya: kart görselinin sağ üstünde (modülün varsayılan .rk-native-hap konumu — sponsorlu kartlardaki gibi; kartın boyu değişmez)
   if (medya) return `<span class="rk-native-hap vd-reklam vd-reklam--etiket-medya" data-vd-reklam="SERI-SPONSOR" hidden>${hap}</span>`;
   return `<span class="rk-native-satir-sag vh-sponsor vd-reklam vd-reklam--etiket" data-vd-reklam="SERI-SPONSOR" hidden><span class="rk-native-hap">${hap}</span></span>`;

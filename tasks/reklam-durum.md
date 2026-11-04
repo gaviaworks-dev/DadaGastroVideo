@@ -1,10 +1,15 @@
 # reklam ajanı — durum (REVİZE 1 · madde 7)
 
-## ▶ ŞU AN (5 Kas)
-- ✅ Keşif · ✅ varlıklar · ✅ API (`src/video/reklam.mjs`, `varlik/video/css/reklam.css`, `varlik/video/js/reklam.js`) · ✅ kapı (`araclar/reklam-kapisi.mjs`)
-  — geçici sınama sayfalarında 457 yeşil / 0 kırmızı, BOZ kırmızıları alındı.
-- ⏳ ENTEGRASYON hub / izle / kabuk'ta (aşağıda satır satır). Gelince: `node araclar/reklam-kapisi.mjs` (gerçek sayfalar).
-- Commit yok (lead). Sunucum: `PORT=8798 node araclar/sunucu.mjs` (PID dosyası scratchpad'de; iş bitince yalnız o PID öldürülür).
+## ▶ ŞU AN (5 Kas, ikinci tur — R14 düzeltmesi)
+- ✅ c805485 (lead commit). Bu tur: **R14 düzeltildi** (390 alt bar notu ikinci satır), **bütün reklam yuvalarında kelime ortası kesme kaldırıldı**
+  (modülün ellipsis/line-clamp'li öğelerine genişliğe göre `data-vd-kirp` yazılır, hub'ın kırpıcısı `VD.kirp` kelime sınırında kısaltır),
+  **R15** (alt bar ilk ekranda oynatıcıyı örtüyordu → hero geçince), kapıya "CSS kesmesi" denetimi + çoklu anahtar + kapalı katman ⚪.
+- Gerçek sayfalar (kabuk/hub/izle entegrasyonu derlenmiş hâliyle, sunucum 8798): **yeşil 481 · kırmızı 0** (R15'ten önce 9 kırmızı: hub oynatıcısı
+  alt bar altında, şef 390 alt bar–bottom-nav, hub'daki kapalı kısa katman). Kısa: görüntüleyicideki anahtar artık tıklanıyor ama
+  **kisa.js `adresYaz` adresi `video-kisa.html?v=` diye sıfırdan yazıp `reklam=1`'i siliyor** → `kisa` 2 kırmızı; izle'ye yazıldı (dosyası onun).
+- ⏳ "REKLAM ENTEGRE" (hub-durum / izle-durum) bekleniyor → gerçek sayfalarda reklam-kapisi + kirpma-kapisi. Derlenmiş sayfalar eski
+  `reklam-donor.json`la (not ayracı ayrı span değil) — kabuk tam derlemesinden sonra 390 alt barın ikinci satırı "prototip örneği" (başta "·" yok).
+- Commit yok (lead). Sunucum: `PORT=8798 node araclar/sunucu.mjs` (PID scratchpad `reklam/sunucu.pid`).
 
 ## Dosyalarım
 | dosya | ne |
@@ -128,6 +133,8 @@ reklamAnahtari()                             // alt menü anahtarı (Gastro .chi
   (⚪ kısa: anahtar görüntüleyicinin altında → tıklama ölçülmedi, yazıldı).
 - BOZ kırmızıları (hepsi çıkış 1): `gorunur` (reklamsızda kaplar doldu → "dolu kap 4") · `depo` (localStorage yazımı) · `bag` (iç bağ 0/130, 24/154) ·
   `gorsel` (ürün webp 404 → kırık görsel + 404) · `ortu` (alt bar oynatıcının üstüne → "div.vd-oyn @160,367 ← rk-std-mesaj") · `anahtar` (tıklama yutuldu → adres değişmedi).
+  İkinci tur ekleri: reklam yuvasında CSS'in metin sakladığı (ellipsis/line-clamp) görünür öğe → kırmızı (BOZ=kesme: kırpıcı çağrısı silinince "Söke ile mutfağında kendi lezzetini hazı" yakalandı, çıkış 1); sayfada birden çok anahtar varsa
+  isabet edilebilen ilki; kapalı katmandaki yuva (hub'daki kısa katmanı) ⚪ ölçülmedi.
   Kapının kendi kusurları bu turda bulundu ve düzeltildi: `scroll-behavior:smooth` yüzünden kaydırma bitmeden ölçüyordu (→ `behavior:'instant'`);
   örtme denetimi 2 noktaydı, ince şerit aradan kaçtı (→ 24 px adımlı ızgara); gizli sekmedeki yuva "görünmüyor" sayılıyordu (→ sekmesi açılıp ölçülür).
 - Görüntüler (sınama sayfaları): scratchpad `reklam/ss/` — `rk-sinama-<tip>-<gen>[-r]-<kaydırma>.png`, `eslik-1440/390.png`, `kisa-reklam-*.png`.
@@ -139,17 +146,19 @@ reklamAnahtari()                             // alt menü anahtarı (Gastro .chi
 - **R4** Videolu banner yalnız hub'da (VD-B1 yerinde). Modül kuralı her sayfanın ilk yuvasını videolu yapar; prototipte seriler/seri/izle/şef'te yuvanın kendi kreatifi (Tefal/Söke) gösterildi — izleme sayfasında asıl oynatıcının yanında ikinci oynayan video olmasın ve şerit kreatifleri de görünsün diye.
 - **R5** İzleme sayfası = full-stack seri sayfasının bölüm görünümü → `video-seri` planı (VD-S1/-END); "üst" şerit oynatıcı ile başlık arasına değil izleme bloğunun ardına (oynatıcı + başlık + yazılı tarif ilk ekranda bölünmesin).
 - **R6** Modülün `main:has(.rk-yayilim-alan){background:#fff}` kuralı prototipte nötr (zemin Gastro açık zemini kalır): reklam açılınca sayfanın geri kalanı değişmesin.
-- **R7** Native kartta tek satır metin "…" ile bitsin diye `.rk-kart-metin` daralabilir (modülün `text-overflow:ellipsis` niyeti; flex kabında görünmüyordu).
+- **R7** (düzeltildi) Native kart metni flex kabında daralabilir; kısaltma CSS ellipsis değil, kelime sınırında `VD.kirp` (aşağıda "kırpma").
 - **R8** Eşlik kartı dar panelde (390'da ~300 px): logo + hap satırı kırılabilir (sepet düğmesinin altına girmesin). "Prototip örneği" notu hapın içinde değil bilgi satırının altında.
 - **R9** Seri sponsor hapı başlığın altında sola hizalı (modülün `.rk-native-satir-sag` sağ hizası satır içi kalıp içindir).
 - **R10** Alt sabit bar, sabit (perde) altbilgi göründüğünde gizlenir (side'ın "footer görünür" kuralı) — yoksa altbilginin son 90 px'ini örtüyordu; gövdeye bar kadar alt boşluk.
 - **R11** Kısa video sayfasında standart katman yok (tam ekran = pişirme modu kuralı); hub'daki kısa video katmanı, pişirme modu, tam ekran oynatıcı açıkken de side/bar gizli.
 - **R12** Satır içi stil yasağı: modülün `<style>` (marka rengi) ve eşlik kartının satır içi `background-image`'ı üretilmiş `varlik/video/reklam/kreatif.css`'e taşındı (aynı değerler; eşlik kuralları `[data-rk-slot="TD-ESLIK"]` seçicisiyle). Eşlik kartının üye formu (POST /hesabim/…) → aynı düğme bellekte "listeye eklendi" + kısa bildirim; "Sipariş Et" penceresi `<dialog>` (dış bağlar yeni sekme).
 - **R13** Tıklama adresi (`/reklam/t/<jeton>`) yerine kreatifin `hedef_url`'si (rel="sponsored nofollow noopener", yeni sekme); jetonlar basılmaz.
-- **R14** "Prototip örneği" notu modülün "Sponsorlu" etiketinin içinde (`Sponsorlu · prototip örneği`); 390 alt barda modülün etiket kısaltması yüzünden "Sponsorlu · proto…" görünür (açık).
+- **R14** (düzeltildi) "Prototip örneği" notu modülün "Sponsorlu" etiketinin içinde (`Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span>`); 390 alt barda not etiketin ikinci satırı (ayraç gizli), bar 64 px kalır, kesme yok.
+- **R15** Alt sabit bar, sayfanın hero'su (`data-rk-hero`: spotlight, izleme sahnesi, seri bandı, kanal başlığı) başlık çizgisini geçince görünür — ilk ekranda oynatıcının alt kısmını örtüyordu (kapı yakaladı). Side'ın modüldeki kapısıyla aynı kural.
+- **Kırpma** Modülün CSS'te kestiği öğeler (`.rk-kart h4`, `.rk-kart-metin`, `.rk-serit-metin > b/span`, `.rk-std-yazi > b/p`, eşlik adı/bilgisi): reklam.js o genişlikteki kipe göre `data-vd-kirp` yazar (nowrap → 1, line-clamp N → N, kısıt yoksa 9) ve `VD.kirp` çağırır; genişlik değişince yeniden. Kısa öğe başlığı `data-vd-kirp="2"`.
 
 ## 7. Açık kalanlar
-- 390 alt bar etiketinde not kısalıyor (R14) — istenirse alt barda notu marka adının yerine koymak.
+- kisa.js `adresYaz` / hub katmanı `pushState` / kapanışta `girisAdresi` → `reklam=1` korunmalı (izle'ye iletildi).
 - 1440'ta side ile içerik kolonu arası 4 px (prototip `.wrap` 1176 px; modülün `reklam-yogunluk.side.gaps` 16 px'i standart.js'te uygulanmıyor — canlıyla aynı davranış).
 - Kısa akış öğesi kisa.js entegrasyonuna bağlı (sayaç "n / 9" kalır, simülasyon reklam öğesine de uygulanabilir) — izle'nin işi.
-- Kapı gerçek sayfalarda entegrasyondan sonra koşulacak; sınama sayfaları silindi (yeniden: scratchpad `reklam/sinama-uret.mjs`).
+- Kapı son kez kabuk tam derlemesinden sonra (reklam-kapisi + kirpma-kapisi); sınama sayfaları silindi (yeniden: scratchpad `reklam/sinama-uret.mjs`).

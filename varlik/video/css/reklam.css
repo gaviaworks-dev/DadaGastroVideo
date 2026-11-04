@@ -35,8 +35,7 @@ html.vd-reklamli body { padding-bottom: var(--vd-rk-alt-bosluk, 0px); }
 .vd-rk-bildirim[hidden] { display: none; }
 .ing-add.vd-rk-eklendi { background: var(--rk-dugme, var(--tomato)); color: #fff; }
 
-/* Modülün liste kartında tek satır metin "…" ile biter (text-overflow: ellipsis); .r-facts flex kabında öğe daralamadığı için üç nokta
-   görünmüyordu (kesik harf). Yalnız daralmasına izin verilir, kural aynı (karar R7). */
+/* Modülün liste kartında tek satır metin: öğe daralabilsin (flex kabında taşıyordu); kısaltmayı kelime sınırında video.js kırpıcısı yapar (R7 düzeltme). */
 .vd-reklam .rk-kart .r-facts { min-width: 0; }
 .vd-reklam .rk-kart .rk-kart-metin { flex: 1 1 auto; min-width: 0; }
 
@@ -53,3 +52,10 @@ html.vd-reklamli .vd-reklam--etiket:not([hidden]) { display: flex !important; ma
 
 /* Hub ızgarası süzgeçliyken native kart gösterilmez (full-stack'te native yalnız süzgeçsiz arşivde 3. karttan sonra); hub.js bu özniteliği yazar */
 .vd-reklam[data-vd-suzgec-gizli] { display: none !important; }
+
+/* R14 (düzeltme, Beyar kuralı "kelime ortasından kesme yok"): 390'da alt bar etiketi modülün tek satırına sığmıyor → "prototip örneği"
+   etiketin içinde ikinci satır (ayraç gizli); bar yüksekliği (64 px) değişmez. */
+@media (max-width: 600px) {
+  .rk-std-altbar .rk-std-etiket .vd-rk-not { display: block; }
+  .rk-std-altbar .rk-std-etiket .vd-rk-not__ayrac { display: none; }
+}

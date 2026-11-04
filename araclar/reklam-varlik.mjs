@@ -104,9 +104,9 @@ for (const [ad, html0] of Object.entries(ham.parcalar)) {
   // görünür "prototip örneği" notu — modülün etiket kalıbının içinde
   // eşlik kartında etiket bir hap (büyük harf, sabit kutu): not hapın İÇİNE değil yanına
   if (ad.startsWith('eslik-')) html = html.replace(/(<p class="eslik-kart-bilgi">[\s\S]*?<\/p>)/, '$1<p class="vd-rk-not vd-rk-not--ayri">Prototip örneği</p>').replace('<span class="rk-etiket">Sponsorlu</span>', '<span class="rk-etiket">Sponsorlu</span><!--not-->');
-  html = html.replace(/<span class="rk-etiket">Sponsorlu<\/span>(?!<!--not-->)/g, '<span class="rk-etiket">Sponsorlu<span class="vd-rk-not"> · prototip örneği</span></span>')
-    .replace(/<span class="r-chip rk-native-recipe-chip">Sponsorlu<\/span>/g, '<span class="r-chip rk-native-recipe-chip">Sponsorlu<span class="vd-rk-not"> · prototip örneği</span></span>')
-    .replace(/<span class="rk-std-etiket">(<strong>[^<]*<\/strong> · )? Sponsorlu<\/span>/g, (t, m) => `<span class="rk-std-etiket">${m || ''} Sponsorlu<span class="vd-rk-not"> · prototip örneği</span></span>`);
+  html = html.replace(/<span class="rk-etiket">Sponsorlu<\/span>(?!<!--not-->)/g, '<span class="rk-etiket">Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span>')
+    .replace(/<span class="r-chip rk-native-recipe-chip">Sponsorlu<\/span>/g, '<span class="r-chip rk-native-recipe-chip">Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span>')
+    .replace(/<span class="rk-std-etiket">(<strong>[^<]*<\/strong> · )? Sponsorlu<\/span>/g, (t, m) => `<span class="rk-std-etiket">${m || ''} Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span>`);
   html = html.replace('<!--not-->', '');
   if (/ornek\.invalid|\/storage\/|reklam\/t\/|<style|_token| style="/.test(html)) throw new Error(`${ad}: çevrilmemiş dinamik parça kaldı`);
   parcalar[ad] = html.replace(/[ \t]+\n/g, '\n').replace(/\n{2,}/g, '\n').trim();
