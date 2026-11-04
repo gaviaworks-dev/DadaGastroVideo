@@ -1,6 +1,7 @@
 // Video Mutfağı · oynatıcı bileşeni (izle ajanı). Gastro'da karşılığı olmayan yeni bileşen → `vd-oyn` / `vd-panel` önekli.
 // D1: gerçek video yok. Poster = tarif kapağı 1600px; oynat'a basınca simüle zaman çizgisi (gerçek saniye ilerler), posterde yavaş Ken Burns.
-// Kullanım: oynatici(v, ortak, { kip: 'izle' | 'spotlight', kilitli?: bool, baslikSeviye?: 'h2'|'h3', alt?: html, oncelik?: bool })
+// Kullanım: oynatici(v, ortak, { kip: 'izle' | 'spotlight', kilitli?: bool, baslikSeviye?: 'h2'|'h3', alt?: html, oncelik?: bool, eslik?: html })
+//   `eslik`: malzeme listesinin EN ALTINA konan eşlik kartı yuvası (reklam.mjs reklamSlotu('eslik'); TD-ESLIK kuralı) — izle sayfası verir.
 //   `oncelik`: poster eager + fetchpriority=high (LCP; hub'da ilk görünen spotlight sekmesi). izle kipinde her zaman öncelikli.
 //   `alt`: oynatıcının hemen altına (panelden önce) konan içerik — izle sayfasında bölüm damgaları; geniş ekranda panel ikisinin boyunca uzanır.
 //   → `.vd-oyn-blok` (oynatıcı + senkron malzeme paneli; spotlight kipinde altında iki aksiyon).
@@ -65,7 +66,7 @@ export function posterYolu(v, ortak, boy = 1600) {
 
 const miktarMetni = (m) => [m.miktar_metin ?? m.miktar, m.birim].filter((x) => x !== null && x !== undefined && String(x).trim() !== '').join(' ');
 
-export function oynatici(v, ortak, { kip = 'izle', kilitli = false, baslikSeviye = 'h2', alt = '', oncelik = false } = {}) {
+export function oynatici(v, ortak, { kip = 'izle', kilitli = false, baslikSeviye = 'h2', alt = '', oncelik = false, eslik = '' } = {}) {
   const { esc } = ortak;
   const sure = Number(v.sure_sn) || 0;
   const seri = ortak.KATALOG?.seriler?.find((s) => s.slug === v.seri);
@@ -124,12 +125,12 @@ export function oynatici(v, ortak, { kip = 'izle', kilitli = false, baslikSeviye
   return `<div class="vd-oyn-blok vd-oyn-blok--${kip}" data-vd-blok>
   ${oyn}
   ${alt ? `<div class="vd-oyn-blok__alt">${alt}</div>` : ''}
-  ${panel(v, ortak, { t, bolumVeri, malzemeler, kilitli, baslikSeviye })}
+  ${panel(v, ortak, { t, bolumVeri, malzemeler, kilitli, baslikSeviye, eslik })}
   ${kip === 'spotlight' && t ? spotlightAksiyon(v, ortak, t, malzemeler) : ''}
  </div>`;
 }
 
-function panel(v, ortak, { t, bolumVeri, malzemeler, kilitli, baslikSeviye }) {
+function panel(v, ortak, { t, bolumVeri, malzemeler, kilitli, baslikSeviye, eslik = '' }) {
   const { esc } = ortak;
   const H = baslikSeviye;
   // Tarifsiz video → "Bu videodaki ekipman" (katalog `ekipman`), bölümlere sırayla dağıtılır
@@ -170,6 +171,7 @@ function panel(v, ortak, { t, bolumVeri, malzemeler, kilitli, baslikSeviye }) {
      <button class="vd-panel__grup-bas" type="button" data-vd-git="${g.b.sn}"${kilitli ? ' disabled' : ''}><span class="vd-panel__damga">${ortak.sureMetni(g.b.sn)}</span><span>${esc(g.b.baslik)}</span></button>
      <ul>${g.ogeler.map(satir).join('')}</ul>
     </section>`).join('')}
+    ${eslik}
    </div>
    <div class="vd-panel__ayak">
     <p class="vd-panel__ipucu" data-vd-ipucu>Dolabında olanları işaretle; eksikler listene gider.</p>
