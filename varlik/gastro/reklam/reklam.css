@@ -1,0 +1,1704 @@
+@import url("dugme.css?v=20260922");
+/* REKLAM SLOTLARI — kanon bileşen diliyle, kanon dosyalarına DOKUNMADAN.
+   Renk · yarıçap · gölge · boşluk yalnız sitenin kendi değişkenlerinden
+   (`tokens-*.css`: --line · --paper · --muted · --radius-* · --sh-* · --sp-*).
+
+   Katman sözleşmesi: slotlar sayfa AKIŞINDADIR. `position: fixed/sticky` yok,
+   `z-index` yok — başlığın (header) üstüne basamaz, çerez bandı ve her açılır
+   katman reklamın üstünde kalır. Kapsayıcı `isolation: isolate` ile kendi
+   yığınını kapatır: içerideki hiçbir şey dışarıdaki katmanlarla yarışmaz. */
+
+.rk-slot {
+  isolation: isolate;
+  position: relative;
+  box-sizing: border-box;
+  font-family: var(--font);
+}
+
+.rk-etiket {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5; /* 1 iken İ/Ğ noktaları kutunun ÜSTÜNE taşıyordu (ölçüldü) */
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ── bant (970×250 · mobil 320×100) ve dikdörtgen (300×250) ───────────── */
+.rk-bant,
+.rk-dikdortgen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-inline: auto;
+}
+
+.rk-bant { max-width: 970px; }
+.rk-dikdortgen { max-width: 300px; }
+
+.rk-gorsel-bag {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  box-shadow: var(--sh-sm);
+  transition: box-shadow .25s var(--ease), transform .25s var(--ease);
+}
+
+.rk-gorsel-bag:hover { box-shadow: var(--sh-md); transform: translateY(-2px); }
+.rk-gorsel-bag:focus-visible,
+.rk-serit-bag:focus-visible { outline: 2px solid var(--tomato); outline-offset: 3px; }
+
+.rk-gorsel-bag picture,
+.rk-gorsel-bag img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* DİKEY ORTA KURALI (Beyar, 2026-09-21 — istisnasız): slot, içinde durduğu şeridin dikey ortasında durur;
+   üstteki boşluk = alttaki boşluk, PİKSEL olarak (`scripts/olcum/reklam/dikey-orta.mjs` ekran pikselinden sayar).
+
+   İki bölüm arasında tek başına duran slot kendi şeridini açar ve boşluğun İKİ YANINI DA KENDİSİ taşır.
+   Komşu bölümün boşluğuna yaslanılmaz: ilk kurguda yaslanıldı ve AS-M1 alttaki banda yapıştı — o bölümün zemini
+   `background-image` ile geliyor, `background-color` şeffaf okunuyordu (akıl yürütme, ölçüm değil).
+   Aynı zemindeki komşunun bize bakan boşluğu bu yüzden SIFIRLANIR; boşluk tek yerden gelir. */
+.rk-sar { padding-block: var(--rk-bosluk-ust) var(--rk-bosluk); --rk-bosluk: var(--sp-7); --rk-bosluk-ust: calc(var(--rk-bosluk) - var(--rk-etiket-payi)); }
+/* etiket satırının kutusu ile ilk boyalı pikseli arasındaki iç boşluk (ölçüldü) — üstten düşülür ki GÖRÜNEN boşluk eşit olsun */
+.rk-sar, .rk-slot { --rk-etiket-payi: 3px; }
+/* art arda iki slot şeridi: aradaki boşluk yalnız alttakinin üst boşluğudur */
+.rk-sar:has(+ .rk-sar) { padding-bottom: 0; }
+/* aynı zemindeki komşular: bize bakan boşlukları sıfırlanır */
+.rk-sar + .catstrip { padding-top: 0; }
+/* kategori başlığının ilk boyalı pikseli kutusundan 3px aşağıda (ölçüldü) — alttan düşülür */
+.rk-sar:has(+ .catstrip) { padding-bottom: calc(var(--rk-bosluk) - 3px); }
+.simrec:has(+ .rk-sar) { padding-bottom: 0; }
+/* benzer tarifler rayının kendi alt payı (kaydırma çubuğu yeri: 1440'ta 10px · 390'da 6px, ölçüldü) üstten düşülür */
+.simrec + .rk-sar { --rk-bosluk-ust: calc(var(--rk-bosluk) - var(--rk-etiket-payi) - 10px); }
+/* sayfanın son öğesi slotsa, mobildeki sayfa sonu payı (94px, ölçüldü) slotun altına eklenmez */
+.page-main:has(> .rk-sar-son:not([data-rk-yogunluk-gizli])) { padding-bottom: 0; }
+
+/* kenar sütununda dikdörtgen: panel ile şef kartı arasındaki aralık */
+/* üstteki `.ing-foot` kendi alt boşluğunu (25px, ölçüldü) getiriyor: üst boşluk ondan gelir, alt boşluk ona + etiket payına eşitlenir */
+.rd-aside .rk-dikdortgen { margin-block: 0 calc(25px + var(--rk-etiket-payi)); }
+
+/* ── şerit (logo + cümle + bağ) ───────────────────────────────────────── */
+.rk-serit {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.rk-serit-bag {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--cream-2);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+}
+
+.rk-serit-bag:hover { border-color: var(--cream); box-shadow: var(--sh-sm); }
+
+.rk-serit-logo {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-sm);
+  object-fit: contain;
+  background: var(--paper);
+}
+
+.rk-serit-harf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--tomato);
+  border: 1px solid var(--line);
+}
+
+.rk-serit-metin {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1 1 auto;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.rk-serit-metin b { font-size: 13px; font-weight: 700; }
+.rk-serit-metin span { color: var(--slate-2); overflow-wrap: anywhere; }
+
+.rk-serit-cta {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tomato);
+  white-space: nowrap;
+}
+
+/* yerleşime göre şerit aralıkları */
+/* künye kartı ve malzeme paneli İÇ BOŞLUK taşımaz — satırları kendi boşluğunu
+   getirir (ölçüldü: .rdf ve .serv-step 16/24px içeriden başlıyor). Şerit de öyle. */
+/* künye kartı mobilde flex-wrap (ölçüldü: .rdf 178+178) — şerit tam satır kaplar */
+.kc-card .rk-serit { flex: 0 0 auto; width: 100%; padding: calc(var(--sp-4) - var(--rk-etiket-payi)) var(--sp-4) var(--sp-4); border-top: 1px solid var(--line); }
+.kc-card .rk-serit-bag { padding: var(--sp-3); }
+/* dar kap (künye sütunu ~260px): logo | metin ızgarası, bağ metnin altında aynı sütunda */
+.kc-card .rk-serit-bag {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+}
+.kc-card .rk-serit-cta { grid-column: 2; }
+.ing-panel > .rk-serit { margin: calc(var(--sp-3) - var(--rk-etiket-payi)) var(--sp-5) var(--sp-4); }
+/* alttaki `.nut-bar` 18px üst boşluk getiriyor ve kenar boşlukları ÇÖKÜYOR (ölçüldü: alt marj 14 de yazılsa 18 okunuyor) —
+   alt boşluk ondan gelir, üst ona eşitlenir */
+.nut-card .rk-serit { margin-block: calc(18px - var(--rk-etiket-payi)) 0; }
+/* koyu bölümün içinde (Mutfak Sırları): ızgaradan bir bölüm-içi aralık kadar ayrılır, etiket koyu zeminde okunur */
+/* koyu bölümün içinde: bölümün kendi alt boşluğu sıfırlanır, şerit iki boşluğu da kendisi taşır */
+.sec.guide:has(.rk-serit) { padding-bottom: 0; }
+.sec.guide .rk-serit { margin-block: calc(var(--sp-7) - var(--rk-etiket-payi)) var(--sp-7); }
+.sec.guide .rk-serit > .rk-etiket { color: color-mix(in srgb, var(--paper) 68%, transparent); }
+
+/* ── kart (tarif kartıyla aynı anatomi: .r-card) ──────────────────────── */
+.rk-kart { cursor: default; }
+
+.rk-kart-medya { position: relative; overflow: hidden; background: var(--cream-2); }
+
+.rk-kart-medya picture,
+.rk-kart-medya img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rk-kart .rk-etiket {
+  color: var(--ink);
+  letter-spacing: .04em;
+}
+
+.rk-kart-metin {
+  margin: 0 0 var(--sp-3);
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--slate-2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rk-kart-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tomato);
+  white-space: nowrap;
+}
+
+/* ── küçük kartlar: kategori · video · şef — komşu kartın kanon sınıfını taşır, yalnız görsel ve bağ eklenir ── */
+.rk-kucuk-kart { cursor: default; }
+.rk-kucuk-medya { position: relative; overflow: hidden; }
+.rk-kucuk-medya img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+.rk-kucuk-kart a { color: inherit; text-decoration: none; }
+.rk-kucuk-kart a::after { content: ""; position: absolute; inset: 0; }
+.rk-kucuk-marka { font-size: 12px; font-weight: 600; color: var(--muted); }
+.rk-sef-cta { pointer-events: none; }
+
+/* ── pano (görsel + mesaj + düğme) ────────────────────────────────────── */
+.rk-pano { display: flex; flex-direction: column; gap: var(--sp-2); }
+
+.rk-pano-bag {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--sp-5);
+  padding: var(--sp-4);
+  padding-right: var(--sp-5);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  box-shadow: var(--sh-sm);
+  color: var(--ink);
+  text-decoration: none;
+  transition: box-shadow .25s var(--ease);
+}
+
+.rk-pano-bag:hover { box-shadow: var(--sh-md); }
+.rk-pano-bag:focus-visible { outline: 2px solid var(--tomato); outline-offset: 3px; }
+.rk-pano-gorsel { display: block; width: 200px; height: auto; border-radius: var(--radius-md); }
+.rk-pano-metin { display: flex; flex-direction: column; gap: var(--sp-1); min-width: 0; grid-column: 2; }
+.rk-pano-metin b { font-size: 20px; line-height: var(--lh-head); letter-spacing: var(--ls-head); }
+.rk-pano-metin span { font-size: 14px; color: var(--slate-2); }
+
+.rk-pano-cta {
+  grid-column: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  height: var(--ctl-h);
+  padding-inline: var(--sp-5);
+  border-radius: var(--radius-pill);
+  background: var(--tomato);
+  color: var(--paper);
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* kartın tamamı tek bağ: başlıktaki <a> kartı kaplar (iç içe bağ yok) */
+.rk-kart h4 a::after { content: ""; position: absolute; inset: 0; }
+
+@media (max-width: 640px) {
+  .rk-bant { max-width: 320px; }
+  .rk-sar { --rk-bosluk: var(--sp-6); }
+  .sec.guide .rk-serit { margin-block: calc(var(--sp-6) - var(--rk-etiket-payi)) var(--sp-6); }
+  .simrec + .rk-sar { --rk-bosluk-ust: calc(var(--rk-bosluk) - var(--rk-etiket-payi) - 6px); }
+  .rk-serit-bag {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr);
+    align-items: center;
+    gap: var(--sp-2) var(--sp-3);
+  }
+  .rk-serit-cta { grid-column: 2; }
+  .rk-pano-bag { grid-template-columns: 96px minmax(0, 1fr); gap: var(--sp-3) var(--sp-4); padding: var(--sp-4); }
+  .rk-pano-gorsel { width: 96px; }
+  .rk-pano-metin { grid-column: 2; }
+  .rk-pano-metin b { font-size: 17px; }
+  .rk-pano-cta { grid-column: 1 / -1; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rk-gorsel-bag,
+  .rk-serit-bag { transition: none; }
+  .rk-gorsel-bag:hover { transform: none; }
+}
+
+/* Tur 2 — yeni boyutlar kreatif sözleşmesidir, native kartlar komşunun sınıflarını kullanır. */
+.rk-leaderboard { max-width: 728px; }
+.rk-gorsel-bag { border: 0; }
+.rk-slot > .rk-etiket { align-self: flex-start; }
+.rk-slot .rk-etiket { font-size: 11px; line-height: 1.5; font-weight: 600; letter-spacing: .06em; }
+.rk-kart .r-facts { overflow: hidden; }
+.rk-kart-metin { display: block; margin: 0; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+.rk-kart .r-author { min-width: 0; }
+.rk-kart .r-author b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rk-kart .rk-kart-cta { display: none; }
+.rk-kart .av { display: grid; place-items: center; }
+.rk-kucuk-kart h4 a { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.vid-card.rk-slot h4 { min-height: 0; }
+.rk-menu { min-width: 0; }
+.rk-menu b, .rk-tema b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rk-menu .rk-etiket, .rk-tema .rk-etiket { color: var(--muted); }
+.rk-filtre { padding-block: var(--sp-4); }
+.rk-filtre .rk-etiket { margin-bottom: var(--sp-2); }
+.rk-filtre .rk-serit-bag { border: 0; border-radius: var(--radius-sm); padding: var(--sp-3); }
+.rk-sar + .lst-sec { padding-top: 0; }
+.lst-main > .rk-sar, .rd-aside > .rk-sar, .ing-panel > .rk-sar { width: 100%; padding-inline: 0; }
+.ing-panel > .rk-sar { padding-inline: var(--sp-5); }
+.lst-main > .rk-sar:has(.rk-leaderboard) { padding-bottom: var(--rk-bosluk); }
+.rk-tema { flex-shrink: 0; }
+.rk-tema > i { display: grid; place-items: center; width: var(--ctl-h); height: var(--ctl-h); background: var(--cream-2); border-radius: var(--radius-circle); color: var(--tomato); }
+@media (max-width: 640px) {
+  .rk-leaderboard { max-width: 320px; }
+  .rk-kart .r-facts { min-width: 0; }
+}
+/* Reklamlı video rayında başlık iki satırlık kanonik alanı korur; meta çizgileri aynı hizada. */
+.vid-grid:has(.rk-slot) .vid-card h4 { min-height: 2lh; max-height: 2lh; overflow: hidden; }
+/* Marka kimliği yalnız kreatifin sınırında: renk dış CSS endpointinden, satır içi stil yok. */
+:where(.rk-slot) { --rk-marka: var(--tomato); --rk-marka-metin: var(--paper); }
+.rk-serit-bag { display: grid; grid-template-columns: minmax(96px, .7fr) 96px minmax(0, 3fr) auto; gap: var(--sp-5); padding: var(--sp-5); background: color-mix(in srgb, var(--rk-marka) 9%, var(--paper)); border-color: color-mix(in srgb, var(--rk-marka) 20%, var(--line)); }
+.rk-serit-kimlik { display: flex; justify-content: center; align-items: center; min-width: 0; }
+.rk-wordmark { display: block; font-size: 24px; font-weight: 800; line-height: var(--lh-head); letter-spacing: var(--ls-head); overflow-wrap: anywhere; color: var(--ink); }
+.rk-logo { width: 100%; max-height: 64px; object-fit: contain; }
+.rk-serit-urun, .rk-serit-desen { width: 96px; height: 80px; object-fit: cover; border-radius: var(--radius-md); }
+.rk-serit-desen { display: block; background: radial-gradient(circle at 75% 20%, #ffffff80 0 24%, transparent 25%), repeating-linear-gradient(135deg, transparent 0 12px, #ffffff20 12px 24px), var(--rk-marka); }
+.rk-serit-metin { gap: var(--sp-2); font-size: 14px; }
+.rk-serit-metin b { font-size: 20px; line-height: var(--lh-head); }
+.rk-serit-cta { justify-content: center; min-height: var(--ctl-h); padding: var(--sp-3) var(--sp-4); border-radius: var(--radius-pill); background: var(--rk-marka); color: var(--rk-marka-metin); white-space: normal; text-align: center; }
+.kc-card .rk-serit-bag, .ing-panel .rk-serit-bag, .rd-aside .rk-serit-bag { grid-template-columns: minmax(0,1fr) 64px; gap: var(--sp-3); padding: var(--sp-4); }
+.kc-card .rk-serit-kimlik, .ing-panel .rk-serit-kimlik, .rd-aside .rk-serit-kimlik { justify-content: flex-start; }
+.kc-card .rk-serit-metin, .ing-panel .rk-serit-metin, .rd-aside .rk-serit-metin { grid-column: 1 / -1; }
+.kc-card .rk-serit-cta, .ing-panel .rk-serit-cta, .rd-aside .rk-serit-cta { grid-column: 1 / -1; }
+.kc-card .rk-serit-desen, .ing-panel .rk-serit-desen, .rd-aside .rk-serit-desen, .kc-card .rk-serit-urun, .ing-panel .rk-serit-urun, .rd-aside .rk-serit-urun { width: 64px; height: 48px; }
+.rk-malzeme { grid-column: 1 / -1; width: 100%; padding-block: var(--sp-3); }
+.rk-malzeme .ing-sponsor { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-3); border-radius: var(--radius-md); background: var(--cream-2); border: 1px solid var(--line); }
+.rk-malzeme .rk-etiket { margin-bottom: var(--sp-2); }
+.rk-harf { display: grid; place-items: center; flex: 0 0 36px; width: 36px; height: 36px; border-radius: var(--radius-sm); background: var(--rk-marka); color: var(--rk-marka-metin); font-size: 18px; font-weight: 800; }
+.rk-malzeme .sp-info { display: flex; flex-direction: column; gap: var(--sp-1); min-width: 0; flex: 1; font-size: 13px; }
+.rk-malzeme .sp-info span { color: var(--slate-2); font-size: 12px; }
+.rk-malzeme .sp-go { flex: 0 0 auto; display: inline-flex; align-items: center; gap: var(--sp-1); font-size: 12px; font-weight: 700; color: var(--ink); }
+.ing-row:has(.rk-malzeme) { flex-wrap: wrap; }
+/* Çok uzun malzeme paneli ekrana yapışıp kendi altındaki reklamları erişilmez kılamaz. */
+.ing-panel:has(.rk-slot) { position: static; }
+@media (max-width: 640px) {
+  .rk-serit-bag { grid-template-columns: minmax(0,1fr) 64px; gap: var(--sp-3); padding: var(--sp-4); }
+  .rk-serit-kimlik { justify-content: flex-start; }
+  .rk-serit-desen, .rk-serit-urun { width: 64px; height: 48px; }
+  .rk-serit-metin, .rk-serit-cta { grid-column: 1 / -1; }
+  .rk-serit-metin b { font-size: 18px; }
+  .rk-malzeme .ing-sponsor { flex-wrap: wrap; }
+  .rk-malzeme .sp-go { margin-left: auto; }
+}
+.rk-partnerler { padding: var(--sp-5); border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper); box-shadow: var(--sh-sm); }
+.rk-partnerler[hidden] { display: none; }
+.rk-partnerler h3 { font-size: 18px; }
+.rk-partner-aciklama { color: var(--muted); font-size: 12px; margin-top: var(--sp-2); }
+.rk-partner { padding-block: var(--sp-4); border-bottom: 1px solid var(--line); }
+.rk-partner .rk-etiket { margin-bottom: var(--sp-2); }
+.rk-partner .sm-row { display: flex; gap: var(--sp-3); align-items: center; padding: var(--sp-3); border-radius: var(--radius-md); background: color-mix(in srgb, var(--rk-marka) 8%, var(--paper)); }
+.rk-partner .sm-info { display: flex; flex-direction: column; flex: 1; gap: var(--sp-1); font-size: 14px; }
+.rk-partner .sm-info b { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+.rk-partner .sm-match { font-size: 12px; color: var(--slate-2); }
+.rk-partner .sm-feat { font-size: 10px; font-style: normal; font-weight: 700; text-transform: uppercase; background: var(--rk-marka); color: var(--rk-marka-metin); padding: var(--sp-1) var(--sp-2); border-radius: var(--radius-pill); }
+.rk-malzeme .sp-logo.rk-harf { font-size: 18px; background: var(--rk-marka); color: var(--rk-marka-metin); }
+.rk-malzeme .sp-info span { white-space: normal; overflow: visible; text-overflow: clip; }
+.rk-malzeme .sp-info b { white-space: normal; }
+/* Tur 2 piksel ölçümü: liste bölümünün eski -22/-14 px bindirmesi reklam bandını kesiyordu. */
+.rk-sar + .lst-sec { margin-top: 0; }
+.rk-sar + .lst-grid { margin-top: 0; }
+.lst-sec:has([data-rk-slot$="-B1"]) { padding-bottom: 0; }
+.page-main:has(.lst-sec [data-rk-slot$="-B1"]) { padding-bottom: 0; }
+/* Malzeme dipnotunun 22 px alt payı ile reklam bandının payı üst üste binmez. */
+.ing-foot:has(+ [data-rk-yer="TD-CART"]) { padding-bottom: 0; }
+.ing-panel > [data-rk-slot="TD-SB1"] { margin-bottom: calc(var(--sp-7) + var(--rk-etiket-payi)); }
+.rd-aside > [data-rk-yer="TD-SB2"] { background: var(--paper); border-radius: var(--radius-lg); }
+.rd-aside [data-rk-slot="TD-SB2"] { margin-block: 0; }
+.rk-pano-cta { background: var(--rk-marka); color: var(--rk-marka-metin); }
+@media (max-width:640px) {
+ .ing-panel > [data-rk-slot="TD-SB1"] { margin-bottom: calc(var(--sp-6) + var(--rk-etiket-payi)); }
+}
+/* Ekran pikseli farkları: satır içi malzeme başlığı 9 px, liste kartının üst örtüşmesi 6 px,
+   sayfalama yazısının boş satır içi 3 px. Komşu bileşenin payı ikinci kez eklenmez. */
+.rk-malzeme { padding-top: calc(var(--sp-3) - 9px); }
+[data-rk-yer="TL-BRIDGE"] { padding-bottom: calc(var(--rk-bosluk) + 6px); }
+[data-rk-yer="TL-B1"], [data-rk-yer="KT-B1"] { --rk-bosluk-ust: calc(var(--rk-bosluk) - 2 * var(--rk-etiket-payi)); }
+.rd-aside > [data-rk-yer="TD-SB2"] { border: 1px solid var(--line); }
+@media (max-width:640px) {
+ .rk-malzeme { padding-top: calc(var(--sp-3) + 2px); }
+ [data-rk-yer="TL-BRIDGE"] { padding-bottom: var(--rk-bosluk); }
+ [data-rk-yer="KT-SPON"] { padding-bottom: var(--rk-bosluk); }
+ [data-rk-yer="TL-B1"], [data-rk-yer="KT-B1"] { --rk-bosluk-ust: calc(var(--rk-bosluk) - var(--rk-etiket-payi) - var(--sp-1)); }
+}
+/* Üye kabuğu aynı kanon ölçeğini Türkçe token adlarıyla yayınlar. */
+.rk-partnerler {
+ --sp-1:var(--bosluk-4); --sp-2:var(--bosluk-8); --sp-3:var(--bosluk-12);
+ --sp-4:var(--bosluk-16); --sp-5:var(--bosluk-24);
+ gap:0; padding:var(--bosluk-22);
+}
+.rk-partnerler .rk-slot { font-family:inherit; }
+.rk-partnerler .rk-partner { padding-top:calc(var(--sp-4) - var(--rk-etiket-payi)); }
+.side-col:has(.rk-partnerler) { position:static; }
+/* Kategori bandının ilk boyalı satırı 1 px pay taşıyor (son 1440/390 ölçümü). */
+.rk-sar[data-rk-yer="AS-T1"]:has(+ .catstrip) { padding-bottom:calc(var(--rk-bosluk) - 1px); }
+.rk-filtre .rk-serit-bag { grid-template-columns:minmax(0,1fr) 48px; gap:var(--sp-3); }
+.rk-filtre .rk-serit-desen { width:48px; height:48px; }
+.rk-filtre .rk-serit-metin, .rk-filtre .rk-serit-cta { grid-column:1 / -1; }
+.rk-filtre .rk-serit-metin b { font-size:16px; }
+.rk-filtre .rk-wordmark { font-size:20px; }
+.rk-menu-harf { font-family:inherit; font-style:normal; font-weight:800; }
+.rk-filtre { padding-top:calc(var(--sp-4) - var(--rk-etiket-payi)); }
+/* Üye kabuğunun Gilroy metriklerinde etiketin ilk boyalı satırı 8 px içeridedir. */
+.rk-partnerler .rk-slot { --rk-etiket-payi:8px; }
+.ing-row .rk-malzeme .sp-line .sp-info b,
+.ing-row .rk-malzeme .sp-line .sp-info span { white-space:normal; overflow:visible; text-overflow:clip; }
+
+/* Mevcut günün tarifi / liste hero geometrisi içinde küçük sponsor imzası. */
+.rk-eslik { display:inline-flex; align-items:center; gap:var(--sp-2); width:max-content; max-width:100%; margin-block:var(--sp-2); color:inherit; text-decoration:none; font-size:12px; }
+.rk-eslik > span:last-child { display:flex; flex-direction:column; gap:var(--sp-1); }
+.rk-eslik .rk-etiket { margin:0; color:inherit; }
+.rk-eslik-logo { display:grid; place-items:center; width:64px; height:32px; padding:var(--sp-1); background:var(--paper); border-radius:var(--radius-sm); }
+.rk-eslik-logo .rk-logo { width:100%; height:100%; object-fit:contain; }
+.dayband .rk-eslik { color:var(--paper); }
+.rk-menu-logo { display:grid; place-items:center; flex:0 0 40px; width:40px; height:32px; }
+.rk-menu-logo .rk-logo { width:100%; height:100%; object-fit:contain; }
+.rk-liste-sira { grid-column:1 / -1; min-width:0; }
+.rk-liste-sira .rk-sar { max-width:100%; }
+/* Tam genişlik satırdan önceki sıra boş hücre bırakmaz: sütun sayısı kap genişliğinden gelir, boşluğu sıradaki kart doldurur. */
+.lst-grid:has(> .rk-liste-sira) { grid-auto-flow:row dense; }
+.rd-aside > [data-rk-yer="TD-SB2"] { margin-top:var(--sp-5); }
+.rk-sef-logo { display:grid; place-items:center; padding:var(--sp-4); background:var(--paper); }
+.rk-sef-logo .rk-logo { width:100%; height:100%; object-fit:contain; }
+.chef-card.rk-slot > .rk-etiket { display:block; margin:0; line-height:inherit; color:var(--muted); }
+.chef-card.rk-slot > b { margin-bottom:0; }
+.rk-filtre .rk-serit-urun { width:48px; height:48px; object-fit:contain; }
+.rk-malzeme .sp-logo.rk-harf { background:var(--paper); padding:var(--sp-1); }
+
+.chef-card.rk-slot > .rk-etiket { text-align:center; width:100%; }
+.ing-row:has(.rk-malzeme) { background:var(--cream); border:1px solid var(--line); border-radius:var(--radius-md); padding-inline:var(--sp-3); }
+
+/* Mobil alt menünün kaynak max-height sınırı son kategori hücresini kırpmasın. */
+.d-item.open:has([data-rk-slot="HD-MEGA"]) > .d-sub { max-height:none; }
+.d-sub .rk-menu-logo { height:22px; }
+@media(min-width:641px) {
+ .rk-liste-sira [data-rk-yer="TL-T1"], .rk-liste-sira [data-rk-yer="KT-T1"] { padding-bottom:calc(var(--rk-bosluk) + 6px); }
+}
+/* Prototip malzeme ritmi: tek kart, içeride ikinci kutu yok. */
+.ing-row .rk-malzeme { padding-block:var(--sp-2); }
+.ing-row .rk-malzeme > .rk-etiket { display:block; margin-bottom:var(--sp-2); }
+.ing-row .rk-malzeme .ing-sponsor.sp-line { margin:0; padding:var(--sp-3) 0 0; border:0; border-top:1px dashed var(--line); border-radius:0; background:transparent; }
+.d-sub .rk-menu .rk-etiket { display:block; margin:0; }
+.d-sub .rk-menu > span:last-child { display:flex; align-items:center; gap:var(--sp-2); }
+.d-sub .rk-menu .rk-etiket { display:inline-block; }
+.rk-eslik { padding:var(--sp-2) var(--sp-3); background:var(--paper); color:var(--ink); border-radius:var(--radius-md); }
+.dayband .rk-eslik { color:var(--ink); }
+[data-rk-yer="KT-SPON"] + .pagi { margin-top:0; }
+/* Etiketin 3 px boyasız font payı: slotun kendi bölümünde üst/alt 8 px. */
+.ing-row .rk-malzeme { padding-top:calc(var(--sp-2) - var(--rk-etiket-payi)); }
+.ing-row .rk-malzeme .ing-sponsor.sp-line { border-bottom:1px solid var(--line); padding-bottom:var(--sp-2); }
+
+/* Son kullanıcı revizyonu: okunabilir kanonik kart gövdesi + gerçek ürün ve logo. */
+.rk-kart .rk-kart-medya img { object-fit:contain; background:var(--paper); }
+.rk-kart .r-author .av { width:48px; border-radius:var(--radius-sm); background:var(--paper); }
+.rk-kart .r-author .av .rk-logo { width:100%; height:100%; object-fit:contain; }
+.rk-kart-logo { position:absolute; top:var(--sp-3); right:var(--sp-3); width:64px; height:32px; padding:var(--sp-1); background:var(--paper); border-radius:var(--radius-sm); }
+.rk-kart-logo .rk-logo { width:100%; height:100%; object-fit:contain; }
+.rk-liste-sira .rk-bant { max-width:none; width:100%; }
+.lst-stats .rk-eslik > span:last-child > span:last-child { display:none; }
+.lst-stats .rk-eslik > span { margin:0; }
+.lst-stats .rk-eslik .rk-etiket { color:var(--ink); }
+
+/* Malzeme: üstte özgün miktar / ad / rozet, altta tek sponsor satırı. */
+.ing-row.rk-malzeme { display:flex; flex-wrap:wrap; padding:var(--sp-3); margin-block:var(--sp-2); background:var(--cream); border:1px solid var(--line); border-radius:var(--radius-md); }
+.ing-row.rk-malzeme > label { flex:1; min-width:0; }
+.ing-row.rk-malzeme .in { display:flex; flex-wrap:wrap; align-items:center; gap:var(--sp-1) var(--sp-2); }
+.ing-row.rk-malzeme .in small { width:100%; }
+.ing-row.rk-malzeme .rk-etiket { margin:0; padding:0 var(--sp-1); background:var(--paper); border-radius:var(--radius-sm); font-size:11px; }
+.ing-row.rk-malzeme .ing-sponsor.sp-line { flex:0 0 100%; display:grid; grid-template-columns:36px minmax(0,1fr) auto; gap:var(--sp-2); align-items:center; margin:var(--sp-2) 0 0; padding:var(--sp-2) 0 0; border:0; border-top:1px dashed var(--line); border-radius:0; background:transparent; }
+.ing-row.rk-malzeme .sp-info b { font-size:12px; line-height:var(--lh-body); }
+.ing-row.rk-malzeme .sp-info span { font-size:11px; line-height:var(--lh-body); }
+.ing-row.rk-malzeme .sp-go { margin:0; padding:var(--sp-2); border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--paper); color:var(--tomato); white-space:nowrap; font-size:11px; }
+#listeGeriBildirim[hidden] { display:none; }
+
+/* Tam kaplama kampanya fotoğrafı + AA güvenli %80 marka tonu. */
+.rk-serit-bag, .rk-pano-bag { position:relative; isolation:isolate; overflow:hidden; grid-template-columns:100px minmax(0,1fr) auto; gap:var(--sp-5); padding:var(--sp-5); background:var(--rk-marka); color:var(--rk-yazi); }
+.rk-zemin-perde { position:absolute; inset:0; background:var(--rk-katman); opacity:.8; pointer-events:none; }
+.rk-serit-bag .rk-serit-urun, .rk-pano-bag .rk-pano-gorsel { position:absolute; inset:0; width:100%; height:100%; max-width:none; object-fit:cover; border-radius:0; }
+.rk-serit-kimlik, .rk-pano-logo { display:grid; place-items:center; width:100px; height:56px; padding:var(--sp-2); background:var(--paper); border-radius:var(--radius-sm); }
+.rk-serit-kimlik .rk-logo, .rk-pano-logo .rk-logo { width:100%; height:100%; object-fit:contain; }
+.rk-serit-metin, .rk-serit-metin b, .rk-serit-metin > span, .rk-pano-metin, .rk-pano-metin > span { color:inherit; }
+.rk-serit-cta, .rk-pano-cta { position:relative; background:var(--paper); color:var(--ink); min-height:var(--ctl-h); padding:var(--sp-3) var(--sp-4); }
+.rk-filtre .rk-serit-bag, .kc-card .rk-serit-bag, .ing-panel .rk-serit-bag, .rd-aside .rk-serit-bag { grid-template-columns:minmax(0,1fr); }
+@media(max-width:640px) {
+ .rk-serit-bag, .rk-pano-bag { grid-template-columns:minmax(0,1fr); gap:var(--sp-3); padding:var(--sp-4); }
+ .rk-pano-logo, .rk-pano-metin, .rk-pano-cta { grid-column:1; }
+}
+
+.rk-hafta.mf-fig { position:relative; isolation:isolate; overflow:hidden; background:var(--rk-marka); color:var(--rk-yazi); }
+
+.rk-hafta .rk-hafta-zemin { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.rk-hafta::after { display:none; }
+.rk-hafta-icerik { position:absolute; inset:auto var(--sp-4) var(--sp-4); display:flex; gap:var(--sp-3); align-items:center; min-width:0; }
+.rk-hafta-logo { flex:0 0 64px; width:64px; height:40px; display:grid; place-items:center; background:var(--paper); border-radius:var(--radius-sm); padding:var(--sp-1); }
+.rk-hafta-logo .rk-logo { width:100%; height:100%; object-fit:contain; }
+.rk-hafta-metin { display:flex; flex-direction:column; gap:var(--sp-2); min-width:0; }
+.rk-hafta-metin b { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; }
+.rk-hafta-metin > span { font-size:12px; }
+.d-sub a.rk-hafta { display:block; aspect-ratio: 340 / 212; height:auto; margin:var(--sp-3); padding:0; border-radius:var(--radius-md); color:var(--rk-yazi); }
+.d-sub .rk-hafta .r-chip { position:absolute; top:var(--sp-3); left:var(--sp-3); width:auto; background:var(--tomato); color:var(--paper); padding:var(--sp-2); border-radius:var(--radius-sm); font-size:12px; }
+.d-item.open:has(.rk-hafta) > .d-sub { max-height:none; }
+
+.rk-serit-kimlik, .rk-serit-metin, .rk-pano-logo, .rk-pano-metin { position:relative; }
+
+.ing-row.rk-malzeme .sp-info b, .ing-row.rk-malzeme .sp-info span { white-space:normal; overflow:visible; text-overflow:clip; }
+.ing-row.rk-malzeme > label { padding:0; padding-right:var(--sp-6); }
+.ing-row.rk-malzeme .ing-acts { top:var(--sp-3); right:var(--sp-3); }
+.lst-stats .rk-eslik span { margin:0; }
+.lst-stats .rk-eslik-logo { display:grid; line-height:1; }
+.rk-renk-583222 .rk-logo { background:var(--rk-marka); }
+/* Geniş kampanya panoları aynı bant kompozisyonunu paylaşır. */
+.rk-pano-bag { display:grid; }
+
+/* Kesin ürün/sahne ayrımı: paket fotoğrafı yalnız kendi açık kutusunda. */
+.rk-gorsel-urun .rk-serit-bag, .rk-gorsel-urun .rk-pano-bag { grid-template-columns:100px minmax(0,1fr) auto 144px; color:var(--rk-marka-metin); }
+.rk-gorsel-urun .rk-zemin-perde { display:none; }
+.rk-gorsel-urun .rk-serit-bag .rk-serit-urun, .rk-gorsel-urun .rk-pano-bag .rk-pano-gorsel { position:static; grid-column:4; grid-row:1; width:144px; height:112px; padding:var(--sp-3); object-fit:contain; background:var(--paper); border-radius:var(--radius-md); }
+.rk-gorsel-urun .rk-serit-kimlik, .rk-gorsel-urun .rk-pano-logo { grid-column:1; grid-row:1; }
+.rk-gorsel-urun .rk-serit-metin, .rk-gorsel-urun .rk-pano-metin { grid-column:2; grid-row:1; }
+.rk-gorsel-urun .rk-serit-cta, .rk-gorsel-urun .rk-pano-cta { grid-column:3; grid-row:1; }
+.rk-filtre.rk-gorsel-urun .rk-serit-bag, .kc-card .rk-gorsel-urun .rk-serit-bag, .ing-panel .rk-gorsel-urun .rk-serit-bag, .rd-aside .rk-gorsel-urun .rk-serit-bag { grid-template-columns:minmax(0,1fr) 72px; }
+:is(.rk-filtre,.kc-card,.ing-panel,.rd-aside) .rk-gorsel-urun .rk-serit-urun, .rk-filtre.rk-gorsel-urun .rk-serit-urun { grid-column:2; width:72px; height:72px; }
+:is(.rk-filtre,.kc-card,.ing-panel,.rd-aside) .rk-gorsel-urun .rk-serit-metin, .rk-filtre.rk-gorsel-urun .rk-serit-metin { grid-column:1 / -1; grid-row:2; }
+:is(.rk-filtre,.kc-card,.ing-panel,.rd-aside) .rk-gorsel-urun .rk-serit-cta, .rk-filtre.rk-gorsel-urun .rk-serit-cta { grid-column:1 / -1; grid-row:3; }
+.rk-eslik-logo .rk-logo { max-height:24px; }
+.rk-hafta.mf-fig:hover, .rk-hafta.mf-fig:focus-visible, .rk-hafta.mf-fig:hover .rk-hafta-metin { color:var(--rk-yazi); }
+.rk-partner .rk-harf { flex:0 0 56px; width:56px; height:44px; padding:var(--sp-2); background:var(--paper); border:1px solid var(--line); }
+.rk-partner .rk-harf .rk-logo { width:100%; height:100%; max-height:28px; object-fit:contain; }
+.rk-partner .sm-row { transition:transform .2s,box-shadow .2s; }
+.rk-partner .sm-row:hover, .rk-partner .sm-row:focus-visible { transform:translateY(-2px); box-shadow:var(--sh-sm); }
+@media(max-width:640px) {
+ .rk-gorsel-urun .rk-serit-bag, .rk-gorsel-urun .rk-pano-bag { grid-template-columns:minmax(0,1fr) 88px; }
+ .rk-gorsel-urun .rk-serit-bag .rk-serit-urun, .rk-gorsel-urun .rk-pano-bag .rk-pano-gorsel { grid-column:2; width:88px; height:88px; }
+ .rk-gorsel-urun .rk-serit-metin, .rk-gorsel-urun .rk-pano-metin { grid-column:1 / -1; grid-row:2; }
+ .rk-gorsel-urun .rk-serit-cta, .rk-gorsel-urun .rk-pano-cta { grid-column:1 / -1; grid-row:3; }
+}
+.ing-row.rk-malzeme .ing-acts { transform:none; }
+.ing-row.rk-malzeme { padding-bottom:calc(var(--sp-3) + 1px); }
+
+/* Menüde resmi mutfak sahnesinin ürün tarafını korur. */
+.rk-hafta .rk-hafta-zemin { object-position: right center; }
+
+.rk-serit-kimlik .rk-logo, .rk-pano-logo .rk-logo { max-height:var(--sp-10,40px); max-width:100%; display:block; }
+
+/* Beyar son revizyon: malzeme satırının anatomisi korunur, yalnız kreatif yüzeyi koyudur. */
+.ing-row.rk-malzeme { position:relative; isolation:isolate; overflow:visible; background:var(--ink); color:var(--paper); }
+.ing-row.rk-malzeme .rk-malzeme-filigran { position:absolute; width:75%; height:100%; object-fit:contain; right:-10%; top:0; pointer-events:none; }
+.ing-row.rk-malzeme .rk-malzeme-perde { position:absolute; inset:0; background:#000; opacity:.8; pointer-events:none; }
+.ing-row.rk-malzeme > label, .ing-row.rk-malzeme > .ing-acts, .ing-row.rk-malzeme > .sp-line { position:relative; }
+.ing-row.rk-malzeme .ing-acts { position:absolute; }
+.ing-row.rk-malzeme .iq, .ing-row.rk-malzeme .in, .ing-row.rk-malzeme .in small, .ing-row.rk-malzeme .sp-info b { color:var(--paper); }
+.ing-row.rk-malzeme .sp-info span { color:#eee; }
+.ing-row.rk-malzeme .rk-etiket { color:var(--ink); }
+.ing-row.rk-malzeme .sp-logo { background:var(--paper); }
+.ing-row.rk-malzeme .sp-go, .ing-row.rk-malzeme .sp-go:hover, .ing-row.rk-malzeme .sp-go:focus-visible { background:var(--rk-dugme); color:#fff; border-color:var(--rk-dugme); }
+.ing-row.rk-malzeme .ing-swap, .ing-row.rk-malzeme .ing-shop { background:var(--paper); color:var(--ink); }
+.ing-row.rk-malzeme input[type=checkbox] { accent-color:var(--rk-dugme); outline:1px solid #fff; }
+/* Geniş native bantlar; sidebar MPU/yarım sayfa kendi standart ölçüsünde kalır. */
+.rk-pano, .rk-serit { container-type:inline-size; }
+@container (min-width:500px) {
+ .rk-pano-bag, .rk-serit-bag { height:120px; max-height:120px; padding:var(--sp-4); grid-template-columns:100px minmax(0,1fr) auto 72px; }
+ .rk-gorsel-sahne .rk-pano-bag, .rk-gorsel-sahne .rk-serit-bag { grid-template-columns:100px minmax(0,1fr) auto; }
+ .rk-gorsel-urun .rk-pano-bag .rk-pano-gorsel, .rk-gorsel-urun .rk-serit-bag .rk-serit-urun { width:72px; height:72px; max-height:72px; grid-column:4; grid-row:1; }
+ .rk-pano-logo,.rk-serit-kimlik { grid-column:1; grid-row:1; }
+ .rk-pano-metin,.rk-serit-metin { grid-column:2; grid-row:1; min-width:0; }
+ .rk-pano-metin b,.rk-serit-metin b { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; }
+ .rk-pano-cta,.rk-serit-cta { grid-column:3; grid-row:1; }
+}
+@media(max-width:640px) {
+ .rk-pano .rk-pano-bag,.rk-serit .rk-serit-bag { height:96px; max-height:96px; padding:var(--sp-2); gap:var(--sp-2); grid-template-columns:48px minmax(0,1fr) 48px; grid-template-rows:1fr auto; }
+ .rk-pano .rk-pano-logo,.rk-serit .rk-serit-kimlik { width:48px; height:40px; padding:var(--sp-1); grid-column:1; grid-row:1 / 3; }
+ .rk-pano .rk-pano-logo img,.rk-serit .rk-serit-kimlik img { max-height:32px; }
+ .rk-pano .rk-pano-metin,.rk-serit .rk-serit-metin { grid-column:2; grid-row:1; min-width:0; }
+ .rk-pano .rk-pano-metin b,.rk-serit .rk-serit-metin b { font-size:12px; line-height:1.25; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
+ .rk-pano .rk-pano-metin>span,.rk-serit .rk-serit-metin>span { display:none; }
+ .rk-pano .rk-pano-cta,.rk-serit .rk-serit-cta { grid-column:2; grid-row:2; justify-self:start; min-height:24px; padding:var(--sp-1) var(--sp-2); font-size:11px; }
+ .rk-pano.rk-gorsel-urun .rk-pano-bag .rk-pano-gorsel,.rk-serit.rk-gorsel-urun .rk-serit-bag .rk-serit-urun { grid-column:3; grid-row:1 / 3; width:48px; height:64px; max-height:64px; padding:var(--sp-1); }
+}
+/* Resmi Pınar dosyasının çevresindeki boşluk, imza kutusu büyütülmeden kırpılır. */
+.rk-eslik.rk-renk-006c3c .rk-eslik-logo { overflow:hidden; padding:0; }
+.rk-eslik.rk-renk-006c3c .rk-eslik-logo .rk-logo { width:80px; min-width:80px; height:66px; max-height:none; object-fit:contain; }
+
+/* Dolap: fotoğraf ve ürün önerileri organik malzeme seçiminin dışında kalır. */
+.rk-dolap { margin:var(--sp-4) 0; border:1px solid var(--line); border-radius:var(--radius-lg); background:var(--paper); overflow:visible; }
+.rk-dolap-kunye { display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-3); color:var(--ink); font-size:12px; }
+.rk-dolap-kunye .rk-etiket { margin:0; }
+.rk-foto-logo { display:grid; place-items:center; width:64px; height:40px; padding:var(--sp-1); background:var(--paper); border-radius:var(--radius-sm); }
+.rk-foto-logo img { width:100%; height:100%; max-height:32px; object-fit:contain; }
+.rk-dolap-sahne { position:relative; isolation:isolate; }
+.rk-dolap-sahne .rk-dolap-foto { display:block; width:100%; height:auto; aspect-ratio:4/3; object-fit:cover; }
+.rk-dolap-not { margin:0; padding:var(--sp-3); color:var(--muted); font-size:12px; }
+.rk-foto-nokta { position:absolute; }
+.rk-nokta-1 { left:29%; top:46%; }.rk-nokta-2 { left:39%; top:35%; }.rk-nokta-3 { left:44%; top:58%; }
+.rk-foto-nokta summary { display:grid; place-items:center; width:var(--ctl-h); height:var(--ctl-h); background:var(--paper); color:var(--ink); border:2px solid var(--tomato); border-radius:var(--radius-pill); box-shadow:var(--sh-sm); cursor:pointer; list-style:none; }
+.rk-foto-nokta summary::-webkit-details-marker { display:none; }
+.rk-foto-nokta summary:focus-visible { outline:3px solid var(--ink); outline-offset:2px; }
+.rk-foto-nokta[open] { position:absolute; }
+.rk-foto-kart { position:absolute; left:0; bottom:calc(100% + var(--sp-2)); width:200px; max-width:calc(100vw - 48px); display:flex; flex-direction:column; gap:var(--sp-2); padding:var(--sp-3); border:1px solid var(--line); border-radius:var(--radius-md); box-shadow:var(--sh-md); background:var(--paper); color:var(--ink); font-size:12px; }
+.rk-foto-kart a { color:var(--ink); font-weight:700; text-decoration:underline; }.rk-foto-kart .rk-etiket { margin:0; }.rk-foto-kart p{margin:0}
+.rk-dolap-kart .mz-img { position:relative; }
+.rk-dolap-kart .mz-img img { width:100%; height:100%; object-fit:contain; background:var(--paper); }
+.rk-dolap-kart .rk-etiket { position:absolute; top:var(--sp-1); left:var(--sp-1); padding:var(--sp-1); border-radius:var(--radius-sm); background:var(--paper); color:var(--ink); margin:0; font-size:9px; }
+.rk-dolap-kart .mz-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+/* Pano ayrı envanter formatıdır; ince şerit sınırına girmez. */
+.rk-pano.rk-format-native_showcase .rk-pano-bag { height:224px; max-height:none; grid-template-columns:minmax(0,1fr) 224px; grid-template-rows:auto auto auto; gap:var(--sp-2) var(--sp-6); padding:var(--sp-5); align-content:center; }
+.rk-pano.rk-format-native_showcase .rk-pano-logo { grid-column:1; grid-row:1; }
+.rk-pano.rk-format-native_showcase .rk-pano-metin { grid-column:1; grid-row:2; }
+.rk-pano.rk-format-native_showcase .rk-pano-metin b { font-size:var(--fs-h3,24px); white-space:normal; display:block; }
+.rk-pano.rk-format-native_showcase .rk-pano-metin > span { display:block; }
+.rk-pano.rk-format-native_showcase .rk-pano-cta { grid-column:1; grid-row:3; justify-self:start; }
+.rk-pano.rk-format-native_showcase .rk-pano-bag .rk-pano-gorsel { grid-column:2; grid-row:1 / 4; width:192px; height:192px; max-height:none; border-radius:50%; background:color-mix(in srgb,var(--rk-marka),white 85%); padding:var(--sp-3); }
+@media(max-width:640px) {
+ .rk-pano.rk-format-native_showcase .rk-pano-bag { grid-template-columns:minmax(0,1fr) 104px; padding:var(--sp-3); gap:var(--sp-2); }
+ .rk-pano.rk-format-native_showcase .rk-pano-bag .rk-pano-gorsel { width:104px; height:144px; }
+ .rk-pano.rk-format-native_showcase .rk-pano-metin b { font-size:18px; }
+ .rk-pano.rk-format-native_showcase .rk-pano-metin > span { font-size:12px; }
+}
+.ing-row.rk-malzeme .ing-add { background:var(--paper); color:var(--ink); }
+
+.rd-stage .rk-nokta-4 { right:var(--sp-5); top:30%; }
+.rd-stage .rk-nokta-4 .rk-foto-kart { left:auto; right:0; bottom:auto; top:calc(100% + var(--sp-2)); }
+.rd-stage .rk-foto-kart b { font-size:12px; line-height:1.4; }
+
+.rk-eslik.rk-renk-006c3c .rk-eslik-logo { position:relative; }
+.rk-eslik.rk-renk-006c3c .rk-eslik-logo .rk-logo { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
+.rk-dolap { max-width:640px; margin-inline:auto; }
+
+/* Kaynak fotoğraf gradyanı aynı kalır; etiketlerin önüne geçmez. */
+.rd-stage:has(.rk-foto-nokta)::after { display:none; }
+.rd-stage:has(.rk-foto-nokta)::before { content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(20,18,12,0) 42%,rgba(20,18,12,.28) 64%,rgba(15,13,9,.78)); pointer-events:none; }
+
+.rk-malzeme-zemin { position:absolute; inset:0; overflow:hidden; border-radius:inherit; pointer-events:none; }
+
+/* Reklam metninin hover/focus kontrastı, komşu bileşen geometrisini değiştirmez. */
+.rk-kart .r-body h4 a:hover,.rk-kart .r-body h4 a:focus-visible,
+.rk-kucuk-kart h4 a:hover,.rk-kucuk-kart h4 a:focus-visible { color:var(--ink); }
+.rk-tema .rk-etiket,.rk-tema:hover .rk-etiket,.rk-tema:focus-visible .rk-etiket { color:var(--slate-2); }
+.rk-hafta.mf-fig .r-chip { background:var(--tomato-dark); color:var(--paper); }
+.sec.guide .rk-serit > .rk-etiket { color:var(--paper); }
+.rk-sef-cta { pointer-events:auto; }
+/* Fotoğraf etiketleri: ürün noktası, marka hapı ve bağımsız ürün kartı. */
+.rk-dolap { max-width:none; width:100%; }
+.rk-dolap-kunye { display:flex; flex-wrap:wrap; gap:var(--sp-3); background:var(--rk-marka); color:var(--paper); border-radius:var(--radius-lg) var(--radius-lg) 0 0; }
+.rk-dolap-kunye:hover,.rk-dolap-kunye:focus-visible { color:var(--paper); }
+.rk-dolap-kunye .rk-foto-logo { width:144px; height:48px; padding:var(--sp-2); }
+.rk-dolap-kunye .rk-etiket { background:var(--paper); color:var(--ink); padding:var(--sp-1) var(--sp-2); border-radius:var(--radius-sm); }
+.rk-dolap-cta { margin-left:auto; font-size:12px; font-weight:700; }
+.rk-foto-nokta summary { width:var(--sp-6); height:var(--sp-6); min-height:0; border:2px solid var(--paper); background:var(--rk-marka); box-shadow:0 0 0 var(--sp-2) color-mix(in srgb,var(--rk-marka),transparent 75%); animation:rk-nabiz 2s ease-in-out infinite; }
+.rk-foto-nokta summary:hover,.rk-foto-nokta summary:focus-visible { background:var(--rk-marka); }
+.rk-nokta-hap { position:absolute; left:calc(100% + var(--sp-2)); top:0; padding:var(--sp-1) var(--sp-2); border-radius:var(--radius-pill); background:var(--paper); color:var(--ink); font-size:12px; font-weight:700; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity .15s; }
+.rk-foto-nokta.rk-hover summary .rk-nokta-hap,.rk-foto-nokta.rk-hover summary .rk-nokta-hap { opacity:1; }
+.rk-nokta-marka { display:flex; align-items:center; top:50%; transform:translateY(-50%); padding:var(--sp-1); opacity:1; box-shadow:var(--sh-sm); }
+.rk-nokta-logo { display:grid; place-items:center; width:calc(var(--sp-6) + var(--sp-1)); height:var(--sp-6); flex:none; }
+.rk-nokta-logo .rk-logo { display:block; width:100%; height:100%; max-height:100%; object-fit:contain; }
+.rk-nokta-ad { max-width:0; overflow:hidden; transition:max-width .15s ease,padding .15s ease; }
+.rk-foto-nokta.rk-hover summary .rk-nokta-ad,.rk-foto-nokta.rk-hover summary .rk-nokta-ad { max-width:10em; padding-inline:var(--sp-2); }
+.rk-nokta-editorial summary,.rk-nokta-editorial summary:hover { background:var(--paper); border-color:var(--ink); box-shadow:var(--sh-sm); animation:none; }
+.rk-foto-kart { width:300px; display:grid; grid-template-columns:80px minmax(0,1fr); gap:var(--sp-3); padding:var(--sp-3); bottom:auto; top:calc(100% + var(--sp-3)); animation:rk-kart-ac .15s ease-out; }
+.rk-foto-kart::before { content:""; position:absolute; left:var(--sp-2); top:calc(-1 * var(--sp-2)); width:var(--sp-4); height:var(--sp-4); background:var(--paper); border-left:1px solid var(--line); border-top:1px solid var(--line); transform:rotate(45deg); }
+.rk-foto-nokta.rk-sola .rk-foto-kart { left:auto; right:0; }
+.rk-foto-nokta.rk-sola .rk-foto-kart::before { left:auto; right:var(--sp-2); }
+.rk-foto-nokta.rk-sola .rk-nokta-hap { left:auto; right:calc(100% + var(--sp-2)); }
+.rk-foto-nokta.rk-yukari .rk-foto-kart { top:auto; bottom:calc(100% + var(--sp-3)); }
+.rk-foto-nokta.rk-yukari .rk-foto-kart::before { top:auto; bottom:calc(-1 * var(--sp-2)); transform:rotate(225deg); }
+.rk-foto-urun { align-self:center; display:grid; place-items:center; padding:var(--sp-2); height:100px; background:color-mix(in srgb,var(--rk-marka),white 90%); border-radius:var(--radius-md); }
+.rk-foto-urun img { width:100%; height:100%; object-fit:contain; }
+.rk-foto-metin { display:flex; flex-direction:column; align-items:flex-start; gap:var(--sp-2); min-width:0; }
+.rk-foto-metin .rk-etiket { color:var(--slate-2); font-size:10px; }
+.rk-foto-metin .rk-foto-logo { width:64px; height:28px; padding:0; }
+.rk-foto-metin b { color:var(--ink); font-size:12px; line-height:1.4; }
+.rk-foto-metin p { color:var(--slate-2); font-size:11px; max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.rk-foto-kart .rk-foto-cta,.rk-foto-kart .rk-foto-cta:hover,.rk-foto-kart .rk-foto-cta:focus-visible { display:inline-flex; padding:var(--sp-2) var(--sp-3); border-radius:var(--radius-sm); background:var(--rk-dugme); color:var(--paper); font-size:11px; text-decoration:none; }
+.rk-nokta-editorial .rk-foto-kart { display:flex; }
+.rk-foto-mobil { padding:var(--sp-3); background:var(--paper); border:1px solid var(--line); }
+.rk-foto-mobil .rk-foto-kart { position:relative; inset:auto; width:100%; max-width:none; box-shadow:none; }
+.rk-foto-mobil .rk-foto-kart::before { display:none; }
+@keyframes rk-nabiz { 50% { box-shadow:0 0 0 var(--sp-3) color-mix(in srgb,var(--rk-marka),transparent 92%); } }
+@keyframes rk-kart-ac { from { opacity:0; transform:translateY(var(--sp-1)); } to { opacity:1; transform:translateY(0); } }
+@media(prefers-reduced-motion:reduce) { .rk-foto-nokta summary,.rk-foto-kart { animation:none; }.rk-nokta-hap,.rk-nokta-ad { transition:none; } }
+@media(max-width:640px) { .rk-dolap-kunye { gap:var(--sp-2); }.rk-dolap-kunye .rk-foto-logo { width:112px; height:40px; }.rk-dolap-kunye b { font-size:12px; }.rk-dolap-cta { margin-left:0; }.rk-dolap-kunye .rk-etiket { font-size:9px; } }
+/* Orijinal 3233 px Bosch fotoğrafında açık çift kapı ve dolu raflara odaklanan kadraj. */
+.rk-dolap-kadraj { position:relative; width:100%; aspect-ratio:4/3; overflow:hidden; }
+.rk-dolap-kadraj .rk-dolap-foto { position:absolute; width:190%; max-width:none; height:auto; aspect-ratio:auto; left:-70%; top:-100%; }
+.rk-dolap-sahne .rk-nokta-1 { left:60%; top:42%; }
+.rk-dolap-sahne .rk-nokta-2 { left:38%; top:28%; }
+.rk-dolap-sahne .rk-nokta-3 { left:53%; top:78%; }
+.rk-dolap-kart .mz-name { display:block; width:100%; text-align:center; }
+
+/* Logo çerçevesi: merkezde, yüksekliğin %60'ı, simetrik güvenli alan. */
+.rk-serit-kimlik,.rk-pano-logo { padding:0; }
+.rk-serit-kimlik .rk-logo,.rk-pano-logo .rk-logo,
+.rk-pano .rk-pano-logo img,.rk-serit .rk-serit-kimlik img { width:80%; height:60%; max-height:60%; object-fit:contain; margin:auto; }
+.rk-gorsel-duz .rk-serit-urun,.rk-gorsel-duz .rk-pano-gorsel,.rk-gorsel-duz .rk-zemin-perde { display:none; }
+.rk-gorsel-duz .rk-serit-bag,.rk-gorsel-duz .rk-pano-bag { grid-template-columns:100px minmax(0,1fr) auto; background:var(--rk-marka); }
+@media(max-width:640px) { .rk-gorsel-duz .rk-serit-bag,.rk-gorsel-duz .rk-pano-bag { grid-template-columns:48px minmax(0,1fr) auto; } }
+
+.rk-nokta-marka { --rk-balon:44px; width:var(--rk-balon); height:var(--rk-balon); padding:0; border-radius:var(--radius-lg); justify-content:center; left:calc(100% + var(--sp-4)); }
+.rk-nokta-logo { width:70%; height:70%; flex:none; }
+.rk-foto-nokta.rk-sola .rk-nokta-marka { right:calc(100% + var(--sp-4)); }
+.rk-foto-nokta.rk-hover summary .rk-nokta-marka,.rk-foto-nokta.rk-hover summary .rk-nokta-marka { width:auto; min-width:var(--rk-balon); padding-inline:var(--sp-2); }
+.rk-foto-nokta.rk-hover summary .rk-nokta-logo,.rk-foto-nokta.rk-hover summary .rk-nokta-logo { width:calc(var(--rk-balon) * .7); height:calc(var(--rk-balon) * .7); }
+.rk-sef-cta:hover,.rk-sef-cta:focus-visible { color:var(--ink); }
+.d-sub .rk-menu:hover,.d-sub .rk-menu:focus-visible { color:var(--ink); }
+.d-sub .rk-menu .rk-etiket { color:var(--slate-2); }
+@media(max-width:640px) { .rk-nokta-marka { --rk-balon:36px; } }
+
+/* Admin yüzde koordinatları: ölçü değil, fotoğraf üzerindeki oran. */
+.rk-foto-nokta.rk-foto-x-10 { left:10%; }
+.rk-foto-nokta.rk-foto-x-11 { left:11%; }
+.rk-foto-nokta.rk-foto-x-12 { left:12%; }
+.rk-foto-nokta.rk-foto-x-13 { left:13%; }
+.rk-foto-nokta.rk-foto-x-14 { left:14%; }
+.rk-foto-nokta.rk-foto-x-15 { left:15%; }
+.rk-foto-nokta.rk-foto-x-16 { left:16%; }
+.rk-foto-nokta.rk-foto-x-17 { left:17%; }
+.rk-foto-nokta.rk-foto-x-18 { left:18%; }
+.rk-foto-nokta.rk-foto-x-19 { left:19%; }
+.rk-foto-nokta.rk-foto-x-20 { left:20%; }
+.rk-foto-nokta.rk-foto-x-21 { left:21%; }
+.rk-foto-nokta.rk-foto-x-22 { left:22%; }
+.rk-foto-nokta.rk-foto-x-23 { left:23%; }
+.rk-foto-nokta.rk-foto-x-24 { left:24%; }
+.rk-foto-nokta.rk-foto-x-25 { left:25%; }
+.rk-foto-nokta.rk-foto-x-26 { left:26%; }
+.rk-foto-nokta.rk-foto-x-27 { left:27%; }
+.rk-foto-nokta.rk-foto-x-28 { left:28%; }
+.rk-foto-nokta.rk-foto-x-29 { left:29%; }
+.rk-foto-nokta.rk-foto-x-30 { left:30%; }
+.rk-foto-nokta.rk-foto-x-31 { left:31%; }
+.rk-foto-nokta.rk-foto-x-32 { left:32%; }
+.rk-foto-nokta.rk-foto-x-33 { left:33%; }
+.rk-foto-nokta.rk-foto-x-34 { left:34%; }
+.rk-foto-nokta.rk-foto-x-35 { left:35%; }
+.rk-foto-nokta.rk-foto-x-36 { left:36%; }
+.rk-foto-nokta.rk-foto-x-37 { left:37%; }
+.rk-foto-nokta.rk-foto-x-38 { left:38%; }
+.rk-foto-nokta.rk-foto-x-39 { left:39%; }
+.rk-foto-nokta.rk-foto-x-40 { left:40%; }
+.rk-foto-nokta.rk-foto-x-41 { left:41%; }
+.rk-foto-nokta.rk-foto-x-42 { left:42%; }
+.rk-foto-nokta.rk-foto-x-43 { left:43%; }
+.rk-foto-nokta.rk-foto-x-44 { left:44%; }
+.rk-foto-nokta.rk-foto-x-45 { left:45%; }
+.rk-foto-nokta.rk-foto-x-46 { left:46%; }
+.rk-foto-nokta.rk-foto-x-47 { left:47%; }
+.rk-foto-nokta.rk-foto-x-48 { left:48%; }
+.rk-foto-nokta.rk-foto-x-49 { left:49%; }
+.rk-foto-nokta.rk-foto-x-50 { left:50%; }
+.rk-foto-nokta.rk-foto-x-51 { left:51%; }
+.rk-foto-nokta.rk-foto-x-52 { left:52%; }
+.rk-foto-nokta.rk-foto-x-53 { left:53%; }
+.rk-foto-nokta.rk-foto-x-54 { left:54%; }
+.rk-foto-nokta.rk-foto-x-55 { left:55%; }
+.rk-foto-nokta.rk-foto-x-56 { left:56%; }
+.rk-foto-nokta.rk-foto-x-57 { left:57%; }
+.rk-foto-nokta.rk-foto-x-58 { left:58%; }
+.rk-foto-nokta.rk-foto-x-59 { left:59%; }
+.rk-foto-nokta.rk-foto-x-60 { left:60%; }
+.rk-foto-nokta.rk-foto-x-61 { left:61%; }
+.rk-foto-nokta.rk-foto-x-62 { left:62%; }
+.rk-foto-nokta.rk-foto-x-63 { left:63%; }
+.rk-foto-nokta.rk-foto-x-64 { left:64%; }
+.rk-foto-nokta.rk-foto-x-65 { left:65%; }
+.rk-foto-nokta.rk-foto-x-66 { left:66%; }
+.rk-foto-nokta.rk-foto-x-67 { left:67%; }
+.rk-foto-nokta.rk-foto-x-68 { left:68%; }
+.rk-foto-nokta.rk-foto-x-69 { left:69%; }
+.rk-foto-nokta.rk-foto-x-70 { left:70%; }
+.rk-foto-nokta.rk-foto-x-71 { left:71%; }
+.rk-foto-nokta.rk-foto-x-72 { left:72%; }
+.rk-foto-nokta.rk-foto-x-73 { left:73%; }
+.rk-foto-nokta.rk-foto-x-74 { left:74%; }
+.rk-foto-nokta.rk-foto-x-75 { left:75%; }
+.rk-foto-nokta.rk-foto-x-76 { left:76%; }
+.rk-foto-nokta.rk-foto-x-77 { left:77%; }
+.rk-foto-nokta.rk-foto-x-78 { left:78%; }
+.rk-foto-nokta.rk-foto-x-79 { left:79%; }
+.rk-foto-nokta.rk-foto-x-80 { left:80%; }
+.rk-foto-nokta.rk-foto-x-81 { left:81%; }
+.rk-foto-nokta.rk-foto-x-82 { left:82%; }
+.rk-foto-nokta.rk-foto-x-83 { left:83%; }
+.rk-foto-nokta.rk-foto-x-84 { left:84%; }
+.rk-foto-nokta.rk-foto-x-85 { left:85%; }
+.rk-foto-nokta.rk-foto-x-86 { left:86%; }
+.rk-foto-nokta.rk-foto-x-87 { left:87%; }
+.rk-foto-nokta.rk-foto-x-88 { left:88%; }
+.rk-foto-nokta.rk-foto-x-89 { left:89%; }
+.rk-foto-nokta.rk-foto-x-90 { left:90%; }
+.rk-foto-nokta.rk-foto-y-10 { top:10%; }
+.rk-foto-nokta.rk-foto-y-11 { top:11%; }
+.rk-foto-nokta.rk-foto-y-12 { top:12%; }
+.rk-foto-nokta.rk-foto-y-13 { top:13%; }
+.rk-foto-nokta.rk-foto-y-14 { top:14%; }
+.rk-foto-nokta.rk-foto-y-15 { top:15%; }
+.rk-foto-nokta.rk-foto-y-16 { top:16%; }
+.rk-foto-nokta.rk-foto-y-17 { top:17%; }
+.rk-foto-nokta.rk-foto-y-18 { top:18%; }
+.rk-foto-nokta.rk-foto-y-19 { top:19%; }
+.rk-foto-nokta.rk-foto-y-20 { top:20%; }
+.rk-foto-nokta.rk-foto-y-21 { top:21%; }
+.rk-foto-nokta.rk-foto-y-22 { top:22%; }
+.rk-foto-nokta.rk-foto-y-23 { top:23%; }
+.rk-foto-nokta.rk-foto-y-24 { top:24%; }
+.rk-foto-nokta.rk-foto-y-25 { top:25%; }
+.rk-foto-nokta.rk-foto-y-26 { top:26%; }
+.rk-foto-nokta.rk-foto-y-27 { top:27%; }
+.rk-foto-nokta.rk-foto-y-28 { top:28%; }
+.rk-foto-nokta.rk-foto-y-29 { top:29%; }
+.rk-foto-nokta.rk-foto-y-30 { top:30%; }
+.rk-foto-nokta.rk-foto-y-31 { top:31%; }
+.rk-foto-nokta.rk-foto-y-32 { top:32%; }
+.rk-foto-nokta.rk-foto-y-33 { top:33%; }
+.rk-foto-nokta.rk-foto-y-34 { top:34%; }
+.rk-foto-nokta.rk-foto-y-35 { top:35%; }
+.rk-foto-nokta.rk-foto-y-36 { top:36%; }
+.rk-foto-nokta.rk-foto-y-37 { top:37%; }
+.rk-foto-nokta.rk-foto-y-38 { top:38%; }
+.rk-foto-nokta.rk-foto-y-39 { top:39%; }
+.rk-foto-nokta.rk-foto-y-40 { top:40%; }
+.rk-foto-nokta.rk-foto-y-41 { top:41%; }
+.rk-foto-nokta.rk-foto-y-42 { top:42%; }
+.rk-foto-nokta.rk-foto-y-43 { top:43%; }
+.rk-foto-nokta.rk-foto-y-44 { top:44%; }
+.rk-foto-nokta.rk-foto-y-45 { top:45%; }
+.rk-foto-nokta.rk-foto-y-46 { top:46%; }
+.rk-foto-nokta.rk-foto-y-47 { top:47%; }
+.rk-foto-nokta.rk-foto-y-48 { top:48%; }
+.rk-foto-nokta.rk-foto-y-49 { top:49%; }
+.rk-foto-nokta.rk-foto-y-50 { top:50%; }
+.rk-foto-nokta.rk-foto-y-51 { top:51%; }
+.rk-foto-nokta.rk-foto-y-52 { top:52%; }
+.rk-foto-nokta.rk-foto-y-53 { top:53%; }
+.rk-foto-nokta.rk-foto-y-54 { top:54%; }
+.rk-foto-nokta.rk-foto-y-55 { top:55%; }
+.rk-foto-nokta.rk-foto-y-56 { top:56%; }
+.rk-foto-nokta.rk-foto-y-57 { top:57%; }
+.rk-foto-nokta.rk-foto-y-58 { top:58%; }
+.rk-foto-nokta.rk-foto-y-59 { top:59%; }
+.rk-foto-nokta.rk-foto-y-60 { top:60%; }
+.rk-foto-nokta.rk-foto-y-61 { top:61%; }
+.rk-foto-nokta.rk-foto-y-62 { top:62%; }
+.rk-foto-nokta.rk-foto-y-63 { top:63%; }
+.rk-foto-nokta.rk-foto-y-64 { top:64%; }
+.rk-foto-nokta.rk-foto-y-65 { top:65%; }
+.rk-foto-nokta.rk-foto-y-66 { top:66%; }
+.rk-foto-nokta.rk-foto-y-67 { top:67%; }
+.rk-foto-nokta.rk-foto-y-68 { top:68%; }
+.rk-foto-nokta.rk-foto-y-69 { top:69%; }
+.rk-foto-nokta.rk-foto-y-70 { top:70%; }
+.rk-foto-nokta.rk-foto-y-71 { top:71%; }
+.rk-foto-nokta.rk-foto-y-72 { top:72%; }
+.rk-foto-nokta.rk-foto-y-73 { top:73%; }
+.rk-foto-nokta.rk-foto-y-74 { top:74%; }
+.rk-foto-nokta.rk-foto-y-75 { top:75%; }
+.rk-foto-nokta.rk-foto-y-76 { top:76%; }
+.rk-foto-nokta.rk-foto-y-77 { top:77%; }
+.rk-foto-nokta.rk-foto-y-78 { top:78%; }
+.rk-foto-nokta.rk-foto-y-79 { top:79%; }
+.rk-foto-nokta.rk-foto-y-80 { top:80%; }
+.rk-foto-nokta.rk-foto-y-81 { top:81%; }
+.rk-foto-nokta.rk-foto-y-82 { top:82%; }
+.rk-foto-nokta.rk-foto-y-83 { top:83%; }
+.rk-foto-nokta.rk-foto-y-84 { top:84%; }
+.rk-foto-nokta.rk-foto-y-85 { top:85%; }
+
+.rk-liste-partner { position:relative; isolation:isolate; display:grid; grid-template-columns:48px minmax(0,1fr) auto; align-items:center; gap:var(--sp-2); padding:var(--sp-3); margin-block:var(--sp-4); border-radius:var(--radius-lg); background:var(--ink); color:var(--paper); text-align:left; }
+.rk-liste-partner > :not(.rk-malzeme-zemin) { position:relative; }
+.rk-liste-partner-logo { display:grid; place-items:center; width:48px; height:40px; border-radius:var(--radius-sm); background:var(--paper); }
+.rk-liste-partner-logo .rk-logo { width:80%; height:60%; object-fit:contain; }
+.rk-liste-partner-metin { display:flex; flex-direction:column; gap:var(--sp-1); }
+.rk-liste-partner-metin b { color:var(--paper); font-size:12px; line-height:1.4; }
+.rk-liste-partner .rk-etiket { color:var(--paper); font-size:9px; }
+.rk-liste-partner .rk-foto-cta,.rk-liste-partner .rk-foto-cta:hover,.rk-liste-partner .rk-foto-cta:focus-visible { padding:var(--sp-2); background:var(--rk-dugme); color:var(--paper); border-radius:var(--radius-sm); font-size:10px; white-space:nowrap; }
+.rk-liste-partner .rk-malzeme-filigran { position:absolute; width:75%; height:100%; object-fit:contain; right:-10%; top:0; }
+.rk-liste-partner .rk-malzeme-perde { position:absolute; inset:0; background:#000; opacity:.8; }
+
+.rd-stage .rk-foto-nokta summary { width:var(--sp-8); height:var(--sp-8); }
+.rd-stage .rk-nokta-marka { --rk-balon:56px; }
+.rd-stage .rk-nokta-logo { width:75%; height:75%; }
+.rk-dolap-kadraj::after { content:""; position:absolute; inset:0; background:rgba(0,0,0,.1); pointer-events:none; }
+.rk-dolap .rk-nokta-marka { box-shadow:0 0 var(--sp-3) var(--sp-2) rgba(255,255,255,.6),var(--sh-md); }
+.rk-dolap-not { color:var(--slate-2); }
+@container (min-width:500px) {
+ .rk-gorsel-urun .rk-pano-bag,.rk-gorsel-urun .rk-serit-bag { grid-template-columns:100px minmax(0,1fr) auto 120px; padding-right:0; }
+ .rk-gorsel-urun .rk-pano-bag .rk-pano-gorsel,.rk-gorsel-urun .rk-serit-bag .rk-serit-urun { width:120px; height:120px; max-height:120px; padding:9px; align-self:center; box-shadow:var(--sh-sm); }
+}
+@media(max-width:640px) {
+ .rd-stage .rk-nokta-marka { --rk-balon:44px; }
+ .rk-pano.rk-gorsel-urun .rk-pano-bag,.rk-serit.rk-gorsel-urun .rk-serit-bag { grid-template-columns:40px minmax(0,1fr) 96px; padding-right:0; }
+ .rk-pano.rk-gorsel-urun .rk-pano-bag .rk-pano-gorsel,.rk-serit.rk-gorsel-urun .rk-serit-bag .rk-serit-urun { width:96px; height:96px; max-height:96px; padding:7px; align-self:center; box-shadow:var(--sh-sm); }
+}
+
+/* Tur 2 son revize: tek satırlı sabit malzeme anatomisi. */
+.ing-row.rk-malzeme { height:128px; min-height:128px; max-height:128px; align-content:center; gap:0; }
+.ing-row.rk-malzeme > label { height:40px; flex:none; width:100%; align-items:center; }
+.ing-row.rk-malzeme .in { flex-wrap:nowrap; overflow:hidden; white-space:nowrap; font-size:12px; }
+.ing-row.rk-malzeme .in small { display:none; }
+.ing-row.rk-malzeme .iq { flex-shrink:0; font-size:12px; }
+.ing-row.rk-malzeme .in .rk-etiket { flex-shrink:0; font-size:9px; }
+.ing-row.rk-malzeme .ing-sponsor.sp-line { height:54px; min-height:54px; margin-top:var(--sp-2); padding-top:var(--sp-2); grid-template-columns:36px minmax(0,1fr) auto; }
+.ing-row.rk-malzeme .sp-info b,.ing-row.rk-malzeme .sp-info span { display:block; width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.ing-row.rk-malzeme .sp-go { font-size:10px; padding:var(--sp-2); }
+.rk-liste-partner { display:flex; justify-content:center; width:100%; min-height:var(--ctl-h); gap:var(--sp-2); margin-block:var(--sp-2); padding:var(--sp-2); border:1px solid var(--rk-dugme); background:var(--paper); color:var(--rk-dugme); font-size:12px; font-weight:700; }
+.rk-liste-partner:hover,.rk-liste-partner:focus-visible { background:var(--rk-dugme); color:var(--paper); }
+.rk-liste-partner .rk-etiket { color:inherit; font-size:8px; }
+.rk-liste-partner-logo { width:40px; height:28px; flex:none; }
+.rk-gunun-sponsoru { display:inline-flex; align-items:center; gap:var(--sp-2); padding:var(--sp-1) var(--sp-2); margin-left:var(--sp-3); background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); border-radius:var(--radius-pill); color:var(--paper); font-size:12px; text-transform:none; letter-spacing:0; vertical-align:middle; }
+.rk-gunun-sponsoru:hover,.rk-gunun-sponsoru:focus-visible { color:var(--paper); background:rgba(255,255,255,.2); }
+.rk-gunun-sponsoru .rk-logo { width:40px; height:24px; object-fit:contain; }
+.rk-pisirme { flex:none; display:flex; align-items:center; gap:var(--sp-3); padding:var(--sp-2) var(--sp-4); height:64px; max-height:72px; background:var(--paper); color:var(--ink); border-bottom:1px solid var(--line); }
+.rk-pisirme[hidden] { display:none; }
+.rk-pisirme-logo { width:64px; height:40px; display:grid; place-items:center; flex:none; }
+.rk-pisirme-logo .rk-logo { width:80%; height:60%; object-fit:contain; }
+.rk-pisirme-metin { min-width:0; flex:1; }
+.rk-pisirme-metin b { display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-size:12px; }
+.rk-pisirme-metin .rk-etiket { color:var(--slate-2); font-size:9px; }
+.rk-pisirme a { background:var(--rk-dugme); color:var(--paper); padding:var(--sp-2); border-radius:var(--radius-sm); font-size:11px; white-space:nowrap; }
+.rk-pisirme button { width:32px; height:32px; background:transparent; color:var(--ink); border:1px solid var(--line); border-radius:var(--radius-sm); flex:none; }
+/* Birleşik koyu filtre altta; uyarlanabilir hale beyaz logo baloncuğunun arkasında. */
+.rk-foto-nokta { --rk-balon:44px; }
+.rd-stage .rk-foto-nokta { --rk-balon:56px; }
+.rk-nokta-filtre { position:absolute; pointer-events:none; width:calc(100% + var(--rk-balon) + 18px); height:calc(var(--rk-balon) + 12px); top:50%; left:-6px; transform:translateY(-50%); border-radius:var(--radius-pill); background:rgba(0,0,0,.35); filter:blur(11px); }
+.rk-sola .rk-nokta-filtre { left:auto; right:-6px; }
+.rk-foto-nokta summary { position:relative; }
+.rk-nokta-marka { left:calc(100% + 6px); box-shadow:0 0 8px 5px rgba(0,0,0,.35),var(--sh-md); }
+.rk-foto-nokta.rk-sola .rk-nokta-marka { right:calc(100% + 6px); }
+.rk-nokta-marka::before { content:""; position:absolute; width:6px; height:1px; background:var(--paper); right:100%; top:50%; }
+.rk-sola .rk-nokta-marka::before { left:100%; right:auto; }
+.rd-stage .rk-nokta-logo { width:80%; height:80%; }
+.rd-stage .rk-hover summary .rk-nokta-logo,.rd-stage .rk-hover summary .rk-nokta-logo { width:calc(var(--rk-balon) * .8); height:calc(var(--rk-balon) * .8); }
+.rk-hale-acik .rk-nokta-marka { box-shadow:0 0 8px 5px rgba(255,255,255,.6),var(--sh-md); }
+.rk-hale-koyu .rk-nokta-marka { box-shadow:0 0 8px 5px rgba(0,0,0,.35),var(--sh-md); }
+@media(max-width:640px) {
+ .rk-foto-nokta { --rk-balon:36px; }
+ .rd-stage .rk-foto-nokta { --rk-balon:44px; }
+ .rk-pisirme { gap:var(--sp-2); padding-inline:var(--sp-2); }
+ .rk-pisirme-logo { width:40px; }
+ .rk-gunun-sponsoru { margin-left:var(--sp-2); font-size:11px; }
+ .rk-gorsel-urun .rk-serit-kimlik { width:40px; }
+}
+
+.rd-stage .rk-foto-nokta summary { width:32px; height:32px; }
+.rk-serit-bag .rk-serit-cta,.rk-pano-bag .rk-pano-cta { background:var(--paper); color:var(--ink); }
+.rk-serit-metin>span { display:block; }
+@media(max-width:640px) {
+ .rk-serit .rk-serit-metin>span { display:block; font-size:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+ .rk-serit.rk-gorsel-sahne .rk-serit-bag { grid-template-columns:48px minmax(0,1fr); }
+ .rk-serit.rk-gorsel-sahne .rk-serit-metin { grid-column:2; }
+}
+
+.rd-top:has([data-rk-slot="TD-TOP"]) { padding-top:calc(var(--sp-8) + var(--sp-7)); }
+@media(max-width:640px) { .rd-top:has([data-rk-slot="TD-TOP"]) { padding-top:var(--sp-8); } }
+/* İnce üründe kutu kenarın içinde kalır; dar panel kuralları metni üçüncü satıra itemez. */
+@container(min-width:500px) {
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-bag,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-bag { padding-block:0; }
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-bag .rk-serit-urun,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-bag .rk-pano-gorsel { height:118px; }
+}
+@media(max-width:640px) {
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-bag,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-bag { padding-block:0; grid-template-rows:minmax(0,1fr) auto; }
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-bag .rk-serit-urun,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-bag .rk-pano-gorsel { height:94px; }
+ .ing-panel .rk-serit .rk-serit-metin,.rd-aside .rk-serit .rk-serit-metin { grid-column:2; grid-row:1; align-self:end; }
+ .ing-panel .rk-serit .rk-serit-cta,.rd-aside .rk-serit .rk-serit-cta { grid-column:2; grid-row:2; margin-bottom:var(--sp-2); }
+}
+
+/* Son ürün kutusu sözleşmesi: tüm köşeler iç boşlukta, kesilme/taşma yok. */
+@container(min-width:500px) {
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-bag,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-bag { --rk-urun-ic:86px; padding:var(--sp-4); grid-template-columns:100px minmax(0,1fr) auto calc(var(--rk-urun-ic) * 1.25); align-items:center; }
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-kimlik,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-logo { height:var(--rk-urun-ic); border-radius:var(--radius-sm); }
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-bag .rk-serit-urun,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-bag .rk-pano-gorsel { width:calc(var(--rk-urun-ic) * 1.25); height:var(--rk-urun-ic); padding:calc(var(--rk-urun-ic) * .05); border-radius:var(--radius-sm); box-shadow:inset 0 1px 4px rgba(0,0,0,.08); }
+}
+@media(max-width:640px) {
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-bag,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-bag { --rk-urun-ic:78px; padding:var(--sp-2); grid-template-columns:40px minmax(0,1fr) calc(var(--rk-urun-ic) * 1.25); }
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-kimlik,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-logo { width:40px; height:var(--rk-urun-ic); border-radius:var(--radius-sm); }
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-serit-bag .rk-serit-urun,
+ .rk-gorsel-urun:not(.rk-format-native_showcase) .rk-pano-bag .rk-pano-gorsel { width:calc(var(--rk-urun-ic) * 1.25); height:var(--rk-urun-ic); padding:calc(var(--rk-urun-ic) * .05); border-radius:var(--radius-sm); box-shadow:inset 0 1px 4px rgba(0,0,0,.08); }
+}
+.rk-hafta::before { content:""; position:absolute; inset:0; background:linear-gradient(rgba(0,0,0,.3),transparent 55%); pointer-events:none; }
+.rk-hafta .r-chip,.rk-hafta .rk-hafta-icerik { isolation:isolate; }
+.rk-hafta.mf-fig .r-chip { background:rgba(0,0,0,.7); color:var(--paper); }
+.rk-hafta.mf-fig.rk-rozet-acik .r-chip { background:var(--paper); color:var(--ink); }
+
+.rk-dolap-marka { position:absolute; right:var(--sp-1); bottom:var(--sp-1); display:grid; place-items:center; width:36px; height:24px; padding:3px; border-radius:var(--radius-sm); background:white; box-shadow:var(--sh-sm); }
+.rk-dolap-kart .mz-img .rk-dolap-marka img { width:100%; height:100%; object-fit:contain; }
+.rk-dolap-kart .mz-img { width:100%; aspect-ratio:1; min-height:0; }
+.rk-dolap-kart .mz-img > img { position:absolute; inset:0; width:100%; height:100%; padding:var(--sp-2); }
+
+/* Rectangle kanonu — tek 4:3 medya, akışta içerik, bütün sağ kolon kartlarında aynı. */
+.rk-rectangle { display:block; width:100%; min-width:0; }
+.rk-rectangle-bag { display:block; overflow:hidden; border:1px solid var(--line); border-radius:var(--radius-lg); background:var(--paper); color:var(--ink); box-shadow:var(--sh-sm); transition:transform .15s ease,box-shadow .15s ease; }
+.rk-rectangle-bag:hover { transform:translateY(-2px); color:var(--ink); box-shadow:var(--sh-md); }
+.rk-rectangle-bag:focus-visible { outline:3px solid var(--rk-dugme); outline-offset:3px; }
+.rk-rectangle-vitrin { position:relative; display:block; width:100%; aspect-ratio:4/3; background:white; border-bottom:1px solid var(--line); }
+.rk-rectangle-urun { position:absolute; inset:5%; display:block; width:90%; height:90%; object-fit:contain; }
+.rk-rectangle-logo { position:absolute; top:var(--sp-3); left:var(--sp-3); display:grid; place-items:center; width:80px; height:44px; border:1px solid var(--line); border-radius:var(--radius-sm); background:white; box-shadow:var(--sh-sm); }
+.rk-rectangle-logo .rk-logo { width:80%; height:80%; max-height:none; object-fit:contain; }
+.rk-rectangle-etiket { position:absolute; top:var(--sp-3); right:var(--sp-3); padding:5px 8px; border:1px solid var(--line); border-radius:var(--radius-pill); color:#333; background:rgba(255,255,255,.9); font-size:10px; font-weight:600; line-height:16px; }
+.rk-rectangle-icerik { display:flex; flex-direction:column; align-items:stretch; gap:var(--sp-2); padding:var(--sp-4); }
+.rk-rectangle-marka { color:var(--rk-dugme); font-size:11px; line-height:16px; font-weight:600; }
+.rk-rectangle-baslik { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:18px; font-weight:600; line-height:22px; letter-spacing:var(--ls-head); color:var(--ink); }
+.rk-rectangle-metin { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:#555; font-size:13px; line-height:18px; }
+.rk-rectangle-cta { display:flex; align-items:center; justify-content:center; gap:var(--sp-2); min-height:var(--ctl-h); padding:var(--sp-2) var(--sp-3); border-radius:var(--radius-pill); background:var(--rk-dugme); color:white; font-size:13px; font-weight:600; }
+.rk-rectangle-bag:hover .rk-rectangle-cta,.rk-rectangle-bag:focus-visible .rk-rectangle-cta { background:var(--rk-dugme); color:white; }
+.ing-panel > .rk-rectangle { width:auto; margin:28px var(--sp-5); }
+.ing-panel > .rk-sar:has(.rk-rectangle) { padding:0 var(--sp-5); margin-block:28px; }
+.rd-aside > .rk-sar:has(.rk-rectangle) { width:100%; padding:0 var(--sp-5); margin-block:28px; border:0; border-radius:0; background:transparent; }
+.ing-panel > .rk-sar:has(.rk-rectangle) + .rk-rectangle { margin-top:0; }
+@media(prefers-reduced-motion:reduce) { .rk-rectangle-bag { transition:none; } }
+
+/* Liste eylemiyle aynı 48 px; rozet ve logo tek satırın merkezinde. */
+.rk-liste-partner { height:var(--ctl-h); min-height:var(--ctl-h); padding:0 var(--sp-3); align-items:center; justify-content:center; gap:var(--sp-2); line-height:16px; border-radius:var(--radius-pill); text-align:center; }
+.rk-liste-partner-logo { display:grid; place-items:center; width:24px; height:24px; overflow:hidden; border-radius:4px; background:white; }
+.rk-liste-partner-logo img { display:block; width:100%; height:100%; object-fit:contain; }
+.rk-liste-partner-yazi { min-width:0; white-space:nowrap; font-size:12px; }
+.rk-liste-partner-rozet { display:inline-flex; align-items:center; justify-content:center; flex:none; padding:2px 5px; border:1px solid currentColor; border-radius:var(--radius-pill); font-size:9px; font-weight:600; line-height:14px; }
+/* Resmî Uber dosyasının çevresindeki güvenli alanı kutu içinde karşıla. */
+.rk-renk-142328 .rk-logo { object-fit:contain; transform:scale(1.7); }
+.rk-renk-142328 .rk-liste-partner-logo img { transform:scale(1.6); }
+@media(max-width:640px) { .rk-liste-partner { padding-inline:8px; gap:6px; } .rk-liste-partner-yazi { font-size:11px; } .rk-liste-partner-rozet { font-size:8px; padding:2px 4px; } }
+/* Kanon addAll: 14 px üst/alt + 14.5 px × 1.55 satır yüksekliği. */
+.rk-liste-partner { height:calc(28px + 14.5px * 1.55); }
+.rk-renk-142328 .rk-liste-partner-logo img { transform:scale(3); }
+.rk-malzeme.rk-renk-142328 .rk-malzeme-filigran { filter:invert(1); mix-blend-mode:screen; }
+
+/* Son kabul: ürün ve rozet için ayrık medya bölgeleri. */
+.rk-rectangle-vitrin { overflow:hidden; }
+.rk-rectangle-urun { inset:64px 5% 12px; width:90%; height:calc(100% - 76px); }
+.rk-rectangle-baslik { height:44px; flex:none; }
+.rk-rectangle-sahne { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.rk-rectangle-marka-perde { position:absolute; inset:0; background:var(--rk-marka); opacity:.85; }
+.rk-rectangle-buyuk-logo { position:absolute; inset:20% 10%; display:grid; place-items:center; }
+.rk-rectangle-buyuk-logo .rk-logo { width:100%; height:100%; max-height:none; object-fit:contain; }
+.rk-slot[hidden],.rk-sar[hidden] { display:none!important; }
+.rk-gunun-sponsoru { height:38px; box-sizing:border-box; padding:0 15px; gap:10px; background:#fff; color:#222; border:1px solid #eee; box-shadow:var(--sh-sm); font-size:14px; font-weight:600; margin-left:0; }
+.rk-gunun-sponsoru .rk-logo { height:24px; width:64px; max-height:none; }
+.rk-gunun-sponsoru:hover { color:#222; background:#fff; transform:translateY(-2px); }
+.rk-gunun-sponsoru:focus-visible { color:#222; background:#fff; outline:3px solid white; outline-offset:4px; }
+.db-eyebrow:has(.rk-gunun-sponsoru) { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+.rk-pisirme { gap:16px; padding-inline:24px; }
+.rk-pisirme-logo { width:84px; height:32px; }
+.rk-pisirme-logo .rk-logo { width:100%; height:32px; max-height:none; transform:none!important; }
+.rk-pisirme button { margin-left:0; }
+.rk-liste-partner-logo { width:63px; height:24px; border-radius:0; }
+.rk-renk-142328 .rk-liste-partner-logo img { width:100%; height:24px; transform:none; }
+@media(max-width:640px) {
+ .rk-pisirme { padding-inline:16px; gap:12px; }
+ .rk-pisirme-logo { width:60px; height:23px; margin-right:4px; }
+ .rk-pisirme-logo .rk-logo { height:23px; }
+ .rk-pisirme a { max-width:92px; white-space:normal; line-height:14px; }
+ .rk-gunun-sponsoru { margin:0; font-size:14px; }
+ .db-eyebrow:has(.rk-gunun-sponsoru) { align-items:center; }
+ .rk-liste-partner { gap:5px; padding-inline:6px; }
+ .rk-liste-partner-yazi { font-size:10px; }
+}
+/* Yorum listesinden sonra bölüm ritmi; etiket yoruma yapışmaz. */
+[data-rk-slot="TD-YORUM-ALT"] { margin-top:24px; }
+
+/* Sahne bantlarında ortak marka geçişi: metinde %90, sağda %50. */
+.rk-serit.rk-gorsel-sahne .rk-zemin-perde { opacity:1; background:linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.04)),linear-gradient(90deg,color-mix(in srgb,var(--rk-katman) 90%,transparent) 0%,color-mix(in srgb,var(--rk-katman) 88%,transparent) 65%,color-mix(in srgb,var(--rk-katman) 50%,transparent) 100%); }
+.rk-serit-kimlik,.rk-pano-logo,.rk-rectangle-logo,
+.kc-card .rk-serit-kimlik,.ing-panel .rk-serit-kimlik,.rd-aside .rk-serit-kimlik { display:grid; place-items:center; justify-content:center; }
+.rk-serit-kimlik .rk-logo { display:block; width:80%; height:80%; max-height:none; margin:0; object-fit:contain; }
+/* Şef rayı: organik ad / sayı / düğme satırlarının aynı anatomisi. */
+.chef-card.rk-slot > .rk-etiket { text-transform:none; letter-spacing:normal; font-weight:400; font-size:inherit; }
+.chef-card.rk-slot > .rk-sef-eylem { margin:0; padding:0; }
+.chef-card.rk-slot .rk-sef-logo { padding:0; background:#fff; }
+.chef-card.rk-slot .rk-sef-logo .rk-logo { width:76%; height:76%; }
+.chef-card.rk-slot > .rk-etiket { font-size:12.5px; line-height:1.55; margin-top:3px; }
+.chef-card.rk-slot .rk-sef-cta { display:inline-block; vertical-align:baseline; }
+/* Dar yan kolon kartları yatay bant değildir; tüm metin alanı AA örtüde kalır. */
+.kc-card .rk-serit.rk-gorsel-sahne .rk-zemin-perde,
+.ing-panel .rk-serit.rk-gorsel-sahne .rk-zemin-perde,
+.rd-aside .rk-serit.rk-gorsel-sahne .rk-zemin-perde { background:var(--rk-katman); opacity:.85; }
+[data-rk-slot="TD-NUT"] { margin-top:24px; }
+
+/* Foto etiket iki yüzeyde tek ölçü ailesi; hero metin gradyanının üzerinde. */
+.rk-foto-nokta { --rk-balon:56px; z-index:3; }
+.rk-foto-nokta[open] { z-index:4; }
+.rk-foto-nokta .rk-nokta-marka { --rk-balon:56px; }
+.rk-foto-nokta summary { width:32px; height:32px; }
+.rk-foto-nokta .rk-nokta-logo { width:80%; height:80%; }
+.rk-foto-nokta.rk-hover summary .rk-nokta-logo,
+.rk-foto-nokta.rk-hover summary .rk-nokta-logo { width:calc(var(--rk-balon) * .8); height:calc(var(--rk-balon) * .8); }
+@media(max-width:640px) {
+ .rk-foto-nokta,.rk-foto-nokta .rk-nokta-marka { --rk-balon:44px; }
+}
+/* Basılı kampanya metni bulunan sahnelerde metin bölgesi aynı ortak örtüyü kullanır. */
+.rk-gorsel-sahne .rk-serit-metin { isolation:isolate; width:fit-content; max-width:100%; }
+.rk-gorsel-sahne .rk-serit-metin::before { content:""; position:absolute; inset:-10px; background:var(--rk-katman); opacity:.97; filter:blur(5px); border-radius:var(--radius-sm); z-index:-1; pointer-events:none; }
+
+.rk-hafta-metin { position:relative; isolation:isolate; }
+.rk-hafta-metin::before { content:""; position:absolute; inset:-8px; background:var(--rk-katman); opacity:.97; filter:blur(5px); border-radius:var(--radius-sm); z-index:-1; pointer-events:none; }
+
+.rd-stage:has(.rk-foto-nokta),.rk-dolap-sahne { isolation:isolate; }
+
+/* Kapanınca odak/telefon hover'ı geniş marka hapını takılı bırakmaz. */
+.rk-foto-nokta.rk-dinleniyor summary .rk-nokta-marka { width:var(--rk-balon); min-width:var(--rk-balon); padding:0; }
+.rk-foto-nokta.rk-dinleniyor summary .rk-nokta-ad { max-width:0; padding:0; }
+.rk-foto-nokta.rk-dinleniyor summary .rk-nokta-logo { width:80%; height:80%; }
+@media(hover:none) {
+ .rk-foto-nokta summary .rk-nokta-marka { width:var(--rk-balon); min-width:var(--rk-balon); padding:0; }
+ .rk-foto-nokta summary .rk-nokta-ad { max-width:0; padding:0; }
+ .rk-foto-nokta summary .rk-nokta-logo { width:80%; height:80%; }
+}
+/* Logo baloncuğu da noktanın tıklama/dokunma hedefidir. */
+.rk-foto-nokta .rk-nokta-marka { pointer-events:auto; }
+
+/* Nokta, 6px bağ ve logo aynı summary hit alanında; arada ölü piksel yok. */
+.rk-foto-nokta summary::after { content:""; position:absolute; left:100%; top:50%; width:6px; height:var(--rk-balon); transform:translateY(-50%); pointer-events:auto; }
+.rk-foto-nokta.rk-sola summary::after { left:auto; right:100%; }
+
+/* Yalnız Tur 3 yeni sayfa sonu: kilitli yüzeylere etkisi yok. */
+.rk-yayilim-son { margin-block:24px; }
+.rk-yayilim-son .rk-sar { padding-block:0; }
+.rk-yayilim-son .rk-slot { margin-block:0; }
+
+/* Menülerim yeni yüzeyi alışveriş sekmesinin mevcut market kartlarına eklenmez. */
+main:has(#menulerim-pane-alisveris:not([hidden])) [data-rk-yayilim="menulerim"]{display:none}
+
+/* Eski portal kabuğunun Türkçe token adlarını onaylı banner ölçeğine bağlar.
+   Yalnız yeni yayılım kapsayıcısı; kilitli sayfaların CSS değerleri değişmez. */
+.rk-yayilim-alan {
+ --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:24px; --sp-6:32px; --sp-7:48px; --sp-8:64px;
+ --ctl-h:48px; --paper:var(--kagit,#fff); --ink:var(--murekkep,#211e16); --muted:#6f6f6f; --line:#ececec;
+ --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-pill:999px;
+ --sh-sm:0 1px 2px rgba(33,30,22,.04),0 2px 6px rgba(33,30,22,.05);
+ --font:"Gilroy",system-ui,sans-serif;
+}
+
+/* Sponsor variants share the organic partial; only brand identity is additional. */
+[data-native-sponsor]{position:relative;color:inherit;text-decoration:none}
+.native-meta-logo .rk-logo{width:100%;height:100%;object-fit:contain;display:block}
+.native-meta-logo{display:inline-flex;width:44px;height:24px;align-items:center;justify-content:center;flex:none}
+.puf-reads .rk-logo{width:44px;height:18px;object-fit:contain;vertical-align:middle}
+[data-native-sponsor] .sef-ava .rk-logo{width:78%;height:78%;object-fit:contain}
+[data-native-sponsor] .sef-foot{display:flex;align-items:center;justify-content:center;min-height:42px}
+[data-native-sponsor] .puf-tag{color:var(--muted,#747570)}
+[data-native-sponsor] .puf-fig{background-size:contain;background-repeat:no-repeat;background-color:#fff}
+
+/* Tek kalıp: reklam mevcut içerik section'ında, ayrı kart değildir. */
+.rk-yayilim-alan{--rk-section-gap:40px;--ctl-h:48px;--radius-lg:16px;box-sizing:border-box}
+.rk-yayilim-bant{padding-block:var(--rk-section-gap);margin-block:0!important}
+.rk-yayilim-alan>.rk-slot{margin:0;width:100%}
+section:has(> .rk-yayilim-bant){background:#fff!important;padding-bottom:0!important;margin-bottom:0!important}
+section:has(> .rk-yayilim-bant[data-rk-konum="ust"]){padding-top:0!important}
+section:has(> .rk-yayilim-bant[data-rk-konum="alt"])> .wrap:has(+ .rk-yayilim-bant){margin-bottom:0!important;padding-bottom:0!important}
+main:has(.rk-yayilim-alan){background:#fff}
+.rk-yayilim-side{margin-top:32px}
+@media(max-width:600px){.rk-yayilim-alan{--rk-section-gap:32px}.rk-yayilim-side{position:static}}
+/* The last section reaches the bottom of main; the footer keeps its curtain (main's bottom margin stays the footer height). */
+body:has(main .rk-yayilim-alan) main.page-main{padding-bottom:0!important}
+.rk-content-section{background:#fff;margin:0;padding:0;display:flow-root}
+.rk-content-section>.rk-yayilim-bant{background:#fff}
+.rk-content-section>section:last-of-type:has(~ [data-rk-konum="alt"]){padding-bottom:0!important;margin-bottom:0!important;background:#fff!important}
+.rk-content-section>[data-rk-konum="alt"]{clear:both}
+.rk-content-section>section:last-of-type:has(~ [data-rk-konum="alt"])>.wrap{padding-bottom:0!important;margin-bottom:0!important}
+.pufl-grid:has([data-native-sponsor]) .puf-card{min-height:174px;height:174px}
+.pufl-grid:has([data-native-sponsor]) .puf-body{height:100%}
+.pufl-grid:has([data-native-sponsor]) .puf-body h4{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.pufl-grid:has([data-native-sponsor]) .puf-body p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.disc-grid:has([data-native-sponsor])>.disc-card .disc-meta{min-height:30px;line-height:24px}
+.term-card:has([data-native-sponsor]) .term-row{min-height:79px}
+.sef-grid:has([data-native-sponsor]) .sef-foot{min-height:42px;display:flex;align-items:center;justify-content:center}
+@media(max-width:600px){.pufl-grid:has([data-native-sponsor]) .puf-card{height:154px;min-height:154px}}
+
+/* Native sponsorship signals: one shared 4px stripe, unchanged organic card anatomy. */
+[data-native-sponsor],.rk-native-kilitli{position:relative;box-shadow:inset 4px 0 0 var(--rk-dugme,#9b2b16),var(--shadow-sm,0 2px 6px #0001)}
+/* VD-N1 (Beyar 2026-09-27): .vid-card'ın yatay dolgusu yok, şerit başlığın ve kimlik satırının ilk harfine biniyordu; yalnız sponsor kartında metin şeridin sağından (4px şerit + 10px nefes) başlar, sağda simetrik. Organik kart değişmez. */
+[data-native-sponsor].vid-card>:is(h4,.vmeta){padding-inline:14px}
+.rk-native-hap{position:absolute;right:8px;top:8px;z-index:3;border-radius:var(--radius-full,999px);padding:4px 8px;font-size:12px!important;line-height:16px;background:var(--rk-dugme,#9b2b16)!important;color:white!important;font-weight:600}
+[data-native-sponsor] :is(.puf-fig,.anc-fig,.disc-fig .bg,.vid-thumb){background-size:cover!important;background-repeat:no-repeat!important;background-position:center!important;background-color:#fff!important;transform:none!important}
+.rk-native-kimlik{display:flex!important;align-items:center;justify-content:space-between;gap:8px;width:100%;min-width:0;color:var(--rk-dugme,#9b2b16)}
+.rk-native-wordmark{display:flex;align-items:center;flex:none;width:52px;height:18px}
+.rk-native-wordmark img{width:100%;height:18px;object-fit:contain}
+.rk-native-kesfet{font-size:13px!important;line-height:15px;font-weight:500;color:var(--rk-dugme,#9b2b16);text-align:right}
+.rk-native-ok{display:inline-block;transition:transform .15s}
+[data-native-sponsor]:is(:hover,:focus-visible) .rk-native-ok{transform:translateX(4px)}
+[data-native-sponsor].anc-card .anc-h{white-space:nowrap;font-size:inherit;overflow:visible;text-overflow:clip}
+[data-native-sponsor].anc-card .anc-body{padding:10px 12px}
+.anc-grid:has([data-native-sponsor]) .anc-card .anc-body{min-height:78px}
+[data-native-sponsor].anc-card .anc-cc{display:block;width:100%;margin-top:5px}
+[data-native-sponsor].term-item .tr-ltr{background:#fff;padding:5px}
+[data-native-sponsor].term-item .tr-ltr img{width:100%;height:100%;object-fit:contain}
+[data-native-sponsor].term-item .rk-native-kimlik{width:240px;max-width:40%}
+[data-native-sponsor].sef-card .rk-native-kimlik{flex-wrap:wrap;justify-content:center}
+[data-native-sponsor].sef-card .rk-native-kesfet{text-align:center}
+@media(prefers-reduced-motion:reduce){.rk-native-ok{transition:none}}
+
+.rk-native-satir-sag{display:flex;align-items:center;gap:10px;margin-left:auto;color:var(--rk-dugme)}
+.rk-native-satir-sag .rk-native-hap{position:static;flex:none}
+.rk-native-satir-mesaj{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--text-muted,#666)}
+[data-native-sponsor].term-item .tr-name{min-width:0}
+@media(max-width:600px){.rk-native-satir-sag{gap:6px}.rk-native-satir-sag .rk-native-wordmark{width:42px}.rk-native-satir-sag .rk-native-hap{padding:3px 5px;font-size:11px!important}.rk-native-satir-mesaj{max-width:105px}}
+
+/* Campaign scene fills the organic media; packshots keep their natural ratio. */
+[data-native-gorsel="urun"] :is(.puf-fig,.anc-fig,.disc-fig .bg,.vid-thumb){background-size:contain!important;background-origin:content-box;padding:8%;box-sizing:border-box}
+[data-native-gorsel="sahne"] :is(.puf-fig,.anc-fig,.disc-fig .bg,.vid-thumb){background-size:cover!important;padding:0}
+
+
+[data-native-sponsor].puf-card .puf-fig{position:absolute}
+[data-native-sponsor].puf-card .puf-fig .rk-native-hap{top:8px;right:5px;padding:3px 4px;font-size:12px}
+[data-native-gorsel="urun"].puf-card .puf-fig{padding:48px 13px 14px}
+@media(max-width:600px){[data-native-gorsel="urun"].puf-card .puf-fig{padding:48px 9px 12px}}
+
+/* Shared organic/native body metrics; sponsor stripe is inside the safe gutter. */
+.disc-grid:has([data-native-sponsor])>.disc-card{padding:0 0 16px;border-radius:var(--radius-lg);overflow:hidden}
+.disc-grid:has([data-native-sponsor])>.disc-card>:is(.disc-cat,h3,p,.disc-meta){margin-left:16px;margin-right:16px}
+.disc-grid:has([data-native-sponsor])>.disc-card h3{min-height:46.8px}
+.disc-grid:has([data-native-sponsor])>.disc-card p{min-height:41.85px}
+.disc-grid:has([data-native-sponsor])>.disc-card .disc-meta{height:37px;min-height:37px;flex-wrap:nowrap}
+.rk-native-kimlik{white-space:nowrap;flex-wrap:nowrap!important;line-height:18px;height:24px}
+.rk-native-wordmark{width:auto;max-width:72px;height:18px}
+.rk-native-wordmark img{width:auto;max-width:72px;height:18px;object-fit:contain}
+.rk-native-kesfet{white-space:nowrap;line-height:18px;flex:none}
+.puf-body,.disc-meta,.anc-cc,.r-foot{container-type:inline-size}
+@container(max-width:320px){.rk-native-prefix{display:none}}
+.anc-grid:has([data-native-sponsor]) .anc-body{display:flex;flex-direction:column;align-items:stretch;justify-content:center;gap:6px;min-height:78px;padding:13px 15px}
+.anc-grid:has([data-native-sponsor]) .anc-cc{height:24px;display:flex;align-items:center;margin:0}
+[data-native-sponsor].anc-card .anc-fig::after{display:none}
+[data-native-sponsor].anc-card .anc-h{font-size:15.5px;line-height:18px;white-space:nowrap}
+[data-native-sponsor].anc-card .anc-cc{margin:0}
+[data-native-sponsor].anc-card .anc-tag{top:10px;left:10px;width:34px;height:34px;transform:none}
+@media(max-width:600px){.anc-grid:has([data-native-sponsor]) .anc-body{padding:11px 12px}[data-native-sponsor].anc-card .anc-h{font-size:14px}.anc-grid .rk-native-wordmark img{max-width:40px}}
+
+.rk-kart .rk-native-recipe-chip{width:auto;right:auto;background:var(--rk-dugme);color:#fff;font-size:13px;letter-spacing:normal;text-transform:none}
+.rk-kart .rk-kart-logo{width:38px;height:38px;right:11px;top:11px;border-radius:50%;padding:5.7px;display:grid;place-items:center;background:#fff}
+.rk-kart .rk-native-recipe-chip{line-height:17.8125px}
+@media(max-width:640px){.rk-kart .rk-kart-logo{width:32px;height:32px;right:8px;top:8px;padding:4.8px}.lst-grid .rk-kart .rk-native-recipe-chip{font-size:13px;line-height:15.5px}}
+.rk-kart .rk-kart-medya img{padding:56px 8% 8%;object-fit:contain;background:#fff}
+.rk-kart .r-foot{min-height:33px}
+[data-native-sponsor]::before,.rk-native-kilitli::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--rk-dugme);z-index:4;pointer-events:none;border-radius:var(--radius-lg) 0 0 var(--radius-lg)}
+[data-native-sponsor].puf-card .puf-fig{-webkit-mask-image:none;mask-image:none;background-color:#fff}
+[data-native-sponsor].puf-card .puf-fig::after{display:none}
+.pufl-grid:has([data-native-sponsor]) .puf-body>:last-child{height:24px;min-height:24px;display:flex;align-items:center;margin-top:9px}
+.pufl-grid:has([data-native-sponsor]) :is(.puf-tag,.puf-reads){margin-top:0}
+.pufl-grid:has([data-native-sponsor]) .puf-body{justify-content:flex-start}
+.pufl-grid:has([data-native-sponsor]) .puf-body>:last-child{margin-top:auto}
+.term-card:has([data-native-sponsor]) :is(.tr-go-link,.rk-native-satir-sag){height:28px;display:flex;align-items:center}
+/* A strip owns its spacing tokens, including legacy portal shells. */
+.rk-slot.rk-ince-banner{--sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:24px;--sp-6:32px;--paper:#fff;--ink:#211e16;--line:#ececec;--radius-sm:8px;--radius-md:12px;--radius-lg:16px}
+.rk-slot.rk-ince-banner :is(.rk-serit-bag,.rk-pano-bag){height:120px;min-height:0;box-sizing:border-box;padding:24px;gap:20px;grid-template-rows:1fr;align-items:center;border:0}
+.rk-slot.rk-ince-banner.rk-gorsel-urun :is(.rk-serit-bag,.rk-pano-bag){--rk-urun-ic:72px;grid-template-columns:100px minmax(0,1fr) auto 90px}
+.rk-slot.rk-ince-banner.rk-gorsel-urun :is(.rk-serit-bag,.rk-pano-bag) :is(.rk-serit-urun,.rk-pano-gorsel){position:relative;inset:auto;grid-column:4;grid-row:1;width:90px;height:72px;max-height:72px;padding:3.6px;border-radius:8px;box-shadow:inset 0 1px 4px #0001;object-fit:contain}
+.rk-slot.rk-ince-banner :is(.rk-serit-kimlik,.rk-pano-logo){grid-column:1;grid-row:1;height:72px;width:100px;margin:0;border-radius:8px}
+.rk-slot.rk-ince-banner :is(.rk-serit-metin,.rk-pano-metin){grid-column:2;grid-row:1;align-self:center;margin:0;min-width:0}
+.rk-slot.rk-ince-banner :is(.rk-serit-cta,.rk-pano-cta){grid-column:3;grid-row:1;align-self:center;margin:0;white-space:nowrap}
+@media(max-width:640px){
+ .rk-slot.rk-ince-banner :is(.rk-serit-bag,.rk-pano-bag){height:96px;padding:24px;gap:20px;grid-template-columns:40px minmax(0,1fr) auto}
+ .rk-slot.rk-ince-banner.rk-gorsel-urun :is(.rk-serit-bag,.rk-pano-bag){--rk-urun-ic:48px;grid-template-columns:40px minmax(0,1fr) auto 60px}
+ .rk-slot.rk-ince-banner.rk-gorsel-urun :is(.rk-serit-bag,.rk-pano-bag) :is(.rk-serit-urun,.rk-pano-gorsel){width:60px;height:48px;max-height:48px;padding:2.4px}
+ .rk-slot.rk-ince-banner :is(.rk-serit-kimlik,.rk-pano-logo){width:40px;height:48px}
+ .rk-slot.rk-ince-banner :is(.rk-serit-metin,.rk-pano-metin) b{font-size:12px;line-height:15px}
+ .rk-slot.rk-ince-banner :is(.rk-serit-metin,.rk-pano-metin)>span{font-size:10px}
+ .rk-slot.rk-ince-banner :is(.rk-serit-cta,.rk-pano-cta){font-size:10px;padding:6px;max-width:72px;white-space:normal;line-height:13px;min-height:32px}
+}
+
+/* Rectangle layout is independent of native rows and strip shells. */
+.rk-slot.rk-rectangle{--sp-2:8px;--sp-3:12px;--sp-4:16px;--paper:#fff;--ink:#211e16;--line:#ececec;--ctl-h:48px;--radius-sm:8px;--radius-lg:16px;--radius-pill:999px}
+.rk-rectangle-icerik{min-width:0;overflow:hidden}
+.rk-rectangle-tip-sahne .rk-rectangle-marka-perde{opacity:.96}
+/* The approved 480px recipe cover never stretches with sponsored sidebar content. */
+.mega-find.rk-dolap-menu{position:relative;display:flex;align-items:center;gap:10px;padding:12px;background:color-mix(in srgb,var(--rk-marka) 7%,white);border-color:color-mix(in srgb,var(--rk-marka) 24%,white);box-shadow:inset 4px 0 var(--rk-marka);min-width:0}
+.rk-dolap-menu .rk-dolap-menu-hedef{display:flex;align-items:center;gap:12px;flex:1;min-width:0;color:var(--ink,#211e16);text-decoration:none}
+.rk-dolap-menu .mf-ico{background:var(--rk-marka);color:#fff;flex:none}
+.rk-dolap-menu .mf-body{min-width:0}.rk-dolap-menu .mf-body b{font-size:14px}.rk-dolap-menu .mf-body small{font-size:11px}
+.rk-dolap-menu .rk-dolap-menu-marka{display:grid;justify-items:center;gap:3px;flex:none;width:76px;padding:0;color:#555;text-decoration:none}
+.rk-dolap-menu-marka .rk-logo{height:20px;width:76px;object-fit:contain;max-height:20px}.rk-dolap-menu-marka small{font-size:10px;line-height:14px}
+.rk-dolap-menu a:focus-visible{outline:2px solid var(--rk-marka);outline-offset:3px}
+
+.d-item>.d-link[hidden]{display:none!important}.d-item>.rk-dolap-menu{margin:8px 12px}.d-item>.rk-dolap-menu .mf-body small{display:block}
+
+/* The hero's organic facts remain at their reference dimensions. */
+.rd-gallery:has(+.rd-head){align-items:start}
+.rd-gallery:has(+.rd-head)>.rd-stage,.rd-gallery:has(+.rd-head)>.kunye-col{height:480px;align-self:start}
+/* Pantry menu: keep the native card's typography and only tint its background. */
+.mega-feat .mega-find.rk-dolap-menu,.mega-find.rk-dolap-menu{padding:13px 14px;gap:8px;background:color-mix(in srgb,var(--rk-marka) 6%,white);transition:background .18s,transform .18s}
+.mega-find.rk-dolap-menu .mf-body b,.mega-find.rk-dolap-menu:hover .mf-body b{color:#211e16;font-size:14px;line-height:1.2}
+.mega-find.rk-dolap-menu .mf-body small,.mega-find.rk-dolap-menu:hover .mf-body small{color:#55564f;font-size:11.5px;opacity:1}
+.mega-feat .mega-find.rk-dolap-menu:hover,.mega-find.rk-dolap-menu:hover{background:color-mix(in srgb,var(--rk-marka) 12%,white);border-color:color-mix(in srgb,var(--rk-marka) 24%,white);transform:translateY(-2px)}
+.mega-find.rk-dolap-menu .mf-arr{color:#211e16;font-size:13px;margin-left:3px}
+.mega-find.rk-dolap-menu:hover .mf-arr{color:#211e16;transform:translateX(4px)}
+.mega-find.rk-dolap-menu .mf-ico,.mega-find.rk-dolap-menu:hover .mf-ico{background:var(--rk-marka);color:#fff}
+.rk-dolap-menu .rk-dolap-menu-marka,.rk-dolap-menu:hover .rk-dolap-menu-marka{background:transparent;color:#55564f;box-shadow:none}
+.rk-dolap-menu .rk-dolap-menu-marka small{font-size:11px}
+.rk-dolap-menu:has(a:focus-visible){outline:2px solid var(--rk-marka);outline-offset:3px}
+.rk-dolap-menu a:focus-visible{outline:none}
+.nav .rk-dolap-menu .rk-dolap-menu-hedef,.nav .rk-dolap-menu .rk-dolap-menu-hedef:hover{padding:0;background:transparent;box-shadow:none}
+
+.rk-dolap-menu-hedef::after{content:"";position:absolute;inset:0;border-radius:inherit;z-index:1}.rk-dolap-menu .rk-dolap-menu-marka{position:relative;z-index:2}
+
+/* AS-CAT: kilit istisnası; ilk kart, mevcut 150px kategori anatomisi. */
+.cat-card.rk-kategori-sponsor .cat-thumb{position:relative;overflow:hidden;box-shadow:inset 4px 0 var(--rk-dugme);background:#fff}
+.cat-card.rk-kategori-sponsor .cat-thumb::after{content:"";position:absolute;inset:0;pointer-events:none;border-left:4px solid var(--rk-dugme);border-radius:inherit;background:none}
+.cat-card.rk-kategori-sponsor .rk-kategori-etiket{position:absolute;z-index:1;left:8px;top:8px;display:inline-flex;align-items:center;height:30px;padding:6px 10px;border-radius:var(--radius-sm);font-size:13px;line-height:18px;color:#fff;background:var(--rk-dugme);font-weight:600;text-transform:none;letter-spacing:0}
+.cat-card.rk-kategori-sponsor .rk-kucuk-medya img{object-fit:contain;padding:44px 12px 12px}
+.cat-card.rk-kategori-sponsor .rk-kategori-meta{display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:12.5px;line-height:19.375px;color:var(--muted);text-transform:none;letter-spacing:0;white-space:nowrap}
+.cat-card.rk-kategori-sponsor .rk-kategori-logo{display:inline-grid;place-items:center;width:22px;height:18px;padding:1px 2px;background:#fff;border-radius:4px;flex:none}
+.cat-card.rk-kategori-sponsor .rk-kategori-logo .rk-logo{width:100%;height:100%;max-height:100%;object-fit:contain;transform:none}
+
+/* Alışveriş: tek etiketli işlevsel partner paneli. Eski genel slot/card kurallarından bağımsız. */
+.rk-market-panel { display:block; padding:24px; background:#fff; border:1px solid var(--line); border-radius:var(--radius-lg); }
+.rk-market-panel h3 { margin:0; font-size:20px; line-height:1.25; }
+.rk-market-etiket { display:block; margin:8px 0 18px; font-size:12px; line-height:18px; color:#666; }
+.rk-market-secenekler { display:grid; gap:12px; }
+.rk-market-partner { min-width:0; margin:0; padding:0; }
+.rk-market-partner > a { position:relative; isolation:isolate; overflow:hidden; color:#25231f; text-decoration:none; border-radius:var(--radius-md); transition:transform .2s,box-shadow .2s; }
+.rk-market-partner > a:focus-visible { outline:2px solid var(--rk-marka); outline-offset:3px; }
+.rk-market-logo { display:grid; place-items:center; width:40px; height:40px; padding:6px; box-sizing:border-box; background:white; border:1px solid #eeeeec; border-radius:var(--radius-md); flex:none; }
+.rk-market-logo img { display:block; max-width:100%; max-height:100%; width:100%; height:100%; object-fit:contain; transform:none; }
+.rk-market-ana > a { display:grid; grid-template-columns:56px minmax(0,1fr); gap:16px 12px; padding:46px 16px 16px; background:var(--rk-marka); color:var(--rk-marka-metin); }
+.rk-market-ana .rk-market-logo { width:56px; height:56px; padding:8px; }
+.rk-market-filigran { position:absolute; z-index:-1; width:210px; height:190px; object-fit:contain; right:-28px; top:-12px; opacity:.12; filter:brightness(0) invert(1); pointer-events:none; }
+.rk-market-ana-hap { position:absolute; right:16px; top:14px; padding:4px 9px; border-radius:var(--radius-pill); background:#ffffffaa; color:#222; font-size:10px; line-height:14px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+.rk-market-metin { display:flex; flex-direction:column; min-width:0; justify-content:center; gap:5px; }
+.rk-market-metin b { font-size:16px; line-height:1.3; }
+.rk-market-metin [data-rk-stok] { font-size:12px; line-height:1.4; }
+.rk-market-cta { grid-column:1/-1; display:flex; align-items:center; justify-content:center; gap:10px; min-height:44px; padding:8px; box-sizing:border-box; background:#fff; color:#242424; font-size:14px; font-weight:700; border-radius:var(--radius-pill); }
+.rk-market-kompakt > a { display:flex; align-items:center; gap:8px; height:84px; box-sizing:border-box; padding:12px; border:1px solid color-mix(in srgb,var(--rk-marka) 18%,white); background:color-mix(in srgb,var(--rk-marka) 6%,white); }
+.rk-market-kompakt > a::before { content:""; position:absolute; inset:0 auto 0 0; width:4px; background:var(--rk-marka); pointer-events:none; }
+.rk-market-kompakt .rk-market-logo { width:44px; height:44px; padding:3px; }
+.rk-market-kompakt .rk-market-metin { flex:1; gap:4px; }
+.rk-market-kompakt .rk-market-metin b { font-size:16px; font-weight:700; white-space:nowrap; }
+.rk-market-kompakt .rk-market-stok { color:#595959; font-size:13px; line-height:18px; white-space:nowrap; }
+.rk-market-aktar { display:inline-flex; align-items:center; justify-content:center; flex:none; gap:5px; height:34px; padding:0 8px; border-radius:var(--radius-pill); background:var(--rk-dugme); color:#fff; font-size:12px; font-weight:700; white-space:nowrap; }
+.rk-market-aktar i { font-size:11px; }
+.rk-market-kompakt > a:hover { transform:translateY(-2px); box-shadow:var(--sh-md); background:color-mix(in srgb,var(--rk-marka) 12%,white); }
+.rk-market-ana > a:hover { transform:translateY(-2px); box-shadow:var(--sh-md); }
+.rk-market-panel .rk-market-not { margin:14px 0 0; color:#666; font-size:12px; line-height:18px; white-space:nowrap; }
+@media(max-width:600px) { .rk-market-panel { padding:20px; } }
+
+
+/* Malzeme başı marka rectangle: logo, koyu marka perdesinde okunur beyaz yüzeyde. */
+[data-rk-slot="TD-PORS"] .rk-rectangle-buyuk-logo{background:#fff;border-radius:var(--radius-sm);padding:12px}
+
+/* Partner logosu normal ve hover durumunda aynı beyaz çip ve güvenli iç boşluk. */
+.rk-liste-partner .rk-liste-partner-logo{box-sizing:border-box;width:79px;height:40px;padding:8px;border-radius:var(--radius-sm);background:#fff;flex:none;overflow:hidden}
+.rk-liste-partner .rk-liste-partner-logo img,.rk-liste-partner:hover .rk-liste-partner-logo img{display:block;width:100%;height:24px;max-width:100%;object-fit:contain;transform:none}
+
+/* Ortak foto-etiket: dolap ve tarif kapağı aynı içerik ve ölçü ailesi. */
+.rk-foto-nokta summary .rk-nokta-marka{width:var(--rk-balon);min-width:var(--rk-balon);padding:0;transition:transform .15s ease}
+.rk-foto-nokta.rk-hover summary .rk-nokta-marka{width:var(--rk-balon);min-width:var(--rk-balon);padding:0;transform:translateY(-50%) scale(1.05)}
+.rk-foto-kart.rk-slot{box-sizing:border-box;width:320px;max-width:calc(100vw - 32px);padding:16px;gap:12px;display:grid;grid-template-columns:minmax(0,1fr);align-items:start}
+.rk-foto-kart.rk-slot .rk-foto-baslik{display:flex;align-items:center;justify-content:space-between;gap:8px;min-width:0;height:48px}
+.rk-foto-kart.rk-slot .rk-foto-kimlik{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;min-width:0}
+.rk-foto-kimlik>span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rk-foto-kart.rk-slot .rk-foto-logo{box-sizing:border-box;width:48px;height:48px;flex:none;padding:4px;background:#fff;border-radius:var(--radius-sm)}
+.rk-foto-kart.rk-slot .rk-foto-logo img{width:40px;height:40px;max-width:40px;max-height:40px;object-fit:contain}
+.rk-foto-kart.rk-slot .rk-foto-baslik>.rk-etiket{margin:0;padding:4px 8px;background:var(--rk-dugme);color:#fff;font-size:11px;line-height:16px;border-radius:var(--radius-pill);flex:none}
+.rk-foto-kart.rk-slot .rk-foto-govde{display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;min-width:0;height:96px}
+.rk-foto-kart.rk-slot .rk-foto-urun{box-sizing:border-box;width:96px;height:96px;display:grid;grid-template: minmax(0,1fr) / minmax(0,1fr);place-items:center;border-radius:var(--radius-md);padding:0;overflow:hidden;background:color-mix(in srgb,var(--rk-marka) 8%,white)}
+.rk-foto-kart.rk-slot .rk-foto-urun img{display:block;position:static;width:85%;height:85%;max-width:85%;max-height:85%;min-width:0;min-height:0;object-fit:contain;object-position:center;transform:none;margin:0}
+.rk-foto-kart.rk-slot .rk-foto-metin{display:flex;flex-direction:column;gap:8px;min-width:0;justify-content:center;height:96px}
+.rk-foto-kart.rk-slot .rk-foto-metin>b{font-size:15px;line-height:1.3;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal;word-break:normal}
+.rk-foto-kart.rk-slot .rk-foto-metin>p{color:#62665f;font-size:13px;line-height:1.4;white-space:normal;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;text-overflow:ellipsis;word-break:normal;overflow-wrap:normal}
+.rk-foto-kart.rk-slot .rk-foto-cta{box-sizing:border-box;width:100%;height:36px;min-height:36px;font-size:13px;align-items:center;justify-content:center}
+.rk-foto-mobil{padding:16px 0;display:flex;justify-content:center}
+.rk-foto-mobil .rk-foto-kart.rk-slot{width:320px;max-width:calc(100vw - 32px);margin-inline:auto}
+.rk-foto-nokta .rk-foto-kart::before,.rk-foto-nokta.rk-sola .rk-foto-kart::before{left:var(--rk-caret-x,16px);right:auto}
+.rk-foto-mobil .rk-foto-kart::before{display:block;left:var(--rk-caret-x,16px);right:auto;top:-8px;bottom:auto;transform:rotate(45deg)}
+@media(prefers-reduced-motion:reduce){.rk-foto-nokta summary .rk-nokta-marka{transition:none}}
+/* Malzeme önerisi: organik miktar/işlevler aynı, marka tonu açık ve okunur. */
+.ing-row.rk-malzeme{background:color-mix(in srgb,var(--rk-marka) 8%,white);color:var(--ink);box-shadow:inset 4px 0 var(--rk-marka)}
+.ing-row.rk-malzeme .rk-malzeme-filigran{opacity:.1;filter:none;mix-blend-mode:normal}
+.ing-row.rk-malzeme .rk-malzeme-perde{display:none}
+.ing-row.rk-malzeme :is(.iq,.in,.in small,.sp-info b){color:var(--ink)}
+.ing-row.rk-malzeme .sp-info span{color:#53564f}
+.ing-row.rk-malzeme .rk-etiket{background:var(--rk-dugme);color:#fff;padding:3px 6px;border-radius:var(--radius-pill)}
+.ing-row.rk-malzeme input[type=checkbox]{outline-color:#686c64}
+
+/* Sipariş kanalları top-layer dialog: sidebar overflow/z-index ile kesilmez. */
+.rk-siparis-kart{position:fixed;inset:auto;margin:0;padding:16px;width:340px;max-width:calc(100vw - 32px);border:1px solid var(--line);border-radius:var(--radius-lg);background:white;color:var(--ink);box-shadow:0 12px 40px #0003;box-sizing:border-box}
+.rk-siparis-kart::backdrop{background:transparent}
+.rk-siparis-baslik{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.rk-siparis-baslik b{display:block;font-size:16px;font-weight:700;line-height:22px}
+.rk-siparis-baslik small{display:block;font-size:12px;line-height:18px;color:#62665f}
+.rk-siparis-baslik button{display:grid;place-items:center;width:28px;height:28px;min-width:28px;padding:0;flex:none;background:#fff;border:1px solid var(--line);border-radius:50%;line-height:1}
+.rk-siparis-baslik button svg{display:block;width:12px;height:12px}
+.rk-siparis-kart .rk-siparis-kanal{box-sizing:border-box;display:grid;grid-template-columns:44px minmax(0,1fr) 16px;align-items:center;gap:14px;padding:9px 10px;text-decoration:none;margin-top:8px;height:64px;font-size:15px;line-height:20px;font-weight:700;color:var(--ink);border:1px solid var(--line);background:#fff}
+.rk-siparis-partner:hover{background:color-mix(in srgb,var(--rk-marka) 6%,white)!important}
+.rk-siparis-partner>span:nth-child(2){min-width:0;white-space:nowrap}
+.rk-siparis-partner small{display:block;font-size:12px;line-height:16px;color:#62665f;font-weight:400}
+.rk-siparis-logo{box-sizing:border-box;width:44px;height:44px;padding:4px;display:grid;place-items:center;background:#fff;border-radius:var(--radius-sm)}
+.rk-siparis-kart .rk-siparis-logo .rk-logo{display:block;position:static;width:36px;height:36px;max-width:36px;max-height:36px;margin:0;object-fit:contain;transform:none}
+.rk-siparis-kart a:focus-visible,.rk-siparis-kart button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+@media(max-width:640px){.rk-siparis-kart{left:0!important;top:auto!important;bottom:0;width:100%;max-width:100%;border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:16px 16px max(20px,env(safe-area-inset-bottom))}.rk-siparis-kart::backdrop{background:#0006}}
+
+/* Ölçü rehberi: bağlamsal öneri modülün içinde, dönüştürücüden bağımsız. */
+.rk-ob{position:relative;min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-lg);box-shadow:inset 4px 0 var(--rk-dugme);background:color-mix(in srgb,var(--rk-marka) 6%,white)}
+.rk-ob-firin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);max-width:800px;margin:0 0 24px}
+.rk-ob-medya{position:relative;aspect-ratio:16/9;overflow:hidden;background:white}
+.rk-ob-medya>img{width:100%;height:100%;object-fit:cover;display:block}
+.rk-ob-logo{width:40px;height:40px;display:grid;place-items:center;background:#fff;border-radius:var(--radius-md);padding:4px;flex:none;overflow:hidden}
+.rk-ob-logo .rk-logo{width:100%;height:100%;object-fit:contain}
+.rk-ob-medya .rk-ob-logo{position:absolute;left:12px;top:12px}
+.rk-ob-rozet{display:inline-flex;align-items:center;background:var(--rk-dugme);color:#fff;font-size:12px;padding:4px 8px;border-radius:var(--radius-pill);white-space:nowrap}
+.rk-ob-medya>.rk-ob-rozet{position:absolute;right:12px;top:12px}
+.rk-ob-icerik{--rk-ob-brand-size:.8125rem;--rk-ob-title-size:1.125rem;--rk-ob-copy-size:.875rem;padding:var(--sp-5);min-width:0;position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:0}
+.rk-ob-kimlik{display:flex;align-items:center;gap:8px;min-width:0}
+.rk-ob-wordmark{font-size:var(--rk-ob-brand-size);font-weight:700;color:var(--rk-dugme)}
+.rk-ob .rk-ob-icerik h3{font-size:var(--rk-ob-title-size);line-height:1.35;margin:var(--sp-2) 0 0;font-weight:700;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.rk-ob .rk-ob-icerik p{font-size:var(--rk-ob-copy-size);line-height:1.4;margin:var(--sp-3) 0 0;color:var(--muted);display:block;max-width:100%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.rk-ob-cta{margin-top:var(--sp-4);display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 14px;min-height:36px;background:var(--rk-dugme);color:#fff!important;text-decoration:none;font-size:13px;font-weight:600}
+.rk-ob-demo{font-size:11px;color:#62665f}
+.conv-card:has(.rk-ob-donusturucu){min-width:0}
+.rk-ob-donusturucu{margin:0 0 20px}.rk-ob-donusturucu .rk-ob-icerik{padding-right:152px;min-height:168px}
+.rk-ob-urun{position:absolute;right:16px;top:calc(50% - 60px);width:120px;height:120px;background:#fff;border-radius:var(--radius-md);object-fit:contain;padding:5px}
+@media(max-width:640px){.rk-ob-firin{display:block;width:100%}.rk-ob-donusturucu .rk-ob-icerik{padding:var(--sp-5);padding-right:152px}.rk-ob-donusturucu .rk-ob-kimlik{flex-wrap:wrap}.rk-ob-donusturucu .rk-ob-wordmark{font-size:var(--rk-ob-brand-size)}.rk-ob-donusturucu .rk-ob-logo{width:40px;height:40px}}
+
+/* Fırın rehberi: sol reklam+tablo, sağ ipuçları aynı satır ve bölüm sınırı. */
+.rk-oven-main{min-width:0}
+.oven-grid .rk-oven-tips{align-self:start;position:sticky;top:calc(var(--header-offset,80px) + 24px)}
+@media(max-width:900px){.oven-grid .rk-oven-tips{position:static}}
+
+/* Mobil ankraj pencereleri: sabit alt sayfa, arka sayfa kaydırılmaz. */
+html.rk-sheet-lock,html.rk-sheet-lock body{overflow:hidden!important;overscroll-behavior:none}
+.rk-foto-kapat{width:28px;height:28px;flex:none;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;padding:0;background:#fff;color:var(--ink);font-size:20px;line-height:1}
+@media(max-width:640px){
+.rk-foto-mobil{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.rk-foto-mobil:not([open]){display:none}
+.rk-foto-mobil::backdrop{background:#0006}
+.rk-foto-mobil .rk-foto-kart.rk-slot{margin:0;width:320px;max-width:calc(100vw - 24px);border-radius:var(--radius-lg) var(--radius-lg) 0 0;box-shadow:0 -8px 28px #0002}
+.rk-foto-mobil .rk-foto-kart::before{display:none}
+.rk-foto-mobil .rk-foto-kart .rk-foto-baslik>.rk-etiket{margin-left:auto}
+}
+
+/* TD-ING: üst malzeme satırı ve üç kolonlu ürün gövdesi. Ölçüler 23 Eylül kart sözleşmesi. */
+.ing-row.rk-malzeme {
+  --rk-ing-logo:40px; --rk-ing-urun:56px; --rk-ing-cta:32px;
+  display:block; height:auto; min-height:96px; max-height:none; overflow:hidden;
+  padding:var(--sp-3); margin:0 0 var(--sp-3); isolation:isolate;
+}
+.ing-row.rk-malzeme > label {
+  display:grid; grid-template-columns:auto auto minmax(0,1fr) auto; align-items:center;
+  gap:var(--sp-2); height:auto; width:100%; padding:0; min-width:0;
+}
+.ing-row.rk-malzeme:not(:has(.iq)) > label { grid-template-columns:auto minmax(0,1fr) auto; }
+.ing-row.rk-malzeme > label input { margin:0; }
+.ing-row.rk-malzeme .iq { white-space:nowrap; }
+.ing-row.rk-malzeme .in { display:block; min-width:0; text-overflow:ellipsis; white-space:nowrap; overflow:hidden; }
+.ing-row.rk-malzeme > label > .rk-etiket { margin:0; white-space:nowrap; font-size:9px; line-height:1.4; }
+.ing-row.rk-malzeme .ing-sponsor.sp-line {
+  display:grid; grid-template-columns:var(--rk-ing-logo) minmax(0,1fr) max-content;
+  align-items:center; gap:var(--sp-2); height:auto; min-height:0; margin:var(--sp-3) 0 0;
+  padding:0; border:0; min-width:0;
+}
+.ing-row.rk-malzeme .sp-logo.rk-harf {
+  width:var(--rk-ing-logo); height:var(--rk-ing-logo); padding:var(--sp-1); overflow:hidden;
+  background:var(--paper); border-radius:var(--radius-sm); display:grid; place-items:center;
+}
+.ing-row.rk-malzeme .sp-info { min-width:0; gap:var(--sp-1); }
+.ing-row.rk-malzeme .sp-info b {
+  display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2;
+  font-size:15px; font-weight:700; line-height:1.3; white-space:normal;
+  overflow:hidden; text-overflow:ellipsis; overflow-wrap:anywhere;
+}
+.ing-row.rk-malzeme .sp-info span { font-size:12px; line-height:1.4; white-space:normal; overflow-wrap:anywhere; color:var(--muted); }
+.ing-row.rk-malzeme .rk-malzeme-sag { display:flex; flex-direction:column; align-items:center; gap:var(--sp-2); }
+.ing-row.rk-malzeme .rk-malzeme-urun {
+  display:grid; grid-template-rows:minmax(0,1fr); grid-template-columns:minmax(0,1fr); place-items:center; width:var(--rk-ing-urun); height:var(--rk-ing-urun);
+  padding:var(--sp-1); overflow:hidden; background:var(--paper); border-radius:var(--radius-sm);
+}
+.ing-row.rk-malzeme :is(.sp-logo,.rk-malzeme-urun) .rk-logo { display:block; position:static; width:100%; height:100%; max-width:100%; max-height:100%; object-fit:contain; }
+.ing-row.rk-malzeme .sp-go { height:var(--rk-ing-cta); min-height:var(--rk-ing-cta); padding:0 var(--sp-2); margin:0; justify-content:center; font-size:10px; }
+.ing-row.rk-malzeme .rk-malzeme-filigran { width:auto; max-width:60%; height:60%; top:0; right:0; object-fit:contain; opacity:.08; z-index:0; }
+.ing-row.rk-malzeme > :is(label,.sp-line,.ing-acts) { z-index:1; }
+
+/* ── Madde 115 · /tarifler "Ne pişireceğine karar veremedin mi?" köprüsü Dolap sponsorunun giysisiyle
+   (HD-DOLAP-SPON hücresinin kalıbı: marka tonlu zemin · soldaki marka çizgisi · marka ikon · logo + Sponsorlu).
+   Tek iç bağ; küçük metin hücredeki gibi #55564f (açık marka tonunda --muted AA'yı kaçırır). */
+.lst-bridge.rk-dolap-kopru{background:color-mix(in srgb,var(--rk-marka) 6%,white);border-color:color-mix(in srgb,var(--rk-marka) 24%,white);box-shadow:inset 4px 0 var(--rk-marka)}
+.lst-bridge.rk-dolap-kopru:hover{background:color-mix(in srgb,var(--rk-marka) 12%,white);border-color:color-mix(in srgb,var(--rk-marka) 24%,white);box-shadow:inset 4px 0 var(--rk-marka)}
+.lst-bridge.rk-dolap-kopru .lb-ico{background:var(--rk-marka);color:#fff}
+.lst-bridge.rk-dolap-kopru .lb-txt b{color:#211e16}
+.lst-bridge.rk-dolap-kopru .lb-txt small{color:#55564f}
+.lst-bridge.rk-dolap-kopru .lb-go{color:var(--rk-dugme)}
+.rk-dolap-kopru-marka{display:grid;justify-items:center;gap:3px;flex:none;width:76px;color:#55564f}
+.rk-dolap-kopru-marka .rk-logo{height:20px;width:76px;object-fit:contain;max-height:20px}
+.rk-dolap-kopru-marka small{font-size:11px;line-height:14px}
+/* 390: organik köprünün metin sütunu zaten dar — imza satır olup sağ üst köşeye, "Dolapta Ne Var? →" sütununun üstüne çıkar;
+   metin sütunu organik hâlindeki genişliği korur. */
+.lst-bridge.rk-dolap-kopru{position:relative}
+@media (max-width:640px){
+  .rk-dolap-kopru-marka{position:absolute;top:10px;right:14px;display:flex;align-items:center;gap:6px;width:auto}
+  .rk-dolap-kopru-marka .rk-logo{height:16px;width:auto;max-width:64px;max-height:16px}
+  .rk-dolap-kopru-marka small{font-size:10.5px;line-height:14px}
+}
+
+/* ── Madde 121 (Beyar 2026-09-27) · ana sayfa ürünlü banner'lar kreatif standardında: markanın sahnesi (config/reklam-sahneler.php)
+   banner'ı tam kaplar, üstünde şerit gradyan katmanı (sahne bantlarının ortak geçişi: metinde %90, sağda %50), ürün paketi katmanın
+   da üstünde kendi beyaz kutusunda durur. Metin katmandaki yazı rengini alır; metin bölgesi sahne bantlarındaki ortak örtüyle korunur.
+   Aynı kalıp sitedeki bütün ürünlü şerit ve pano banner'larında (Beyar 2026-09-27; `rk-sahneli` yalnız markanın sahnesi varsa basılır). */
+.rk-sahneli :is(.rk-serit-bag,.rk-pano-bag) { color:var(--rk-yazi); }
+.rk-sahneli .rk-sahne-zemin { position:absolute; inset:0; width:100%; height:100%; max-width:none; object-fit:cover; border-radius:0; pointer-events:none; }
+.rk-sahneli.rk-gorsel-urun .rk-zemin-perde { display:block; opacity:1; background:linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.04)),linear-gradient(90deg,color-mix(in srgb,var(--rk-katman) 90%,transparent) 0%,color-mix(in srgb,var(--rk-katman) 88%,transparent) 65%,color-mix(in srgb,var(--rk-katman) 50%,transparent) 100%); }
+.rk-sahneli.rk-gorsel-urun .rk-serit-bag .rk-serit-urun, .rk-sahneli.rk-gorsel-urun .rk-pano-bag .rk-pano-gorsel { z-index:1; background:var(--paper,#fff); }
+.rk-sahneli :is(.rk-serit-metin,.rk-pano-metin) { isolation:isolate; width:fit-content; max-width:100%; }
+.rk-sahneli :is(.rk-serit-metin,.rk-pano-metin)::before { content:""; position:absolute; inset:-10px; background:var(--rk-katman); opacity:.97; filter:blur(5px); border-radius:var(--radius-sm); z-index:-1; pointer-events:none; }
+/* LK15 (lead, 2026-09-27) · sahne türü pano (TD-SHOP A101) ana sayfa sahne panolarının (AS-COUPON/AS-SHOP) şerit gradyanını ve metin
+   örtüsünü alır; düz %80 perde yerine metinde %90, sağda %50. Ana sayfa bu panoları şerit biçiminde basar, orada değişen bir şey yok. */
+.rk-pano.rk-gorsel-sahne .rk-zemin-perde { opacity:1; background:linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.04)),linear-gradient(90deg,color-mix(in srgb,var(--rk-katman) 90%,transparent) 0%,color-mix(in srgb,var(--rk-katman) 88%,transparent) 65%,color-mix(in srgb,var(--rk-katman) 50%,transparent) 100%); }
+.rk-gorsel-sahne .rk-pano-metin { isolation:isolate; width:fit-content; max-width:100%; }
+.rk-gorsel-sahne .rk-pano-metin::before { content:""; position:absolute; inset:-10px; background:var(--rk-katman); opacity:.97; filter:blur(5px); border-radius:var(--radius-sm); z-index:-1; pointer-events:none; }
+/* LK16 (lead, 2026-09-27) · ürünlü native_rectangle yan kutuda aynı kalıp vitrinin içinde: sahne vitrini tam kaplar, üstünde şerit
+   gradyan katmanı, ürün paketi katmanın üstünde 121 ürün kutusunun oranında (5:4) beyaz kutusunda, logo satırının altında ortada.
+   Kutunun ölçüsü (vitrin 4:3 + metin bölümü) değişmez; logo ve "Sponsorlu" etiketi kendi beyaz zeminlerinde kalır. */
+.rk-rectangle.rk-sahneli .rk-zemin-perde { opacity:1; background:linear-gradient(rgba(0,0,0,.04),rgba(0,0,0,.04)),linear-gradient(90deg,color-mix(in srgb,var(--rk-katman) 90%,transparent) 0%,color-mix(in srgb,var(--rk-katman) 88%,transparent) 65%,color-mix(in srgb,var(--rk-katman) 50%,transparent) 100%); }
+.rk-rectangle.rk-sahneli .rk-rectangle-urun { z-index:1; inset:auto; top:64px; left:50%; width:auto; height:calc(100% - 80px); aspect-ratio:5/4; transform:translateX(-50%); box-sizing:border-box; padding:8px; object-fit:contain; background:var(--paper,#fff); border-radius:var(--radius-sm); box-shadow:inset 0 1px 4px rgba(0,0,0,.08); }
+/* 390'da "Dada Store" kartı kendi bölümünden taşar ve gölgesi (0 18px 50px) alttaki banner'ın "Sponsorlu" etiketinin altına düşer
+   (ölçüldü: etiket AA 4,06). Madde 121 yerleşimlerinde bu bölümün ardına gelen banner gölgenin dışında başlar. */
+@media (max-width:640px) { .sec-teaser + .rk-sar { --rk-bosluk-ust: calc(var(--rk-bosluk) - var(--rk-etiket-payi) + 56px); } }
+
+/* ── Madde 118 (Beyar 2026-09-27) · /mutfak-ansiklopedisi: sponsorun kategori başlığındaki imzası — eşlik kalıbının logosu
+   (.rk-eslik-logo) + "<marka> sponsorluğunda"; bağ değil. Yalnız o kategori açıkken görünür (reklam.js), aramada ve ızgarada gizli. */
+.rk-kat-sponsor { display:inline-flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; color:var(--ink,#211e16); }
+.rk-kat-sponsor[hidden] { display:none; }
+.rk-kat-sponsor .rk-eslik-logo { width:64px; height:32px; box-shadow:inset 0 0 0 1px var(--line,#ececec); }
+
+/* ── Madde 119 (Beyar 2026-09-27) · eşli dolap sponsor kartı organik çipin seçili görünümünü aynalar (tarif-bulucu.css `.mz.sel`
+   kuralları); karta `.sel` verilmez, çünkü donörün kategori sayacı `.mz.sel` sayar. */
+.rk-dolap-kart.rk-secili { border-color:var(--mode); }
+.rk-dolap-kart.rk-secili .mz-name { color:var(--mode-deep); }
+.rk-dolap-kart.rk-secili .mz-ck { display:grid; }
+.rk-dolap-kart.rk-secili .mz-img::after { content:""; position:absolute; inset:0; background:color-mix(in srgb,var(--mode) 12%,transparent); }
+/* Sol üstte "Sponsorlu" etiketi (dar kartta genişliğin çoğu) durduğu için seçim işareti görselin sol altına iner (sağ alt marka
+   logosunundur); seçili hâlin renk örtüsü etiketin ve logonun ALTINDA kalır — "Sponsorlu" ibaresi örtülmez. */
+.rk-dolap-kart .mz-img .mz-ck { top:auto; right:auto; bottom:6px; left:6px; z-index:2; }
+.rk-dolap-kart.has-photo .mz-img .mz-ck i { display:inline; font-size:inherit; color:inherit; } /* donör `.mz.has-photo .mz-img i` ikonu gizler */
+.rk-dolap-kart .mz-img > .rk-etiket, .rk-dolap-kart .mz-img > .rk-dolap-marka { z-index:1; }
+
+/* ── Marka logosu okunurluğu — lead kararı LK8 (duzelt · 2026-09-27), REVİZE (logo-ekibi-3 · 2026-09-27, Beyar notu) · TEK KURAL ──
+   `x-reklam.marka-logo` logonun yanına markanın resmi simgesini koyar (.rk-ml · simgesi olan markalar: Duru, Dardanel, Tat,
+   Karaca, Arçelik; dosyalar /reklam/secki/<marka>/<marka>-simge.*). Kural:
+   1) Varsayılan her yüzeyde TAM resmi logo; hiçbir yerde kırpılmaz: contain.
+   2) Küçük logo kutusunda logo BEYAZ zeminde durur — yuvarlakta dairenin iç karesi (%70), dikdörtgende kutunun kendi iç boşluğu.
+   3) Küçük yuvarlak (kart yazar avatarı `.rk-secki-av`, kart logo dairesi `.rk-kart .rk-kart-logo`): logonun kendisi, simge YOK;
+      logo dairenin İÇİNE ÇİZİLEN en büyük dikdörtgende, az iç boşlukla (köşeler çemberden çapın %7'si içeride: genişlik % =
+      86 × en-boy ÷ √(en-boy² + 1), yükseklik % = 86 ÷ √(en-boy² + 1); en-boy logo dosyasından).
+   4) Simge YALNIZ logonun sığmadığı yerde: contain ile çizilen logonun YAZISI 2 CSS px'e ulaşamıyorsa (görünmez düzey). Eşik
+      dosyanın kendisinden: en küçük genişlik = 2 × en-boy ÷ yazı oranı, en küçük yükseklik = 2 ÷ yazı oranı (yazı oranı = harf
+      kutusu yüksekliği ÷ logo yüksekliği; r9-logo.mjs dosyadan piksel sayımıyla ölçer) — Duru 2,714 · 0,586 · Dardanel 4,102 ·
+      0,616 · Tat 1,391 · 0,50 · Karaca 4,530 · 0,551 · Arçelik 4,078 · 0,997. 2 px, Beyar'ın kabul ettiği en küçük tam logonun
+      (Karaca kart avatarı, 2,8 px) altında: o avatardan okunaklı her kutu tam logo alır. 27 Eylül ölçümü: eşiğin altına düşen yüzey YOK.
+   5) Mega menü hücresi (`.rk-menu-logo`) listede değil: Duru hücresi Torku hücresinin kalıbıyla (40×32 · 390'da 40×22 kutu,
+      zeminsiz, contain) tam logoyu basar.
+   Küçük kutu listesi yüzey envanterinden (27 Eylül, 1440/390): en az bir markanın logosu kırpılan ya da küçük kalan kutular.
+   Listede olmayan kutuda sarmalayıcı yerleşime girmez (display: contents) ve logo bugünkü gibi durur. */
+/* sarmalayıcı bir <span>: donörün kap içi span kuralları (ör. `.r-author .av span` baş harf dairesi) ona geçmesin */
+.rk-ml{all:unset!important;display:contents!important}
+.rk-ml > img{object-fit:contain}
+.rk-ml > .rk-simge{display:none!important}
+:is(.rk-secki-av,.rk-kart-logo,.rk-sef-logo,.rk-profil-logo,.sef-ava,
+    .rk-kategori-logo,.rk-dolap-marka,.rk-ob-logo,.tr-ltr,.rk-serit-kimlik,.rk-pano-logo,.rk-native-wordmark):has(> .rk-ml){display:grid!important;grid-template:100% / 100%!important;place-items:center!important;background:#fff!important;overflow:hidden!important}
+:is(.rk-secki-av,.rk-kart-logo,.rk-sef-logo,.rk-profil-logo,.sef-ava):has(> .rk-ml){padding:0!important}
+/* kart yazar avatarı beyaz kartın üstünde: daire ince çizgiyle belli olur (baş harf dairesinin yerini tutar) */
+:is(.rk-secki-av,.rk-kart-logo):has(> .rk-ml){box-shadow:inset 0 0 0 1px var(--line,#ececec)!important}
+:is(.rk-serit-kimlik,.rk-pano-logo):has(> .rk-ml){padding:6px!important}
+:is(.rk-secki-av,.rk-kart-logo,.rk-sef-logo,.rk-profil-logo,.sef-ava,
+    .rk-kategori-logo,.rk-dolap-marka,.rk-ob-logo,.tr-ltr,.rk-serit-kimlik,.rk-pano-logo,.rk-native-wordmark) > .rk-ml{display:grid!important;grid-template:100% / 100%!important;place-items:center!important;container:rk-ml / size!important;box-sizing:border-box!important;width:100%!important;height:100%!important}
+:is(.rk-secki-av,.rk-kart-logo,.rk-sef-logo,.rk-profil-logo,.sef-ava) > .rk-ml{width:70%!important;height:70%!important}
+/* küçük yuvarlak (madde 3): simge sorusu yok (kap değil), logo dairenin iç dikdörtgeninde */
+:is(.rk-secki-av,.rk-kart .rk-kart-logo) > .rk-ml{container:none!important}
+:is(.rk-secki-av,.rk-kart .rk-kart-logo) > .rk-ml-duru{width:80.7%!important;height:29.7%!important}
+:is(.rk-secki-av,.rk-kart .rk-kart-logo) > .rk-ml-dardanel{width:83.6%!important;height:20.4%!important}
+:is(.rk-secki-av,.rk-kart .rk-kart-logo) > .rk-ml-tat{width:69.8%!important;height:50.2%!important}
+:is(.rk-secki-av,.rk-kart .rk-kart-logo) > .rk-ml-karaca{width:84%!important;height:18.5%!important}
+:is(.rk-secki-av,.rk-kart .rk-kart-logo) > .rk-ml-arcelik{width:83.5%!important;height:20.5%!important}
+/* kimlik satırındaki yazı-logosu satır içidir: kutu 72 px (satırın kendi dar kuralı max-width ile korunur), logo solda */
+.rk-native-wordmark > .rk-ml{width:72px!important;max-width:100%!important;justify-items:start!important}
+.rk-native-wordmark > .rk-ml > img{object-position:left center!important}
+:is(.rk-secki-av,.rk-kart-logo,.rk-sef-logo,.rk-profil-logo,.sef-ava,
+    .rk-kategori-logo,.rk-dolap-marka,.rk-ob-logo,.tr-ltr,.rk-serit-kimlik,.rk-pano-logo,.rk-native-wordmark) > .rk-ml > img{
+  grid-area:1/1;display:block;box-sizing:border-box;width:100%!important;height:100%!important;min-width:0!important;max-width:none!important;max-height:none!important;
+  margin:0!important;padding:0!important;border:0!important;border-radius:0!important;object-fit:contain!important;object-position:center;transform:none!important;position:static!important;background:none!important}
+@container rk-ml (width < 9.3px) or (height < 3.5px){.rk-ml-duru > img:not(.rk-simge){display:none!important}.rk-ml-duru > .rk-simge{display:block!important}}
+@container rk-ml (width < 13.4px) or (height < 3.3px){.rk-ml-dardanel > img:not(.rk-simge){display:none!important}.rk-ml-dardanel > .rk-simge{display:block!important}}
+@container rk-ml (width < 5.6px) or (height < 4px){.rk-ml-tat > img:not(.rk-simge){display:none!important}.rk-ml-tat > .rk-simge{display:block!important}}
+@container rk-ml (width < 16.5px) or (height < 3.7px){.rk-ml-karaca > img:not(.rk-simge){display:none!important}.rk-ml-karaca > .rk-simge{display:block!important}}
+@container rk-ml (width < 8.2px) or (height < 2.1px){.rk-ml-arcelik > img:not(.rk-simge){display:none!important}.rk-ml-arcelik > .rk-simge{display:block!important}}
+
+/* Dolap tek seçim — lead kararı LK9 (duzelt · 2026-09-27): eşli sponsor kartı malzemenin TEK görünen kartıdır. Organik ikiz çip
+   (`data-rk-ikiz`, sayfa basar) DOM'da durum tutucudur: reklam.js kart tıklamasını ona iletir, donör seçimi/şeridi/sayacı ondan
+   yürütür. Donör `.mz`ye display verir ve canlı süzgeç satır içi `display` yazar; ikiz ikisinde de görünmez kalır (odak ve ekran
+   okuyucu dahil). */
+#paneHave .mz[data-rk-ikiz]{display:none!important}
+
+/* ── Sponsorlu şef kartları — sefkart-ekibi (Beyar notu, 2026-09-27) ──
+   /sefler SF-N2: organik `.sef-card` iskeleti (avatar · ad · unvan yerinde "Sponsorlu" · alt düğme); kartın TEK bağı alttaki düğme,
+   kartın tamamı ona tıklanır (organik kartın `onclick`i gibi). Sol şerit sitedeki öbür sponsor kartlarının hilal kalıbında: 16 px
+   köşeli kart kendi köşesinde kırpar (puf/ansiklopedi/tarif kartlarının `overflow:hidden`i) — kırpılmayan `::before` 4 px'lik düz
+   çubuk köşe kavsinin dışına taşıyor, gölge şeridi kavsi izliyordu: ikisi arasında çentik. */
+[data-native-sponsor].sef-card{overflow:hidden}
+[data-native-sponsor].sef-card .rk-sef-cta{text-decoration:none;display:inline-block}
+[data-native-sponsor].sef-card .rk-sef-cta::after{content:"";position:absolute;inset:0}
+/* markada organik kartın sayaç satırı (tarif · takipçi) yok; düğme organik kartın düğmesinin yerinde durur: unvanla arası organik
+   kartınki kadar — sayaç satırının üst boşluğu 13 px + satır yüksekliği 12,5 px × 1,55 + düğme boşluğu 16 px (ölçüldü 1440/390:
+   48,375 px; kart boyu organikle aynı, altındaki kartlar kaymaz), satır kartları gerdiğinde düğme dipte kalır. */
+[data-native-sponsor].sef-card .sef-rank{margin-bottom:calc(13px + 12.5px * 1.55 + 16px)}
+[data-native-sponsor].sef-card .sef-foot{margin-top:auto}
+
+/* Faz 6b · %30 yoğunluk: mobilde sınırı aşan birim gizlenir (reklam.js). */
+[data-rk-yogunluk-gizli] { display: none !important; }
+[data-rk-tam-sira-gizli] { display: none !important; }
+
+/* Banner dönüşü (6b Y6): ok kipinde "Sonraki" düğmesi birimin altında sağda (donör `.row-nav` kalıbı). */
+.rk-donus-ok { justify-content: flex-end; margin-top: var(--sp-2); }
+
+/* Eşlik (2 Kas 2026, "Yanında ne iyi gider?"): eşlik satırı malzeme sponsoru kalıbıyla çizilir ama R6 dışında kendi "Listeye ekle"si
+   vardır; sağ üstteki `.ing-acts` (30px düğme) Sponsorlu etiketinin üstüne binmesin diye etiket satırı düğme kadar içeri alınır.
+   Yalnız eşlik düğmesi taşıyan satırda geçerli — öbür sponsorlu satırlar bayt bayt aynı. */
+.ing-row.rk-malzeme:has(.ing-add) > label { padding-right:calc(30px + var(--sp-2)); }
+
+/* TD-ESLIK (2 Kas 2026, "Yanında ne iyi gider?" kartı · `parcalar/tarif-detay/malzemeler`): kart TD-ING satırının kabıdır
+   (`li.ing-row.rk-malzeme`) ama etiket satırı yok — "Sponsorlu" kabın doğrudan çocuğu. TD-ING'de etiketi taşıyan `> label`
+   gibi (`position:relative` + `z-index:1`, yukarıda) markanın zemininin (`.rk-malzeme-zemin` filigranı) üstünde durur.
+   TD-ING satırında etiket label'ın içindedir; bu seçici yalnız eşlik kartına uyar. */
+.ing-row.rk-malzeme > .rk-etiket { position:relative; z-index:1; }
+/* TD-ESLIK kartı (Beyar 2 Kas, UI düzeltmesi): büyük "Listeye ekle" kalktı; sepet ikonu satırların `.ing-acts`'ı olarak kartın sağ üst
+   köşesinde (yukarıdaki `.ing-row.rk-malzeme .ing-acts` konumu). "Sipariş Et" TD-ING kartının düzeniyle (sağ sütun, görsel + düğme). */
+
+/* TD-ESLIK kartı "3 · Zarif satır" (Yasin Bey seçimi, 3 Kas 2026 · `components/reklam/eslik-karti.blade.php`; önizleme
+   tasks/eslik-varyant.html?alt=3). Kap TD-ING satırınınki (`.ing-row.rk-malzeme`: sepet konumu, "Sponsorlu" rozeti); her kural
+   `.eslik-kart`a bağlı — TD-ING satırları bayt bayt aynı. Renk yalnız kreatiften: --rk-marka (sahne ışığı, kenar) ve --rk-dugme
+   (rozet + düğme), `MarkaRengi::css`. Beyaz kart: solda ışıklı ürün sahnesi; sağda logo + Sponsorlu, ad, bilgi, tam genişlik düğme. */
+.ing-row.rk-malzeme.eslik-kart {
+  display:grid; grid-template-columns:104px minmax(0,1fr); grid-template-rows:30px auto auto;
+  grid-template-areas:"sahne ust" "sahne govde" "sahne dugme"; gap:var(--sp-2) var(--sp-4);
+  padding:var(--sp-3); color:var(--ink); background:var(--paper);
+  border:1px solid color-mix(in srgb, var(--rk-marka) 14%, var(--line)); border-radius:var(--radius-lg); box-shadow:var(--sh-sm);
+  transition:box-shadow .2s ease;
+}
+.ing-row.rk-malzeme.eslik-kart:hover { box-shadow:var(--sh-md); }
+.ing-row.rk-malzeme.eslik-kart--gorselsiz { grid-template-columns:minmax(0,1fr); grid-template-areas:"ust" "govde" "dugme"; }
+.ing-row.rk-malzeme.eslik-kart .rk-etiket { margin:0; justify-self:start; align-self:center; }
+/* Ürün sahnesi: marka tonlu ışık; görsel kutusu oran kovasından — kare cover + center, dikey/yatay/serbest kırpmadan contain,
+   şişe zemine basar (alt orta), altında marka tonlu yumuşak gölge. Boyut CSS render ölçüsü (104 × en az 148). */
+.eslik-kart-sahne {
+  grid-area:sahne; position:relative; display:block; box-sizing:border-box; width:104px; height:100%; min-height:148px;
+  padding:var(--sp-3) var(--sp-4); border-radius:var(--radius-md);
+  background:radial-gradient(80% 70% at 50% 80%, color-mix(in srgb, var(--rk-marka) 16%, white) 0, color-mix(in srgb, var(--rk-marka) 5%, white) 75%);
+}
+.eslik-kart-sahne::after { content:""; position:absolute; left:18%; right:18%; bottom:calc(var(--sp-3) - 5px); height:10px; border-radius:50%; background:radial-gradient(closest-side, color-mix(in srgb, var(--rk-marka) 34%, transparent), transparent); }
+.eslik-kart-gorsel { position:relative; z-index:1; display:block; width:100%; height:100%; background:no-repeat center bottom / contain; filter:drop-shadow(0 6px 6px color-mix(in srgb, var(--rk-marka) 28%, transparent)); transition:transform .25s ease; }
+.eslik-kart-sahne--yatay .eslik-kart-gorsel { background-position:center; }
+.eslik-kart-sahne--kare .eslik-kart-gorsel { background-size:cover; background-position:center; filter:none; }
+.eslik-kart:hover .eslik-kart-gorsel { transform:translateY(-3px); }
+/* Üst satır: logo (çerçevesiz, oranı korunur) + Sponsorlu; sağ üstteki sepet ikonuna yer bırakılır. */
+.eslik-kart-ust { grid-area:ust; display:flex; align-items:center; gap:var(--sp-2); min-width:0; padding-right:calc(30px + var(--sp-2)); }
+.eslik-kart-logo { display:block; flex:none; width:60px; height:26px; background:no-repeat left center / contain; }
+.eslik-kart-marka { font-family:GilroyBd, Gilroy, system-ui, sans-serif; font-weight:700; font-size:14px; color:var(--ink); }
+.eslik-kart-govde { grid-area:govde; display:flex; flex-direction:column; gap:var(--sp-1); align-self:center; min-width:0; }
+.eslik-kart-ad { display:block; margin:0; font-family:GilroyBd, Gilroy, system-ui, sans-serif; font-weight:700; font-size:17px; line-height:1.2; letter-spacing:-.01em; color:var(--ink); overflow-wrap:anywhere; }
+/* Bilgi: parçalar " · " ile bölünmüş; ayraç her parçanın SOLUNDA, satır başındaki ayraç taşma payında kırpılır → nokta yalnız iki
+   bilgi arasında görünür. */
+.eslik-kart-bilgi { margin:0; overflow:hidden; font-size:13px; line-height:1.45; color:var(--slate-2); }
+.eslik-kart-bilgi > span { display:flex; flex-wrap:wrap; margin-left:-14px; }
+.eslik-kart-bilgi > span > span { position:relative; min-width:0; padding-left:14px; }
+.eslik-kart-bilgi > span > span::before { content:"·"; position:absolute; left:0; width:14px; text-align:center; font-weight:700; }
+.eslik-kart-siparis {
+  grid-area:dugme; align-self:end; display:inline-flex; align-items:center; justify-content:center; gap:var(--sp-2);
+  box-sizing:border-box; width:100%; min-height:44px; margin:0; padding:0 var(--sp-4); border:0; border-radius:var(--radius-md);
+  background:var(--rk-dugme); color:#fff; font-family:GilroyBd, Gilroy, system-ui, sans-serif; font-weight:700; font-size:14px;
+  line-height:1; letter-spacing:.01em; white-space:nowrap; cursor:pointer; transition:background-color .15s ease, box-shadow .15s ease;
+}
+.eslik-kart-siparis i { font-size:12px; transition:transform .15s ease; }
+.eslik-kart-siparis:hover { background:color-mix(in srgb, var(--rk-dugme) 84%, black); box-shadow:0 6px 16px color-mix(in srgb, var(--rk-dugme) 30%, transparent); }
+.eslik-kart-siparis:hover i { transform:translateX(2px); }
+.eslik-kart-siparis:focus-visible { outline:2px solid var(--rk-dugme); outline-offset:2px; }
+@media (prefers-reduced-motion: reduce) {
+  .ing-row.rk-malzeme.eslik-kart, .eslik-kart-gorsel, .eslik-kart-siparis, .eslik-kart-siparis i { transition:none; }
+  .eslik-kart:hover .eslik-kart-gorsel, .eslik-kart-siparis:hover i { transform:none; }
+}
+@media (max-width: 640px) {
+  .ing-row.rk-malzeme.eslik-kart { grid-template-columns:96px minmax(0,1fr); grid-template-rows:34px auto auto; column-gap:var(--sp-3); }
+  .ing-row.rk-malzeme.eslik-kart--gorselsiz { grid-template-columns:minmax(0,1fr); }
+  .eslik-kart-sahne { width:96px; }
+  .eslik-kart-ust { padding-right:calc(34px + var(--sp-2)); }
+}

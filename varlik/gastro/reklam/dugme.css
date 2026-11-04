@@ -1,0 +1,3 @@
+/* Reklam CTA'ları organik .dugme ile aynı kanon tokenını kullanır. Etiket/kapama çipleri dahil değildir. */
+:is(.rk-slot,.rk-std,.rk-foto-kart,.rk-siparis-kart) :is(.rk-serit-cta,.rk-pano-cta,.rk-rectangle-cta,.rk-std-cta,.rk-foto-cta,.sp-go,.rk-market-cta,.rk-market-aktar,.rk-liste-partner,.rk-siparis-kanal,.rk-ob-cta,.rk-sef-cta,.rk-dolap-cta),
+.ing-sponsor.sp-line>.sp-go,.rk-pisirme>a,.rk-liste-partner,.rk-market-aktar,.rk-market-cta{border-radius:var(--yuvarlak-md,12px)!important}

@@ -1,0 +1,13 @@
+/* Reklam modülü: marka renkleri (App\Servisler\Reklam\MarkaRengi::css(), modülde satır içi <style>) ve eşlik kartı görselleri (modülde satır içi background-image) — prototipte dosya. full-stack fda37161c5 · araclar/reklam-varlik.mjs üretir, elle düzenlenmez. */
+.rk-renk-006c3c{--rk-marka:#006c3c;--rk-dugme:#006c3c;--rk-marka-metin:#ffffff;--rk-katman:#006438;--rk-yazi:#ffffff}
+.rk-renk-00824e{--rk-marka:#00824e;--rk-dugme:#00824e;--rk-marka-metin:#ffffff;--rk-katman:#00643c;--rk-yazi:#ffffff}
+.rk-renk-142328{--rk-marka:#142328;--rk-dugme:#142328;--rk-marka-metin:#ffffff;--rk-katman:#142328;--rk-yazi:#ffffff}
+.rk-renk-153158{--rk-marka:#153158;--rk-dugme:#153158;--rk-marka-metin:#ffffff;--rk-katman:#153158;--rk-yazi:#ffffff}
+.rk-renk-36332e{--rk-marka:#36332e;--rk-dugme:#36332e;--rk-marka-metin:#ffffff;--rk-katman:#36332e;--rk-yazi:#ffffff}
+.rk-renk-a71746{--rk-marka:#a71746;--rk-dugme:#a71746;--rk-marka-metin:#ffffff;--rk-katman:#a71746;--rk-yazi:#ffffff}
+.rk-renk-b61c2b{--rk-marka:#b61c2b;--rk-dugme:#b61c2b;--rk-marka-metin:#ffffff;--rk-katman:#b61c2b;--rk-yazi:#ffffff}
+.rk-renk-d0172b{--rk-marka:#d0172b;--rk-dugme:#d0172b;--rk-marka-metin:#ffffff;--rk-katman:#c11528;--rk-yazi:#ffffff}
+.rk-renk-e21b70{--rk-marka:#e21b70;--rk-dugme:#e01b6f;--rk-marka-metin:#000000;--rk-katman:#eb649e;--rk-yazi:#000000}
+.rk-renk-f17600{--rk-marka:#f17600;--rk-dugme:#b75a00;--rk-marka-metin:#000000;--rk-katman:#f17600;--rk-yazi:#000000}
+[data-rk-slot="TD-ESLIK"] .eslik-kart-gorsel{background-image:url('pin-cool-lime-600-eslik.webp')}
+[data-rk-slot="TD-ESLIK"] .eslik-kart-logo{background-image:url('pin-logo-512-logo.webp')}

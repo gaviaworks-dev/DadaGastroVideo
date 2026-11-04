@@ -1,0 +1,155 @@
+# reklam ajanı — durum (REVİZE 1 · madde 7)
+
+## ▶ ŞU AN (5 Kas)
+- ✅ Keşif · ✅ varlıklar · ✅ API (`src/video/reklam.mjs`, `varlik/video/css/reklam.css`, `varlik/video/js/reklam.js`) · ✅ kapı (`araclar/reklam-kapisi.mjs`)
+  — geçici sınama sayfalarında 457 yeşil / 0 kırmızı, BOZ kırmızıları alındı.
+- ⏳ ENTEGRASYON hub / izle / kabuk'ta (aşağıda satır satır). Gelince: `node araclar/reklam-kapisi.mjs` (gerçek sayfalar).
+- Commit yok (lead). Sunucum: `PORT=8798 node araclar/sunucu.mjs` (PID dosyası scratchpad'de; iş bitince yalnız o PID öldürülür).
+
+## Dosyalarım
+| dosya | ne |
+|---|---|
+| `araclar/reklam-render.php` | full-stack reklam modülünün Blade bileşenlerini **gerçek kodla** render eder (dev MySQL yalnız SELECT; önbellek/oturum bellekte) |
+| `araclar/reklam-varlik.mjs` | render → `src/video/reklam-donor.json`; modül CSS → `varlik/gastro/reklam/` (aynı alt yol, değişmez; yalnız kök-mutlak `@import` göreli); sahne → `varlik/gastro/reklam/sahne/`; kreatif görselleri → `varlik/video/reklam/` (cwebp); marka renkleri + eşlik görselleri → `varlik/video/reklam/kreatif.css` |
+| `src/video/reklam-donor.json` | üretilir, elle düzenlenmez (render edilmiş işaretleme + kreatif künyesi) |
+| `src/video/reklam.mjs` | API (aşağıda) |
+| `varlik/video/css/reklam.css` | yalnız göster/gizle, sarmalayıcı, anahtar; reklam görünümü modülün CSS'inden |
+| `varlik/video/js/reklam.js` | `?reklam=1`, anahtar, iç bağlar, modül CSS yükleme, standart katman (side · alt bar) ve video kuralları |
+| `araclar/reklam-kapisi.mjs` | kapı |
+| `varlik/gastro/reklam/**`, `varlik/video/reklam/**` | varlıklar (3,2 MB; 2,2 MB'ı KRUPS videolu kreatifi mp4) |
+
+Yeniden üretim: `node araclar/reklam-varlik.mjs` (DB sayımı önce/sonra **aynı**: 32 tablo, reklam_sayim_izleri 102 · gunluk_metrik 627 · konum_metrik 837 · cache 24 · sessions 320 — iki koşumda da fark 0).
+
+## 1. Keşif — full-stack reklam modülü (gastro-video `fda37161c5`, canlı kod)
+
+### Video için tanımlı slot VAR
+`config/reklam-slotlari.php` + `config/reklam-yayilim.php` + `config/reklam.php` (tek bayrak `REKLAM_ENABLED`; standart biçimler `REKLAM_SIDE/POPUP/ALTBAR/VIDEO`; `scripts/deploy/deploy6/yerel-prova.sh`'de dördü de `true`).
+
+| kod | tip (format_type) | masaüstü / mobil | davranış | hangi sayfa | kaynak |
+|---|---|---|---|---|---|
+| **VD-B1** | native_strip (İnce banner, `x-reklam.slot bicim=serit`) | Kolon × 120 px / Kolon × 96 px | yayılım "ust": hero'dan sonra, `.rk-yayilim-alan.wrap.rk-yayilim-bant` | /video-mutfagi (video-liste) | reklam-slotlari.php:90 · reklam-yayilim.php:21 · video-mutfagi.blade.php:214 |
+| **VD-B1-END** | native_strip | Kolon genişliği | yayılım "son": sayfa sonu | /video-mutfagi | slotlari:126 · video-mutfagi.blade.php:571 |
+| **VD-N1** | native_module (organik kartla aynı) | Organik kart ile aynı | liste arası: arşiv ızgarasında **3. karttan sonra** bir kart (`partials/kart/video` sponsor dalı) | /video-mutfagi | slotlari:103 · yayilim.php:21 (`native_kaynak` STD-VIDEO) · video-mutfagi.blade.php:536–538 |
+| **VS-B1** / **VS-B1-END** | native_strip | 120/96 px · kolon | üst / son | /video-mutfagi/seriler | slotlari:91,127 · seriler.blade.php:292,298 |
+| **VD-S1** / **VD-S1-END** | native_strip | 120/96 px · kolon | üst / son (seri sayfası; bölüm `?bolum=` aynı sayfa) | /video-mutfagi/seri/{slug} | slotlari:92,128 · seri…blade.php:238,335 |
+| **SF-P1** / **SF-P1-END** | native_strip | 120/96 px · kolon | üst / son | /sefler/{kullanıcı} | slotlari:89,125 · sefler__burcu.oymen.blade.php:271,589 |
+| **STD-VIDEO** | video (Videolu kreatif) | 4:3 / kolon × 120 px · mobil 96 px (`--rk-video-kenar` 180/128) | **karar 151**: sayfanın İLK yayılım yuvasının YERİNE, sayfa başına bir; sessiz, posterli, görünürken oynar; yuvanın kendi kreatifi `data-rk-review-static hidden` | yayılım planındaki her sayfa | slotlari:9 · VideoYerlesimi.php · slot.blade.php:52 · reklam-yogunluk.php:29 |
+| **STD-SIDE** + **STD-SIDE-LEFT** | side (Dikey sticky) | 120 px × başlık altından eski alt kenara / **mobilde yok** | ≥1280 px; >1366'da iki yan, değilse yalnız sağ; hero başlık çizgisini geçmeden ve altbilgi görünürken gizli | standart katman: `uygunYol` /video-mutfagi*, /sefler… | slotlari:5–6 · StandartReklamlar.php:15–19 · standart.js `sideLayout`/`sidePairGeometry` |
+| **STD-ALTBAR** | altbar (Alt sabit bar) | Kolon × 72 px / Kolon × 64 px | içerik kolonu hizası; mobilde `.bottom-nav`ın 12 px üstü; sabit eylem şeridi (`.rd-actbar`, `#actbar`) varsa yok; side ile aynı anda (karar 149.2) | standart katman | slotlari:8 · standart.js `alignAltbar` · StandartReklamlar.php:62 |
+| STD-POPUP | popup | 480 px / alttan kart | en erken 2. sayfa, 9 sn ya da %50 kaydırma, oturumda 1; sayfada video varsa yok | standart katman | slotlari:7 · reklam-yogunluk.php:27 |
+| **TD-ESLIK** (eşlik kartı) | ingredient_sponsor ("Yanında ne iyi gider?") | kapsayıcı genişliği | malzeme listesinin EN ALTINDA kendi `ul.ing-list[data-eslik-kutusu]`ı, "3 · Zarif satır" | tarif detayı | slotlari:31 · components/reklam/eslik-karti.blade.php · parcalar/tarif-detay/malzemeler.blade.php:121–126 |
+| Seri sponsor etiketi | `.rk-native-hap` "Sponsorlu · X" | — | yalnız etkin sponsor (`VideoServisi::seriSponsoru`, 3 Kas kararı) | hub ray adı · seriler · seri bandı (eyebrow ile h1 arası) | VideoServisi.php:424 · seri…blade.php:213–214 · lang/tr/arayuz_video.php:50 |
+| (bilgi) AS-VID, HD-WEEK, CM-TOP | native_video (ana sayfa video rayı) · native_week (mega menü) · cook_strip (pişirme modu) | — | kilitli/onaylı yüzeyler (ana sayfa, header) — Video sayfalarında kullanılmadı | slotlari:16,73 · reklam-yogunluk.php `kilitli_slotlar` |
+
+`/reklam-ver` → bugün `/marka-is-birlikleri` (301), satış vitrini `config/reklam-satis-vitrini.php`: sayfa sekmeleri arasında `video-liste`, `video-seriler`, `video-seri`, `sef-profil` (satır 29); biçimler `native_video` "Video kartı · Komşu video kartı" (54) ve `video` "Videolu banner · Banner 120 / 96 px · 4:3 video" (73); paket kalemi `urun-video` "Videolu banner ve Video mutfağı listesinde kart" (108). Yani satılan Video yerleşimleri = yukarıdaki VD/VS/STD-VIDEO.
+
+**Video için tanımlı olmayan:** tekil izleme sayfası (full-stack'te YOK — videolar seri sayfasında `?bolum=` ile açılır) ve kısa video görüntüleyici (Dada Akış'ta slot YOK).
+
+### Örnek kreatifler (dev `gastro_v2_video`; hepsi `demo=1` = canlıdaki demo kayıtları, panelde kayıtlı)
+| yuva | marka · kreatif | kampanya · rezervasyon |
+|---|---|---|
+| VD-B1 (videolu banner kapalıyken) | Arzum OKKA Master Grind · 91 (sahne) | 23 · 312/88 |
+| VD-B1 yerinde STD-VIDEO | **KRUPS Coffee Crush** · 101 (mp4 + poster) | 42 · 128 |
+| VD-N1 | KRUPS "Kahve hazırlama teknikleri" · 109 | 42 · 129 |
+| VS-B1 · VD-S1 | Tefal Ingenio · 92 · 93 (Tefal sahnesi) | 15 · 18 · 19 |
+| SF-P1 | Söke Geleneksel Un · 90 (Söke sahnesi) | 13 · 4/311 |
+| *-END (dördü) | Pınar Süt 1 L · 130/131/132/129 (Pınar sahnesi) | 19 |
+| STD-SIDE / STD-SIDE-LEFT | Uber Eats · 98 / Migros Market · 137 | 39 · 125 / 43 · 338 |
+| STD-ALTBAR | Namet Antrikot · 100 | 41 · 315 |
+| TD-ESLIK | **PIN Cool Lime** · 188 (canlı panel kaydı; dev tabanda yok → `RAPOR-td-eslik.md §5` değerleri, görseller gastro-reklam-eslesme `rapor/reklam/canli-gorseller/`); sipariş kanalları Yemeksepeti Market 139 · Migros Hemen 142 | 47 · 348 |
+| Seri sponsoru | Tefal (veren 28) → "Akıllı Ekipman & Test" | prototip seçimi (karar R2) |
+
+## 2. Yerleşim planı (sayfa × yuva)
+| sayfa | yuvalar | gerekçe (modülün kuralı) |
+|---|---|---|
+| **hub** `video-mutfagi.html` | spotlight'tan sonra **VD-B1 yerinde STD-VIDEO** (KRUPS videolu banner) · "Tüm videolar" ızgarasında 3. karttan sonra **VD-N1** · `.vd-hub` sonunda **VD-B1-END** · "Akıllı Ekipman & Test" rayında ve spotlight "Sponsorlu Şef" sekmesinde **Sponsorlu · Tefal** · standart katman | yayılım planı `video-liste` + karar 151 (ilk yuva videolu) + liste arası native (blade:536) + seri sponsoru |
+| **seriler** `video-seriler.html` | sade hero'dan sonra **VS-B1** (Tefal) · sonda **VS-B1-END** (Pınar) · Akıllı Ekipman afişinin görselinde **Sponsorlu · Tefal** · standart | plan `video-seriler` |
+| **seri** `video-seri-<slug>.html` | seri hero'dan sonra **VD-S1** (Tefal) · sonda **VD-S1-END** (Pınar) · eyebrow ile h1 arasında **Sponsorlu · Tefal** (yalnız Akıllı Ekipman) · yer tutucu "Sponsor alanı" reklamlıda gizli · standart | plan `video-seri` + seri…blade.php:213 |
+| **izle** `video-izle-<slug>.html` | izleme bloğundan (`.vd-izle__govde`) sonra **VD-S1** · benzerlerden sonra **VD-S1-END** · malzeme panelinin listesinin sonunda **TD-ESLIK** eşlik kartı (tarifli videolarda) · seri satırında **Sponsorlu · Tefal** · standart | full-stack'te izleme = seri sayfasının bölüm görünümü → `video-seri` planı; eşlik kartı tarif malzeme listesinin altı kuralı (malzemeler.blade:121) |
+| **şef** `video-sef-<k>.html` | kanal başlığından sonra **SF-P1** (Söke) · sonda **SF-P1-END** (Pınar) · standart | plan `sef-profil` |
+| **kısa** `video-kisa.html` | akışta 3. öğeden sonra **sponsorlu kısa öğe** (VD-N1 kuralı, KRUPS videolu kreatifi) · **standart katman YOK** | native_module "organik kartla aynı" + 3. öğe kuralı; tam ekran görüntüleyici = modülün pişirme modu kuralı (#cookmode açıkken standart biçimler gizli) |
+
+Standart katman (tüm video sayfaları, kısa hariç): 1440'ta Migros (sol) + Uber Eats (sağ) side çifti hero geçince; alt sabit bar Namet (1440 + 390). 390'da side yok (modül: `viewport<1280 → null`), alt bar `.bottom-nav`ın üstünde.
+
+## 3. API (src/video/reklam.mjs) — kullanım sözleşmesi
+```js
+import { reklamSlotu, sponsorEtiketi, reklamKatmani, reklamAnahtari } from '../reklam.mjs';
+reklamSlotu('ust' | 'alt' | 'native' | 'eslik', o, { sayfa: 'hub'|'seriler'|'seri'|'izle'|'sef'|'kisa' })  // → HTML
+sponsorEtiketi(seriVeyaSlug)                 // satır: <span class="rk-native-satir-sag vh-sponsor …">; sponsorsuz seride ''
+sponsorEtiketi(seriVeyaSlug, { medya: true })// kart görselinin sağ üstü (konumlu kap içinde; kart boyu değişmez)
+reklamKatmani(o, { sayfa })                  // standart katman; kısa'da ''
+reklamAnahtari()                             // alt menü anahtarı (Gastro .chip)
+```
+- Her yuva `<div class="vd-reklam" data-vd-reklam="<KOD>" hidden><template>…modülün işaretlemesi…</template></div>`. Reklamsız görünümde
+  modül işaretlemesi DOM'da **yok** (şablonda), kap `hidden` → yer kaplamaz, içeriği itmez, modül CSS'i yüklenmez.
+- `ust`/`alt`: kendi `.wrap`ı vardır → **bölüm (section) düzeyinde** konur, bir `.wrap`ın içine değil.
+- `native` (hub): kap `display: contents` → ızgarada komşu kartla aynı hücre. Süzgeç açıkken hub.js kaba `data-vd-suzgec-gizli` yazar.
+- Sayfadaki yer tutucular (ör. "Sponsor alanı · prototip örneği") `data-vd-reklamsiz` alırsa reklamlı görünümde gizlenir.
+- `?reklam=1` → `html.vd-reklamli`; `window` üzerinde `vd:reklam` olayı (`detail.acik`), `window.vdReklam.acik()`.
+- Sabit konumlu hero'lar `data-rk-hero=""` taşır (side çifti hero başlık çizgisini geçince görünür — modülün kuralı).
+- Tarayıcı deposu YOK; anahtar `history.replaceState`; açıkken bütün iç `*.html` bağları `reklam=1` taşır (sonradan eklenen bağlar da: MutationObserver).
+
+## 4. ENTEGRASYON (yazılacak satırlar — dosya sahipleri ekler)
+**kabuk · `araclar/build.mjs`**
+1. üstte: `import { reklamKatmani, reklamAnahtari } from '../src/video/reklam.mjs';`
+2. `altMenu()` (satır ~103): `+ \`<div class="vd-ust__menu">${bag}</div>\`` satırının ARDINA `+ reklamAnahtari()` (anahtar `.wrap` flex'inde sağa yaslanır; CSS bende).
+3. `videoSayfasi()` (satır ~109): `kabukEkle(html, { css, js, video: true })` → `kabukEkle(html, { css: [...css, 'reklam'], js: [...js, 'reklam'], video: true })` ve
+   `</body>`'den önce `reklamKatmani(ortak, { sayfa: modul })` (modül adı = sayfa tipi: hub · seriler · seri · izle · sef · kisa; kisa için '' döner).
+   (index.html ve tarif-*.html'e EKLENMEZ: Video sayfası değiller; oralara giden bağ `reklam=1` taşır ama sayfa reklamsız kalır.)
+
+**hub · `src/video/sayfalar/hub.mjs`** (`import { reklamSlotu, sponsorEtiketi } from '../reklam.mjs';`)
+1. satır 56: `<section class="vd-spot" aria-labelledby="vd-h1">` → `<section class="vd-spot" aria-labelledby="vd-h1" data-rk-hero="">`
+2. satır 47 (Sponsorlu Şef sekmesi): `<span class="vd-ornek vd-ornek--koyu" data-vd-reklamsiz>…Sponsor alanı · prototip örneği</span>${x.sponsor && s ? sponsorEtiketi(s.slug) : ''}`
+3. satır 116: `<aside class="vd-sponsor"` → `<aside class="vd-sponsor" data-vd-reklamsiz`
+4. satır 126 `</h3>`'ün ARDINA: `${sponsorEtiketi(s.slug)}` (başlığın altında kendi satırı)
+5. `main` birleştirme: `${spot}` ile `${suzgec}` arasına `${reklamSlotu('ust', o, { sayfa: 'hub' })}`; `${tum}`'dan sonra (`.vd-hub` kapanmadan) `${reklamSlotu('alt', o, { sayfa: 'hub' })}`
+6. satır 180: ilk partide 3. karttan sonra: `[...karisik.slice(0, 3).map(kart), reklamSlotu('native', o, { sayfa: 'hub' }), ...karisik.slice(3, ILK).map(kart)].join('\n   ')`
+7. **hub.js:** (a) süzgeç açıkken native kaba `data-vd-suzgec-gizli` yaz, temizlenince kaldır; `[data-vd-reklam]`in `hidden`ına dokunma (reklam.js'in);
+   (b) sayım/sonsuz yüklemede native hücreyi video sayma; (c) **yarım satır**: reklamlı ve süzgeçsiz görünümde ilk parti 12+1 hücre olur →
+   `vd:reklam` olayında (`detail.acik`) ilk partinin SON organik kartını devam kuyruğuna geri al / kapatınca geri koy (ya da eşdeğeri); 1440/390 son satır tam.
+8. **kart.mjs** `seriAfisi` satır 211: `<div class="vd-seri-afis__medya">${kolaj}` → `…${kolaj}${sponsorEtiketi(s.slug, { medya: true })}` (seriler + hub "diğer seriler")
+9. **seriler.mjs** satır 13: `<section class="vd-sade-hero" …>` + ` data-rk-hero=""`; bu section'dan sonra `${reklamSlotu('ust', o, { sayfa: 'seriler' })}`; `main`in sonuna `${reklamSlotu('alt', o, { sayfa: 'seriler' })}`
+10. **seri.mjs** satır 26 hero'ya ` data-rk-hero=""`; satır 31 eyebrow'un ARDINA `${sponsorEtiketi(s.slug)}`; satır 57 `<aside class="vd-sponsor"` → `… data-vd-reklamsiz`; hero section'dan sonra `${reklamSlotu('ust', o, { sayfa: 'seri' })}`; `main`in sonuna `${reklamSlotu('alt', o, { sayfa: 'seri' })}`
+
+**izle · `src/video/sayfalar/izle.mjs`** (`import { reklamSlotu, sponsorEtiketi } from '../reklam.mjs';`)
+1. satır 31: `<section class="vd-izle__sinema" aria-label="Video">` → `… data-rk-hero="">`
+2. satır 44: `<a class="vd-izle__seri" …>…</a>` ARDINA `${sponsorEtiketi(s.slug)}`
+3. `.vd-izle__govde` kapanışından SONRA, `vd-izle__benzer`den ÖNCE: `${reklamSlotu('ust', o, { sayfa: 'izle' })}`; benzer section'ının ARDINA: `${reklamSlotu('alt', o, { sayfa: 'izle' })}` (pişirme diyaloğundan önce)
+4. malzeme paneli `<div class="vd-panel__liste" data-vd-mz-liste>` içinde son `section.vd-panel__grup`'tan SONRA: `${t ? reklamSlotu('eslik', o, { sayfa: 'izle' }) : ''}`
+5. **sef.mjs** satır 44: `<section class="vd-kanal__bas">` → `… data-rk-hero=""`; ardına `${reklamSlotu('ust', o, { sayfa: 'sef' })}`; `main`in sonuna `${reklamSlotu('alt', o, { sayfa: 'sef' })}`
+6. **kisa.mjs** satır 52: `${kisalar.map(oge).join('')}` → 3. öğeden sonra `reklamSlotu('native', o, { sayfa: 'kisa' })` (hub katmanında da aynı fonksiyon)
+7. **kisa.js:** öğe listesi `vd:reklam` olayında yeniden taranır (reklamlıda 10 öğe, segment/sayaç "n / 10"); sponsorlu öğe
+   `[data-vd-dikey-oge="reklam"]`: oynatma reklam.js'te (sessiz video, görünürken), kisa.js simülasyonu bu öğede çalışmaz; "Tarife git/Kaydet/Ses" yok.
+   (Anahtar kısa sayfada tam ekran görüntüleyicinin altında kalır → istenirse `.vd-dikey__ust-satir`'a `reklamAnahtari()`; yoksa sayfa `?reklam=1` bağıyla açılır.)
+
+## 5. Kapı ve kanıt
+`TABAN=http://localhost:8798/DadaGastroVideo/ node araclar/reklam-kapisi.mjs [--sinama] [tip…]` — 6 tip × 1440/390 × (reklamsız, reklamlı).
+- Geçici sınama sayfaları (derlenmiş sayfaların kopyası + yukarıdaki ENTEGRASYON satırları, scratchpad `sinama-uret.mjs`): **yeşil 457 · kırmızı 0**
+  (⚪ kısa: anahtar görüntüleyicinin altında → tıklama ölçülmedi, yazıldı).
+- BOZ kırmızıları (hepsi çıkış 1): `gorunur` (reklamsızda kaplar doldu → "dolu kap 4") · `depo` (localStorage yazımı) · `bag` (iç bağ 0/130, 24/154) ·
+  `gorsel` (ürün webp 404 → kırık görsel + 404) · `ortu` (alt bar oynatıcının üstüne → "div.vd-oyn @160,367 ← rk-std-mesaj") · `anahtar` (tıklama yutuldu → adres değişmedi).
+  Kapının kendi kusurları bu turda bulundu ve düzeltildi: `scroll-behavior:smooth` yüzünden kaydırma bitmeden ölçüyordu (→ `behavior:'instant'`);
+  örtme denetimi 2 noktaydı, ince şerit aradan kaçtı (→ 24 px adımlı ızgara); gizli sekmedeki yuva "görünmüyor" sayılıyordu (→ sekmesi açılıp ölçülür).
+- Görüntüler (sınama sayfaları): scratchpad `reklam/ss/` — `rk-sinama-<tip>-<gen>[-r]-<kaydırma>.png`, `eslik-1440/390.png`, `kisa-reklam-*.png`.
+
+## 6. Kararlar (önerimle verdim)
+- **R1** Modülün JS'i kopyalanmadı (reklam.js · standart.js sayım/sıklık için sunucuya POST eder, oturum deposuna yazar; standart.js içe aktarılınca kendini başlatır). Aynı kurallar reklam.js'te: sideLayout/sidePairGeometry (≥1280, >1366 iki yan, 120 px, inset 8, üst = başlık+24, ≥360 yükseklik, hero/altbilgi kapısı), alignAltbar, karar 149.2 (side + bar birlikte), video oynatma kuralı. Başlık ölçüsüne Video alt menüsü (`.vd-ust`) dahil; genel `header` değil `header.header` (izleme sayfasındaki `header.vd-izle__bas` başlık sanılmasın).
+- **R2** Seri sponsoru prototip örneği: "Akıllı Ekipman & Test" → **Tefal** (Modül B "B2B sponsorluğa hazır"; canlı demodaki Tefal Ingenio kreatifleri airfryer/döküm/düdüklü bölümleriyle örtüşür). Spotlight "Sponsorlu Şef" sekmesi aynı seri → aynı etiket.
+- **R3** STD-POPUP prototipte yok: modülün sıklığı (en erken 2. sayfa, oturumda 1, sunucu oturumu) depolamasız statik sayfada uygulanamaz; her sayfada 9 sn sonra açılan pencere olurdu. Ayrıca modül sayfada video varken pop-up basmaz.
+- **R4** Videolu banner yalnız hub'da (VD-B1 yerinde). Modül kuralı her sayfanın ilk yuvasını videolu yapar; prototipte seriler/seri/izle/şef'te yuvanın kendi kreatifi (Tefal/Söke) gösterildi — izleme sayfasında asıl oynatıcının yanında ikinci oynayan video olmasın ve şerit kreatifleri de görünsün diye.
+- **R5** İzleme sayfası = full-stack seri sayfasının bölüm görünümü → `video-seri` planı (VD-S1/-END); "üst" şerit oynatıcı ile başlık arasına değil izleme bloğunun ardına (oynatıcı + başlık + yazılı tarif ilk ekranda bölünmesin).
+- **R6** Modülün `main:has(.rk-yayilim-alan){background:#fff}` kuralı prototipte nötr (zemin Gastro açık zemini kalır): reklam açılınca sayfanın geri kalanı değişmesin.
+- **R7** Native kartta tek satır metin "…" ile bitsin diye `.rk-kart-metin` daralabilir (modülün `text-overflow:ellipsis` niyeti; flex kabında görünmüyordu).
+- **R8** Eşlik kartı dar panelde (390'da ~300 px): logo + hap satırı kırılabilir (sepet düğmesinin altına girmesin). "Prototip örneği" notu hapın içinde değil bilgi satırının altında.
+- **R9** Seri sponsor hapı başlığın altında sola hizalı (modülün `.rk-native-satir-sag` sağ hizası satır içi kalıp içindir).
+- **R10** Alt sabit bar, sabit (perde) altbilgi göründüğünde gizlenir (side'ın "footer görünür" kuralı) — yoksa altbilginin son 90 px'ini örtüyordu; gövdeye bar kadar alt boşluk.
+- **R11** Kısa video sayfasında standart katman yok (tam ekran = pişirme modu kuralı); hub'daki kısa video katmanı, pişirme modu, tam ekran oynatıcı açıkken de side/bar gizli.
+- **R12** Satır içi stil yasağı: modülün `<style>` (marka rengi) ve eşlik kartının satır içi `background-image`'ı üretilmiş `varlik/video/reklam/kreatif.css`'e taşındı (aynı değerler; eşlik kuralları `[data-rk-slot="TD-ESLIK"]` seçicisiyle). Eşlik kartının üye formu (POST /hesabim/…) → aynı düğme bellekte "listeye eklendi" + kısa bildirim; "Sipariş Et" penceresi `<dialog>` (dış bağlar yeni sekme).
+- **R13** Tıklama adresi (`/reklam/t/<jeton>`) yerine kreatifin `hedef_url`'si (rel="sponsored nofollow noopener", yeni sekme); jetonlar basılmaz.
+- **R14** "Prototip örneği" notu modülün "Sponsorlu" etiketinin içinde (`Sponsorlu · prototip örneği`); 390 alt barda modülün etiket kısaltması yüzünden "Sponsorlu · proto…" görünür (açık).
+
+## 7. Açık kalanlar
+- 390 alt bar etiketinde not kısalıyor (R14) — istenirse alt barda notu marka adının yerine koymak.
+- 1440'ta side ile içerik kolonu arası 4 px (prototip `.wrap` 1176 px; modülün `reklam-yogunluk.side.gaps` 16 px'i standart.js'te uygulanmıyor — canlıyla aynı davranış).
+- Kısa akış öğesi kisa.js entegrasyonuna bağlı (sayaç "n / 9" kalır, simülasyon reklam öğesine de uygulanabilir) — izle'nin işi.
+- Kapı gerçek sayfalarda entegrasyondan sonra koşulacak; sınama sayfaları silindi (yeniden: scratchpad `reklam/sinama-uret.mjs`).

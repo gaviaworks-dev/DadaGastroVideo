@@ -1,0 +1,55 @@
+/* Video Mutfağı prototipi · reklam yerleşimleri (reklam ajanı). Reklamın GÖRÜNÜMÜ modülün CSS'inden gelir (varlik/gastro/reklam/*.css,
+   yalnız reklamlı görünümde reklam.js yükler); bu dosya yalnız göster/gizle, yerleşim sarmalayıcısı ve anahtar. Sözleşme: tasks/reklam-durum.md */
+
+/* Göster / gizle — kapalıyken her kap gizli ve boş (işaretleme <template> içinde) */
+.vd-reklam[hidden], html:not(.vd-reklamli) .vd-reklam { display: none !important; }
+html.vd-reklamli [data-vd-reklamsiz] { display: none !important; } /* reklamsız görünümün yer tutucuları (ör. "Sponsor alanı · prototip örneği") */
+
+/* "Reklamlı görünüm" anahtarı — Gastro .chip / .chip.active; alt menünün sağında */
+.vd-rk-anahtar { flex: none; display: inline-flex; align-items: center; gap: 8px; margin-left: auto; min-height: 36px; font-family: var(--vd-font-kalin); font-weight: 700; }
+.vd-rk-anahtar i { font-size: 14px; }
+.vd-rk-anahtar:focus-visible { outline: 3px solid var(--tomato, #DC3D17); outline-offset: 2px; }
+@media (max-width: 600px) {
+  .vd-rk-anahtar { padding-inline: 12px; min-width: 44px; min-height: 44px; justify-content: center; }
+  .vd-rk-anahtar__metin { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+
+/* Görünür "prototip örneği" notu modülün etiketinin içinde; ayrı biçim yok */
+.vd-rk-not { font: inherit; }
+.vd-rk-not--ayri { margin: 4px 0 0; font-size: 12px; line-height: 16px; color: var(--muted, #6B6B6B); } /* eşlik kartında etiket hap olduğu için not bilgi satırının altında */
+
+
+/* Yerleşim sarmalayıcıları */
+.vd-reklam--kart { display: contents; }               /* ızgarada komşu kartla aynı hücre: kap kutu kurmaz, .r-card hücredir */
+html.vd-reklamli .vd-reklam--kart:not([hidden]) { display: contents !important; }
+.vd-reklam--eslik { margin-top: var(--vd-ara, 16px); }
+/* Modülün sayfa geneli zemin kuralı (main:has(.rk-yayilim-alan){background:#fff}) full-stack sayfa iskeleti içindir; prototipte reklam
+   açılınca sayfanın geri kalanı değişmesin diye zemin Gastro açık zemininde kalır (karar R6). */
+html.vd-reklamli main:has(.rk-yayilim-alan) { background: transparent; }
+
+/* Sabit öğeler içerik örtmesin: alt sabit bar görünürken gövdenin sonunda bar + boşluk kadar yer (reklam.js ölçer) */
+html.vd-reklamli body { padding-bottom: var(--vd-rk-alt-bosluk, 0px); }
+
+/* Kısa bildirim (eşlik kartı "Listeye ekle") */
+.vd-rk-bildirim { position: fixed; left: 50%; bottom: calc(var(--vd-rk-alt-bosluk, 0px) + 24px); transform: translateX(-50%); z-index: 90; max-width: min(560px, calc(100vw - 32px)); padding: 12px 16px; border-radius: var(--radius-md, 12px); background: var(--ink, #211E16); color: #fff; font-size: 14px; line-height: 1.4; box-shadow: 0 8px 24px rgba(0, 0, 0, .18); }
+.vd-rk-bildirim[hidden] { display: none; }
+.ing-add.vd-rk-eklendi { background: var(--rk-dugme, var(--tomato)); color: #fff; }
+
+/* Modülün liste kartında tek satır metin "…" ile biter (text-overflow: ellipsis); .r-facts flex kabında öğe daralamadığı için üç nokta
+   görünmüyordu (kesik harf). Yalnız daralmasına izin verilir, kural aynı (karar R7). */
+.vd-reklam .rk-kart .r-facts { min-width: 0; }
+.vd-reklam .rk-kart .rk-kart-metin { flex: 1 1 auto; min-width: 0; }
+
+/* Anahtar açıkken Gastro'nun .chip.active bildirimleri (portal CSS'te süzgeç kabına bağlı olduğu için burada aynı değerler) */
+.vd-rk-anahtar.active, .vd-rk-anahtar[aria-pressed="true"] { border-color: var(--tomato); color: var(--tomato); background: var(--tomato-tint); }
+
+/* Eşlik kartı izleme sayfasının malzeme panelinde (tarif sayfasının sağ kolonundan dar, 390'da ~300 px): logo + "Sponsorlu" hapı sepet
+   düğmesinin altına girmesin diye satır kırılabilir (karar R8). */
+.vd-reklam .eslik-kart-ust { flex-wrap: wrap; row-gap: 4px; }
+
+/* Seri sponsor hapı başlık/eyebrow çevresinde durur; başlığın harf aralığını ve satır yüksekliğini devralmasın */
+html.vd-reklamli .vd-reklam--etiket:not([hidden]) { display: flex !important; margin: 4px 0 8px; justify-content: flex-start; } /* modülün "sağ" hizası satır içi kalıp içindir; prototipte başlığın altında sola (karar R9) */
+.vd-reklam--etiket .rk-native-hap { letter-spacing: normal; line-height: 16px; white-space: nowrap; }
+
+/* Hub ızgarası süzgeçliyken native kart gösterilmez (full-stack'te native yalnız süzgeçsiz arşivde 3. karttan sonra); hub.js bu özniteliği yazar */
+.vd-reklam[data-vd-suzgec-gizli] { display: none !important; }
