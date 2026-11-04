@@ -1,0 +1,544 @@
+{
+ "_not": "Lead kataloğu (4 Kas). Videolar ÖRNEKTİR; başlıklar ve süreler dokümanın seri tablosuna göre. 'tarif' = gerçek Gastro tarif slug'ı (yerel gastro_v2_video). 'vitrin' = hub spotlight sekmesi. 'ornek_ilerleme' = 'İzlemeye devam et' prototip örneği. 'fit' = Fit Tarifler süzgeci (kalori ≤ 300/porsiyon ya da pişirmesiz hafif tarif). Konsept süzgeci seri.konsept'ten; süre süzgeci tarif süresine (hazırlık+pişirme), tarifsizde video süresine bakar (3 Kas karar 7).",
+ "konseptler": [
+  "10 Dakikada Pratik",
+  "Şef Teknikleri",
+  "Restoran Sırları",
+  "Yöresel Keşifler",
+  "Fit Tarifler"
+ ],
+ "sure_suzgecleri": [
+  {
+   "kod": "15-alti",
+   "ad": "< 15 Dk"
+  },
+  {
+   "kod": "15-30",
+   "ad": "15–30 Dk"
+  },
+  {
+   "kod": "30-ustu",
+   "ad": "30+ Dk"
+  }
+ ],
+ "seriler": [
+  {
+   "slug": "10-dakikada-mutfak",
+   "ad": "10 Dakikada Mutfak",
+   "format": "16:9",
+   "sure_araligi_sn": [
+    180,
+    300
+   ],
+   "konsept": "10 Dakikada Pratik",
+   "ikon": "fa-stopwatch",
+   "sef": "sahnur.sezek",
+   "ritim": "Her pazartesi yeni bölüm",
+   "pro": false,
+   "vaat": "Minimum ekipman ve bulaşık; çalışanlara ve öğrencilere yönelik pratik, yüksek lezzetli kurtarıcı menüler."
+  },
+  {
+   "slug": "sefin-el-kitabi",
+   "ad": "Şefin El Kitabı",
+   "format": "16:9",
+   "sure_araligi_sn": [
+    240,
+    480
+   ],
+   "konsept": "Şef Teknikleri",
+   "ikon": "fa-book-open",
+   "sef": "canan.yucel",
+   "ritim": "Her çarşamba yeni bölüm",
+   "pro": false,
+   "vaat": "Mutfak teknikleri, doğru bıçak kullanımı, emülsiyon sos bağlama ve profesyonel gastronomi sırları."
+  },
+  {
+   "slug": "restoran-sirlari",
+   "ad": "Restoran Sırları",
+   "format": "16:9",
+   "sure_araligi_sn": [
+    360,
+    600
+   ],
+   "konsept": "Restoran Sırları",
+   "ikon": "fa-bell-concierge",
+   "sef": "emel.aksu",
+   "ritim": "İki haftada bir yeni bölüm",
+   "pro": true,
+   "vaat": "Ünlü restoranların menülerinde yer alan kült reçetelerin ev ortamında birebir uygulanabilir formülleri."
+  },
+  {
+   "slug": "kazan-kaynayan-topraklar",
+   "ad": "Kazan Kaynayan Topraklar",
+   "format": "16:9",
+   "sure_araligi_sn": [
+    480,
+    720
+   ],
+   "konsept": "Yöresel Keşifler",
+   "ikon": "fa-map-location-dot",
+   "sef": "berkan.gunes",
+   "ritim": "Her cuma yeni bölüm",
+   "pro": false,
+   "vaat": "Coğrafi işaretli lezzetler, unutulmaya yüz tutmuş geleneksel Türk yemekleri ve yöresel malzeme hikâyeleri."
+  },
+  {
+   "slug": "30-saniyede-tat",
+   "ad": "30 Saniyede Tat",
+   "format": "9:16",
+   "sure_araligi_sn": [
+    15,
+    45
+   ],
+   "konsept": null,
+   "ikon": "fa-bolt",
+   "sef": "ece.ozdenak",
+   "ritim": "Her gün yeni kısa video",
+   "pro": false,
+   "vaat": "ASMR sesleri, mikro kesmeler, hızlı montaj ve anında uygulanabilir pratik püf noktaları."
+  },
+  {
+   "slug": "akilli-ekipman-test",
+   "ad": "Akıllı Ekipman & Test",
+   "format": "16:9",
+   "sure_araligi_sn": [
+    300,
+    420
+   ],
+   "konsept": null,
+   "ikon": "fa-blender",
+   "sef": "polat.abadan",
+   "ritim": "Ayda iki yeni bölüm",
+   "pro": false,
+   "sponsor_yuvasi": true,
+   "vaat": "Airfryer, döküm tava ve mutfak aletlerinin performans karşılaştırmaları; sponsorluğa hazır yapı."
+  }
+ ],
+ "videolar": [
+  {
+   "slug": "bulasik-cikarmayan-kremali-mantarli-tek-tava-makarna",
+   "seri": "10-dakikada-mutfak",
+   "bolum": 1,
+   "baslik": "Bulaşık Çıkarmayan Kremalı Mantarlı Tek Tava Makarna",
+   "sure_sn": 252,
+   "tarif": "kremali-mantarli-makarna-pratik-mantar-soslu-makarna",
+   "ozet": "Makarna, mantar ve krema aynı tavada: haşlama suyu ayrı tencereye gitmeden sosun içinde pişer, nişastası sosu kendiliğinden bağlar."
+  },
+  {
+   "slug": "10-dakikada-acil-durum-aksam-yemegi-zerdecalli-tavuk-sote",
+   "seri": "10-dakikada-mutfak",
+   "bolum": 2,
+   "baslik": "10 Dakikada Acil Durum Akşam Yemekleri: Zerdeçallı Tavuk Sote",
+   "sure_sn": 241,
+   "tarif": "zerdecalli-tavuk-sote-sarimsakli-hizli-tava-yemegi",
+   "ozet": "Eve geç geldiğin akşamlar için: ince doğranmış tavuk, kızgın tava ve zerdeçal-sarımsak ikilisiyle on dakikada sofrada.",
+   "fit": true
+  },
+  {
+   "slug": "tek-tavada-klasik-menemen",
+   "seri": "10-dakikada-mutfak",
+   "bolum": 3,
+   "baslik": "Tek Tavada Klasik Menemen: Domatesin Suyunu Çektirmek",
+   "sure_sn": 205,
+   "tarif": "menemen-domatesli-biberli-klasik",
+   "ozet": "Sulu değil, kıvamlı menemenin tek kuralı: yumurtadan önce domatesin suyunu çektirmek. Biberin doğru doğranışı ve ocak ayarıyla.",
+   "fit": true
+  },
+  {
+   "slug": "bes-dakikada-kabarik-peynirli-omlet",
+   "seri": "10-dakikada-mutfak",
+   "bolum": 4,
+   "baslik": "Beş Dakikada Kabarık Peynirli Omlet",
+   "sure_sn": 186,
+   "tarif": "peynirli-omlet-kabarik-ve-yumusak",
+   "ozet": "Yumurtayı çırpma süresi ve kısık ateş: omletin kabarıp yumuşak kalmasının iki sırrı, tek tavada."
+  },
+  {
+   "slug": "ispanakli-omlet-hafif-kahvalti",
+   "seri": "10-dakikada-mutfak",
+   "bolum": 5,
+   "baslik": "Ispanaklı Omlet: Hafif ve Doyurucu Kahvaltı",
+   "sure_sn": 214,
+   "tarif": "ispanakli-omlet-saglikli-kahvalti",
+   "ozet": "Ispanağı suyunu bırakmadan soldurmak ve yumurtayı tavada toparlamak; hafif bir kahvaltı ya da hızlı bir akşam yemeği.",
+   "fit": true
+  },
+  {
+   "slug": "yogurtlu-cilbir-pose-yumurtanin-kolay-yolu",
+   "seri": "10-dakikada-mutfak",
+   "bolum": 6,
+   "baslik": "Yoğurtlu Çılbır: Poşe Yumurtanın Kolay Yolu",
+   "sure_sn": 228,
+   "tarif": "cilbir-yogurtlu-pose-yumurta",
+   "ozet": "Sirkeli suda girdap, taze yumurta ve doğru süre: poşe yumurta korkusunu bitiren yöntem, üstüne pul biberli tereyağı.",
+   "fit": true
+  },
+  {
+   "slug": "muhurleme-sanati-dokum-tavada-dogru-et-pisirme",
+   "seri": "sefin-el-kitabi",
+   "bolum": 1,
+   "baslik": "Mühürleme Sanatı: Döküm Tavada Doğru Et Pişirme",
+   "sure_sn": 412,
+   "tarif": "dana-biftek-soganli-tava",
+   "ozet": "Etin kurulanması, tavanın gerçekten kızması ve çevirmeden beklemek: döküm tavada kabuk bağlatmanın üç adımı."
+  },
+  {
+   "slug": "asla-kesilmeyen-besamel-rehberi",
+   "seri": "sefin-el-kitabi",
+   "bolum": 2,
+   "baslik": "Asla Kesilmeyen Beşamel ve Hollandez Rehberi · Bölüm 1: Beşamel",
+   "sure_sn": 368,
+   "tarif": "besamel-sos-kivamli-ev-yapimi",
+   "ozet": "Unu tereyağında kokusu gidene kadar kavurmak ve sütü azar azar eklemek: topaksız, ipeksi beşamelin kuralları.",
+   "ornek_ilerleme": 0.7
+  },
+  {
+   "slug": "hollandez-emulsiyonu-kurtarmanin-yolu",
+   "seri": "sefin-el-kitabi",
+   "bolum": 3,
+   "baslik": "Asla Kesilmeyen Beşamel ve Hollandez Rehberi · Bölüm 2: Hollandez",
+   "sure_sn": 334,
+   "tarif": "hollandez-sos-fransiz-usulu-tereyagli-sos",
+   "ozet": "Benmari, ılık tereyağı ve sabırlı çırpma. Kesilmeye başlayan sosu bir kaşık ılık suyla geri getirmek de bu bölümde."
+  },
+  {
+   "slug": "risotto-kivami-nisastayi-konusturmak",
+   "seri": "sefin-el-kitabi",
+   "bolum": 4,
+   "baslik": "Risotto Kıvamı: Nişastayı Konuşturmak",
+   "sure_sn": 455,
+   "tarif": "risotto-ai-funghi-italyan-usulu-mantarli-kremamsi-pirinc",
+   "ozet": "Pirinci kavurmak, suyu kepçe kepçe vermek ve son dakikada tereyağıyla bağlamak: kremamsı ama lapa olmayan risotto."
+  },
+  {
+   "slug": "tamagoyaki-rulo-omlet-teknigi",
+   "seri": "sefin-el-kitabi",
+   "bolum": 5,
+   "baslik": "Tamagoyaki: Rulo Omlet Tekniği",
+   "sure_sn": 297,
+   "tarif": "tamagoyaki-japon-usulu-rulo-omlet",
+   "ozet": "İnce katlar, ılık tava ve bileğin doğru hareketi: Japon usulü rulo omletin katman katman sarılışı."
+  },
+  {
+   "slug": "sufle-neden-coker-akiskan-restoran-suflesi",
+   "seri": "restoran-sirlari",
+   "bolum": 1,
+   "baslik": "Sufle Neden Çöker? Akışkan Restoran Suflesi",
+   "sure_sn": 547,
+   "tarif": "cikolatali-sufle-akiskan-icli-sicak-fransiz-tatlisi",
+   "ozet": "Kalıbın hazırlanışı, fırının ön ısıtması ve dakikası dakikasına pişirme: içi akan, dışı ayakta duran sufle.",
+   "ornek_ilerleme": 0.15
+  },
+  {
+   "slug": "sokak-lezzeti-islak-hamburgerin-gizli-sosu",
+   "seri": "restoran-sirlari",
+   "bolum": 2,
+   "baslik": "Sokak Lezzeti Islak Hamburgerin Gizli Sosu",
+   "sure_sn": 486,
+   "tarif": "klasik-ev-burgeri-cheddarli-dana-burger",
+   "ozet": "Köftenin yağ oranı, ekmeğin buharda dinlenmesi ve domatesli sarımsaklı sos: sokak usulü ıslak hamburgerin evdeki karşılığı."
+  },
+  {
+   "slug": "hunkar-begendi-pururuzsuz-begendinin-sirri",
+   "seri": "restoran-sirlari",
+   "bolum": 3,
+   "baslik": "Hünkâr Beğendi: Pürüzsüz Beğendinin Sırrı",
+   "sure_sn": 592,
+   "tarif": "hunkar-begendi-kozlenmis-patlican-besameli-ustunde-kuzu-guvec",
+   "ozet": "Patlıcanı közde gerçekten közlemek, acısını almak ve beşamelle buluşturmak: saray mutfağının ev usulü."
+  },
+  {
+   "slug": "risotto-alla-milanese-safranin-dogru-zamani",
+   "seri": "restoran-sirlari",
+   "bolum": 4,
+   "baslik": "Risotto alla Milanese: Safranın Doğru Zamanı",
+   "sure_sn": 438,
+   "tarif": "risotto-alla-milanese-italyan-usulu-safranli-kremamsi-pirinc",
+   "ozet": "Safranı ne zaman eklemeli, et suyu ne sıcaklıkta olmalı: Milano'nun sarı risottosu restoran kıvamında."
+  },
+  {
+   "slug": "tantuni-bakir-sacta-dana-etinin-sirri",
+   "seri": "restoran-sirlari",
+   "bolum": 5,
+   "baslik": "Tantuni: Bakır Saçta Dana Etinin Sırrı",
+   "sure_sn": 512,
+   "tarif": "tantuni-durum-mersin-usulu-bakir-sacda-kavrulmus-dana-durum",
+   "ozet": "Önce haşlamak, sonra saçta kavurmak: Mersin tantuncularının dana etini yumuşacık tutma yöntemi."
+  },
+  {
+   "slug": "karadeniz-yaylalarindan-hakiki-kuymak",
+   "seri": "kazan-kaynayan-topraklar",
+   "bolum": 1,
+   "baslik": "Karadeniz Yaylalarından Hakiki Kuymak",
+   "sure_sn": 642,
+   "tarif": "kuymak-karadeniz-usulu-misir-unlu-kahvaltilik",
+   "ozet": "Tereyağında kavrulan mısır unu, eriyip ipek gibi uzayan peynir ve sabır. Yaylanın kahvaltısı, adım adım.",
+   "vitrin": "Haftanın Serisi"
+  },
+  {
+   "slug": "gaziantep-usulu-orijinal-yuvalama-corbasi",
+   "seri": "kazan-kaynayan-topraklar",
+   "bolum": 2,
+   "baslik": "Gaziantep Usulü Orijinal Yuvalama Çorbası",
+   "sure_sn": 708,
+   "tarif": "yuvalama-gaziantep-usulu-yogurtlu-kofteli-corba",
+   "ozet": "Nohut büyüklüğünde köfteler, kesilmeyen yoğurt ve nane yağı: Antep mutfağının bayram çorbası.",
+   "ornek_ilerleme": 0.42
+  },
+  {
+   "slug": "trabzon-mihlamasi-peynirin-ipek-gibi-uzamasi",
+   "seri": "kazan-kaynayan-topraklar",
+   "bolum": 3,
+   "baslik": "Trabzon Mıhlaması: Peynirin İpek Gibi Uzaması",
+   "sure_sn": 534,
+   "tarif": "mihlama-trabzon-usulu-misir-unlu-peynirli-muhlama",
+   "ozet": "Hangi peynir uzar, tereyağı ne zaman eklenir: kuymağın Trabzon'daki kardeşi mıhlama, bakır sahanda."
+  },
+  {
+   "slug": "hamsi-tava-misir-ununda-citirligin-sirri",
+   "seri": "kazan-kaynayan-topraklar",
+   "bolum": 4,
+   "baslik": "Hamsi Tava: Mısır Ununda Çıtırlığın Sırrı",
+   "sure_sn": 571,
+   "tarif": "hamsi-tava-misir-unlu-citir",
+   "ozet": "Kasım hamsinin en lezzetli ayı. Temizlemek, mısır ununa bulamak ve tavada yelpaze dizmek.",
+   "vitrin": "Mevsimin Tarifi"
+  },
+  {
+   "slug": "icli-kofte-ince-kabugun-ovma-teknigi",
+   "seri": "kazan-kaynayan-topraklar",
+   "bolum": 5,
+   "baslik": "İçli Köfte: İnce Kabuğun Ovma Tekniği",
+   "sure_sn": 689,
+   "tarif": "icli-kofte-geleneksel-ovma-ince-kabuklu",
+   "ozet": "Bulguru dinlendirmek, uzun uzun yoğurmak ve parmakla incecik açmak: Güneydoğu'nun sabır işi."
+  },
+  {
+   "slug": "airfryer-kullanirken-yapilan-5-kritik-hata",
+   "seri": "akilli-ekipman-test",
+   "bolum": 1,
+   "baslik": "Airfryer Kullanırken Yapılan 5 Kritik Hata",
+   "sure_sn": 386,
+   "tarif": "airfryer-tavuk-but-az-yagli-pratik",
+   "ozet": "Sepeti doldurmak, ön ısıtmayı atlamak, yağı yanlış kullanmak… Aynı tavuk butla beş hata ve doğruları.",
+   "vitrin": "Sponsorlu Şef",
+   "ekipman": [
+    "Airfryer (5,5 L)",
+    "Yağ spreyi",
+    "Maşa",
+    "Pişirme kâğıdı"
+   ]
+  },
+  {
+   "slug": "hangi-bicak-ne-ise-yarar-sef-bicagi-rehberi",
+   "seri": "akilli-ekipman-test",
+   "bolum": 2,
+   "baslik": "Hangi Bıçak Ne İşe Yarar? Şef Bıçağı Rehberi",
+   "sure_sn": 412,
+   "tarif": null,
+   "ozet": "Şef bıçağı, santoku, sebze bıçağı ve ekmek bıçağı: hangisiyle ne doğranır, nasıl tutulur, nasıl bilenir.",
+   "ekipman": [
+    "Şef bıçağı (20 cm)",
+    "Santoku",
+    "Sebze bıçağı",
+    "Ekmek bıçağı",
+    "Masat",
+    "Kesme tahtası"
+   ],
+   "bolumler": [
+    [
+     0,
+     "Giriş"
+    ],
+    [
+     38,
+     "Şef bıçağı: tutuş"
+    ],
+    [
+     112,
+     "Santoku ile ince doğrama"
+    ],
+    [
+     196,
+     "Sebze bıçağı ve soyma"
+    ],
+    [
+     258,
+     "Ekmek bıçağı"
+    ],
+    [
+     318,
+     "Bileme ve masat"
+    ],
+    [
+     381,
+     "Saklama"
+    ]
+   ]
+  },
+  {
+   "slug": "dokum-tava-mi-yapismaz-mi-ayni-biftekle-test",
+   "seri": "akilli-ekipman-test",
+   "bolum": 3,
+   "baslik": "Döküm Tava mı, Yapışmaz mı? Aynı Biftekle Test",
+   "sure_sn": 344,
+   "tarif": "dana-biftek-soganli-tava",
+   "ozet": "Aynı biftek, iki tava, aynı ocak: kabuk, süre ve temizlik farkını yan yana ölçüyoruz.",
+   "ekipman": [
+    "Döküm tava (28 cm)",
+    "Yapışmaz tava (28 cm)",
+    "Et termometresi",
+    "Maşa"
+   ]
+  },
+  {
+   "slug": "airfryerda-citir-sinitzel-sicaklik-ve-sure-testi",
+   "seri": "akilli-ekipman-test",
+   "bolum": 4,
+   "baslik": "Airfryer'da Çıtır Şinitzel: Sıcaklık ve Süre Testi",
+   "sure_sn": 397,
+   "tarif": "airfryer-tavuk-sinitzel-citir-panelenmis-tavuk-gogsu",
+   "ozet": "180, 190 ve 200 derecede aynı şinitzel: galeta kaplamanın en çıtır ve en sulu kaldığı ayar.",
+   "ekipman": [
+    "Airfryer (5,5 L)",
+    "Et döveceği",
+    "Yağ spreyi"
+   ]
+  },
+  {
+   "slug": "duduklu-tencerede-15-dakikada-tavuk-sote",
+   "seri": "akilli-ekipman-test",
+   "bolum": 5,
+   "baslik": "Düdüklü Tencerede 15 Dakikada Tavuk Sote",
+   "sure_sn": 318,
+   "tarif": "duduklu-tavuk-sote-sebzeli-hizli-pisen",
+   "ozet": "Düdüklünün basınç ayarı ve buhar tahliyesi: sebzeli tavuk sotenin dağılmadan, hızlıca pişmesi.",
+   "ekipman": [
+    "Düdüklü tencere (6 L)",
+    "Tahta kaşık"
+   ]
+  }
+ ],
+ "kisalar": [
+  {
+   "slug": "kalan-pilavdan-30-saniyede-citir-arancini",
+   "seri": "30-saniyede-tat",
+   "bolum": 1,
+   "baslik": "Kalan Pilavdan 30 Saniyede Çıtır Arancini",
+   "sure_sn": 30,
+   "tarif": "arancini-italyan-usulu-kizarmis-risotto-topu",
+   "ozet": "Dünden kalan pilav, ortasına bir küp peynir, galeta ve kızgın yağ.",
+   "rozetler": [
+    "Kalan Pilavla"
+   ]
+  },
+  {
+   "slug": "3-malzemeli-acil-durum-suflesi",
+   "seri": "30-saniyede-tat",
+   "bolum": 2,
+   "baslik": "3 Malzemeli Acil Durum Suflesi",
+   "sure_sn": 28,
+   "tarif": null,
+   "ozet": "Yumurta, kaşar ve tereyağı: fincanda kabaran sufle.",
+   "rozetler": [
+    "3 Malzemeli"
+   ],
+   "malzemeler": [
+    "3 yumurta",
+    "1 su bardağı rendelenmiş kaşar",
+    "1 yemek kaşığı tereyağı"
+   ]
+  },
+  {
+   "slug": "tavada-citir-kasarli-tost",
+   "seri": "30-saniyede-tat",
+   "bolum": 3,
+   "baslik": "Tavada Çıtır Kaşarlı Tost",
+   "sure_sn": 22,
+   "tarif": "kasarli-tost-klasik-ev-yapimi-peynirli-tost",
+   "ozet": "Tost makinesi yok mu? Kapaklı tava ve ağır bir tabakla.",
+   "rozetler": [
+    "3 Malzemeli",
+    "Tek Tava"
+   ]
+  },
+  {
+   "slug": "30-saniyede-cacik",
+   "seri": "30-saniyede-tat",
+   "bolum": 4,
+   "baslik": "30 Saniyede Cacık",
+   "sure_sn": 19,
+   "tarif": "cacik-salatalikli-yogurt-mezesi",
+   "ozet": "Rendelenmiş salatalığın suyunu sıkmak cacığı sulandırmaz.",
+   "rozetler": [
+    "Pişirmeden"
+   ],
+   "fit": true
+  },
+  {
+   "slug": "cilekli-muzlu-smoothie",
+   "seri": "30-saniyede-tat",
+   "bolum": 5,
+   "baslik": "Çilekli Muzlu Smoothie",
+   "sure_sn": 24,
+   "tarif": "cilekli-smoothie-muzlu-yogurtlu-cilek-smoothie",
+   "ozet": "Donuk muz buzun yerini tutar, kıvamı kaşıklık olur.",
+   "rozetler": [
+    "Pişirmeden",
+    "5 Dakika"
+   ],
+   "fit": true
+  },
+  {
+   "slug": "mihlamada-peynirin-uzama-ani",
+   "seri": "30-saniyede-tat",
+   "bolum": 6,
+   "baslik": "Mıhlamada Peynirin Uzama Anı",
+   "sure_sn": 35,
+   "tarif": "mihlama-trabzon-usulu-misir-unlu-peynirli-muhlama",
+   "ozet": "Peynir eriyince karıştırmayı bırak, tereyağı yüzeye çıksın.",
+   "rozetler": [
+    "Tek Tava"
+   ]
+  },
+  {
+   "slug": "airfryerda-misir-usulu-patlican-salatasi",
+   "seri": "30-saniyede-tat",
+   "bolum": 7,
+   "baslik": "Airfryer'da Mısır Usulü Patlıcan Salatası",
+   "sure_sn": 41,
+   "tarif": "misir-usulu-patlican-salatasi-airfryer-baharatli-tarif",
+   "ozet": "Közleme yok, duman yok: airfryer'da kavrulan baharatlı patlıcan.",
+   "rozetler": [
+    "Airfryer"
+   ],
+   "fit": true
+  },
+  {
+   "slug": "cilbirda-pose-yumurta-girdabi",
+   "seri": "30-saniyede-tat",
+   "bolum": 8,
+   "baslik": "Çılbırda Poşe Yumurta Girdabı",
+   "sure_sn": 33,
+   "tarif": "cilbir-yogurtlu-pose-yumurta",
+   "ozet": "Kaynayan suya girdap, yumurta ortaya: 3 dakika.",
+   "rozetler": [
+    "Tek Tencere"
+   ],
+   "fit": true
+  },
+  {
+   "slug": "gavurdagi-usulu-acili-ezme",
+   "seri": "30-saniyede-tat",
+   "bolum": 9,
+   "baslik": "Gavurdağı Usulü Acılı Ezme",
+   "sure_sn": 27,
+   "tarif": "acili-ezme-gavurdagi-usulu-cevizli",
+   "ozet": "Bıçakla ince kıyım, nar ekşisi ve ceviz.",
+   "rozetler": [
+    "Pişirmeden"
+   ],
+   "fit": true
+  }
+ ]
+}
