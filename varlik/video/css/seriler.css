@@ -1,17 +1,16 @@
 /* Seriler (video-seriler.html) — hub ajanı. donör: Gastro .rd-crumb/.eyebrow (tarif-detay.css · portal-*.css). Sade açık hero. */
-.vd-sade-hero { padding: 32px 0 48px; background: var(--paper, #fff); border-bottom: 1px solid var(--line, #ececec); }
+.vd-sade-hero { background: var(--paper, #fff); }
 .vd-sade-hero .rd-crumb { margin-bottom: 24px; }
 .vd-sade-hero__ic { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; }
 .vd-sade-hero h1 { margin: 12px 0; font-size: 44px; line-height: 1.08; letter-spacing: -.03em; max-width: 720px; }
 .vd-sade-hero p { margin: 0; max-width: 620px; font-size: 16px; line-height: 1.6; color: var(--slate-2, #56514a); }
 .vd-sade-hero__sayilar { list-style: none; margin: 0; padding: 0; display: flex; gap: 32px; }
-.vd-sade-hero__sayilar li { display: flex; flex-direction: column; gap: 2px; padding-left: 16px; border-left: 2px solid var(--tomato-tint, #FBE6E1); }
+.vd-sade-hero__sayilar li { display: flex; flex-direction: column; gap: 4px; padding-left: 16px; border-left: 2px solid var(--tomato-tint, #FBE6E1); }
 .vd-sade-hero__sayilar b { font-size: 30px; line-height: 1; color: var(--slate, #211E16); font-variant-numeric: tabular-nums; }
 .vd-sade-hero__sayilar span { font-size: 13px; color: var(--muted, #6f6f6f); white-space: nowrap; }
 .vd-seriler-izgara { gap: 32px 24px; }
 @media (max-width: 1100px) { .vd-sade-hero__ic { grid-template-columns: minmax(0, 1fr); align-items: start; } }
 @media (max-width: 640px) {
-  .vd-sade-hero { padding: 24px 0 32px; }
   .vd-sade-hero h1 { font-size: 30px; }
   .vd-sade-hero p { font-size: 15px; }
   .vd-sade-hero__sayilar { gap: 16px; flex-wrap: wrap; }

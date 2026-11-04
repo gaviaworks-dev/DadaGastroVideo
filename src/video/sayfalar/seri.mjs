@@ -67,7 +67,7 @@ export default async function (o) {
       : `<ol class="vd-bolum-liste">${bol.map((v) => `<li>${K.bolumKarti(v, o)}</li>`).join('')}</ol>`;
 
     const digerleri = seriler.filter((x) => x.slug !== s.slug);
-    const diger = `<section class="vd-alan vd-alan--beyaz" aria-labelledby="vd-diger-h">
+    const diger = `<section class="vd-alan" aria-labelledby="vd-diger-h">
   <div class="wrap vd-ray vd-ray--seri" data-vd-ray>
    <div class="sec-head">
     <div><span class="eyebrow">${ui('fa-layer-group')} Keşfetmeye devam</span><h2 id="vd-diger-h">Diğer seriler</h2></div>

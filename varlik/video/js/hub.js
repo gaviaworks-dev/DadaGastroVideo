@@ -48,6 +48,7 @@
     if (!tpl) return 0;
     var n = 0;
     while (tpl.content.firstElementChild && (adet === Infinity || n < adet)) { izgara.insertBefore(tpl.content.firstElementChild, son); n++; }
+    if (n && window.VD && VD.kirp) VD.kirp(izgara); // sonradan eklenen kart başlıkları da kelime sınırında kırpılır
     return n;
   }
   function kartlar() { return Array.prototype.slice.call(izgara.querySelectorAll('[data-vd-video]')); }

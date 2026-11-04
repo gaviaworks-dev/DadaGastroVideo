@@ -140,7 +140,7 @@ export default async function (o) {
    </div>
   </article>`;
   };
-  const seriBolum = `<section class="vd-alan vd-alan--beyaz vd-seriler" id="seriler" aria-labelledby="vd-seri-h" data-vd-anasayfa>
+  const seriBolum = `<section class="vd-alan vd-seriler" id="seriler" aria-labelledby="vd-seri-h" data-vd-anasayfa>
  <div class="wrap">
   <div class="sec-head">
    <div><span class="eyebrow">${ui('fa-layer-group')} Video serileri</span><h2 id="vd-seri-h">Bölüm bölüm ustalaş</h2>
@@ -170,7 +170,7 @@ export default async function (o) {
   const karisik = [];
   while (kuyruk.some((q) => q.length)) for (const q of kuyruk) if (q.length) karisik.push(q.shift());
   const kart = (v) => K.videoKarti(v, o, { baslikSeviye: 'h3' });
-  const tum = `<section class="vd-alan vd-alan--beyaz vd-tum" id="tum-videolar" aria-labelledby="vd-tum-h">
+  const tum = `<section class="vd-alan vd-tum" id="tum-videolar" aria-labelledby="vd-tum-h">
  <div class="wrap">
   <div class="sec-head">
    <div><span class="eyebrow">${ui('fa-film')} Video arşivi</span><h2 id="vd-tum-h" data-vd-tum-baslik>Tüm videolar</h2>

@@ -94,7 +94,7 @@ export function sefRozeti(k, o, { boyut = 'kucuk', etiket = '' } = {}) {
     const seriler = (katalog(o).seriler || []).filter((s) => s.sef === k);
     return `<a class="vd-sef-kart" href="${e(o, sefHref(k, o))}">
   ${avatar(sef, o, 'vd-sef-kart__av')}
-  <span class="vd-sef-kart__ad">${e(o, sef.ad)}</span>
+  <span class="vd-sef-kart__ad" data-vd-kirp="2">${e(o, sef.ad)}</span>
   ${sef.unvan ? `<span class="vd-sef-kart__unvan">${e(o, sef.unvan)}</span>` : ''}
   ${seriler.length ? `<span class="vd-sef-kart__seri">${ik(seriler[0].ikon || 'fa-video')} ${e(o, seriler.map((s) => s.ad).join(' · '))}</span>` : ''}
   ${sef.tarif_sayisi ? `<span class="vd-sef-kart__sayi"><b>${Number(sef.tarif_sayisi).toLocaleString('tr')}</b> tarif</span>` : ''}
@@ -121,7 +121,7 @@ export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGos
   const k = kapakBul(v, o);
   const href = videoHref(v, o);
   // Bölüm numarası her zaman görünür; dar yerde yalnız seri adı üç noktayla kısalır (lead 5 Kas düzeltme 2)
-  const seriEt = s ? `<span class="r-chip vd-kart__seri">${ik(s.ikon || 'fa-video')} ${boyut === 'ray' ? '' : `<span class="vd-kart__seri-ad">${e(o, s.ad)}</span><span class="vd-kart__seri-ayrac" aria-hidden="true">·</span>`}<span class="vd-kart__seri-no">Bölüm ${v.bolum}</span></span>` : '';
+  const seriEt = s ? `<span class="r-chip vd-kart__seri">${ik(s.ikon || 'fa-video')} ${boyut === 'ray' ? '' : `<span class="vd-kart__seri-ad" data-vd-kirp="1">${e(o, s.ad)}</span><span class="vd-kart__seri-ayrac" aria-hidden="true">·</span>`}<span class="vd-kart__seri-no">Bölüm ${v.bolum}</span></span>` : '';
   const h = baslikSeviye;
   const medya = `<div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya${k ? '' : ' vd-kart__medya--afis'}">
    ${k ? kapakImg(k, o, { sinif: 'vd-kart__kapak', oncelik }) : afisKapak(v, o, s)}
@@ -137,8 +137,8 @@ export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGos
     return `<article class="r-card vd-kart vd-kart--kompakt" ${suzgecVerisi(v, o)}>
   ${medya}
   <div class="r-body">
-   ${s ? `<span class="vd-kart__ust"><span class="vd-kart__ust-seri">${e(o, s.ad)}</span><span aria-hidden="true">·</span><span class="vd-kart__ust-no">Bölüm ${v.bolum}</span></span>` : ''}
-   <${h}><a href="${e(o, href)}">${e(o, v.baslik)}</a></${h}>
+   ${s ? `<span class="vd-kart__ust" data-vd-kirp="2">Bölüm ${v.bolum} · ${e(o, s.ad)}</span>` : ''}
+   <${h} data-vd-kirp="2"><a href="${e(o, href)}">${e(o, v.baslik)}</a></${h}>
    ${kalan ? `<span class="vd-kart__kalan">${ik('fa-clock-rotate-left')} ${kalan} dk kaldı · %${Math.round(v.ornek_ilerleme * 100)} izlendi</span>` : ''}
   </div>
  </article>`;
@@ -146,7 +146,7 @@ export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGos
   return `<article class="r-card vd-kart vd-kart--${boyut}" ${suzgecVerisi(v, o)}${gizli ? ' hidden' : ''}>
   ${medya}
   <div class="r-body">
-   <${h}><a href="${e(o, href)}">${e(o, v.baslik)}</a></${h}>
+   <${h} data-vd-kirp="2"><a href="${e(o, href)}">${e(o, v.baslik)}</a></${h}>
    ${metaRozetleri(v, o)}
    ${sefGoster ? `<div class="r-foot"> ${sefSatiri(v, o)} </div>` : ''}
   </div>
@@ -162,7 +162,7 @@ export function kisaKarti(k, o, { oncelik = false } = {}) {
   <span class="vd-kisa__medya">${kp ? kapakImg(kp, o, { sinif: 'vd-kisa__kapak', gen: 360, yuk: 640, oncelik }) : afisKapak(k, o, s)}</span>
   <span class="vd-kisa__sure">${ik('fa-bolt')} ${k.sure_sn} sn</span>
   <span class="vd-kisa__oynat" aria-hidden="true">${ik('fa-play')}</span>
-  <span class="vd-kisa__alt">${rozet ? `<span class="vd-kisa__rozetler">${rozet}</span>` : ''}<span class="vd-kisa__baslik">${e(o, k.baslik)}</span></span>
+  <span class="vd-kisa__alt">${rozet ? `<span class="vd-kisa__rozetler">${rozet}</span>` : ''}<span class="vd-kisa__baslik" data-vd-kirp="3">${e(o, k.baslik)}</span></span>
  </a>`;
 }
 
@@ -184,8 +184,8 @@ export function bolumKarti(v, o, { baslikSeviye = 'h3', ozet = true } = {}) {
   </div>
   <div class="vd-bolum__govde">
    <span class="vd-bolum__ust">Bölüm ${v.bolum}${yuzde ? ` · <span class="vd-bolum__izlendi">%${yuzde} izlendi</span>` : ''}</span>
-   <${h} class="vd-bolum__baslik"><a href="${e(o, href)}">${e(o, v.baslik)}</a></${h}>
-   ${ozet && v.ozet ? `<p class="vd-bolum__ozet">${e(o, v.ozet)}</p>` : ''}
+   <${h} class="vd-bolum__baslik" data-vd-kirp="2"><a href="${e(o, href)}">${e(o, v.baslik)}</a></${h}>
+   ${ozet && v.ozet ? `<p class="vd-bolum__ozet" data-vd-kirp="2">${e(o, v.ozet)}</p>` : ''}
    ${metaRozetleri(v, o, { sinif: 'vd-bolum__meta' })}
   </div>
   ${kaydetDugmesi(v, o, 'r-save vd-kaydet vd-bolum__kaydet')}
@@ -214,8 +214,8 @@ export function seriAfisi(s, o, { boyut = 'kart', baslikSeviye = 'h3', ornekler 
    <span class="vd-seri-afis__ikon">${ik(s.ikon || 'fa-video')}</span>
   </div>
   <div class="vd-seri-afis__govde">
-   <${h} class="vd-seri-afis__ad"><a href="${e(o, seriHref(s, o))}">${e(o, s.ad)}</a></${h}>
-   <p class="vd-seri-afis__vaat">${e(o, s.vaat)}</p>
+   <${h} class="vd-seri-afis__ad" data-vd-kirp="2"><a href="${e(o, seriHref(s, o))}">${e(o, s.ad)}</a></${h}>
+   <p class="vd-seri-afis__vaat" data-vd-kirp="3">${e(o, s.vaat)}</p>
    <ul class="vd-seri-afis__kunye">
     <li>${ik('fa-film')} ${bol.length} bölüm</li>
     <li>${ik('fa-hourglass-half')} ${sureAraligi(s)}</li>

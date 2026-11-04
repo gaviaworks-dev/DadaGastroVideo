@@ -152,6 +152,91 @@
     onizlemeKapat();
   });
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { VD.raylariKur(); });
-  else VD.raylariKur();
+  /* ---------- Metin kırpıcı (Revize 1, 5 Kas): [data-vd-kirp="N"] ----------
+     Öğe en fazla N satır. Taşarsa sondan BÜTÜN KELİME atılır ve "…" eklenir (kelime ortasından kesme yok); sondaki yalnız
+     noktalama parçası ("·", ":", "—") da atılır. Tam metin `title` + erişilebilir ad olarak korunur:
+       - metni taşıyan öğe bağ/düğmeyse aria-label = tam metin;
+       - değilse görünen kısa metin aria-hidden, tam metin .vd-gizli span'da.
+     Metni taşıyan öğe: [data-vd-kirp] içindeki ilk a/button, yoksa öğenin kendisi.
+     N=1: genişlik ölçülür (scrollWidth ≤ clientWidth; öğe nowrap + overflow:hidden olmalı).
+     N≥2: satır sayısı ölçülür (CSS yedeği line-clamp ölçüm sırasında .vd-kirp-olc ile kaldırılır).
+     Yeniden hesap: genişlik değişince (ResizeObserver), font yüklenince, VD.kirp(kok) çağrılınca (sonradan eklenen içerik). */
+  var KIRP_SON = /[\s·:;,.\-–—|/]+$/;
+  function kirpKaynak(el) { return el.querySelector('a, button') || el; }
+  function kirpTam(el) {
+    if (el.__vdTam === undefined) {
+      var k = kirpKaynak(el);
+      el.__vdTam = (k.textContent || '').replace(/\s+/g, ' ').trim();
+    }
+    return el.__vdTam;
+  }
+  function satirSay(el) {
+    var cs = getComputedStyle(el);
+    var lh = parseFloat(cs.lineHeight);
+    if (!lh) lh = parseFloat(cs.fontSize) * 1.2;
+    // ölçüm sırasında CSS yedeğini (line-clamp/max-height) kaldır — sınıfa değil öğenin kendi stiline yazılır ki
+    // video.css'i yüklemeyen sayfada (tarif sayfaları) da doğru ölçülsün; ölçümden sonra eski hâline döner
+    var eski = el.getAttribute('style');
+    ['display:block', '-webkit-line-clamp:none', 'max-height:none', 'min-height:0', 'overflow:visible'].forEach(function (d) { var i = d.indexOf(':'); el.style.setProperty(d.slice(0, i), d.slice(i + 1), 'important'); });
+    var h = el.getBoundingClientRect().height - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0);
+    if (eski === null) el.removeAttribute('style'); else el.setAttribute('style', eski);
+    return Math.round(h / lh);
+  }
+  function sigar(el, n) {
+    if (n <= 1) return el.scrollWidth <= el.clientWidth + 1;
+    return satirSay(el) <= n;
+  }
+  function yaz(el, metin, kisaldi) {
+    var k = kirpKaynak(el), tam = kirpTam(el);
+    if (k.tagName === 'A' || k.tagName === 'BUTTON') {
+      k.textContent = metin;
+      if (kisaldi) k.setAttribute('aria-label', tam); else k.removeAttribute('aria-label');
+    } else if (kisaldi) {
+      k.innerHTML = '';
+      var g = document.createElement('span'); g.setAttribute('aria-hidden', 'true'); g.textContent = metin;
+      var t = document.createElement('span'); t.className = 'vd-gizli'; t.textContent = tam;
+      k.appendChild(g); k.appendChild(t);
+    } else {
+      k.textContent = metin;
+    }
+    if (kisaldi) el.setAttribute('title', tam); else el.removeAttribute('title');
+    el.setAttribute('data-vd-kirpildi', kisaldi ? '1' : '0');
+  }
+  function kirpEl(el) {
+    if (!el.getClientRects().length) return; // görünmüyor: görünür olunca ResizeObserver yeniden çağırır
+    var n = parseInt(el.getAttribute('data-vd-kirp'), 10) || 1;
+    var tam = kirpTam(el);
+    el.__vdGen = el.clientWidth;
+    yaz(el, tam, false);
+    if (sigar(el, n)) return;
+    var kel = tam.split(' ');
+    var alt = 1, ust = kel.length - 1, en = 1;
+    var aday = function (i) { return kel.slice(0, i).join(' ').replace(KIRP_SON, '') + '…'; };
+    while (alt <= ust) {
+      var orta = (alt + ust) >> 1;
+      yaz(el, aday(orta), true);
+      if (sigar(el, n)) { en = orta; alt = orta + 1; } else ust = orta - 1;
+    }
+    yaz(el, aday(en), true);
+  }
+  var kirpGozcu = 'ResizeObserver' in window ? new ResizeObserver(function (girdi) {
+    girdi.forEach(function (g) { var el = g.target; if (el.clientWidth !== el.__vdGen) kirpEl(el); });
+  }) : null;
+  VD.kirp = function (kok) {
+    var liste = (kok || document).querySelectorAll('[data-vd-kirp]');
+    for (var i = 0; i < liste.length; i++) {
+      var el = liste[i];
+      if (!el.__vdGoz && kirpGozcu) { kirpGozcu.observe(el); el.__vdGoz = 1; }
+      kirpEl(el);
+    }
+  };
+  var kirpZaman = 0;
+  addEventListener('resize', function () { cancelAnimationFrame(kirpZaman); kirpZaman = requestAnimationFrame(function () { document.querySelectorAll('[data-vd-kirp]').forEach(kirpEl); }); });
+  function kirpBaslat() {
+    VD.kirp();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { document.querySelectorAll('[data-vd-kirp]').forEach(kirpEl); });
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { VD.raylariKur(); kirpBaslat(); });
+  else { VD.raylariKur(); kirpBaslat(); }
 })();

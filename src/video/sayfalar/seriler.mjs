@@ -27,7 +27,7 @@ export default async function (o) {
    </div>
   </div>
  </section>
- <section class="vd-alan" aria-labelledby="vd-sr-liste">
+ <section class="vd-alan vd-alan--duz" aria-labelledby="vd-sr-liste">
   <div class="wrap">
    <h2 class="vd-gizli" id="vd-sr-liste">Seri listesi</h2>
    <div class="vd-izgara vd-izgara--3 vd-seriler-izgara">${seriler.map((s) => K.seriAfisi(s, o, { ornekler: 2 })).join('')}</div>
