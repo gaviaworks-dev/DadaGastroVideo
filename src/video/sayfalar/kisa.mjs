@@ -24,7 +24,7 @@ export function kisaGoruntuleyici(o, { katman = false } = {}) {
      <span class="vd-dikey__durum" aria-hidden="true"><i class="fa-solid fa-play"></i></span>
      <div class="vd-dikey__bilgi">
       ${(k.rozetler || []).length ? `<div class="vd-dikey__rozetler">${k.rozetler.map((r) => `<span class="vd-dikey__rozet">${esc(r)}</span>`).join('')}</div>` : ''}
-      <h2 class="vd-dikey__baslik">${esc(k.baslik)}</h2>
+      <h2 class="vd-dikey__baslik" data-vd-kirp="2" title="${esc(k.baslik)}">${esc(k.baslik)}</h2>
       ${k.ozet ? `<p class="vd-dikey__ozet">${esc(k.ozet)}</p>` : ''}
       ${!t && k.malzemeler?.length ? `<ul class="vd-dikey__mz" aria-label="Malzemeler">${k.malzemeler.map((m) => `<li>${esc(m)}</li>`).join('')}</ul>` : ''}
       <p class="vd-dikey__kim">${sef ? `${sef.avatar ? `<img src="${esc(sef.avatar)}" alt="" width="24" height="24" loading="lazy">` : `<span aria-hidden="true">${esc(sef.bas_harf)}</span>`}<a href="${esc(o.sefAdresi(sef.kullanici_adi))}">${esc(sef.ad)}</a> · ` : ''}<span>${esc(seri?.ad || '')} · ${k.sure_sn} sn</span></p>

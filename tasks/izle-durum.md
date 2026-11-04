@@ -29,3 +29,14 @@
 - [x] izle.mjs → 26 × video-izle-<slug>.html · [x] kisa.mjs → video-kisa.html · [x] sef.mjs → 6 × video-sef-<k>.html
 - [x] pişirme modu (izle sayfalarında, tarifli videolarda) · [x] davranış kapısı `araclar/davranis-izle.mjs` (23 ölçüm, 0 kırmızı; 9 bozmanın her biri kırmızı)
 - Ekran görüntüleri: tasks/ss/izle/<sayfa>-1440.png / -390.png (66 dosya)
+
+## REVİZE 1 (5 Kas) — yapıldı
+- Kenardan kenara panel yok: izleme sayfasının koyu sahnesi `.vd-izle__sahne` (container içinde, `--vd-kart-r`, iç boşluk `--vd-ic`);
+  390'da oynatıcı dahil kenar boşluğu içinde ve yuvarlak. Benzer videolar beyaz bandı kaldırıldı. Şef künyesi container içinde kutu.
+  Kısa video görüntüleyicisi tam ekran kaldı (karar).
+- `--vd-kart-r` + `--vd-ic`: oynatıcı, malzeme paneli, bölüm düğmeleri, yazılı tarif kartı, şef kartı, seri bölüm listesi satırları,
+  sıradaki bölüm kartı, pişirme modu adım kartı, şef künyesi. Düğmeler Gastro düğme köşesinde (12px). Aralar `--vd-ara`, bölüm araları `--vd-bolum-ara`.
+  Token gelene dek yedekler: 16px / 24px / 24px / 64px. 5 CSS dosyamda ölçek dışı boşluk değeri: 0.
+- `data-vd-kirp="2"` + `title`: bölüm düğmesi başlığı, bölüm listesi satırı, sıradaki bölüm başlığı + özeti, sıradaki katmanı, pişirme modu
+  tarif adı, kısa video başlığı. (Benzerler ve şefin diğer videoları hub'ın videoKarti'si — kırpma hub'da.) CSS line-clamp yalnız yedek.
+  Oynatıcı çubuğundaki bölüm adında ellipsis kaldırıldı; dar ekranda hiç basılmaz (damgalar altta).

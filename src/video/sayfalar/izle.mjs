@@ -35,7 +35,7 @@ function sayfa(v, o, uzunlar) {
     <a href="${esc(o.seriAdresi(s))}">${esc(s.ad)}</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
     <b>Bölüm ${v.bolum}</b>
    </nav>
-   ${oynatici(v, o, { kip: 'izle', kilitli, alt: damgalar(v, o, bolumler, kilitli) })}
+   <div class="vd-izle__sahne">${oynatici(v, o, { kip: 'izle', kilitli, alt: damgalar(v, o, bolumler, kilitli) })}</div>
   </div>
  </section>
 
@@ -89,7 +89,7 @@ function damgalar(v, o, bolumler, kilitli) {
   return `<div class="vd-damgalar" data-vd-damgalar>
     <span class="vd-damgalar__bas"><i class="fa-solid fa-list-ul" aria-hidden="true"></i> Bölümler</span>
     <div class="vd-damgalar__iz" role="list">
-     ${bolumler.map((b, i) => `<div role="listitem"><button class="vd-damga" type="button" data-vd-damga="${i}" data-sn="${b.sn}"${i === 0 ? ' aria-current="true"' : ''} aria-label="${esc(o.sureMetni(b.sn))} ${esc(b.baslik)}${kilitli ? ' (Pro)' : ''}"><span class="vd-damga__sn">${o.sureMetni(b.sn)}</span><span class="vd-damga__ad">${esc(b.baslik)}</span></button></div>`).join('')}
+     ${bolumler.map((b, i) => `<div role="listitem"><button class="vd-damga" type="button" data-vd-damga="${i}" data-sn="${b.sn}"${i === 0 ? ' aria-current="true"' : ''} aria-label="${esc(o.sureMetni(b.sn))} ${esc(b.baslik)}${kilitli ? ' (Pro)' : ''}"><span class="vd-damga__sn">${o.sureMetni(b.sn)}</span><span class="vd-damga__ad" data-vd-kirp="2" title="${esc(b.baslik)}">${esc(b.baslik)}</span></button></div>`).join('')}
     </div>
    </div>`;
 }
@@ -104,7 +104,7 @@ function tarifKarti(v, o, t) {
     <span class="eyebrow vd-tarif-kart__ust"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Bu videonun yazılı tarifi</span>
     <a class="vd-tarif-kart__medya" href="${esc(o.tarifAdresi(t.slug))}" tabindex="-1" aria-hidden="true"><img src="${esc(t.kapak640)}" alt="" width="640" height="427" loading="lazy" decoding="async"></a>
     <div class="vd-tarif-kart__govde">
-     <h2 class="vd-tarif-kart__ad"><a href="${esc(o.tarifAdresi(t.slug))}">${esc(t.baslik)}</a></h2>
+     <h2 class="vd-tarif-kart__ad" data-vd-kirp="2"><a href="${esc(o.tarifAdresi(t.slug))}" aria-label="${esc(t.baslik)}">${esc(t.baslik)}</a></h2>
      ${tsef ? `<p class="vd-tarif-kart__sef">${tsef.avatar ? `<img src="${esc(tsef.avatar)}" alt="" width="28" height="28" loading="lazy">` : `<span aria-hidden="true">${esc(tsef.bas_harf)}</span>`}<span>Tarif: <b>${esc(tsef.ad)}</b></span></p>` : ''}
      <ul class="vd-tarif-kart__kunye">
       ${toplam ? `<li><i class="fa-solid fa-clock" aria-hidden="true"></i><span><b>${toplam} dk</b><small>Hazırlık + pişirme</small></span></li>` : ''}
@@ -124,7 +124,7 @@ function kunyeKarti(v, o, s, bolumler) {
   return `<div class="vd-tarif-kart vd-tarif-kart--kunye">
     <span class="eyebrow vd-tarif-kart__ust"><i class="fa-solid fa-kitchen-set" aria-hidden="true"></i> Ekipman rehberi</span>
     <div class="vd-tarif-kart__govde">
-     <h2 class="vd-tarif-kart__ad">Bu videoda yazılı tarif yok</h2>
+     <h2 class="vd-tarif-kart__ad" data-vd-kirp="2" title="Bu videoda yazılı tarif yok">Bu videoda yazılı tarif yok</h2>
      <p class="vd-tarif-kart__not">${esc(s.ad)} serisinin bu bölümü bir tarif değil, ekipman rehberi. Ekipman listesi oynatıcının yanında; bölümler videoyla birlikte ilerler.</p>
      <ul class="vd-tarif-kart__kunye">
       <li><i class="fa-solid fa-circle-play" aria-hidden="true"></i><span><b>${o.sureMetni(v.sure_sn)}</b><small>Video süresi</small></span></li>
@@ -182,14 +182,14 @@ function seriBaglami(v, o, s, seriBolum, sira, sonraki) {
    </div>
    ${sonraki ? `<a class="vd-siradaki" href="${esc(o.videoAdresi(sonraki))}">
     <span class="vd-siradaki__medya">${kucukKapak(sonraki)}<span class="vd-siradaki__oynat" aria-hidden="true"><i class="fa-solid ${s.pro ? 'fa-lock' : 'fa-play'}"></i></span><span class="vd-sure"><i class="fa-solid fa-play" aria-hidden="true"></i> ${o.sureMetni(sonraki.sure_sn)}</span></span>
-    <span class="vd-siradaki__metin"><span class="vd-siradaki__ust">Sıradaki bölüm · Bölüm ${sonraki.bolum}</span><b>${esc(sonraki.baslik)}</b>${sonraki.ozet ? `<small>${esc(sonraki.ozet)}</small>` : ''}</span>
+    <span class="vd-siradaki__metin"><span class="vd-siradaki__ust">Sıradaki bölüm · Bölüm ${sonraki.bolum}</span><b data-vd-kirp="2" title="${esc(sonraki.baslik)}">${esc(sonraki.baslik)}</b>${sonraki.ozet ? `<small data-vd-kirp="2" title="${esc(sonraki.ozet)}">${esc(sonraki.ozet)}</small>` : ''}</span>
    </a>` : `<div class="vd-siradaki vd-siradaki--son"><span class="vd-siradaki__metin"><span class="vd-siradaki__ust">Serinin son bölümü</span><b>${esc(s.ad)} serisini bitirdin</b><small>${esc(s.ritim)}.</small></span><a class="btn btn-ghost" href="${esc(o.videoAdresi(seriBolum[0]))}">Baştan izle</a></div>`}
    <ol class="vd-bolum-liste">
     ${seriBolum.map((x, i) => `<li class="vd-bolum-liste__oge${i === sira ? ' is-simdi' : ''}">
      <a href="${esc(o.videoAdresi(x))}"${i === sira ? ' aria-current="page"' : ''}>
       <span class="vd-bolum-liste__no" aria-hidden="true">${i === sira ? '<i class="fa-solid fa-play"></i>' : String(x.bolum).padStart(2, '0')}</span>
       <span class="vd-bolum-liste__medya">${kucukKapak(x)}</span>
-      <span class="vd-bolum-liste__metin"><b>${esc(x.baslik)}</b><small>${i === sira ? '<span class="vd-bolum-liste__simdi">Şimdi izliyorsun</span> · ' : `Bölüm ${x.bolum} · `}${o.sureMetni(x.sure_sn)}</small></span>
+      <span class="vd-bolum-liste__metin"><b data-vd-kirp="2" title="${esc(x.baslik)}">${esc(x.baslik)}</b><small>${i === sira ? '<span class="vd-bolum-liste__simdi">Şimdi izliyorsun</span> · ' : `Bölüm ${x.bolum} · `}${o.sureMetni(x.sure_sn)}</small></span>
      </a>
     </li>`).join('')}
    </ol>
@@ -214,7 +214,7 @@ function benzerler(v, o, uzunlar) {
   const aday = uzunlar.filter((x) => x.seri !== v.seri).map((x) => [x, puan(x)]).sort((a, b) => b[1] - a[1]);
   const secim = []; const seriSay = {};
   for (const [x] of aday) { if ((seriSay[x.seri] || 0) >= 2) continue; secim.push(x); seriSay[x.seri] = (seriSay[x.seri] || 0) + 1; if (secim.length === 4) break; }
-  return `<section class="vd-alan vd-alan--beyaz vd-izle__benzer" aria-labelledby="vdBenzer">
+  return `<section class="vd-izle__benzer" aria-labelledby="vdBenzer">
   <div class="wrap">
    <div class="sec-head">
     <div><span class="eyebrow"><i class="fa-solid fa-clapperboard" aria-hidden="true"></i> Video Mutfağı</span><h2 id="vdBenzer">Benzer videolar</h2><p class="lead">Başka serilerden, bu bölüme yakın süre ve zorlukta videolar.</p></div>
@@ -231,7 +231,7 @@ function pisirmeModu(v, o, t, bolumler, malzemeler, kilitli) {
   const n = t.adimlar.length;
   return `<div class="vd-pisirme" id="vdPisirme" role="dialog" aria-modal="true" aria-labelledby="vdPisirmeAd" data-vd-pisirme hidden>
   <div class="vd-pisirme__ust">
-   <div class="vd-pisirme__kim"><span class="vd-pisirme__etiket"><i class="fa-solid fa-fire-burner" aria-hidden="true"></i> Pişirme Modu</span><b id="vdPisirmeAd">${esc(t.baslik)}</b></div>
+   <div class="vd-pisirme__kim"><span class="vd-pisirme__etiket"><i class="fa-solid fa-fire-burner" aria-hidden="true"></i> Pişirme Modu</span><b id="vdPisirmeAd" data-vd-kirp="2" title="${esc(t.baslik)}">${esc(t.baslik)}</b></div>
    <p class="vd-pisirme__kilit" data-vd-wake role="status" aria-live="polite"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i><span data-vd-wake-yazi>Ekranı açık tutma isteniyor…</span></p>
    <button class="vd-pisirme__kapat" type="button" data-vd-pisirme-kapat aria-label="Pişirme modunu kapat"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
   </div>
@@ -265,7 +265,7 @@ function siradakiKatmani(v, o, sonraki) {
   const { esc } = o;
   return `<div class="vd-sonraki" data-vd-sonraki-katman hidden role="dialog" aria-label="Sıradaki bölüm">
   <span class="vd-sonraki__ust">Sıradaki bölüm · <span data-vd-geri-sayim>5</span> sn</span>
-  <b class="vd-sonraki__ad">${esc(sonraki.baslik)}</b>
+  <b class="vd-sonraki__ad" data-vd-kirp="2" title="${esc(sonraki.baslik)}">${esc(sonraki.baslik)}</b>
   <span class="vd-sonraki__halka" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="21"></circle><circle class="vd-sonraki__dolu" cx="24" cy="24" r="21"></circle></svg><i class="fa-solid fa-play"></i></span>
   <div class="vd-sonraki__dugmeler">
    <a class="vd-sonraki__simdi" href="${esc(o.videoAdresi(sonraki))}">Şimdi izle</a>

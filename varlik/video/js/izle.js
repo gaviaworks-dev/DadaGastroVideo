@@ -43,9 +43,9 @@
   // damga çubuğu taşıyorsa sağ/sol kenarda solma (kaydırılabildiği görünsün)
   function tasmaBoya() {
     if (!iz) return;
-    var t = iz.scrollWidth - iz.clientWidth > 2;
-    iz.classList.toggle('is-tasiyor-sag', t && iz.scrollLeft < iz.scrollWidth - iz.clientWidth - 2);
-    iz.classList.toggle('is-tasiyor-sol', t && iz.scrollLeft > 2);
+    var t = iz.scrollWidth - iz.clientWidth > 8; // iz 4px iç pay taşıyor (odak halkası için); snap 4px kaydırabilir
+    iz.classList.toggle('is-tasiyor-sag', t && iz.scrollLeft < iz.scrollWidth - iz.clientWidth - 8);
+    iz.classList.toggle('is-tasiyor-sol', t && iz.scrollLeft > 8);
   }
   if (iz) { iz.addEventListener('scroll', tasmaBoya, { passive: true }); window.addEventListener('resize', tasmaBoya); tasmaBoya(); }
   if (oynEl) {

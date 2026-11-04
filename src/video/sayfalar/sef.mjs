@@ -150,7 +150,7 @@ function tariflerPaneli(sef, tarifler, o) {
       ${t.mutfak ? `<span class="r-chip">${esc(t.mutfak)}</span>` : ''}
      </div></div>
      <div class="r-body">
-      <h3><a href="${href}">${esc(t.baslik)}</a></h3>
+      <h3 data-vd-kirp="2"><a href="${href}" aria-label="${esc(t.baslik)}">${esc(t.baslik)}</a></h3>
       <div class="r-facts">${t.sure_dk ? `<span><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">${t.sure_dk} dk</span></span>` : ''}${z ? ` <span><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">${esc(z)}</span></span>` : ''}</div>
      </div>
     </article>`;
