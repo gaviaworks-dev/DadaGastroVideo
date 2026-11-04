@@ -1,0 +1,42 @@
+/* ÜST ŞERİT · İKİ SEÇİCİ, TEK KUTU — kanonun R18 kuralının eksik yarısı.
+ *
+ * 🔴 KANON BU KURALI KENDİ YAZMIŞ, AMA YALNIZ ALTBİLGİ İÇİN. `.foot-soc`
+ * bölümünde şöyle diyor:
+ *
+ *     🔴 R18 · İKİ SEÇİCİ, TEK KUTU. Sosyal kutular `<a href="#">` iken footer
+ *     denetimi ikisini de "boş hedef" saydı; hesap adresi gelene kadar mağaza
+ *     kutularının kalıbına (`<span aria-disabled>`) çekildiler. Kutunun
+ *     görüntüsü DEĞİŞMEDİ.
+ *
+ * ve kuralı iki seçiciyle yazmış: `.foot-soc a,.foot-soc .fs-soc{…}`.
+ * ÜST ŞERİTTE bu ikinci seçici YOK — orada kutuyu veren kural yalnız
+ * `.topbar a{display:inline-flex;align-items:center;gap:7px;…}`, yani `<a>`ya
+ * bağlı. `<a>` → `<span>` çevrilince kutu kanonsuz kalıyor.
+ *
+ * 🔴 ÖLÇÜLDÜ (2026-09-11, 1440, gerçek giriş, `/hesabim/paketlerim`):
+ *
+ *            x           genişlik      y      yükseklik
+ *   <a>      286/311/339  11/14/12     14      13
+ *   <span>   286/311/339  11/14/12     10      19      ← kutu 6px büyüdü,
+ *                                                         4px yukarı kaydı
+ *
+ * Yatay geometri ve RENK aynı kaldı (renk `.topbar`tan miras, `.topbar a`dan
+ * değil); sapan tek şey dikey kutu. İkonun kendisi yalnız 1px oynuyor ama
+ * ÖĞENİN kutusu 6px sapıyor ve bu, `CLAUDE.md`nin 4px parite toleransının
+ * DIŞINDA. "İkonu gözle göremezsin" bir parite savunması değildir.
+ *
+ * 🔴 NEDEN KANONA YAZILMADI: `public/kanon/*` değiştirilmez — birebir kopya.
+ * Bu dosya `KabukKimligi` tarafından `<link rel="stylesheet">` olarak girer;
+ * `public/kabuk/` kabuk köprüsünün kendi kümesi (`kabuk-kimlik.css` ·
+ * `zil-sayaci.css` ile aynı yer). Türetilmiş markup'ın gövdesine tek bayt
+ * girmez ve sayfa içi `<style>` bloğu yoktur.
+ *
+ * ⚠ SEÇİCİ MARKUP'IN KENDİ NİTELİĞİNE BAĞLI, yeni bir sınıf uydurulmadı:
+ * inert kutuların hepsi `aria-disabled="true"` taşıyor ve bu, kalıbın
+ * public dilimde de yayımlanmış hâli. Kural yalnız `.tb-soc` içinde geçerli.
+ */
+.topbar .tb-soc [aria-disabled="true"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}

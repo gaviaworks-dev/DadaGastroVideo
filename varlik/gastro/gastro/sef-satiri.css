@@ -1,0 +1,16 @@
+/* ANA SAYFA "TARİFİN USTALARI" SATIRI — acil düzeltme (2 Eki 2026, Yasin Bey).
+ *
+ * Derlenmiş `portal-*.css` masaüstünde satırı `repeat(7, 1fr)` ızgarası yapıyor;
+ * kart sayısı 7'den az olunca (sponsorsuz hâlde 5 şef + "Sen de Şef Ol")
+ * sağdaki sütunlar BOŞ kalıyordu (ölçüldü: 1440'ta 6 kart, 170px boşluk).
+ * Burada satır tek sıradır ve her kart eşit pay alır: kart kaç olursa olsun
+ * satır kabın tamamını doldurur, "Sen de Şef Ol" DOM sırasıyla en sonda kalır.
+ * 1024px ve altındaki yatay kaydırmalı şerit (portal) değişmez.
+ */
+@media (min-width: 1025px) {
+  .sec.chefs .chef-row {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 1fr);
+  }
+}

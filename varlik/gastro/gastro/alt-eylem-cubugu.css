@@ -1,0 +1,24 @@
+/* DadaGastro · alt sabit eylem çubuğu — tarif detayı (.rd-actbar) ve püf detayı (.actbar) ortak kuralı.
+   Görünürlük `alt-eylem-cubugu.js`te. Revize 5 · madde 53. */
+
+/* İlk karede geçiş kapalı: açılışta kayma animasyonu oynamaz; `.rv-anlik` iki kare sonra söner,
+   sonraki gizlen/görün (altbilgi) donörün kendi geçişiyle oynar. */
+.rd-actbar.rv-anlik{transition:none}
+.actbar.rv-anlik{transition:none}
+
+/* Giriş/çıkış animasyonu tarifle birebir: süreler iki donörde zaten aynı (.35s transform · .3s opacity ·
+   .35s visibility); tek fark ≤640'ta gizli konumdu — tarif `translateY(130%)`, püf `translateY(160%)`. */
+@media (max-width:640px){
+  .actbar:not(.show){transform:translateY(130%)}
+}
+
+/* ≤640 · yuva (lead kararı, madde 53): tarifin "seçenek c"si (d1e4471f · `tarif-pisirme.css`) püfe de geçer.
+   Donör çubuğu `bottom:calc(78px + safe-area)` ile alt navigasyonun ÜSTÜNE oturtuyor; çubuk açılıştan görünür
+   olunca 390'da iki şerit üst üste biniyor, navigasyon aşağı kaydırmada gizlenince de altında 78px boş bant
+   kalıyordu (ölçüldü). Çubuk görünürken navigasyon gizlenir (tek şerit kuralı, tarif-detay.css:2'nin eşi) ve
+   çubuk navigasyonun kendi yuvasına iner: kanon `--alt-cubuk-dip` (14px) + iPhone ev çizgisi payı. Altbilgide
+   çubuk gizlenince navigasyon aynı yuvaya geri gelir. */
+@media (max-width:640px){
+  body:has(.actbar.show) .bottom-nav{display:none}
+  .actbar{bottom:calc(var(--alt-cubuk-dip, 14px) + env(safe-area-inset-bottom, 0px))}
+}

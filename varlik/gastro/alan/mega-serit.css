@@ -1,0 +1,137 @@
+/* =====================================================================
+   donör: https://gaviaworks-dev.github.io/DadaSaglik/tarifler.html · varlik/saglik/saglik.css (DadaSaglik main = bdb53ef)
+   MEGA MENÜ İKİLİ ŞERİDİ — saglik.css'in mega şeridini boyayan kurallarının BİREBİR ALT KÜMESİ (lead kararı, 3 Kas).
+   Neden ayrı dosya: saglik.css her Gastro sayfasına yüklenemez — satır 46 `.feedback-tab, .fb-rail { display:none !important }`
+   Gastro'nun geri bildirim sekmesini site genelinde gizler. Bu dosya o kuralı TAŞIMAZ.
+   Kurallar kaynaktaki sırayla, değiştirilmeden; her bloğun üstünde kaynak satır aralığı. Bloklar: 10–37 belirteçler + mod paleti ·
+   368–373 kurum renkleri (paleti ezer; bitis-parite bulgusu, lead kararı 3 Kas — bu dosya gövdede saglik.css'ten SONRA yüklendiği için
+   onsuz Health sayfalarında hero/sekme renkleri eski palete dönüyordu) · 107–108 logo · 212–258 §9 mega · 299–300 · 333–335 · 342–346 · 377–387. Tek ek (son blok) donörün satır içi
+   `--r-a` değerlerinin sınıf karşılığıdır (eskiden /alan/alan.css'teydi). Yükleyen: `x-alan.mega-serit` (@once).
+   Not: §9'un ≤1239px bloğu Gastro'nun `.mega` / `.mega .mega-grid` kurallarını da içerir — donörde şerit eklenince mega menünün
+   iki satırlı ızgarası böyle kurulmuş; birebir alındı.
+   ===================================================================== */
+
+/* --- saglik.css 10–37: §0 tasarım belirteçleri (:root) + mod paleti [data-renk] — şeridin var(--sg-*) / var(--r-*) değerleri --- */
+:root {
+  --sg-font: var(--font, "Gilroy", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+  --sg-font-kalin: GilroyBd, var(--sg-font);
+  --sg-font-ekstra: GilroyXB, var(--sg-font);
+  --sg-satir-govde: var(--lh-body, 1.55); --sg-satir-baslik: var(--lh-head, 1.12);
+  --sg-zemin: #F8F6F1; --sg-zemin-2: #EFEBE3; --sg-beyaz: #FFFFFF;
+  --sg-murekkep: var(--ink, #211E16); --sg-ikincil: #5E5852; --sg-cizgi: #E4DED3;
+  --sg-tema: #2E7D5B; --sg-tema-k: #24664A; --sg-tema-a: #E3F1E9;
+  --sg-uyari-a: #FFF4E5; --sg-uyari-k: #8A4500; --sg-uyari-c: #F2CF9F;
+  --sg-golge: 0 1px 2px rgba(42, 39, 36, .05), 0 4px 14px -8px rgba(42, 39, 36, .18);
+  --sg-golge-yuksek: 0 2px 4px rgba(42, 39, 36, .06), 0 14px 30px -16px rgba(42, 39, 36, .28);
+  --sg-r: var(--radius-md, 12px); --sg-r-daire: 50%;
+  --sg-s1: 4px; --sg-s2: 8px; --sg-s3: 12px; --sg-s4: 16px; --sg-s5: 24px; --sg-s6: 32px; --sg-s7: 48px; --sg-s8: 64px; --sg-s9: 96px;
+  --sg-izgara-bosluk: clamp(16px, 1.6vw, 24px);
+  /* mod renkleri */
+  --sg-bugday-a: #FBF1DC; --sg-bugday-o: #EBCB86; --sg-bugday-k: #7A5410;
+  --sg-mavi-a: #E5EEF8;   --sg-mavi-o: #A9C6E8;   --sg-mavi-k: #24578A;
+  --sg-lila-a: #EFE8F6;   --sg-lila-o: #C9B5E2;   --sg-lila-k: #5E3F86;
+  --sg-turkuaz-a: #E0F1F2; --sg-turkuaz-o: #9DD2D6; --sg-turkuaz-k: #1C6770;
+  --sg-adacayi-a: #E5F0E7; --sg-adacayi-o: #A9CFB1; --sg-adacayi-k: #2F6B3E;
+  --sg-mercan-a: #FBE7E3; --sg-mercan-o: #F0B2A6; --sg-mercan-k: #A23A2E;
+}
+[data-renk="bugday"]  { --r-a: var(--sg-bugday-a);  --r-o: var(--sg-bugday-o);  --r-k: var(--sg-bugday-k); }
+[data-renk="mavi"]    { --r-a: var(--sg-mavi-a);    --r-o: var(--sg-mavi-o);    --r-k: var(--sg-mavi-k); }
+[data-renk="lila"]    { --r-a: var(--sg-lila-a);    --r-o: var(--sg-lila-o);    --r-k: var(--sg-lila-k); }
+[data-renk="turkuaz"] { --r-a: var(--sg-turkuaz-a); --r-o: var(--sg-turkuaz-o); --r-k: var(--sg-turkuaz-k); }
+[data-renk="adacayi"] { --r-a: var(--sg-adacayi-a); --r-o: var(--sg-adacayi-o); --r-k: var(--sg-adacayi-k); }
+[data-renk="mercan"]  { --r-a: var(--sg-mercan-a);  --r-o: var(--sg-mercan-o);  --r-k: var(--sg-mercan-k); }
+
+/* --- saglik.css 368–373: kurum renkleri — mod paletini (--r-k/--r-a/--r-o) kurum renginden yeniden tanımlar, --sg-kurum/--sg-kurum-yazi; donörün SON kaskadı (10–37 paletinden sonra gelmek zorunda) --- */
+[data-renk="bugday"]  { --sg-kurum: #F7A600; --sg-kurum-yazi: #211E16; --r-k: #9E6A00; --r-a: #FEF4E0; --r-o: #FDEAC2; } /* Çölyakla Yaşam Derneği */
+[data-renk="mavi"]    { --sg-kurum: #00134E; --sg-kurum-yazi: #FFFFFF; --r-k: #00134E; --r-a: #E0E3EA; --r-o: #C2C6D5; } /* Türkiye Diyabet Vakfı */
+[data-renk="lila"]    { --sg-kurum: #DC911B; --sg-kurum-yazi: #211E16; --r-k: #9E6813; --r-a: #FBF2E4; --r-o: #F7E5C8; } /* AID */
+[data-renk="turkuaz"] { --sg-kurum: #15555B; --sg-kurum-yazi: #FFFFFF; --r-k: #15555B; --r-a: #E3EBEB; --r-o: #C7D6D8; } /* Alerji ile Yaşam Derneği */
+[data-renk="adacayi"] { --sg-kurum: #002581; --sg-kurum-yazi: #FFFFFF; --r-k: #002581; --r-a: #E0E5F0; --r-o: #C2CBE1; } /* Türk Gastroenteroloji Derneği */
+[data-renk="mercan"]  { --sg-kurum: #BF1A20; --sg-kurum-yazi: #FFFFFF; --r-k: #BF1A20; --r-a: #F7E4E4; --r-o: #F0C8C9; } /* Türk Kalp Vakfı */
+
+/* --- saglik.css 107–108: §2 logo kilidi rengi (.sg-logo-svg) --- */
+/* Logo: header'da Gastro logosu aynen + "sağlık" rozeti yalnız CSS (Gastro DOM'una öğe eklenmez); bağımsız kilit SVG */
+.sg-logo-svg { display: block; height: auto; color: var(--tomato, #DC3D17); }
+
+/* --- saglik.css 212–258: §9 mega menü ızgarası + mega yuvası + şerit + noktalar (≤1239 ve reduced-motion dahil) --- */
+/* 9 · Mega menü şeridi ve Gastro sayfalarındaki girişler (kapı A/B/C) */
+.mega .mega-grid { grid-template-rows: auto auto; row-gap: var(--sg-s3); align-items: stretch; }
+.mega .mega-cats { grid-column: 1; grid-row: 1; }
+.mega .mega-feat { grid-column: 2; grid-row: 1 / span 2; display: flex; flex-direction: column; }
+.mega .mega-feat .mf-fig { flex: 1 1 auto; min-height: 0; aspect-ratio: auto; }
+.mega .mega-feat .mega-find { flex: none; margin-top: var(--sg-s3); }
+/* Mega yuvası: Sağlık ↔ Kids şeritleri aynı ızgara hücresinde üst üste; görünen .sg-dongu-aktif (saglik.js) */
+.sg-mega-yuva { grid-column: 1; grid-row: 2; position: relative; display: grid; min-width: 0; }
+.sg-mega-yuva > .sg-mega-serit { grid-area: 1 / 1; transition: opacity .45s ease, visibility 0s linear .45s; }
+.sg-js .sg-mega-yuva > .sg-mega-serit:not(.sg-dongu-aktif) { opacity: 0; visibility: hidden; pointer-events: none; }
+.sg-js .sg-mega-yuva > .sg-mega-serit.sg-dongu-aktif { transition-delay: 0s; }
+.sg-mega-serit { position: relative; display: flex; align-items: center; gap: var(--sg-s4); min-width: 0; min-height: 60px; padding: var(--sg-s2) var(--sg-s7) var(--sg-s2) var(--sg-s5); box-sizing: border-box; border-radius: var(--sg-r); background: var(--sg-tema-a); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sg-tema) 24%, transparent); color: var(--sg-murekkep); font-family: var(--sg-font); }
+.sg-mega-serit--kids { background: linear-gradient(100deg, #FFF6EE 0%, #F3F8F5 100%); box-shadow: inset 0 0 0 1px #EFE4D8; }
+.sg-mega-serit:hover { box-shadow: inset 0 0 0 1.5px var(--sg-tema); }
+.sg-mega-serit--kids:hover { box-shadow: inset 0 0 0 1.5px #D9783A; }
+.sg-mega-serit__logo { flex: none; width: 150px; }
+.sg-mega-serit--kids .sg-mega-serit__logo { width: 132px; }
+.sg-mega-serit__metin { flex: 1 1 auto; min-width: 0; font-size: 13.5px; line-height: 1.25; }
+.sg-mega-serit__chipler { flex: 1 1 auto; min-width: 0; display: flex; flex-wrap: nowrap; justify-content: center; gap: 6px; }
+.sg-mega-serit--kids .sg-mega-serit__chipler { flex: none; }
+.nav .sg-mega-serit .sg-mega-serit__chip { position: relative; z-index: 1; flex: none; display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 4px 10px; border-radius: var(--sg-r); background: var(--r-a, #fff); color: var(--r-k, var(--sg-murekkep)); font-size: 13px; font-weight: 700; font-family: var(--sg-font-kalin); line-height: 1.1; white-space: nowrap; box-shadow: none; }
+.nav .sg-mega-serit--kids .sg-mega-serit__chip { color: var(--sg-murekkep); }
+.nav .sg-mega-serit .sg-mega-serit__chip:hover { background: var(--r-o, var(--r-a)); color: var(--sg-murekkep); }
+.nav .sg-mega-serit .sg-mega-serit__kesfet { position: static; flex: none; display: inline-flex; align-items: center; gap: var(--sg-s1); padding: var(--sg-s1); background: transparent; color: var(--sg-tema-k); font-size: 14px; font-weight: 800; font-family: var(--sg-font-ekstra); }
+.nav .sg-mega-serit--kids .sg-mega-serit__kesfet { color: #9A4415; }
+.sg-mega-serit__kesfet::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.nav .sg-mega-serit .sg-mega-serit__kesfet i { margin: 0; font-size: 12px; opacity: 1; }
+.header .ana-menu .mega .sg-mega-yuva a:focus-visible, .sg-mega-nokta button:focus-visible { outline: 3px solid var(--sg-tema); outline-offset: 2px; }
+.sg-mega-nokta { position: absolute; z-index: 2; right: 10px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 6px; }
+.sg-mega-nokta button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 50%; background: color-mix(in srgb, var(--sg-murekkep) 25%, transparent); cursor: pointer; }
+.sg-mega-nokta button[aria-pressed="true"] { background: var(--sg-murekkep); }
+.sg-mega-nokta button::before { content: ""; position: absolute; inset: -8px; }
+.sg-mega-nokta button { position: relative; }
+@media (max-width: 1239.98px) {
+  .mega { padding-block: var(--sg-s4); }
+  .mega .mega-grid { row-gap: var(--sg-s2); }
+  .sg-mega-serit { min-height: 52px; gap: var(--sg-s3); padding: 6px 44px 6px var(--sg-s4); }
+  .sg-mega-serit__logo { width: 118px; }
+  .sg-mega-serit--kids .sg-mega-serit__logo { width: 104px; }
+  .sg-mega-serit__metin { display: none; }
+  .sg-mega-serit__chip .sg-mod-ikon { display: none; }
+  .nav .sg-mega-serit .sg-mega-serit__chip { padding: 4px 8px; font-size: 12.5px; }
+  .sg-mega-serit__chipler { gap: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { .sg-mega-yuva > .sg-mega-serit { transition: none; } }
+.sg-mega-serit__chip .sg-mod-ikon { display: none; }   /* tek sıra sığsın: mega chip'leri yalnız metin (mod rengi zeminde) */
+.sg-mega-nokta { right: 16px; }
+
+/* --- saglik.css 299–300: mega çip ikon boşluğu ve çip aralığı --- */
+.sg-chip .sg-mod-ikon, .sg-mega-serit__chip .sg-mod-ikon { margin-right: 2px; }
+.nav .sg-mega-serit .sg-mega-serit__chip { gap: 5px; }
+
+/* --- saglik.css 333–335: etiket köşesi (--sg-r-etiket) ve çip köşe kuralı --- */
+:root { --sg-r-etiket: var(--radius-sm, 8px); }
+.sg-uyum, .sg-al, .sg-chip, .nav .sg-mega-serit .sg-mega-serit__chip, .sg-eslesme, .sg-makale__sure, .sg-riskli__neden,
+.sg-fct-saglik__etiket, .sg-dcip { border-radius: var(--sg-r-etiket); }
+
+/* --- saglik.css 342–346: mega şeridi 5. revize: zeminsiz çipler, logo boşluğu --- */
+/* Mega şeridi (Beyar 2 Kas, 5. revize): chip zemini yok, sade metin bağları; logo ile çakışmaz (sola dizili, taşma kesilir) */
+.sg-mega-serit__chipler { justify-content: flex-start; overflow: hidden; gap: 2px; }
+.nav .sg-mega-serit .sg-mega-serit__chip, .nav .sg-mega-serit--kids .sg-mega-serit__chip { background: transparent; color: var(--sg-murekkep); padding: 4px 10px; font-family: var(--sg-font-kalin); font-weight: 700; }
+.nav .sg-mega-serit .sg-mega-serit__chip:hover { background: rgba(255, 255, 255, .7); color: var(--sg-tema-k); }
+.sg-mega-serit__logo { margin-right: var(--sg-s2); }
+
+/* --- saglik.css 377–387: gölge yok + çerçeve (listede .sg-mega-serit var) --- */
+/* =====================================================================
+   GÖLGE YOK (Beyar 2 Kas): Health kartları, logo karoları, paneller ve sekme çubuğu box-shadow taşımaz; hover'da da gölge,
+   kalkma, büyüme yok. Çerçeve = Gastro kartı (1px var(--line)); köşe kendi değerinde (kart/panel 16 · karo 12).
+   Kapı: araclar/golge-kapisi.mjs (hesaplanan box-shadow = none, hover dahil).
+   ===================================================================== */
+:is(.sg-kart, .sg-cta-kart, .sg-secki-kutu, .sg-bilgi-kart, .sg-kimler__kart, .sg-sss__oge, .sg-filtre, .sg-alerjen-sec, .sg-dolap, .sg-bant,
+  .sg-logo-serit a, .sg-kurum-kutu__izgara a, .sg-riskli__oge, .sg-dkat, .sg-mz, .sg-bos, .sg-mega-serit, .sg-mod-sec__oge, .sg-icindekiler a, .sg-admin-not),
+:is(.sg-kart, .sg-cta-kart, .sg-secki-kutu, .sg-bilgi-kart, .sg-kimler__kart, .sg-sss__oge, .sg-bant, .sg-logo-serit a, .sg-kurum-kutu__izgara a,
+  .sg-riskli__oge, .sg-dkat, .sg-mz, .sg-mega-serit, .sg-mod-sec__oge, .sg-icindekiler a):hover {
+  box-shadow: none !important; transform: none !important; border: 1px solid var(--line, #ECECEC);
+}
+
+/* --- satır içi stilin karşılığı (donör: Kids yarısının çiplerinde style="--r-a:#…"; Kids prototipinin kendi şeridi data-renk ile) --- */
+.sg-mega-serit--kids .sg-mega-serit__chip[data-renk="seftali"] { --r-a: #FFC4A3; }
+.sg-mega-serit--kids .sg-mega-serit__chip[data-renk="mint"] { --r-a: #A6E3CB; }
+.sg-mega-serit--kids .sg-mega-serit__chip[data-renk="sari"] { --r-a: #FFDF7E; }

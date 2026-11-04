@@ -1,0 +1,41 @@
+/* BANNER STANDARDI — revize 20 Eki 2026 (Beyar) · madde 10: banner içindeki yazı DİKEYDE ORTALI; breadcrumb'a dokunulmaz.
+   Kabuk her sayfaya enjekte eder (`KabukKimligi`).
+
+   Ölçüldü (Playwright, 1440 ve 390): sayfa banner'larının hepsi aynı iskelette — `section.below-header > .wrap > nav.rd-crumb +
+   içerik bloğu` (liste: `.lst-hero`; Pro/Onur: `.tb-hero-main`; Ölçü: `.ob-head`; İletişim: `.con-intro`; Dolap: `.tb-head`;
+   Ne Pişirsem: `.bnp-head`; yasal: `.lg-head`; Marka: `.vt-hero-g`; Video: `.vh-head`). İçerik `margin-top:auto` ile ALTA itiliyor
+   ve alt iç boşluğu üsttekinden büyüktü (`.lst-hero` 10/42 px, `.con-intro` 6/64 px); yazının merkezi, breadcrumb'ın altı ile
+   banner'ın görünür altı (beyaz sayfanın 22 px bindiği kenar) arasındaki alanın merkezinden 1440'ta +22…+137 px, 390'da
+   +11…+158 px aşağıdaydı.
+
+   Kural: banner'ın alt iç boşluğu görünür kenara (22 px) çekilir, içerik bloğu kalan alanda `margin-block:auto` ile ortalanır ve
+   iki yanında eşit 26 px pay taşır (yazı beyaz sayfaya değmez). Breadcrumb'ın yeri değişmez. Sayfa CSS'leri `.below-header.lst-top`
+   gibi çift sınıflı seçiciler kullanıyor ve kabuk dosyası onlardan ÖNCE yükleniyor: kural `:not(#_)` ile kimlik özgüllüğü alır. */
+/* 🔴 KAPSAM YALNIZ ÖLÇÜLEN BANNER BLOKLARI (gerileme düzeltmesi, 20 Eki ikinci tur). İlk yazımda seçici `section.below-header > .wrap >
+   :last-child` idi; `below-header` sınıfını banner olmayan iki üst bölüm de taşıyor ve son çocukları kurala girdi: şef profilinde sayaç
+   şeridi (`.pf-stats`, `margin-top` 14 → 0, içine 26 px boşluk — şerit profil kartına yapıştı) ve video serisi detayında afişli kart
+   (`.sd-hero`, 16 px aşağı, bant +26 px). Ölçüldü: 1440/390, TR/EN/DE. Kural artık yalnız aşağıdaki içerik bloklarına uyar. */
+section.below-header:not(#_):has(> .wrap > :is(.lst-hero, .tb-hero-main, .ob-head, .con-intro, .tb-head, .bnp-head, .lg-head, .vt-hero-g, .vh-head):last-child) { padding-bottom: 22px; }
+section.below-header:not(#_) > .wrap > :is(.lst-hero, .tb-hero-main, .ob-head, .con-intro, .tb-head, .bnp-head, .lg-head, .vt-hero-g, .vh-head):last-child {
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-top: 26px;
+  padding-bottom: 26px;
+}
+/* Breadcrumb'ın alt dış boşluğu (12 px) serbest alanı aşağıdan başlatır; ortalanan kutu 6 px aşağı kayıyordu (ölçüldü). Breadcrumb'a
+   dokunmadan, içerik bloğunun üst payı aynı miktar kısaltılır. Breadcrumb'sız banner'da (Video Mutfağı, Onur Listesi) pay simetrik kalır. */
+section.below-header:not(#_) > .wrap > nav + :is(.lst-hero, .tb-hero-main, .ob-head, .con-intro, .tb-head, .bnp-head, .lg-head, .vt-hero-g, .vh-head):last-child { padding-top: 14px; }
+/* Breadcrumb'sız banner'da serbest alan başlığın altından değil banner'ın üst iç boşluğundan başlıyor (başlık altı ile arasında 1440'ta
+   15, 390'da 11 px; ölçüldü). Üst pay ikisinin ortasına göre kısalır. */
+section.below-header:not(#_) > .wrap > :is(.lst-hero, .tb-hero-main, .ob-head, .con-intro, .tb-head, .bnp-head, .lg-head, .vt-hero-g, .vh-head):only-child { padding-top: 13px; }
+
+/* Detay bantları — aynı kural, kendi iskeletlerinde (ölçüldü):
+   · Sözlük terimi (`section.rd-top[data-hero-band]`, sabit 504 px, blok düzen): yazı breadcrumb'ın hemen altındaydı (1440'ta −74,
+     390'da −90 px). Bant flex sütun olur, içerik kalan alanda ortalanır; bandın altında beyaz sayfa binmiyor (alt pay 26 px).
+   · Püf detayı (`section.art-hero`, flex sütun): içerik `margin-top:auto` ile alttaydı ve sarmalayıcının alt boşluğu 56 px'ti
+     (+48 / +77 px). Alt boşluk görünür kenara (22 px) çekilir, içerik ortalanır. */
+section.rd-top[data-hero-band]:not(#_) { display: flex; flex-direction: column; }
+section.rd-top[data-hero-band]:not(#_) > .wrap { flex: 1 1 auto; display: flex; flex-direction: column; width: 100%; }
+section.rd-top[data-hero-band]:not(#_) > .wrap > nav + :last-child { margin-top: auto; margin-bottom: auto; padding-top: 14px; padding-bottom: 26px; }
+section.art-hero:not(#_) > .wrap { padding-bottom: 22px; }
+section.art-hero:not(#_) > .wrap > .art-hero-main { margin-top: auto; margin-bottom: auto; padding-top: 26px; padding-bottom: 26px; }

@@ -1,0 +1,103 @@
+/* KART STANDARDI — revize 20 Eki 2026 (Beyar) · madde 1, 2, 9, 12, 13.
+   Kabuk her sayfaya enjekte eder (`KabukKimligi`); kurallar yalnız tarif kartının (`.r-card`) meta satırına ve yazar
+   avatarına dokunur.
+
+   1/12 · META SATIRI (süre · zorluk · porsiyon · bütçe) — bütün tarif kartlarında aynı ölçü: tarif listesi, kategori,
+   ana sayfa rayları, "Bunları da seveceksin", şef profili, Dolapta Ne Var (markup `parcalar/tarif/kart-meta`).
+   Ölçüldü (canlı kopyası, 1440): liste 11,5 px ve öğeler küçülmüyor (sıkışık); ana sayfa/benzer/şef profili 12,5 px ve
+   öğeler küçülebiliyordu (`flex: 0 1 auto` + `.rf-txt` üç nokta) → "80…", "O…", "12 a…". Orta yol: 12 px, öğe KÜÇÜLMEZ,
+   yazı KESİLMEZ, porsiyon kısa biçimde ("4 kişi"); satıra sığmayan öğe ikinci satıra KONTROLLÜ sarılır. Ayraç her öğenin
+   solundaki çizgidir; satır başına düşen ayraç kabın sol kırpma payında kalır (görünmez) — sarılan satır "| 12 adet"
+   diye başlamaz.
+
+   2/13 · AVATAR — fotoğraflı şefte avatar kutusunun içi görseldir (`parcalar.topluluk.avatar-ic`), kutuyu doldurur. Madde 3: bileşen
+   görselin yanına gizli baş harfi de basar; görsel yüklenemezse `kabuk/avatar-yedek.js` görseli kaldırıp harfi açar. Kural bütün
+   avatar kutularında aynı (`.av`, `.pf-ava`, `.sef-ava`, `.chef-av`, `.kimlik-avatar`, `.creator-av`).
+
+   21 · BESLENME ROZETLERİ (`.r-diet`) — kart görselinin solunda dikey sütun. Kural donörün `tarif-liste.css`/`tarif-detay.css`inden
+   birebir; yalnız o iki dosyayı yükleyen sayfada vardı. Şef profili ve marka profili yüklemiyor → rozetler statik satırda 16×16,
+   köşeye sıkışık (revize 20 Eki · madde 21, ölçüldü). Markup tek parçada: `parcalar/tarif/kart-diyet`.
+
+   22 · BAŞ HARF AVATARI — fotoğrafsız şefin harfi her kartta krem zemin + `--tomato-deep`, 800 (portal kuralı). Şef profili kartında
+   `mutfak-defteri.css`in ad satırı kuralı (`.r-foot .r-author span`: `--muted`, 500, 12,5 px) aynı özgüllükte ve sonra yüklendiği
+   için harfi de boyuyordu → gri. Ana sayfa şef rayı (`.gastro-sef-avatar`) aksan yıkama tonundaydı → aynı renk; boyu ve ağırlığı
+   kutunun kendi kalıbında kalır. */
+
+.r-card .r-body > .r-facts:not(:has(.rk-kart-metin)) {
+  font-size: 12px;
+  flex-wrap: wrap;
+  row-gap: 4px;
+  height: auto;
+  overflow: visible;
+  margin-left: -17px;
+  clip-path: inset(-4px -4px -4px 17px);
+}
+.r-card .r-body > .r-facts > span:not(.rk-kart-metin) {
+  flex: none;
+  min-width: auto;
+  gap: 5px;
+  border-left: 1px solid var(--line);
+  padding-left: 8px;
+  margin-left: 8px;
+}
+.r-card .r-body > .r-facts > .f-serv {
+  display: inline-flex; /* donör dar ekranda porsiyonu gizliyordu (`.grid-4 .f-serv{display:none}`); standart her genişlikte aynı */
+}
+.r-card .r-body > .r-facts .rf-txt {
+  overflow: visible;
+  text-overflow: clip;
+}
+.r-card .r-body > .r-facts .rf-txt > span {
+  display: inline;
+  border-left: 0;
+  padding-left: 0;
+  margin-left: 0;
+}
+.r-card .r-body > .r-facts .rf-uzun {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.r-card .r-body > .r-facts .rf-kisa {
+  display: inline;
+}
+.r-card .r-body > .r-facts i {
+  font-size: 12px;
+}
+
+.av > img,
+img[data-avatar-gorsel] {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+/* Gizli baş harf, kutunun kendi `span` kuralı (`display:flex` vb.) `hidden`ı ezse de gizli kalır. */
+[data-avatar-harf][hidden] {
+  display: none !important;
+}
+
+/* 21 · beslenme rozetleri (donör `tarif-liste.css` / `tarif-detay.css`, birebir) */
+.r-diet{position:absolute;top:51px;left:13px;z-index:2;display:flex;flex-direction:column;gap:7px}
+.r-diet .rd-b{width:30px;height:30px;border-radius:var(--radius-circle);background:rgba(255,255,255,.94);display:grid;place-items:center;font-size:13px;box-shadow:var(--sh-sm);cursor:default;transition:.2s var(--ease)}
+.r-card:hover .r-diet .rd-b{background:#fff}
+.r-diet .rd-vegan,.r-diet .rd-vejetaryen{color:var(--green)}
+.r-diet .rd-glutensiz{color:var(--slate)}
+.r-diet .rd-laktozsuz{color:var(--c-petrol)}
+
+/* 22 · baş harf avatarı: tek renk */
+.r-card .r-foot .r-author .av > span {
+  background: var(--cream);
+  color: var(--tomato-deep);
+  font-weight: 800;
+  font-size: 11px;
+}
+/* `body` önekli: `gastro/sef-avatar.css` aynı seçiciyle bu dosyadan SONRA yüklenir. */
+body .gastro-sef-avatar > span {
+  background: var(--cream);
+  color: var(--tomato-deep);
+}

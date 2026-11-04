@@ -1,0 +1,50 @@
+/* KABUK KİMLİĞİ — DONÖRÜN KİMLİĞİ YAZILANA KADAR GİZLİ.
+ *
+ * 🔴 ÖLÇÜLEN KUSUR (2026-09-11). Türetilmiş markup 59 ekranda prototipin
+ * donmuş kimliğini taşıyor: `<b>Selin Aydın</b>` · `<small>@selinaydin</small>`
+ * ve avatar baş harfi `D` (üst bant) / `S` (çekmece). Doğrusunu yalnız
+ * `dada-kabuk.js` çalışma anında yazıyor. JS koşmayınca giren kullanıcı
+ * BAŞKASININ kimliğini görüyordu:
+ *   · üst bant avatar baş harfi `D` sayfa açılır açılmaz GÖRÜNÜR (8/8 üye
+ *     ekranı, JS kapalı, gerçek form girişiyle ölçüldü);
+ *   · `.acct-btn`e tek tıklama menüyü JS OLMADAN açıyor — kanon CSS'i
+ *     `:focus-within` ile açıyor — ve "Selin Aydın · @selinaydin" tam
+ *     görünür oluyordu (8/8 ekran).
+ *
+ * 🔴 NEDEN `<noscript>` DEĞİL. `<noscript>` yalnız "JS kapalı" durumunu
+ * kapatır. Ölçülen üç durum var ve ikisini kaçırırdı:
+ *   (1) JS kapalı,
+ *   (2) `dada-kabuk.js` yüklenemedi / hata verdi (ağ · CSP · betik hatası),
+ *   (3) betik `DOMContentLoaded`ta yazıyor — İLK BOYAMA donörün adıyla
+ *       yapılıyor.
+ * Bu dosya üçünü de tek kuralla kapatır: kimlik alanları VARSAYILAN OLARAK
+ * gizlidir, `dada-kabuk.js` doğruyu yazdıktan sonra `<html>` üzerine
+ * `data-kabuk-kimlik="yazildi"` koyar ve alanlar açılır. Arıza yönü
+ * DÜRÜST: bağlanamayan kimlik gösterilmez (CLAUDE.md · "Yalan yüzey yasak").
+ *
+ * 🔴 NEDEN SAYFA İÇİ `<style>` DEĞİL. Yasağın gerekçesi "tüm stil kanon
+ * CSS'lerinden ve prototipin kendi varlıklarından gelir". Bu dosya sayfaya
+ * `<style>` bloğu olarak değil, `KabukKimligi`nin `<head>`e bastığı
+ * `<link rel="stylesheet">` ile girer; `public/kanon/*` DEĞİŞTİRİLMEZ,
+ * `public/kabuk/` kabuk köprüsünün kendi kümesidir (`dada-kabuk.js` ·
+ * `yol-koprusu.js` ile aynı yer). Türetilmiş markup'ın GÖVDESİNE tek bayt
+ * girmez — parite kapısının bayt kopyası ölçütü korunur.
+ *
+ * ⚠ `visibility` kullanılır, `display` DEĞİL: alan yerini korur, açıldığında
+ * yerinden oynama olmaz ve parite geometrisi (JS açık, yükleme sonrası)
+ * değişmez.
+ */
+html:not([data-kabuk-kimlik="yazildi"]) .acct-ava,
+html:not([data-kabuk-kimlik="yazildi"]) .da-ava,
+html:not([data-kabuk-kimlik="yazildi"]) .acct-id-txt,
+html:not([data-kabuk-kimlik="yazildi"]) .drawer-acct .da-info > b {
+  visibility: hidden;
+}
+
+/* Yönetim ekranlarında donör kimliği ilk boyamada da gösterilmez. */
+html:not([data-kabuk-kimlik="yazildi"]) .panel-ust-ben .ad,
+html:not([data-kabuk-kimlik="yazildi"]) .panel-ust-ben .rol,
+html:not([data-kabuk-kimlik="yazildi"]) .panel-ust-ben .kisi-avatar,
+html:not([data-kabuk-kimlik="yazildi"]) #hesapAcilir .acilir-bas {
+  visibility: hidden;
+}

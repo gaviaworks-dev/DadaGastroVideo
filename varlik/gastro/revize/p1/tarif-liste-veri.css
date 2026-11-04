@@ -1,0 +1,17 @@
+/* Revize P1 · kulvar dosyası — sahibi: tarif-liste-veri. Tarif detay (/tarif/{slug}) dışında yüklenmez. */
+
+/* ── Kalem 13 · satır içi yanıt formu dar ekranda taşmasın ────────────────────
+   Markup donörün `.c-reply-form`u (textarea + Gönder + Vazgeç tek flex satırı,
+   `tarif-detay.css:1169`). Ölçüldü (390, gerçek üye oturumu, form açık):
+   textarea'nın min-content genişliği (184px) yüzünden form 350px'e, `.c-main`
+   de 301px yerine 350px'e büyüyor; sağ kenar 423px'e taşıyor ve kolon kırpıldığı
+   için bütün yorum metinleri sağdan kesiliyor. Donörün CSS'inde bu formun dar
+   ekran kuralı yok — donörde form yalnız tıklanınca açılan bir maketti.
+   eklendi: textarea küçülebilir (`min-width:0`); ≤520px'te textarea tam satır,
+   düğmeler altında. Masaüstünde yerleşim donörle aynı kalır. */
+.c-reply-form textarea { min-width: 0; }
+
+@media (max-width: 520px) {
+  .c-reply-form { flex-wrap: wrap; }
+  .c-reply-form textarea { flex: 1 1 100%; }
+}

@@ -1,0 +1,17 @@
+/* Video Mutfağı P0-7 · D.1b — Tarifler mega menüsündeki video önizlemesi (eklendi: donörde yok).
+   Satır kanonun `.mega-find` kalıbıdır (portal + gomulu kabuk CSS'i); burada yalnız kalıbın taşımadığı iki parça var:
+   kapak görseli `mf-ico` kutusunda ve satırın altındaki hub bağı. Dosya yalnız önizleme basıldığında yüklenir
+   (`resources/views/parcalar/video/menu-onizleme.blade.php`); ayar kapalıyken hiçbir sayfa onu çağırmaz. */
+
+/* Kapak: `mf-ico`nun 38×38 kutusunu doldurur. */
+.mega-find.mf-video .mf-ico { overflow: hidden; }
+.mega-find.mf-video .mf-ico img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Başlık tek satır: `.nav a` `white-space: nowrap` verir; uzun başlık kutudan taşmasın, üç noktayla kesilsin. */
+.nav a.mega-find.mf-video .mf-body b { overflow: hidden; text-overflow: ellipsis; }
+
+/* Hub bağı: satırın altında, sağa yaslı küçük metin bağı (mega menüdeki "Tüm Tarifler"in renginde). */
+.nav a.mf-video-tumu { display: flex; justify-content: flex-end; align-items: center; gap: 6px; margin-top: 4px; padding: 6px 4px; font-size: 12.5px; color: var(--tomato); }
+.nav a.mf-video-tumu i { font-size: 11px; transition: transform .2s var(--ease); }
+.nav a.mf-video-tumu:hover { background: transparent; color: var(--tomato-dark); }
+.nav a.mf-video-tumu:hover i { transform: translate(3px); }

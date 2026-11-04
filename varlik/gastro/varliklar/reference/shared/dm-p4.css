@@ -1,0 +1,139 @@
+
+
+
+.dm-toast-kap{
+  position:fixed; right:var(--bosluk-24); bottom:var(--bosluk-24);
+  z-index:var(--kat-modal);
+  display:flex; flex-direction:column; gap:var(--bosluk-12);
+  pointer-events:none;
+}
+.dm-toast{
+  display:flex; align-items:flex-start; gap:var(--bosluk-12);
+  min-width:280px; max-width:420px;
+  padding:var(--bosluk-12) var(--bosluk-16);
+  border:var(--cizgi-1) solid var(--cizgi);
+  border-left:3px solid var(--metin-ikincil);
+  border-radius:var(--yuvarlak-md);
+  background:var(--kagit); box-shadow:var(--golge-lg);
+  font-size:var(--yazi-13-5); font-weight:var(--agirlik-orta);
+  color:var(--murekkep); pointer-events:auto;
+  
+  animation:dm-toast-gir .18s ease-out both;
+}
+@media (prefers-reduced-motion:reduce){ .dm-toast{ animation:none; } }
+@keyframes dm-toast-gir{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+.dm-toast.cikis{ opacity:0; transform:translateY(8px); transition:opacity .16s, transform .16s; }
+.dm-toast > i{ margin-top:2px; flex:none; }
+.dm-toast.basarili{ border-left-color:var(--aksan-koyu); }
+.dm-toast.basarili > i{ color:var(--aksan-koyu); }
+.dm-toast.hata{ border-left-color:var(--tehlike); }
+.dm-toast.hata > i{ color:var(--tehlike); }
+.dm-toast-govde{ min-width:0; }
+.dm-toast-govde b{ display:block; font-weight:var(--agirlik-kalin); }
+.dm-toast-govde span{ display:block; font-weight:400; color:var(--metin-ikincil); font-size:var(--yazi-12-5); line-height:var(--satir-orta); }
+.dm-toast-geri{
+  flex:none; border:0; background:transparent; padding:0;
+  color:var(--aksan-koyu); font:inherit; font-weight:var(--agirlik-kalin);
+  text-decoration:underline; cursor:pointer;
+}
+.dm-toast-kapat{
+  margin-left:auto; flex:none; border:0; background:transparent;
+  color:var(--metin-ikincil); cursor:pointer; padding:0; font-size:var(--yazi-13);
+}
+.dm-toast-geri:focus-visible,
+.dm-toast-kapat:focus-visible{ outline:var(--odak-kalinlik) solid var(--odak-renk); outline-offset:var(--odak-ofset); }
+
+
+@media (max-width:640px){
+  .dm-toast-kap{ left:var(--bosluk-12); right:var(--bosluk-12); bottom:var(--bosluk-12); }
+  .dm-toast{ min-width:0; max-width:none; }
+}
+
+
+.dm-modal-ortu{
+  position:fixed; inset:0; z-index:var(--kat-ortu, 97);
+  background:rgba(33,30,22,.52);
+  opacity:0; pointer-events:none; transition:opacity .18s;
+}
+.dm-modal-ortu.acik{ opacity:1; pointer-events:auto; }
+.dm-modal{
+  position:fixed; z-index:var(--kat-modal);
+  left:50%; top:50%; transform:translate(-50%,-48%) scale(.98);
+  width:min(880px, calc(100vw - var(--bosluk-24) * 2));
+  max-height:min(86vh, 900px);
+  display:none; flex-direction:column;
+  border-radius:var(--yuvarlak-lg, 16px);
+  background:var(--kagit); box-shadow:var(--golge-lg);
+  overflow:hidden;
+}
+.dm-modal.acik{ display:flex; transform:translate(-50%,-50%) scale(1); opacity:1;
+  transition:transform .18s ease-out, opacity .18s ease-out; }
+@media (prefers-reduced-motion:reduce){ .dm-modal, .dm-modal-ortu{ transition:none; } }
+.dm-modal-bas{
+  flex:0 0 auto; display:flex; align-items:flex-start; gap:var(--bosluk-16);
+  padding:var(--bosluk-20) var(--bosluk-24);
+  border-bottom:var(--cizgi-1) solid var(--cizgi);
+}
+.dm-modal-bas h2{ margin:0; font-size:var(--yazi-19, 19px); line-height:1.3; color:var(--murekkep); }
+.dm-modal-bas p{ margin:4px 0 0; font-size:var(--yazi-12-5); color:var(--metin-ikincil); line-height:var(--satir-orta); }
+.dm-modal-ico{
+  flex:none; display:grid; place-items:center; width:40px; height:40px;
+  border-radius:var(--yuvarlak-md); background:var(--aksan-yikama); color:var(--aksan-koyu);
+}
+.dm-modal-kapat{
+  margin-left:auto; flex:none; width:36px; height:36px;
+  display:grid; place-items:center;
+  border:var(--cizgi-1) solid var(--cizgi); border-radius:var(--yuvarlak-md);
+  background:var(--kagit); color:var(--metin-ikincil); cursor:pointer;
+}
+.dm-modal-kapat:hover{ color:var(--murekkep); border-color:var(--cizgi-vurgu-acik, var(--cizgi)); }
+.dm-modal-kapat:focus-visible{ outline:var(--odak-kalinlik) solid var(--odak-renk); outline-offset:var(--odak-ofset); }
+
+.dm-modal-govde{ flex:1 1 auto; min-height:0; overflow-y:auto; padding:var(--bosluk-24); }
+.dm-modal-ayak{
+  flex:0 0 auto; display:flex; align-items:center; gap:var(--bosluk-12);
+  padding:var(--bosluk-16) var(--bosluk-24);
+  border-top:var(--cizgi-1) solid var(--cizgi); background:var(--zemin);
+}
+.dm-modal-ayak .sag{ margin-left:auto; display:flex; gap:var(--bosluk-12); }
+body.dm-modal-acik{ overflow:hidden; }
+
+@media (max-width:640px){
+  .dm-modal{ width:100vw; max-width:none; max-height:100vh; height:100vh;
+    left:0; top:0; transform:none; border-radius:0; }
+  .dm-modal.acik{ transform:none; }
+  .dm-modal-bas, .dm-modal-govde{ padding-left:var(--bosluk-16); padding-right:var(--bosluk-16); }
+  
+  .dm-modal-ayak{
+    padding-left:var(--bosluk-16); padding-right:var(--bosluk-16);
+    flex-wrap:wrap; row-gap:var(--bosluk-8);
+  }
+  .dm-modal-ayak .sag{ margin-left:0; width:100%; justify-content:flex-end; }
+  .dm-modal-ayak .sag > *{ flex:1 1 auto; justify-content:center; }
+}
+
+
+
+.ie-arama{ position:relative; flex:1 1 260px; min-width:0; }
+.ie-arama > i{
+  position:absolute; left:14px; top:auto; bottom:0; height:45px;
+  display:flex; align-items:center; transform:none;
+  font-size:13px; color:var(--metin-ikincil); pointer-events:none;
+}
+.ie-arama .alan-girdi{ padding-left:38px; }
+
+.ie-arama input[type=search]::-webkit-search-cancel-button{ display:none; }
+.ie-arama-sil{
+  position:absolute; right:6px; top:auto; bottom:calc((45px - 32px) / 2);
+  transform:none;
+  width:32px; height:32px; display:none; place-items:center;
+  border:0; background:transparent; color:var(--metin-ikincil);
+  border-radius:var(--yuvarlak-md); cursor:pointer; font-size:13px;
+}
+.ie-arama.dolu .ie-arama-sil{ display:grid; }
+.ie-arama-sil:hover{ color:var(--murekkep); }
+.ie-arama-sil:focus-visible{ outline:var(--odak-kalinlik) solid var(--odak-renk); outline-offset:var(--odak-ofset); }
+.ie-arama .alan-etiket{
+  display:block; font-size:12px; font-weight:var(--agirlik-kalin);
+  color:var(--metin-ikincil); margin-bottom:6px;
+}

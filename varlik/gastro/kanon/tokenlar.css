@@ -1,0 +1,1001 @@
+/* =====================================================================
+   KANON — TOKEN KATMANI (marka-bağımsız)
+   ---------------------------------------------------------------------
+   Kaynak: dump/fit-prototip/assets/css/fit-shell.css (birincil),
+           fit-type.css, 61 public sayfanın <style> blokları (ikincil).
+   Yöntem: frekans. Her değerin kaç yerde geçtiği 01-tokenlar.md'de.
+
+   BU DOSYADA MARKA RENGİ YOK. Aksan rengi `--marka-*` yuvalarından gelir;
+   yuvaları `markalar/fit.css` (ya da başka bir marka dosyası) doldurur.
+   Yükleme sırası:  tokenlar.css  →  markalar/<marka>.css  →  bilesenler.css
+
+   "// DOĞRULA:" notları, kaynakta ölçülemeyen ya da çelişkili çıkan
+   yerleri işaretler. Uydurulmuş değer yoktur.
+   ===================================================================== */
+
+:root{
+
+/* ── 1 · NÖTR RENK ───────────────────────────────────────────────────
+   Ölçüm: fit-shell.css :root + 61 sayfa. Değerler birebir taşındı. */
+
+  --murekkep:#211E16;          /* Pantone Process Black C · başlık, koyu metin
+                                  KAYNAKTA İKİ AD: --ink ve --slate, DEĞER AYNI */
+  --murekkep-yumusak:#56514a;  /* kaynak: --slate-2 · ikincil koyu metin */
+  --metin-ikincil:#717171;     /* kaynak: --muted
+     ⚠ ŞERH ZEMİN ADI TAŞIR VE O AD GEÇERLİLİK ALANIDIR:
+       #ffffff (kâğıt)          4.88:1  AA
+       #f9f9f9 (--zemin)        4.64:1  AA — panelin ASIL zemini, pay 0.14
+       --aksan-yikama-8 üstünde 4.28–4.47  ✗ seçili satır; orada
+                                `--murekkep-yumusak` kullanılır (§ tablo)
+     Önceki şerh yalnız beyazı söylüyordu; panel gövdesi beyaz değil. */
+  --cizgi:#ECECEC;             /* kaynak: --line · hairline ayraç */
+  /* 🔴 KAYNAĞIN YAKIN-İKİZİ — `--cizgi` (#ececec) DEĞİL, bir birim koyu.
+     Ölçer zeminini `--cizgi`ye bağlamak sessiz bir düzeltme olurdu;
+     kaynakta iki ayrı gri var ve kanon çizileni basar. Beyar'a bildirildi:
+     iki grinin birleştirilmesi bir KARAR, ajanın tercihi değil. */
+  --olcer-zemin:#ececeb;       /* .fp-bar · ilerleme çubuğunun zemini (§46) */
+  /* 🔴 #dcdcdc → #dddddd (2026-09-02). §5.3 bu tokeni "8 sayfa ham hex,
+     kontrastı ÖLÇÜLMEDİ" diye açık kalem olarak tutuyordu. Bu dalgada
+     ilk kez ölçüldü: kaynağın `.badge-card` kesikli kenarı rgb(221,221,221).
+     Frekansla alınan değer bir birim şaşmış. §5.3'ün `--yer-tutucu`
+     dersinin aynısı — frekans, ölçümü yenmez.
+     ⚠ Tek ölçüm yerinden geliyor; başka bir yerde farklı ölçülürse
+     ayrılır, birleştirilmez. */
+  /* 🔴 SEÇİM OKU — GLİF, RENK DEĞİL. Kaynağın `<select>` oku 10×6'lık
+     ince bir çentik (`M1 1l4 4 4-4`, gri #7E7E7E, 1.6px, yuvarlak uç).
+     Kanon onu iki CSS üçgeniyle ve `currentColor`dan türeterek çiziyordu
+     — DOLU KOYU bir karet, farklı konumda ve boyda. Gerekçe "kaynakta
+     ham hex gömülüydü" idi ve `bilesenler.css`te sabit renk yasak (§3/2);
+     ama bu bir renk kararı değil KİP değişikliğiydi ve "ikon seçimi
+     kaynaktan gelir, sessizce glif değiştirilmez" kuralına aykırıydı.
+     Çözüm: glif bir DEĞER olarak token katmanına taşındı — renkler
+     zaten burada yaşıyor, `bilesenler.css` yalnız yuvayı çağırıyor.
+     ⚠ Gri gliflerin içinde LİTERAL: data URI'ye `var()` giremez. Kaynağın
+     kendi değeri, uydurulmadı.
+     🔴 SLOT-2 GÖZLE BULDU: kanon AYNI SAYFADA İKİ ÇİZİM basıyordu —
+     17 `.alan-secim` üçgeni + 3 `.fb-select` çentiği (Diyet'in kendi
+     kabuğu, kaynakla bayt-özdeş). Doğru çizim sayfada zaten vardı. */
+  --secim-ok:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237E7E7E' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+
+  /* Kart hover'ında çizginin KOYULAŞMIŞ adımı — ölçüldü
+     (FIT `.badge-card:hover` #dddddd → #c9c9c9). `--metin-pasif-3`
+     (#c8c8c8) yakın ama o bir METİN tokeni; çizgi ailesi ayrı. */
+  /* 🔴 DURUM VARYANTI TABAN SANILMIŞTI — ÖLÇÜLDÜ, 2026-09-02 (§63d).
+     Yukarıdaki iki tokenin ikisi de kaynağın KİLİTLİ kartından alındı:
+       .badge-card.locked        kenar  #dddddd  → --cizgi-vurgu       ✅
+       .badge-card.locked:hover  kenar  #c9c9c9  → --cizgi-vurgu-koyu  ✅
+     İkisi de DOĞRU değer ama YANLIŞ role yazıldı: bunlar kilitli kartın
+     çifti; KAZANILMIŞ kartın hover kenarı kaynakta #dcdcdc'dir
+     (`.badge-card:hover`). "#dcdcdc → #dddddd" düzeltmesi de bu yüzden
+     yalnız kilitli kalem için doğruydu — tabanın kendi değeri geri geldi. */
+  --cizgi-vurgu-acik:#dcdcdc;  /* KAZANILMIŞ rozet kartının hover kenarı (§63d) */
+  --cizgi-vurgu-2:#d6d6d6;     /* ÖLÇÜSÜZ rozet kartının noktalı kenarı (§63d) */
+  --zemin-3:#efefef;           /* ölçüsüz rozetin madalyon zemini (§63d) */
+  --metin-pasif-5:#b4b4b4;     /* ölçüsüz rozetin madalyon ikonu (§63d) */
+  --cizgi-vurgu-koyu:#c9c9c9;
+  --cizgi-vurgu:#dddddd;       /* kart hover kenarı + kesikli boş durum kenarı
+                                  — kaynakta TOKEN DEĞİLDİ, 8 sayfada ham hex */
+  --kontrol-kapali:#8f8a82;    /* kapalı anahtar rayı — Beyar kararı, 2026-09-01.
+                                  Kaynakta tokensizdi (fit-shell.css `.tgl .tk`).
+                                  Beyazla 3.43:1 → WCAG 1.4.11 (3:1) GEÇER.
+                                  Kabuk bu değeri ölçerek seçmiş ve #cfcac1'i
+                                  (1.63:1) elemiş; profil-v1'in kendi anahtarı
+                                  #dcd8d0 (1.42:1) kullanıyor — bkz. 02 §4. */
+  /* 🔴 DEVRE DIŞI METİN — kaynakta TOKENSİZ ham hex (`.fk-tar-grid
+     button:disabled{color:#c4c4c4}`). `--metin-ikincil` (#717171) de
+     `--yer-tutucu` (#6f6f6f) de DEĞİL, üçüncü bir gri. Beyazla 2.02:1 —
+     AA'nın altında ama `disabled` olduğu için WCAG 1.4.3 istisnasına
+     giriyor (devre dışı denetimler kontrast eşiğinden muaf).
+     Uydurulmadı, ölçüldü (slot-2). */
+  /* ── KADEME KARTI RENKLERİ (§55) ────────────────────────────────
+     🔴 YEDİ HAM HEX, BEYAR KARARI 2026-09-01: "yeni token yuvası aç,
+     yuvarlama yok." Hiçbiri mevcut bir kanon değerine EŞİT değil —
+     yakın ama eşit değil (slot-3 tek tek ölçtü):
+       #fafafa ↔ --zemin  #f9f9f9        bir birim uzak
+       #e4e4e4 ↔ --cizgi  #ECECEC ile --cizgi-vurgu #dcdcdc ARASINDA
+       #FBF3DC ↔ --altin-zemin #fff6e6   eşit değil
+       #B8860B ↔ --altin-metin #8a6410   eşit değil
+     §5.3'ün dersi burada tersinden geçerli: yakınlık aynılık değildir. */
+  --kademe-notr-zemin:#fafafa;    /* ücretsiz kademe kartının zemini */
+  --kademe-notr-cizgi:#e4e4e4;    /* ve kenarı */
+  --kademe-notr-cip:#ebebeb;      /* ücretsiz kademenin ikon çipi */
+  --kademe-notr-cip-metin:#6b6b6b;
+  --kademe-altin-cip:#FBF3DC;     /* en üst kademenin ikon çipi */
+  --kademe-altin-cip-metin:#B8860B;
+  --tablo-bas-zemin:#fafbf9;      /* karşılaştırma tablosunun başlık zemini
+                                     — yeşile çalan beyaz, `--zemin` DEĞİL */
+
+  /* ── BİLDİRİM AKIŞI (§59) ─────────────────────────────────────────
+     🔴 Kaynakta DÖRDÜ DE HAM HEX, tokeni yok (slot-1 B2):
+       .ntr.unread              #F2FAF5   okunmamış satır zemini
+       .ntr.unread:hover        #E9F5EE
+       [data-op=del]:hover      #a2261a / #e8cfcb
+     İlk ikisi FIT yeşilinin çok açık adımları → MARKA YUVASI, çünkü
+     Diyet'in yeşili başka. Son ikisi tehlike ailesinden ama
+     `--tehlike` (#b3261e) ve `--tehlike-cizgi-yumusak` (#f3cdc0)
+     DEĞİL — ayrı adımlar; marka-nötr katmanda duruyorlar. */
+  --bildirim-yeni:var(--marka-bildirim-yeni);
+  --bildirim-yeni-2:var(--marka-bildirim-yeni-2);
+  --bildirim-sil:#a2261a;
+  --bildirim-sil-cizgi:#e8cfcb;
+
+  --zemin-2:#f4f4f3;           /* sohbet gün ayracının zemini (§62) — `--zemin`
+                                  (#f9f9f9) DEĞİL, ölçülen ayrı bir adım */
+  /* ── ÜÇ AYRI PASİF GRİ (§63) ──────────────────────────────────────
+     🔴 ÜÇÜ DE AYRI DEĞER, ölçüldü (slot-2) ve hiçbiri diğerine EŞİT
+     değil. Tek yuvaya indirmek §5.3'ün dersini çiğnerdi ("yakınlık
+     aynılık değildir"); üç yuva açıldı, hepsi kaynakta ham hex'ti.
+       #c4c4c4  devre dışı takvim günü      (2.02:1 · WCAG 1.4.3 istisnası)
+       #bdbdbd  kilitli basamağın ikonu
+       #c8c8c8  basamağın kilit simgesi
+       #c2c2c2  kilitli rozetin ikonu
+     Dördü de DEVRE DIŞI/KİLİTLİ durum işareti — kontrast eşiğinden muaf. */
+  --metin-pasif:#c4c4c4;
+  --metin-pasif-2:#bdbdbd;
+  --metin-pasif-3:#c8c8c8;
+  --metin-pasif-4:#c2c2c2;
+  --metin-ucuncul:#c7c7c7;     /* son arama satırının ok işareti (§60) —
+                                  kaynakta ham hex, `--metin-pasif` DEĞİL */
+  --yer-tutucu:#6f6f6f;        /* input placeholder — Beyar kararı, 2026-09-01.
+                                  Kabuk form kitinin ölçtüğü değer: --zemin
+                                  üstünde 4.77:1 (AA). Kanonun ilk turunda
+                                  frekansla alınan #a7a7a7 (6 sayfa) aynı
+                                  zeminde 2.29:1 idi — kitin ölçümle ELEDİĞİ
+                                  değer. Frekans yanlış cevap vermişti;
+                                  #a7a7a7 kanondan DÜŞTÜ, sapma listesinde. */
+  --dip-metin:rgba(255,255,255,.88);      /* dip gövde metni */
+  --dip-link:rgba(255,255,255,.92);       /* dip bağlantısı */
+  --dip-alt-metin:rgba(255,255,255,.84);  /* dip alt satırı (telif) */
+  --dip-cizgi:rgba(255,255,255,.20);      /* dip ayracı */
+  /* KOYU YÜZEY ÜSTÜNDEKİ AYRAÇ VE ÜÇÜNCÜL METİN (§63 · R7) — dip
+     rampasının kardeşi ama AYRI: dip ayracı .20 alfa, koyu kartınki .12;
+     dip metni .84, kartınki .74. Dördü de ölçüldü, eşitlenmedi. */
+  --koyu-cizgi:rgba(255,255,255,.12);     /* koyu kart ayracı ve kenarı */
+  --koyu-metin-6:rgba(255,255,255,.74);   /* koyu kartın ikincil metni */
+
+  /* ── PANEL KABUĞUNUN KOYU RAMPASI (§75a) — 2026-09-04 · ADMIN TURU ──
+     `docs/admin-envanter.md §4.1`in **C grubu** ("tabanı da kanonda yok —
+     yeni yuva") ve **A2 grubu** ("taban var, alfa adımı yok") burada
+     kapanıyor. Envanterin kendi kaydı: *"C'nin 10'unun 9'u KABUKTA
+     (ray · menü · ipucu · toast · modal perdesi) … Kabuk turunda
+     sorulacak tek açık renk kalemi budur."* Kabuk turu bu tur.
+
+     🔴 MARKA YUVASI DEĞİL, NÖTR — ve bu bir varsayım değil, kanonun
+        kendi kaydı: `markalar/fit.css` koyu tabanı için açıkça
+        *"Process Black C ailesi bir MARKA rengi değil, NÖTR KOYU
+        TABANDIR"* diyor ve v3'te marka yeşilden maviye dönerken bu üçlüyü
+        DEĞİŞTİRMEDİ. Panel rayı o ailenin bir adım koyusudur; dört
+        markada aynı çizilir, `markalar/*.css`e girmez.
+          --koyu-zemin        #211E16   (marka yuvası, ama FIT/Diet aynı taban)
+          --panel-ray-zemin   #19160F   ← bir adım koyu · ÖLÇÜLDÜ
+        Ray menüden, menü sayfadan koyu: üç katmanlı derinlik, kaynağın
+        kendi kararı (`fit-admin.css:61`).
+
+     ⚠ ALFALAR `--koyu-metin-ust` (#e9e2d6) TABANINDAN. Envanter A2'yi
+       şöyle kaydetmişti: *"rgba(233,226,214,.78/.5/.42/.1) → taban
+       `--koyu-metin-ust`"*. Taban kanonda VARDI, eksik olan adımlardı. */
+  --panel-ray-zemin:#19160F;                 /* ekosistem rayı — en koyu katman */
+  --panel-ray-cizgi:rgba(0,0,0,.32);         /* rayın sağ kenarı */
+  --panel-menu-cizgi:rgba(0,0,0,.30);        /* menünün sağ kenarı */
+  --koyu-yikama:rgba(255,255,255,.06);       /* koyu zeminde hover yıkaması */
+  --koyu-yikama-2:rgba(255,255,255,.07);     /* bir adım belirgin hover */
+  --koyu-cizgi-2:rgba(233,226,214,.10);      /* menü ayağının üst ayracı */
+  --koyu-metin-78:rgba(233,226,214,.78);     /* menü kalemi — dinlenme hâli */
+  --koyu-metin-42:rgba(233,226,214,.42);     /* kategori başlığı — versal, sönük */
+  --kagit:#ffffff;             /* kaynak: --paper / --bg-white (aynı değer) */
+  --zemin:#f9f9f9;             /* kaynak: --bg / --bg-cream (aynı değer)
+                                  ⚠ DOĞRULA: fit-shell.css'te tanımlı ama
+                                  hiçbir kural okumuyor (0 kullanım) */
+  --krem-2:#F7F1E6;            /* kaynak: --cream-2 · 6 kullanım */
+
+/* ── 2 · KOYU ZEMİN AİLESİ ───────────────────────────────────────────
+   Banner / hero / footer gibi koyu yüzeyler ve üstlerindeki metin.
+   Kaynakta hiçbiri token değildi; 21–26 sayfada ham hex olarak geçiyor. */
+
+  /* 🔶 BU ÜÇÜ MARKA YUVASI OLDU (2026-09-01 · diet ölçümü).
+     İlk turda nötr sanmıştım. dump/diet ölçüldüğünde ayrıştıkları görüldü:
+     Fit'in koyu yüzeyi SICAK siyah (#211E16), Diet'inki YEŞİLE ÇALAN
+     siyah (#15241c, 14 sayfa); koyu zemin metni de öyle (#cfc8be ↔
+     #bcd0c4, 43 sayfa). Yani koyu yüzey markanın parçası, nötr değil.
+     Değerleri markalar/<marka>.css doldurur. */
+  /* 🔴 ÜÇÜNCÜ KOYU ADIM — gradyanın YEŞİLE ÇALAN ucu (§63 · R7).
+     Koyu özet kartı `linear-gradient(160deg, X, --koyu-zemin)` basıyor ve
+     X ne `--koyu-zemin` (FIT #211E16) ne `--koyu-zemin-2` (#1b1913) —
+     ölçülen rgb(15,47,30) = #0f2f1e, ikisinden de YEŞİL. Yani markanın
+     koyu tabanının üçüncü adımı; uydurulmadı, render edilmiş DOM'dan
+     okundu (slot-2). */
+  --koyu-zemin-yesil:var(--marka-koyu-zemin-yesil);
+  --koyu-zemin:var(--marka-koyu-zemin);
+  --koyu-metin:var(--marka-koyu-metin);
+  --koyu-metin-2:#a9a297;      /* koyu zeminde üçüncül metin · 4 sayfa
+                                  // DOĞRULA: yakın komşuları var (#9a9389 4
+                                  sayfa · #b8afa3 4 sayfa · #b7b0a6 3 sayfa);
+                                  hangisinin kanon olduğu ölçümle ayrışmadı */
+  --koyu-metin-ust:#e9e2d6;
+  /* ── KOYU ZEMİN RAMPASININ DEVAMI (§61) ───────────────────────────
+     🔴 Giriş panosunda ALTI ham hex ölçüldü (slot-1) ve hiçbirinin
+     tokeni yoktu. §27'nin dip rampası (`--dip-metin` ailesi) aynı sorunu
+     çözmüştü; burada da aynı yol: koyu görselin üstündeki metin
+     kademeleri yuva alıyor. Aksan tarafı MARKA yuvası, nötr tarafı
+     doğrudan — ikisi de ölçülen değer, uydurma yok. */
+  --koyu-metin-3:#e7edf1;      /* pano giriş metni */
+  --koyu-metin-4:#f3efe8;      /* avantaj satırı */
+  --koyu-metin-5:#f0efec;      /* rozet ipucu BALONUNUN kendi rengi (§63) */
+  --koyu-metin-7:#c9c7c2;      /* balonun GÖVDE metni — balondan bir adım soluk
+                                  🔴 #f0efec → #c9c7c2 (2026-09-02, slot-2).
+                                  İlk değer balonun BAŞLIĞINDAN (`b`) okunmuştu;
+                                  başlık `--kagit`, gövde ondan bir adım soluk.
+                                  Ölçülen: rgb(201,199,194). Balonun zemini
+                                  `--murekkep` (#211E16) — kontrast 9.9:1. */
+  --koyu-aksan:var(--marka-koyu-aksan);        /* h2 vurgusu */
+  --koyu-aksan-2:var(--marka-koyu-aksan-2);    /* üst etiket */
+  --koyu-aksan-zemin:var(--marka-koyu-aksan-zemin);  /* avantaj ikon dairesi */    /* üst bant metni · fit-shell.css'te 7 kez ham */
+
+  /* ── DİP (footer) METİN RAMPASI ─────────────────────────────────────
+     🔴 İKİ MARKA AYRIŞIYOR, ölçüldü (2026-09-01, render edilmiş DOM):
+       fit  → beyazın alfası:  .88 gövde · .92 link · .84 alt · .20 çizgi
+       diet → mavi-gri hex:    #aebcc6 · #9fb0bc · #7e8e9a
+     Dip zemini her iki markada da `--aksan-koyu`; üstündeki metin FIT'te
+     zeminin kendi tonunu taşıyor (alfa), Diet'te ayrı bir mavi-gri
+     rampa. Kanon FIT'in yolunu alır: alfa, zemin markadan markaya
+     değişse de okunurluğu koruyor; sabit mavi-gri yeşil zeminde
+     markanın dışına düşüyordu. */    /* üst bant metni · fit-shell.css'te 7 kez ham */
+
+/* ── 3 · DURUM RENKLERİ ──────────────────────────────────────────────
+   Tehlike ve uyarı kaynakta token; hesabim-v1 :root'unda tanımlı,
+   sonradan fit-shell.css'e taşınmış. Pro/altın ailesi TOKEN DEĞİLDİ. */
+
+  --tehlike:#b3261e;                     /* kaynak: --hs-danger */
+  --tehlike-koyu:#8c1d17;                /* kaynak: --hs-danger-dark
+                                            // DOĞRULA: 3 sayfa #8c1d18 (son
+                                            hane farkı) kullanıyor */
+  /* Tehlike yıkamasının İKİNCİ adımı — bandın ikon çipi, gövdeden bir
+     tık koyu (§61b `.serit-ikon`, ölçüldü). */
+  --tehlike-yikama-2:#fbdcd8;
+  --tehlike-yikama:#fdecea;              /* kaynak: --hs-danger-tint
+                                            // DOĞRULA: giris-v1 #fdeceb yazıyor */
+  --tehlike-cizgi:rgba(179,38,30,.34);   /* kaynak: --hs-danger-line */
+  --tehlike-cizgi-yumusak:#f3cdc0;       /* uyarı kutusu kenarı · 6 sayfa, ham */
+  --tehlike-cizgi-ozet:#efc2bd;          /* form düzeyi hata özetinin kenarı (§3
+                                            `.alan-ozet`) — kaynak `.fk-summary`,
+                                            destek-v1.html:158. `--tehlike-cizgi-
+                                            yumusak` DEĞİL: ölçüldü, iki ayrı
+                                            değer ve ikisi de kullanımda. */
+
+  /* ── A3 · HATA AİLESİ · Beyar kararı 2026-09-03 ──────────────────────
+     Ölçüldü: kanonda `--uyari` (kehribar) vardı, HATA (kırmızı) ailesi
+     yoktu. Kaynak `role="alert"` özetini kendi renkleriyle basıyor
+     (`#8c1d18` metin · `#fdecea` zemin · `#efc2bd` kenar) ve o özeti
+     kehribara düşürmek anlamı bozardı. Yuva marka dosyalarında dolar;
+     kanonun sabit renk sayısı 1'de KALIR.
+
+     🔴🔴 BU ÜÇLÜ BİR TUR BOYUNCA ÖLÜYDÜ — KAPANDI 2026-09-04.
+     ---------------------------------------------------------------
+     Bildirimler `@media (max-width:640px)` bloğunun İÇİNE, üstelik o
+     bloğun `:root{}` kuralının DIŞINA yazılmıştı — yani bir `@media`
+     gövdesinde başıboş üç bildirim. Geçersiz sözdizimi: tarayıcı üçünü
+     de ATIYOR. Sonuç: A3 hata varyantı HİÇBİR genişlikte çizilmedi.
+
+     CANLI ÖLÇÜLDÜ (`scripts/olcum/_tmp-a3.mjs` · `.uyari-kutu.hata`):
+         @1440px   renk rgb(0,0,0)   zemin rgba(0,0,0,0)   kenar rgb(0,0,0)
+         @600px    renk rgb(0,0,0)   zemin rgba(0,0,0,0)   kenar rgb(0,0,0)
+     Yani kutu SİYAH METİN + SAYDAM ZEMİN çiziyordu; kırmızı hata kutusu
+     diye yazılan şey ekranda hiç doğmadı.
+
+     Nasıl bulundu: revenge-58 (Gastro) fit.css'te AYNI AİLENİN kardeş
+     kusurunu (`.bs-store` içinde hapis kalmış `--marka-hata*`) bildirdi;
+     onu doğrularken `--hata` üçlüsünün de BOŞ döndüğü görüldü ve iz
+     buraya çıktı. İki ayrı dosyada, aynı ailede, aynı sınıftan iki kusur.
+
+     ⚠ DERS — bu ailenin kusuru NEDEN iki tur boyunca görünmedi:
+       `markalar/fit.css` tarafındaki kardeşini fallback saklıyordu
+       (`var(--marka-hata, #8c1d18)`, fallback değeri yuvayla birebir).
+       Buradakini ise HİÇBİR ŞEY saklamıyordu — yalnız kimse ölçmemişti,
+       çünkü A3 varyantının tüketicisi yoktu. **Tüketicisi olmayan kural
+       sınanmamış kuraldır.** §75g (beş zorunlu ekran durumu) bu ailenin
+       ilk gerçek tüketicisini doğurdu ve kusur aynı gün ortaya çıktı. */
+  --hata: var(--marka-hata, #8c1d18);
+  --hata-yikama: var(--marka-hata-yikama, #fdecea);
+  --hata-cizgi: var(--marka-hata-cizgi, #efc2bd);
+
+  --uyari:#8a4b00;                       /* kaynak: --hs-warn */
+  --uyari-yikama:#fdf3e4;                /* kaynak: --hs-warn-tint */
+  --uyari-cizgi:rgba(138,75,0,.30);      /* kaynak: --hs-warn-line */
+
+  /* ALTIN / KEHRİBAR AİLESİ — kaynakta tokensiz, ÜÇ ROLE birden hizmet
+     ediyor. 2. adımda (hesap alanı) doğrulandı, `--pro-*` adından
+     `--altin-*`a çevrildi çünkü "Pro" rolün yalnız biri:
+       1) Pro rozeti      `.hub-pro` · `.pro-pill`
+       2) BEKLEYEN DURUM  `.fp-badge.wait`
+       3) yumuşak uyarı   `.ba-warn` · `.ba-mapc.is-out li i`
+     `--uyari` ailesiyle BİRLEŞTİRİLMEDİ — değerler farklı, ikisi de
+     bağımsız olarak ≥3 sayfada. */
+  --altin-metin:#8a6410;       /* 9 sayfa */
+  --altin-cizgi:#e0bc63;       /* 7 sayfa
+                                  // DOĞRULA: `.fp-badge.wait` aynı rolde
+                                  #e8d5a8 kullanıyor (5 sayfa). İki değer,
+                                  tek rol; ölçüm ayırmadı. */
+  --altin-zemin:#fff6e6;       /* 5 sayfa */
+
+  /* ── KART ŞEMASI RENKLERİ — MARKA DEĞİL ───────────────────────────
+     Visa'nın laciverti ve Mastercard'ın kırmızısı kart şemasının kendi
+     kurumsal rengidir; DadaDiet'e ya da DadaFit'e göre DEĞİŞMEZ. Bu
+     yüzden marka katmanında değil, marka-nötr katmanda duruyorlar.
+     Ölçüm: slot-3 (odemelerim/kartlar) — kaynakta ham hex, token yoktu. */
+  --kart-semasi-visa:#1a1f71;
+  --kart-semasi-mc:#c7001b;
+
+
+  /* ── DURUM HAPI RENKLERİ — §28 ──────────────────────────────────────
+     Kaynak `.pstat` (fit-shell.css:1498-1503) · destek modülünde ölçüldü
+     (2026-09-01). DÖRT DURUM DÖRT AYRI ÇİFT: kaynağın kendi şerhi
+     "iki durum aynı rozeti paylaşamaz" diyor (destek-v1.html §Ö25).
+
+     İkisi var olan aileye bağlandı, ikisi yeni:
+       bekleyen → `--uyari` ailesi   (#8a4b00 / #fdf3e4 — BİREBİR aynı çift)
+       çözülen  → marka yuvası       (--aksan-koyu / --aksan-yikama)
+     Kalan ikisinin değerleri kaynakta ham hex; uydurulmadı, ölçüldü. */
+
+  /* ✅ §5.1 · A1 ONAYLANDI (Beyar, 2026-09-01) — petrol rampası.
+     "Açık talep" hapı DadaAkademi'nin petrolünü kullanır. Rampanın bu
+     ekranın kullandığı İKİ basamağı da kaynakta ölçülü:
+       #006072 (`--eko-akademi`, iki markanın :root'unda da tanımlı)
+       #e6f1f4 (`fit-shell.css:1500` + `destek-talebi-detay-v1.html:66`)
+     Kaynağın kendi şerhi kontrastı da yazmış: "≈6.3:1" (bağımsız hesap
+     6.26:1 · AA ✓). A1 hover adımını ÜRETMEZ; `--c-petrol-deep` petrolün
+     kendisine düşer (markalar/fit.css · eski ad köprüsü).
+     Envanter ve gerekçe: kanon/petrol-envanter.md */
+  /* 🔴 TANIMSIZ TOKEN — `bilesenler.css:3500` (`.rozet-sol`) bunu
+     kullanıyordu ama :root'ta HİÇ tanımlı değildi. Tanımsız bir özel
+     özellik bildirimi "hesaplanmış değer anında geçersiz" yapar ve
+     `color` MİRASA düşer — `.rozet-sol` sessizce `--eko-akademi`
+     (#006072) çiziliyordu, ölçülen #3f6d78 değil.
+     ⚠ `s2-token-denetim.mjs` bunu GÖRMEZ: o, :root'ta BİLDİRİLEN
+     tokenlerin çözülüp çözülmediğine bakıyor; burada eksik olan
+     bildirimin kendisi. Denetime "kullanılan ama bildirilmeyen" taraması
+     eklenmeli. Değer HANDOFF §2'de bu dalgada ölçülmüş diye duruyordu,
+     kanona hiç girmemiş. */
+  --eko-akademi-2:#3f6d78;                     /* petrol rampasının AÇIK adımı */
+  /* Rozet ilerleme çubuğunun dolgusu petrol rampasının PARLAK adımıyla
+     başlar (kaynak `.b-prog span`: linear-gradient(90deg,#4aa6b6,#006072)).
+     Marka-nötr DEĞİL sayılmaz — petrol ailesi ekosistem rengidir, markadan
+     türemez (§5.1'in kaydı). Ölçülen değer, uydurulmadı. */
+  --eko-akademi-3:#4aa6b6;                     /* petrol rampasının PARLAK adımı (§63d) */
+  --durum-acik-metin:var(--eko-akademi);        /* #006072 · beyazla 7.20:1 */
+  --durum-acik-zemin:var(--eko-akademi-yikama); /* #e6f1f4 · metinle 6.26:1 */
+
+  --durum-bekleyen-metin:var(--uyari);          /* #8a4b00 — kaynakla birebir */
+  --durum-bekleyen-zemin:var(--uyari-yikama);   /* #fdf3e4 — kaynakla birebir */
+
+  /* Kapalı/pasif hap zemini. Kaynakta 3 dosyada aynı rolde ham hex
+     (`fit-shell.css:1503` · `odemelerim-v1.html:87` · `destek-talebi-
+     detay-v1.html:68`) ve kontrastı İKİ dosyada ayrıca yazılmış:
+     "#56514a / #f1f1f1 6.96:1". `--zemin` (#f9f9f9) DEĞİL — hap kendi
+     zemininden ayrışsın diye bir adım koyu, ölçülen fark gerçek. */
+  --durum-kapali-zemin:#f1f1f1;                 /* metinle 6.96:1 */
+  --durum-kapali-metin:var(--murekkep-yumusak); /* #56514a */
+  /* 🔴 Aynı kaynak satırının KENARI (`odemelerim-v1.html:87`
+     `.od-pill.off{background:#f1f1f1;border:1px solid #e2e2e2}`). Zemin
+     alınmış, kenar atlanmıştı; §45 onun yerine `transparent` yazıyordu ve
+     hap KENARSIZ çiziliyordu (Beyar gözle yakaladı, 2026-09-02). */
+  --durum-kapali-cizgi:#e2e2e2;                 /* zeminle bir adım koyu */
+
+  /* BAŞARI RENGİ YOK. Kaynakta ayrı bir "başarı" tokeni bulunamadı;
+     olumlu durumlar marka yeşilini kullanıyor (bkz. markalar/fit.css).
+     // DOĞRULA: marka yeşili ile durum yeşilinin ayrışması gerekiyorsa
+     bu ayrım kaynakta yapılmamış, kanon da uydurmuyor. */
+
+/* ── 4 · MARKA YUVALARI (değeri markalar/*.css doldurur) ─────────────
+   Burada DEĞER YOK, yalnız anlamsal yuva → marka rampası eşlemesi. */
+
+  --aksan:var(--marka);                    /* vurgu, ikon, çip, odak halkası */
+  --aksan-koyu:var(--marka-koyu);          /* birincil düğme zemini (AA) */
+  --aksan-koyu-2:var(--marka-koyu-2);      /* birincil düğme hover */
+  --aksan-murekkep:var(--marka-murekkep);  /* zorunlu alan yıldızı, gradyan ucu */
+  --aksan-yikama:var(--marka-yikama);      /* ikon çipi, açık band zemini */
+  --aksan-yikama-2:var(--marka-yikama-2);  /* kabuk bileşeni yıkaması */
+  --aksan-cizgi:var(--marka-cizgi);
+  /* Aksanın alfalı kenarı — kaynak `.od-git` gibi kalemlerde
+     `rgba(<marka>,.30)` yazıyor; marka rengi değiştiğinde birlikte
+     değişsin diye marka yuvası (§47). */
+  --aksan-cizgi-2:var(--marka-cizgi-2);
+  /* Ücretli kademe rozetinin zemini — kaynak gradyan (§49). */
+  --paket-rozet-zemin:var(--marka-paket-rozet);
+  /* Sayaç rozetinin alfalı kenarı — kaynak `rgba(<marka>,.25)` (§34). */
+  --aksan-cizgi-3:var(--marka-cizgi-3);
+  --aksan-cizgi-4:var(--marka-cizgi-4);        /* öne çıkan kademe kartının kenarı (§55) */
+  --aksan-cizgi-5:var(--marka-cizgi-5);        /* açık durum hapının kenarı (§45 · kaynak rgba(marka,.24)) */
+  --aksan-golge:var(--marka-golge-aksan);
+  --aksan-golge-2:var(--marka-golge-aksan-2);   /* basamak hapının gölgesi (§63) */      /* kademe bayrağının gölgesi (§55) */
+  --aksan-yikama-5:var(--marka-yikama-5);      /* tablo vurgulu sütun zemini (§55) */
+  /* §75 ADMIN · iki alfa adımı — FALLBACK'Lİ okunuyor.
+     Marka dosyası yuvayı doldurmadıysa kural SESSİZCE DÜŞMEZ, bir adım
+     yakınına (`--aksan-yikama`) iner. Gerekçe `markalar/fit.css` §75
+     şerhinde; kalıp `--hata: var(--marka-hata, …)` ile aynı (satır 907). */
+  --aksan-yikama-8:var(--marka-yikama-8, var(--aksan-yikama));    /* toplu işlem çubuğu (§75e) */
+  --aksan-yikama-10:var(--marka-yikama-10, var(--aksan-yikama));  /* içerik türü rozeti (§75h) */
+
+  /* ── BANDIN ARAÇ DÜĞMELERİ — koyu zeminde cam kipi (§34) ───────────
+     Dört değer de BEYAZIN alfası; markadan bağımsız ama `bilesenler.css`
+     alfa yazamadığı için token katmanında duruyorlar. Ölçüldü (slot-1). */
+  /* Kapak düzenleme düğmesinin cam zemini — görselin üstünde okunur olsun
+     diye neredeyse opak beyaz (§51, ölçüldü). */
+  --kapak-duzenle-zemin:rgba(255,255,255,.93);
+  /* Kod hanesinin odak halkası — aksanın düşük alfası (§54). */
+  --aksan-halka:var(--marka-halka);
+  --aksan-halka-2:var(--marka-halka-2);   /* okunmadı beneğinin halkası (§59) */
+  --aksan-halka-3:var(--marka-halka-3);   /* YENİ kazanılan rozet kartının 3px halkası (§63d) */
+  --aksan-golge-3:var(--marka-golge-aksan-3);  /* şimdiki kademe kartının gölgesi (§63d) */
+  --aksan-nisan-dolu:var(--marka-nisan-dolu);  /* şimdiki kademenin madalyon dolgusu (§63d) */
+  /* Cam yüzeyler — yapışkan ray ve kart rozeti (§60). Beyazın alfası;
+     markadan bağımsız ama `bilesenler.css` alfa yazamıyor. */
+  --cam-zemin:rgba(255,255,255,.93);
+  --cam-zemin-2:rgba(255,255,255,.95);
+  /* Sonuç kartı görselinin dip perdesi — metin okunur kalsın diye. */
+  --kart-perde:linear-gradient(180deg, rgba(33,30,22,0) 55%, rgba(20,18,12,.34) 100%);
+  --bant-arac-zemin:rgba(255,255,255,.12);
+  --bant-arac-kenar:rgba(255,255,255,.22);
+  --bant-arac-zemin-2:rgba(255,255,255,.20);
+  --bant-arac-kenar-2:rgba(255,255,255,.38);
+  /* Saydam header (§27 `.tepede`) — kaynak `fit-shell.css:378` `:429`. */
+  --bant-arac-kenar-2b:rgba(255,255,255,.14);   /* header alt çizgisi */
+  --bant-arac-zemin-3:rgba(255,255,255,.10);    /* ikon düğmesi zemini */
+  --bant-arac-kenar-3:rgba(255,255,255,.30);    /* ikon düğmesi kenarı */        /* aksan-nötr hairline */
+  --aksan-parlak:var(--marka-parlak);      /* koyu zeminde okunur aksan metni */
+
+/* ── 5 · TİPOGRAFİ ───────────────────────────────────────────────────
+   Tek yüz: Gilroy. Medium(500) taban; 700/800 aynı dosyaya (ExtraBold)
+   çözülür — kaynakta kayda geçmiş kusur, kanon da bunu miras alır. */
+
+  --yuz:"Gilroy",system-ui,sans-serif;
+  /* Tek aralıklı yüz — kod, sır ve kurtarma kodları için (§54).
+     Sistem yığını; kanon dışarıdan yüz yüklemez. */
+  --yuz-tek:ui-monospace,SFMono-Regular,Menlo,monospace;
+
+  /* AĞIRLIK — ölçülen dört basamak (500 taban · 600 · 700 · 800) */
+  --agirlik-govde:500;
+  --agirlik-orta:600;
+  --agirlik-kalin:700;
+  --agirlik-ekstra:800;
+  --agirlik-siyah:900;   /* segment okunun ağırlığı (§61b) — ölçüldü */
+
+  /* ÖLÇEK — kaynakta modüler ölçek YOK, 0.5px adımlı bir merdiven var.
+     Değerler frekans sırasına göre alındı; adlar rol adı DEĞİL boy adıdır,
+     çünkü kaynakta rol↔boy eşlemesi bileşen bazında değişiyor.
+     TABAN GÖVDE ÖLÇÜSÜ YOK: body{} font-size taşımıyor, tarayıcı 16px'i
+     miras kalıyor ve her bileşen kendi ölçüsünü yazıyor. */
+  --yazi-9:9px;        /* 44 kullanım — mikro etiket */
+  --yazi-10:10px;      /* 51 */
+  --yazi-10-5:10.5px;  /* 49 */
+  --yazi-11:11px;      /* 198 */
+  --yazi-11-5:11.5px;  /* 141 */
+  --yazi-12:12px;      /* 294 — eyebrow / etiket standardı */
+  --yazi-12-5:12.5px;  /* 347 — üst bant, meta satırı · EN SIK */
+  --yazi-13:13px;      /* 323 — çip, yardımcı metin */
+  --yazi-13-5:13.5px;  /* 230 — düğme ikincil */
+  --yazi-14:14px;      /* 262 — kart gövdesi */
+  --yazi-14-5:14.5px;  /* 87  — .btn standardı */
+  --yazi-15:15px;      /* 176 */
+  --yazi-15-5:15.5px;  /* 55  — .lead / banner alt metni */
+  --yazi-16:16px;      /* 91 */
+  --yazi-16-5:16.5px;  /* 43 */
+  --yazi-17:17px;      /* 47 */
+  --yazi-17-5:17.5px;  /* sohbet panelinin başlığı (§62) */
+  --yazi-18:18px;      /* 73  — h3 en sık */
+  --yazi-19:19px;      /* 33 */
+  --yazi-20:20px;      /* 37 */
+  --yazi-21:21px;      /* 18 */
+  --yazi-22:22px;      /* 23 */
+  --yazi-23:23px;      /* 22 */
+  --yazi-24:24px;      /* 20 */
+  --yazi-25:25px;      /* 17  — banner h1 @≤640 — ÖLÇÜLEN */
+  --yazi-26:26px;      /* 14 */
+  --yazi-29:29px;      /* kimlik kartındaki ad — kaynak `.fp-kimlik-id h1`
+                          (ölçüldü 2026-09-01; ilk turda 28'e yuvarlanmıştı) */
+  --yazi-30:30px;      /* 25  — .sec-head h2 @≤1024 */
+  --yazi-31:31px;      /* banner h1 @≤900 — ÖLÇÜLEN (kırılım 901, 1024 DEĞİL) */
+  --yazi-32:32px;      /* koyu özet kartının büyük sayısı (§63 · R7) */
+  --yazi-34:34px;      /* .sec-head h2 masaüstü */
+  /* 🔴 BANNER H1 MERDİVENİ — ÖLÇÜLDÜ, 42 / 31 / 25 (02 §36 · B43).
+     Aşağıdaki 39 · 33 · 27 kaynakta GERÇEKTEN YAZILI ama banner başlığını
+     ONLAR ÇİZMİYOR: `fit-shell.css:2618` `@media(min-width:901px)` içinde
+     `body[data-fit-hero-kind] .lib-top h1{font-size:42px}` onları eziyor ve
+     `data-fit-hero-kind`i her banner sayfasında kabuk JS'i basıyor. B25'in
+     birebir tekrarı — CSS okuyup durmak yanlış değer verir.
+     ⚠ İKİ AYRI KIRILIM NOKTASI, karıştırılmasın:
+        tipografi  min-width:901  → 42 / 31 / 25
+        yükseklik  max-width:1024 → 544 / 607 / 587
+     901–1024 arasında bant 607px yüksek ama başlık hâlâ 42px. */
+  --yazi-36:36px;      /* giriş panosunun başlığı (§61) */
+  --yazi-42:42px;      /* banner h1 masaüstü — ÖLÇÜLEN değer (lh 1.12 · ls -.03em) */
+  --yazi-51:51px;      /* baş harf avatarı — kaynak diet `.pf-ava.is-harf`
+                          (planim.css:402). Kardeş markada karşılığı YOK:
+                          orada avatar fotoğraf, harf kipi hiç doğmuyor. */      /* 14  — ana sayfa tam-ekran hero h1 */
+
+  /* SATIR YÜKSEKLİĞİ */
+  --satir-tek:1;
+  --satir-baslik:1.12;   /* h1–h4 kabuk kuralı */
+  --satir-baslik-2:1.3;  /* durum ekranı h2 — kaynak `.dr-lead h2` (§35) */
+  --satir-sik-2:1.25;    /* öneri kalemi başlığı — tek satır, sıkı (§60) */
+  --satir-sik:1.45;
+  --satir-orta:1.5;
+  --satir-govde:1.55;    /* body kabuk kuralı · en sık */
+  --lh-body:var(--satir-govde);
+  /* // TÜRETİLDİ: destek-v1 `.qa-head{line-height:var(--lh-body)}` yazıyor,
+     token hiçbir yerde tanımlı değildi. Adı "body" diyor, kabuk `body`
+     kuralı 1.55 → --satir-govde. Değer uydurulmadı, eşleştirildi. */
+  --satir-genis-2:1.65;  /* plan içi boş durum metni — kaynak `.fpx-bos p` (§48) */
+  --satir-genis:1.6;     /* sayfa katmanında en sık */
+  /* 🔴 KUTULU BİLGİ NOTUNUN SATIR ARASI — kaynağın KENDİ ölçülmüş kararı
+     (`fit-shell.css:3831-3841`, 17 satırlık gerekçesiyle): not kutusunun
+     ölçü sınırı kalkınca satır uzuyor, "uzun ölçü → daha çok interlinye"
+     kuralıyla 1.6'dan 1.72'ye çıkarılmış. Kapsam YALNIZ kutulu bilgi/uyarı
+     notu; akan gövde metinleri `--measure`da kalıyor. */
+  --satir-not:1.72;
+  --satir-bol:1.7;       /* akordeon cevap metni — kaynak `.qa-body p`
+                            (ölçüldü 2026-09-01; merdivende karşılığı
+                            yoktu, `--satir-genis`e yuvarlanıyordu) */
+
+  /* HARF ARALIĞI */
+  --aralik-baslik:-.02em;  /* h1–h4 kabuk kuralı */
+  --aralik-baslik-2:-.03em;/* banner h1 — kaynak `body[data-fit-hero-kind] h1` (§34) */
+  --aralik-sik:-.01em;
+  --aralik-genis:.02em;
+  --aralik-versal:.06em;   /* versal başlık aralığı — tablo başlığı · künye dt ·
+                              çip şeridi başlığı; üç yerde tekrarlanan ölçülmüş değer */
+  --aralik-sir:.12em;      /* 2FA sırrının harf aralığı — kaynak `.tfa-sir code` */
+  --aralik-ince:0.105px;   /* rozet madalyonunun ince izi (§63)
+                              🔴 .0105em → 0.105px (2026-09-02).
+                              `letter-spacing` bildirildiği yerde UZUNLUĞA
+                              çözülür ve öyle miras alınır; em olarak
+                              yazılınca her çocuk kendi punto'suna göre
+                              yeniden hesaplanıyordu ve `.rozet-not`
+                              (10.5px) 0.11 çıkıyordu — ölçüm 0.105 diyor.
+                              Uzunluk yazılınca üç kalem de birebir. */
+  --aralik-etiket-3:.05em; /* basamak hapı ve rozet kademesi (§63) */
+  --aralik-versal-3:.07em; /* karşılaştırma tablosunun grup satırı — kaynak `.cmp-group th` */
+  --aralik-versal-2:.08em; /* kanal matrisi başlık satırı — kaynak `.ntf-row.head span` */
+  --aralik-etiket-2:.03em; /* küçük ikonlu durum hapı — kaynak `.hs-pill` (§45) */
+  --aralik-vurgu:.04em;    /* dikey kenar sekmesi — kaynak `.feedback-tab`
+                              (fit-shell.css:1037 · diet dd-shell:1078, aynı) */
+  --aralik-etiket:.16em;   /* .eyebrow — versal + geniş aralık */
+  --aralik-muhur:.1em;     /* kapak mührü — versal hap (kaynak:
+                              fit-shell.css:4121 `.fp-kapak-mark`) */
+
+  --olcu:78ch;             /* kaynak: --measure · akan metin satır ölçüsü */
+
+/* ── 6 · BOŞLUK ──────────────────────────────────────────────────────
+   4px TABANLI ÖLÇEK — Beyar kararı, 2026-09-01.
+   Kaynakta ölçek YOKTU: 1–180px arasında 60 farklı değer, 6282 bildirimin
+   yalnızca %2'si token. Ölçek türetilmedi, KARARLA konuldu.
+   Yuvarlama kuralı: en yakın kademe, eşitlikte YUKARI (14→16, 6→8, 10→12).
+   Tam eşleme tablosu 01-tokenlar.md §3.3'te (eski değer · adet · yeni kademe).
+   4px altı (1·2·3px) çizgi/kenarlık kalınlığıdır, ölçeğe girmez → §6b. */
+
+  --bosluk-4:4px;
+  --bosluk-8:8px;
+  --bosluk-12:12px;
+  --bosluk-16:16px;
+  --bosluk-20:20px;
+  --bosluk-24:24px;
+  --bosluk-32:32px;
+  --bosluk-40:40px;
+  --bosluk-48:48px;
+  --bosluk-64:64px;
+
+/* ── 5a-2 · ARA KADEMELER — 2px adım ─────────────────────────────────
+   🔴 ÖLÇÜMLE EKLENDİ (2026-09-01). Yukarıdaki 4px ölçeği bir KARARDI ve
+   ölçüm onu çürüttü: ilk ekran kardeş markanın yanına konduğunda 45
+   hesaplanmış değerden 20'si YALNIZ yuvarlamadan sapıyordu. Sapmalar
+   tek tek küçük (1-2px) ama üst üste binince kart dolgusu, kırıntı
+   boşluğu ve dikey ritim gözle görülür kayıyordu.
+
+   Kaynağın gerçeği 2px adımlıdır, 4px değil — kanıt kaynağın kendi
+   kullandığı değerler: 3 · 7 · 9 · 11 · 13 · 14 · 15 · 18 · 22 · 26 ·
+   30 · 38. Bunların hiçbiri 4px kademesine düşmüyor ve hepsi kaynakta
+   ölçülmüş, tekrarlanan değerler.
+
+   ⚠ 4px KADEMELERİ HÂLÂ TERCİH EDİLİR. Bu ara kademeler yalnız
+     KAYNAKTA ÖLÇÜLMÜŞ bir değeri birebir aktarmak için kullanılır;
+     yeni bir boşluk uydururken 4px merdiveni geçerlidir. */
+
+  --bosluk-2:2px;   /* ana menü kalem arası — kaynak `.nav{gap:2px}` */
+  --bosluk-44:44px;   /* dip ızgarası satır arası — kaynak `.foot-grid` */
+  --bosluk-3:3px;
+  --bosluk-10:10px;
+  --bosluk-5:5px;
+  --bosluk-6:6px;
+  --bosluk-7:7px;
+  --bosluk-9:9px;
+  --bosluk-11:11px;
+  --bosluk-13:13px;
+  --bosluk-14:14px;
+  --bosluk-15:15px;
+  --bosluk-17:17px;
+  --bosluk-18:18px;
+  --bosluk-22:22px;
+  --bosluk-26:26px;
+  --bosluk-28:28px;
+  --bosluk-30:30px;
+  --bosluk-34:34px;
+  --bosluk-36:36px;          /* satır içi seçimin sağ dolgusu — okun yeri (02 §36) */
+  --bosluk-38:38px;
+
+/* ── 5b · KESİKLİ KENAR ──────────────────────────────────────────────
+   Boş durum kutusunun kenarı. Kaynak `1.5px dashed #ddd` yazıyordu —
+   kalınlık ölçek dışıydı, renk tokensizdi. Beyar kararı (2026-09-01):
+   2px, renk tokenlı. #ddd ile --cizgi-vurgu (#dcdcdc) arasında bir birim
+   fark var; yeni değer üretilmedi, var olan token kullanıldı. */
+
+  --kesikli-kenar:var(--cizgi-2) dashed var(--cizgi-vurgu);
+
+/* ── 6b · ÇİZGİ / KENARLIK KALINLIĞI ─────────────────────────────────
+   Ölçek dışı. Bunlar boşluk değil, çizgidir; yuvarlanmadı.
+   Kaynakta 381 bildirim (1px:59 · 2px:198 · 3px:124). */
+
+  --cizgi-1:1px;   /* hairline — border standardı */
+  --cizgi-2:2px;   /* vurgu çizgisi, aktif sekme altı, .eyebrow::before */
+  --cizgi-3:3px;   /* odak halkası kalınlığı (bkz. §11) */
+
+/* ── 6c · BÖLÜM VE KAP ───────────────────────────────────────────────*/
+
+  --bosluk-60:60px;
+  --bosluk-50:50px;          /* giriş hero'sunun DAR EKRAN alt payı (§61) */
+  --bosluk-74:74px;          /* giriş hero'sunun alt payı (§61) */          /* arama sonuç bandının alt payı (§60) */
+  --bolum-nefes:74px;        /* 🔴 64 → 74 (2026-09-01 · 02 §36 · B41).
+                                Kaynak `--sec-pad:74px` — dadadiet.com/beslenme'den
+                                ÖLÇÜLMÜŞ bir sabit (74·74·74·44 ritmi). İlk tur
+                                onu 4px ölçeğine yuvarlamıştı ve kendi şerhi
+                                "geri almak tek satır" diyordu. B22 o kararı
+                                zaten çürütmüştü; yuvarlama bugüne kadar HİÇ
+                                ölçüme girmedi çünkü üç destek ekranı da
+                                `.zebra>.bolum` üzerinden `--bolum-nefes-sik`
+                                okuyor. Durum ekranlarının düz `.bolum`u ve
+                                arama ekranının `.fs-pop`u ilk tüketicileri. */
+  --bolum-nefes-sik:32px;    /* kaynak: --sec-pad-sm 32px — zaten kademede */
+  --kap-genislik:1240px;     /* kaynak: --wrap — genişlik, ölçek dışı */
+  --kap-yan:32px;            /* .wrap yan dolgusu — zaten kademede */
+  --kap-yan-dar:16px;        /* @≤640 — zaten kademede */
+  --kenar-sekmesi-ust:272px; /* dikey kenar sekmesinin üst konumu.
+                                🔴 SABİT, hesaplanan değil — kaynağın kararı
+                                (`fit-shell.js:4787`, Beyar 2026-08-29):
+                                önce banner merkezine hizalanıyordu ve sayfa
+                                tipine göre 272/280/323/511 diye AYRIŞIYORDU;
+                                karar "hepsi aynı konumda" oldu ve taban
+                                liste/detay hâli olan 272 alındı. */
+  --kenar-serit-g:8px;       /* sağ dikey şeridin genişliği — kaynak
+                                `.fb-rail` (fit-shell.css:1028) */
+  --okuma-kolonu:860px;      /* akan metnin okunduğu dar kolon — genişlik,
+                                ölçek dışı.
+                                🔴 UYDURULMADI, İKİ MARKADA DA AYNI ÖLÇÜLDÜ:
+                                  fit  · destek-v1.html `.faq-list`
+                                         `.faq-kat-note` `.faq-none`
+                                         `.coll-cta` `.ds-list`   → 860px
+                                  diet · beslenme-ipucu-detay-v1.css:57
+                                         `.reh-article`           → 860px
+                                `--kap-genislik` (1240px) kartın kendi
+                                dolgusundan sonra ~1090px'lik bir satır
+                                bırakıyor; bu token onu okunur uzunluğa
+                                indirir. `--olcu` (78ch) ile karışmaz:
+                                o AKAN METNİN kendi ölçüsü, bu KOLONUN
+                                genişliği — biri ch, öbürü px. */
+
+/* ── 7 · KABUK ÖLÇÜLERİ ──────────────────────────────────────────────
+   Sabit üst kabuk: üst bant + header. Mobilde üst bant gizlenir. */
+
+  --ust-bant-h:40px;
+  --header-h:72px;
+  --header-h-dar:62px;        /* @≤640 · üst bant gizli */
+  /* §27b kelime markası — patron .ai vektörünün ink yüksekliği.
+     Kaynağın metin kutusuyla DEĞİL, optik x-yüksekliğiyle eşitlendi
+     (23px × 0.52 ÷ 0.714 ≈ 16.8). Genişlik 3.9182 oranıyla gelir. */
+  --marka-kelime-h:24px;
+  --kabuk-h:113px;            /* kaynak: --fit-header-h
+                                 // DOĞRULA: 40 + 72 = 112, token 113 diyor.
+                                 Kaynakta `.below-header{padding-top:112px}` ve
+                                 `scroll-padding-top:112px` LİTERAL 112 yazıyor.
+                                 1px'lik bu çelişki kaynakta çözülmemiş. */
+  /* 🔴 62 → 63 (2026-09-01, 02 §35). Kaynak ≤640'ta `--fit-header-h:63px`
+     bildiriyor (`fit-shell.css:1853`); kanon bu yuvayı `--header-h-dar`
+     (62px, HEADER elemanının kendi yüksekliği) ile karıştırmıştı. Fark
+     `.kimlik-bant` üst dolgusunda 1px olarak ölçüldü. */
+  --kabuk-h-dar:63px;
+
+  /* BANNER AİLE YÜKSEKLİKLERİ — dadadiet.com'dan ölçülmüş sabitler */
+  /* 🔴 v3 · YAZI YÜZÜ KANONDA HİÇ YOKTU — 2026-09-02, slot-3 yakaladı.
+     `tokenlar.css` ve `markalar/*.css` SIFIR `@font-face` ve sıfır kök
+     `font-family` bildiriyor. Ölçüldü: kanonu tek başına yükleyen bir
+     sayfa SERİF çizilir. Yazı BOYUTLARI (`--yazi-*`) tokendı ama YÜZ
+     değildi — eksik yarım.
+     Yüz marka-nötr: iki markanın kabuğu da Gilroy ölçüyor.
+     ⚠ `@font-face` BİLDİRİMİ BURAYA YAZILMAZ ve bu bilinçli: font
+       dosyasının yolu tüketiciye göre değişiyor (`deneme/*.html` gömülü
+       base64 taşıyor, `kanon/demo.html` göreli yol veriyor). Kanon YÜZÜN
+       ADINI verir, YÜKLENMESİ tüketicinin işidir.
+     ⚠ Yedek yığın uydurulmadı: kaynağın kendi `body` bildiriminden
+       (`fit-shell.css`) birebir alındı. */
+  --yazi-yuzu:"Gilroy", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --yazi-yuzu-baslik:"GilroyBd", var(--yazi-yuzu);
+
+  --banner-h-liste:544px;
+  /* 🔴 v3 · 2026-09-02 — TABAN DALDA HİÇ BİLDİRİLMEMİŞTİ.
+     `--banner-h-detay` yalnız ≤1024 (617) ve ≤640 (726) dallarında
+     vardı; MASAÜSTÜNDE TANIMSIZDI. Ölü değildi, YARIMdı — detay ailesi
+     kanonda tanımlı ama 1440'ta yüksekliksiz kalıyordu. §66 `.bant.derin`
+     tüketicisini doğurunca boşluk göründü.
+     Değer uydurulmadı: `01-tokenlar.md:718` zaten 560px diye
+     belgeliyordu ve v3 banner turu 60 sayfada 1440'ta **560** ölçtü
+     (challenge-v1 · egzersiz-detay-v1 · sozluk-detay-v1 · fit-testi-detay-v1
+     · program-detay-v1 — beşi de birebir). Belge ile ölçüm aynı sayıyı
+     verdi; eksik olan yalnız CSS bildirimiydi. */
+  --banner-h-detay:560px;
+  --banner-h-profil:280px;
+  /* 🔴 MOBİL KAPAK — kaynak `fit-shell.css:4312` (`@media ≤640`).
+     Kanon 2026-09-01'e kadar mobil dalda kapak yüksekliğini HİÇ
+     bildirmiyordu: 390px'te 280px'lik masaüstü bandı basılıyor, kimlik
+     kartı onun üstüne bindiğinde ekranın yarısı boş koyu alan kalıyordu.
+     Ölçüldü, uydurulmadı. */
+  /* 🔴 170 → 280 · BEYAR KARARI, 2026-09-02 — "kanon yanlış, ölçüm doğru".
+     Kanon dar ekranda kapağın 170px'e düştüğünü söylüyordu. v3 banner
+     turu 60 sayfa ölçtü ve kapak ailesinin 11 sayfasının 11'inde de
+     280 → **280** buldu: KÜÇÜLMÜYOR.
+     170 değeri `.pf-banner`ın (profil-v1) değeriydi ve TEK sayfadan
+     geliyordu; yaygın olan `.fp-kapak` (11 sayfa) küçülmüyor.
+     ⚠ Ölçüm üç ayrı kapak reçetesi buldu — .fp-kapak 280→280 ·
+       .pf-banner 280→170 · .cp-banner 150→120. Kanon en yaygın ve tek
+       tutarlı olanı alır; kalan ikisi §66a'da kusur olarak kayıtlı. */
+  --banner-h-profil-dar:280px;
+
+  /* ── BANT (§34) — koyu banner'ın katmanları ────────────────────────
+     🔴 GÖRSEL İSTEĞE BAĞLI. `--bant-gorsel` boş (`none`) bırakılırsa üç
+     gradyan tek başına bandı çizer — ölçüldü, kaynağın 404'ü zaten öyle.
+     Kanon dış kaynak GÖMMEZ; görseli canlı blade doldurur.
+     ⚠ ŞERH DÜZELTİLDİ (Beyar · 2026-09-02): bu karar bir zamanlar
+     "deneme dosyalarının dış kaynak 0 sözü" ile gerekçelendiriliyordu
+     ve O SÖZ ÖLÇÜLDÜĞÜNDE TUTULMADIĞI GÖRÜLDÜ — `bildirimler` 6,
+     sorgulu `arama` 1 dış istek atıyor (slot-2, ağdan ölçtü).
+     Beyar: "görseller kalsın, sadece şerhi düzelt, gerçeği yazsın."
+     Kararın kendisi (bandın görselini gömmemek) AYAKTA; ama artık
+     tutulmayan bir söze değil, kendi gerekçesine dayanıyor: bant
+     görseli İÇERİKTİR ve canlı blade'in verisidir, kanonun değil.
+     Kapı ölçütü `s2-diskaynak-denetim.mjs` bunu 🔴 6 olarak, bilinen
+     ve onaylı bir açık kalem olarak raporlar. */
+  /* Bandın perde katmanları MARKA YUVASIDIR — içlerinde marka rengi ve
+     markanın kendi koyu tabanı var (FIT sıcak siyah, Diet yeşile çalan
+     siyah). `bilesenler.css` sabit renk yazamaz, bu yüzden katmanların
+     tamamı marka dosyasından gelir. */
+  --bant-perde-aksan:var(--marka-bant-perde-aksan);
+  /* 🔴 AD YÖN DEĞİL ROL SÖYLER (Beyar kararı · 2026-09-02).
+     Yuvalar önce `-yatay` / `-dikey` diye adlandırılmıştı — FIT'in kendi
+     katmanlarının YÖNÜNE göre (90deg / 180deg). Ama perdenin yönü MARKAYA
+     bağlı: Diyet'in ana perdesi `linear-gradient(180deg,…)`, yani "yatay"
+     adlı yuvada DİKEY bir gradyan duruyordu ve ad değeriyle çelişiyordu
+     (slot-2 bildirdi).
+     Ad artık katmanın ROLÜNÜ söylüyor — üç katman, üç rol:
+       -aksan  markanın parıltısı (radial)
+       -ana    ana koyulaştırma perdesi     ← yönü marka belirler
+       -dip    dipteki koyulaşma
+     Rol markadan bağımsız, yön değil; bir daha çelişemez. */
+  --bant-perde-ana:var(--marka-bant-perde-ana);
+  --bant-perde-dip:var(--marka-bant-perde-dip);
+  --bant-zemin:var(--marka-bant-zemin);
+  /* Arama hero'sunun perdeleri — §34'ün üç katmanından AYRI: iki katman
+     ve farklı açı/konum. Aksan parıltısı içerdiği için marka yuvası. */
+  --giris-perde:var(--marka-giris-perde);
+  --giris-parilti:var(--marka-giris-parilti);
+  --giris-pano-perde:var(--marka-giris-pano-perde);
+  --arama-perde:var(--marka-arama-perde);
+  --arama-parilti:var(--marka-arama-parilti);
+  --arama-parilti-2:var(--marka-arama-parilti-2);
+  --bant-gorsel:none;
+  --bant-gorsel-yeri:center 26%;
+  --dikis-r:22px;             /* banttan gövdeye geçişin yuvarlak köşesi */
+  --durum-kolon:900px;        /* §35 okuma kabı — §23'ün 860'ı DEĞİL */
+  --banner-gap:20px;          /* banner içi dikey ritim — zaten kademede */
+
+  /* HERO NEFESLERİ */
+  --hero-ust:15px;            /* 🔴 16 → 15 · kaynak --hero-pt (B41) */
+  --hero-alt:46px;            /* 🔴 48 → 46 · kaynak --hero-pb (B41) */
+  --hero-gap:10px;            /* 🔴 12 → 10 · kaynak --hero-gap (B41) */
+
+/* ── 8 · YUVARLAKLIK ─────────────────────────────────────────────────
+   Kaynağın en temiz katmanı: sayfaların %98'i token kullanıyor. */
+
+  --yuvarlak-sm:8px;
+  --yuvarlak-md:12px;         /* en sık — kart, düğme, çip */
+  --yuvarlak-lg:16px;
+  --yuvarlak-xl:24px;
+  --yuvarlak-hap:999px;
+  --yuvarlak-rozet:6px;       /* sayaç ve fiyat rozeti */
+  --yuvarlak-cip:var(--yuvarlak-md);
+  --yuvarlak-daire:50%;
+
+/* ── 9 · GÖLGE ───────────────────────────────────────────────────────
+   Üç basamak + odak halkası. Değerler --murekkep'in rgb'sinden türer. */
+
+  --golge-sm:0 1px 2px rgba(33,30,22,.04), 0 2px 6px rgba(33,30,22,.05);
+  --golge-md:0 6px 22px rgba(33,30,22,.09);
+  /* Kapak görselinin üstündeki karartma perdesi. Görsel ne olursa olsun
+     mührün ve kartın okunmasını garantiler — kaynak fit-shell.css:4111
+     (`.fp-kapak::after`), iki durak birebir. Bileşen katmanı alfa yazamaz
+     (kural 2), bu yüzden perde BURADA token olur. */
+  --perde:rgba(20,18,12,.5);   /* sohbet perdesi (§62) — ölçülen değer */
+  --kapak-perde:linear-gradient(180deg,rgba(33,30,22,.14),rgba(20,18,12,.38));
+  /* Kapak üstündeki mührün zemini — okunurluk için neredeyse opak beyaz.
+     Kaynak fit-shell.css:4120. */
+  --muhur-zemin:rgba(255,255,255,.93);
+  --golge-lg:0 18px 50px rgba(33,30,22,.16);
+  /* Yüzen düğme gölgesi — `--golge-lg`den AYRI: yayılım dar, kayma az.
+     Kaynak `.to-top` (fit-shell.css:1616) ve `.ddm-fab` (dd-mesaj.css:56),
+     iki markada da birebir aynı. */
+  --golge-kabuk:0 4px 20px rgba(33,30,22,.05);  /* sabit header gölgesi */
+  --golge-yuzen:0 8px 20px rgba(33,30,22,.16);
+  --golge-halka:0 0 0 3px var(--aksan-yikama);   /* alan odağı (form) */
+  /* // DOĞRULA: sayfa katmanında halkanın dört varyantı ölçüldü — aksan
+     renginin .12 ve .14 alfalı iki rgba() yazımı, aksan yıkama tokeni, ve
+     hata durumu için --tehlike'nin .14 alfalı rgba() yazımı. Kanon
+     marka-bağımsız olanı seçti; hata varyantı bileşen katmanına bırakıldı. */
+
+/* ── 10 · HAREKET ────────────────────────────────────────────────────*/
+
+  --yumusama:cubic-bezier(.22,.61,.36,1);   /* kaynak: --ease */
+  --sure-hizli:.12s;
+  --sure-cabuk:.18s;
+  --sure:.2s;        /* en sık — 89 kullanım */
+  --sure-yavas:.25s;
+  --sure-agir:.3s;
+
+/* ── 11 · ODAK ───────────────────────────────────────────────────────*/
+
+  --odak-kalinlik:var(--cizgi-3);
+  --odak-ofset:var(--cizgi-2);
+  --odak-renk:var(--aksan);
+
+/* ── 12 · KATMAN (z-index) ───────────────────────────────────────────
+   Kaynaktan ÖLÇÜLDÜ, ad verildi. Ham değerler korundu ki mevcut
+   sayfalarla çakışmasın. Çelişki notu 01-tokenlar.md §12'de. */
+
+  --kat-icerik:2;              /* en sık kullanılan (111 kez) */
+  --kat-kimlik:3;              /* kimlik kartı kapağa BİNER — kaynak
+                                  `.fp-kimlik{z-index:3}` (fit-shell.css:4125).
+                                  `--kat-icerik` (2) kaynaktan sapıyordu;
+                                  konum ailesi ölçüme girince yakalandı. */
+  --kat-avatar-dugme:4;        /* avatar düzenleme düğmesi — `.fp-ava-edit{z-index:4}` */
+  --kat-ipucu:30;              /* rozet ipucu balonu (§63) — ölçüldü.
+                                  `--kat-icerik` (2) YETMİYOR: balon kendi
+                                  kartının dışına taşıyor ve KOMŞU kartların
+                                  üstünden geçmesi gerekiyor. */
+  --kat-yapiskan-2:40;         /* arama sekmesi rayı — kaynak `.fs-tabbar` (§60) */           /* yapışkan filtre çubuğu */
+  --kat-yuzen:55;              /* yukarı çık düğmesi */
+  --kat-header:60;             /* sabit header + popover */
+  --kat-ust-bant:70;
+  --kat-kenar-serit:71;        /* sağ dikey şerit — üst bandın ÜSTÜNDEN geçer */
+  --kat-geri-bildirim:72;      /* kenar sekmesi */
+  --kat-yuzen-dugme:73;        /* sohbet düğmesi — kenar sekmesinin üstünde */
+  --kat-sohbet-dugme:73;       /* sohbet açma düğmesi — §26'nın istifinde
+                                  `.basa-don`ın (55) ÜSTÜNDE, kenar
+                                  şeridinin (71) hemen üstünde (§62) */
+  /* 🔴 v3 · 2026-09-02 — ALT BAR MERDİVENDE TANIMLI DEĞİLDİ (§67).
+     Ölçüldü: FIT'in `.bottom-nav`u z-index **90** kullanıyor.
+     ⚠ AD UYDURULMADI: `01-tokenlar.md:650` bu kademeyi ZATEN
+       `--kat-alt-bar` = 90 diye belgelemişti; eksik olan yalnız CSS
+       bildirimiydi. İlk yazımda `--kat-alt-cubuk` diye İKİNCİ bir ad
+       üretildi ve geri alındı — "token yazmadan önce 01-tokenlar.md
+       taranır" kuralının bu turdaki ikinci ihlali.
+
+     🔴 BELGE/CSS KAYMASI — 01-tokenlar.md'nin kat merdiveninde YEDİ
+        kademe belgelenmiş ama `tokenlar.css`te bildirilmemiş:
+          --kat-taban 1 · --kat-yapiskan 42 · --kat-menu 80 ·
+          --kat-ray 85 · --kat-alt-bar 90 · --kat-sayfa-orte 93 ·
+          --kat-sayfa 94
+        Hiçbirinin CANLI tüketicisi yok, yani sessiz bir kusur DEĞİL —
+        ama merdiven yarım ve §68 (yüzen istif) bunun üstüne oturacak.
+        Bu turda YALNIZ `--kat-alt-bar` bildirildi (tüketicisi doğdu);
+        kalan altısı tüketicisi olmadan bildirilmez (ölü token üretmez). */
+  /* ── §68.1'İN BEKLEYEN KADEMELERİNDEN ÜÇÜ · 2026-09-04 · ADMIN TURU ──
+     Yukarıdaki şerh kuralı yazmıştı: *"kalan altısı TÜKETİCİSİ OLMADAN
+     bildirilmez (ölü token üretmez)"*. Admin bölümü (§75) üç tüketici
+     doğurdu, üçü de RENDER'DA ölçüldü ve üçünün de ADI `01-tokenlar.md`de
+     ZATEN YAZILI (satır 643 · 648 · 649) — yeni ad AÇILMADI:
+
+         42  `.ff-bar`     süzgeç çubuğu     → `--kat-yapiskan`  (§75e)
+         80  `.t-ara-pop`  üst çubuk açılırı → `--kat-menu`      (§75b)
+         85  `.sa-rail`    sol marka rayı    → `--kat-ray`       (§75a)
+
+     🔴 BU BLOK BİR KEZ YANLIŞ YAZILDI VE GERİ ALINDI (2026-09-04).
+        İlk yazımda `--kat-suzgec-cubugu` ve `--kat-panel-acilir` diye İKİ
+        YENİ AD üretilmişti — yukarıdaki `--kat-alt-cubuk` ihlalinin
+        birebir tekrarı. Kuralın kendisi üç satır yukarıda yazılıydı:
+        *"token yazmadan önce 01-tokenlar.md taranır."* Tarandığında üçü
+        de belgede duruyordu. Ders kaydı: kanonun kendi şerhini okumak
+        yetmiyor, ŞERHİN İŞARET ETTİĞİ BELGEYE gidilmesi gerekiyor.
+
+     Kalan üçü (1 · 93 · 94) hâlâ tüketicisiz; bildirilmedi. */
+  --kat-yapiskan:42;           /* yapışkan süzgeç çubuğu (§75e) — ölçüldü */
+  --kat-menu:80;               /* üst çubuk açılırı — arama · bildirim · hesap (§75b) */
+  --kat-ray:85;                /* sol marka rayı (§75a) — ölçüldü */
+
+  --kat-alt-bar:90;
+  --kat-sohbet-ortu:94;        /* sohbet perdesi — alt sayfayla aynı kat */
+  --kat-sohbet:95;
+  --kat-cekmece-ortu:95;       /* mobil çekmece perdesi (§64) — ölçüldü */
+  --kat-cekmece:96;            /* mobil çekmecenin kendisi (§64) */
+  --kat-ortu:97;               /* modal örtüsü — `.lg-ortu` `.pg-ortu` `.fb-ortu` */
+  --kat-modal:98;              /* tam ekran kapılar — `.lg-gate` `.pro-kapi` `.fb-modal` */
+  --kat-atla:200;              /* atlama bağlantısı (§26b) — odakta hiçbir
+                                  katman onu örtemez */
+}
+
+/* ── 13 · KIRILIM NOKTALARI ──────────────────────────────────────────
+   CSS değişkeni @media koşulunda okunamaz; bu yüzden token DEĞİL, sabit
+   olarak burada belgelenir ve elle aynalanır (kaynak da böyle yapıyor).
+
+     ≤1024px  tablet   — 74 kural · KANON
+     ≤640px   mobil    — 112 kural · KANON
+     ≤900px   ara      — 20 kural  · aday
+     ≤760px   ara      — 18 kural  · aday
+     ≤400px   küçük    — 14 kural  · aday
+     ≤520px · ≤860px · ≤720px · ≤1100px · ≤1180px · ≤1303px · ≤380px · ≤680px
+              → SAPMA (1–4 kural), kanona alınmadı
+   -------------------------------------------------------------------- */
+
+/* ── 14 · MOBİL KAP ──────────────────────────────────────────────────*/
+@media (max-width:640px){
+  :root{ --kap-yan:var(--kap-yan-dar); }
+}
+
+/* ── 15 · HAREKETİ AZALT ─────────────────────────────────────────────*/
+@media (prefers-reduced-motion:reduce){
+  :root{
+    --sure-hizli:0s; --sure-cabuk:0s; --sure:0s;
+    --sure-yavas:0s; --sure-agir:0s;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DAR EKRAN — TOKEN KATMANININ MOBİL DALI          (2026-09-01 · 02 §35)
+   -----------------------------------------------------------------------
+   🔴 BU BLOK KANONDA HİÇ YOKTU. Kaynak ≤640'ta :root'un kendisini yeniden
+   bildiriyor (`fit-shell.css:1853`); kanon yalnız masaüstü değerlerini
+   taşıdığı için 390px'te bölüm nefesleri masaüstü ölçüsünde kalıyordu.
+   Ölçülen sonuç: her bölüm geçişinde +19/+20px fazla boşluk (bir bölümün
+   ALT payı + sonrakinin ÜST payı = 2 × 10px sapma). Üç destek ekranında
+   beş aralık birden bu yüzden kırmızıydı.
+
+   Değerler kaynağın kendi satırından birebir; yuvarlama yapılmadı —
+   44 ve 22 zaten kademede.
+   ⚠ Bu blok ilk yazıldığında masaüstü `--bolum-nefes` hâlâ 74→64
+     yuvarlamasını taşıyordu; B41 onu da kaynağın değerine çekti. Artık
+     iki kademede de yuvarlama YOK.
+   ═══════════════════════════════════════════════════════════════════════ */
+/* ── ARA KADEME (≤1024) — kanonda HİÇ YOKTU ─────────────────────────
+   Kaynak bu genişlikte altı yuvayı değiştiriyor; kanon yalnız 1440 ve 640
+   biliyordu, arada masaüstü değerleri kalıyordu. Ölçüm: render anında
+   `:root` okuması, üç genişlikte (B41). */
+@media (max-width:1024px){
+  :root{
+    --hero-gap:9px;
+    --bolum-nefes-sik:26px;
+    --banner-h-liste:607px;
+    --banner-h-detay:617px;
+    --banner-gap:18px;
+    /* --bolum-nefes 74 KALIR — kaynak bu kademede onu değiştirmiyor */
+  }
+}
+@media (max-width:640px){
+  :root{
+    --bolum-nefes:44px;         /* kaynak ≤640: --sec-pad:44px */
+    --bolum-nefes-sik:22px;     /* kaynak ≤640: --sec-pad-sm:22px */
+    /* Banner aile yükseklikleri dar ekranda BÜYÜR (metin sarınca bant
+       uzuyor) — kaynağın kendi ölçüsü, sezgiye ters ama ölçülmüş. */
+    --banner-h-liste:587px;     /* kaynak ≤640: --banner-h-liste:587px */
+    --banner-h-detay:726px;     /* kaynak ≤640: --banner-h-detay:726px */
+    /* Hero ritmi dar ekranda TERSİNE döner: üst pay büyür (15→33), alt pay
+       küçülür (46→34). Kaynağın kendi ölçüsü; kanonda dal yoktu. */
+    --hero-ust:33px;
+    --hero-alt:34px;
+    --hero-gap:8px;
+    --banner-gap:9px;
+    --kabuk-h:63px;             /* ≤640 üst bant gizli — `--kabuk-h-dar` ile aynı */
+  }
+}

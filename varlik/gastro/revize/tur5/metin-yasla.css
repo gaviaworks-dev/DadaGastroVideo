@@ -1,0 +1,21 @@
+/* Revize 5 · madde 41 — tarif ve püf detayının GÖVDE metinleri iki yana yaslı, Türkçe tireli.
+   Yalnız çok satırlı gövde metni: tarif açıklaması (`.rd-sub`), adım metni, not kutuları
+   (alerjen · hatırlatma), püf metni ve blokları. Başlık, düğme, yorum metni,
+   etiket yaslanmaz; tek satırlık metinde yaslamanın etkisi yoktur (son satır yaslanmaz).
+   Tireleme: `hyphens: auto` + sayfanın `lang="tr"`i; Türkçe sözlüğü olmayan tarayıcıda hece
+   sınırlarını `tr-heceleme.js` yumuşak tireyle verir (390'da kelime arası boşluk açılmasın). */
+.rd-head .rd-sub,
+.step-card__body > p,
+.note-duo .remind-box .rb-body p,
+.art-intro > p,
+.art-blok-metin p,
+.art-blok-metin li,
+.mod-body .art-tip p{text-align:justify;-webkit-hyphens:auto;hyphens:auto;overflow-wrap:break-word}
+
+/* Revize 5 · madde 42 — yorum metinleri SOLA yaslı (41'in dışında). Püf detayının donör kuralı
+   `.art-col p` yorum bölümündeki paragrafları da yaslıyordu; yorum kartı, giriş kutusu ve form
+   notu tarif detayındaki gibi sola döner. */
+.cmts-wrap .c-text,
+.cmts-wrap .rev-login p,
+.cmts-wrap .rev-empty-first p,
+.cmts-wrap .rf-disc{text-align:left;-webkit-hyphens:manual;hyphens:manual}

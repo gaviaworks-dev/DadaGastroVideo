@@ -1,0 +1,21 @@
+@import url("../kanon/tokenlar.css");
+@import url("../kanon/markalar/gastro.css");
+/* DadaGastro tarif bildirimleri, menüdeki aynı kanonik toast anatomisini kullanır. */
+.dm-toast-kap[data-tarif-bildirimi] {
+  bottom: calc(var(--alt-cubuk-h) + var(--alt-cubuk-dip) + var(--bosluk-24) + env(safe-area-inset-bottom));
+}
+/* Bildirim hedefi ve okundu eylemi dokunmatik ekranda da keşfedilebilir. */
+[data-gastro-page="bildirimler"] .bs-islemler {
+  opacity: 1;
+}
+/* Tarif araç çubuğunun ek eylem satırı da bildirim için ayrılan alana dahildir. */
+body:has(#rdActbar.show) .dm-toast-kap[data-tarif-bildirimi] {
+  bottom: calc(var(--alt-cubuk-h) + var(--alt-cubuk-dip) + var(--bosluk-24) + var(--bosluk-48) + env(safe-area-inset-bottom));
+}
+
+/* Birincil alışveriş düğmesine yer aç; araç çubuğu kaydırmada geri gelir. */
+#rdActbar.show.primary-action-visible {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}

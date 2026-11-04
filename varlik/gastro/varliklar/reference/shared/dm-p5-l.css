@@ -1,0 +1,112 @@
+
+
+
+[data-pane="alisveris"] > section[hidden],
+[data-pane="alisveris"] .al-liste-kutu[hidden],
+[data-pane="alisveris"] .al-liste-bos[hidden]{ display:none !important; }
+
+
+.al-listeler .sec-head{ display:flex; align-items:flex-end; gap:var(--bosluk-20); flex-wrap:wrap; }
+.al-listeler .sec-head > div:first-child{ flex:1 1 320px; min-width:0; }
+.al-listeler .sec-tools{ flex:0 0 auto; }
+.al-liste-kutu{ margin-top:var(--bosluk-20); }
+
+
+
+.al-liste-karti{ position:relative; }
+.al-liste-karti .bilgi{ min-width:0; }
+
+
+.al-liste-ac{
+  font:inherit; color:inherit; background:none; border:0; padding:0;
+  text-align:left; cursor:pointer;
+}
+.al-liste-ac::after{ content:""; position:absolute; inset:0; border-radius:inherit; }
+.al-liste-ac:focus-visible{ outline:none; }
+.al-liste-ac:focus-visible::after{
+  outline:var(--odak-kalinlik) solid var(--odak-renk); outline-offset:var(--odak-ofset);
+}
+.al-liste-karti:hover .al-liste-ac{ color:var(--aksan-koyu); }
+
+
+.al-liste-menu{ position:relative; z-index:1; flex:0 0 auto; margin-left:var(--bosluk-8); }
+.al-liste-menu-ac{
+  width:36px; height:36px; display:grid; place-items:center;
+  border:var(--cizgi-1) solid transparent; background:none; cursor:pointer;
+  border-radius:var(--yuvarlak-md); color:var(--metin-ikincil);
+  font-size:var(--yazi-14); transition:var(--sure) var(--yumusama);
+}
+.al-liste-menu-ac:hover{ background:var(--zemin); color:var(--murekkep); border-color:var(--cizgi); }
+.al-liste-menu-ac:focus-visible{ outline:var(--odak-kalinlik) solid var(--odak-renk); outline-offset:var(--odak-ofset); }
+.al-liste-menu .al-share-pop{ min-width:196px; }
+
+
+.al-liste-ikon{
+  display:grid; place-items:center;
+  background:var(--aksan-yumusak, var(--zemin)); color:var(--aksan-koyu);
+  font-size:var(--yazi-15);
+}
+
+
+.al-geri-yol{ margin:0 0 var(--bosluk-12); }
+.al-geri{
+  display:inline-flex; align-items:center; gap:var(--bosluk-8);
+  border:0; background:none; padding:var(--bosluk-6) 0; cursor:pointer;
+  font:inherit; font-size:var(--yazi-13-5); font-weight:var(--agirlik-kalin);
+  color:var(--metin-ikincil);
+}
+.al-geri:hover{ color:var(--aksan-koyu); }
+.al-geri:focus-visible{ outline:var(--odak-kalinlik) solid var(--odak-renk); outline-offset:var(--odak-ofset); }
+.al-geri i{ font-size:var(--yazi-12); }
+
+
+.al-ad-alan .alan-etiket{
+  display:block; font-size:var(--yazi-12); font-weight:var(--agirlik-kalin);
+  color:var(--metin-ikincil); margin-bottom:var(--bosluk-6);
+}
+.al-ad-uyari{
+  margin:var(--bosluk-8) 0 0; font-size:var(--yazi-12-5); color:var(--tehlike-koyu, var(--murekkep));
+}
+.al-ad-uyari[hidden]{ display:none; }
+
+
+.al-sec-kutu{ display:flex; flex-direction:column; gap:var(--bosluk-8); }
+.al-sec-kalem{
+  display:flex; align-items:center; gap:var(--bosluk-12);
+  width:100%; text-align:left; cursor:pointer; font:inherit;
+  padding:var(--bosluk-12) var(--bosluk-14);
+  border:var(--cizgi-1) solid var(--cizgi); border-radius:var(--yuvarlak-md);
+  background:var(--kagit); color:var(--murekkep);
+  transition:var(--sure) var(--yumusama);
+}
+.al-sec-kalem:hover{ border-color:var(--cizgi-vurgu); background:var(--zemin); }
+.al-sec-kalem:focus-visible{ outline:var(--odak-kalinlik) solid var(--odak-renk); outline-offset:var(--odak-ofset); }
+.al-sec-ikon{
+  flex:0 0 auto; width:38px; height:38px; display:grid; place-items:center;
+  border-radius:var(--yuvarlak-md); background:var(--zemin); color:var(--aksan-koyu);
+  font-size:var(--yazi-14);
+}
+.al-sec-bilgi{ display:flex; flex-direction:column; gap:var(--bosluk-2); min-width:0; flex:1 1 auto; }
+.al-sec-bilgi b{ font-size:var(--yazi-14-5); font-weight:var(--agirlik-kalin); }
+.al-sec-bilgi span{ font-size:var(--yazi-12-5); color:var(--metin-ikincil); }
+.al-sec-yeni{ border-style:dashed; }
+
+
+@media (max-width:640px){
+  .al-listeler .sec-head{ align-items:stretch; }
+  .al-listeler .sec-tools{ width:100%; }
+  .al-listeler .sec-tools .dugme{ width:100%; justify-content:center; }
+  .al-liste-menu{ margin-left:var(--bosluk-4); }
+}
+
+
+article.menu-detail.mnl-kapali{ margin-bottom:var(--bosluk-34); }
+
+
+
+.al-top .al-head{ margin:0 0 var(--bosluk-20); gap:var(--bosluk-20); }
+.al-top .al-head p{ margin-top:var(--bosluk-10); }
+.modul-govde .fit-pane > section.al-top{ padding-bottom:0; }   
+.al-top .galeri-ozet{ margin-bottom:0; }
+
+.al-head .al-act{ line-height:var(--satir-sik); }

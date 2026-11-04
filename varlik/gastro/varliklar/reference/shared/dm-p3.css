@@ -1,0 +1,12 @@
+
+
+
+
+
+
+
+
+
+.ing-row .ing-add{ opacity:.55; }
+.ing-row:hover .ing-add,
+.ing-row:focus-within .ing-add{ opacity:1; }

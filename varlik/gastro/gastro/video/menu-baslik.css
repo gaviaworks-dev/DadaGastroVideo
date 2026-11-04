@@ -1,0 +1,19 @@
+/* Video Mutfağı P0-7 · D.1a — üst menüye altıncı öğe girince menü aralığı daralır (Beyar kararı, 3 Kas: "menü aralığını
+   daralt"). Yalnız Video Mutfağı öğesi basılınca yüklenir (`resources/views/parcalar/video/menu-baslik.blade.php`); ayar
+   kapalıyken hiçbir sayfa bu dosyayı çağırmaz, geometri bugünküyle aynı kalır.
+   Kalıp sitenin kendi emsali (portal CSS): `html[lang=en] .nav{gap:0}` + `html[lang=en] .nav a{padding-left:8px;padding-right:8px}`.
+   Burada dil başına değil, tüm dillerde aynı değer; yalnız üst düzey öğeler (mega menü ve açılır menü bağları değişmez).
+   Öğelerin metni, sırası ve dikey ölçüsü değişmez. Aralık ≥1280 için; altı çekmeceye geçer (aşağıda). */
+.nav.ana-menu { gap: 0; }
+.nav.ana-menu > .nav-item > a { padding-left: 8px; padding-right: 8px; }
+
+/* Video menüsü açıkken masaüstü menüden çekmeceye geçiş 1280'e çekilir (lead kararı, 3 Kas: altı öğe 1025–1279 bandında
+   logoya/arama düğmesine biniyordu; DE/RU bugün 5 öğeyle de 1025–1100'de taşıyor). Kanonun 1024 kuralının
+   (portal + gomulu kabuk CSS'i `@media (max-width:1024px)`) header'a ait dört bildirimi aynen, yalnız eşik farklı; kanon
+   dosyasına dokunulmaz. `.wrap` dolgusu gibi sayfa düzeni kuralları alınmadı. */
+@media (max-width: 1279.98px) {
+    .h-top .nav { display: none; }
+    .hamburger { display: grid; }
+    .drawer { display: flex; }
+    .drawer-overlay { display: block; }
+}

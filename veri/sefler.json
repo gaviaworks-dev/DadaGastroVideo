@@ -1,0 +1,681 @@
+{
+ "_kaynak": "gastro_v2_video (yerel dev MySQL, salt okuma) · araclar/veri-hazirla.py · tarifler.sef_id = uye_profilleri.id",
+ "sefler": {
+  "armagan.yalcin1": {
+   "ad": "Armağan Yalçın",
+   "kullanici_adi": "armagan.yalcin1",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "AY",
+   "tarif_sayisi": 16,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "zerdecalli-tavuk-sote-sarimsakli-hizli-tava-yemegi"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/armagan.yalcin1"
+  },
+  "berkan.gunes": {
+   "ad": "Berkan Güneş",
+   "kullanici_adi": "berkan.gunes",
+   "unvan": "Dada'nın Şefi",
+   "avatar": "varlik/gastro/storage/medya/berkan-gunes-xsgcmhxxc0jp.webp",
+   "bas_harf": "BG",
+   "tarif_sayisi": 202,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [],
+   "ornek_tarifler": [],
+   "seri_sefi": true,
+   "gastro_profil": "https://dadagastro.com/sefler/berkan.gunes"
+  },
+  "cagan.oymen": {
+   "ad": "Çağan Öymen",
+   "kullanici_adi": "cagan.oymen",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "ÇÖ",
+   "tarif_sayisi": 13,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "besamel-sos-kivamli-ev-yapimi"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/cagan.oymen"
+  },
+  "canan.yucel": {
+   "ad": "Canan Yücel",
+   "kullanici_adi": "canan.yucel",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "CY",
+   "tarif_sayisi": 145,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [],
+   "ornek_tarifler": [
+    {
+     "slug": "pollo-sudado-kolombiya-usulu-sebzeli-guvec-tavuk",
+     "baslik": "Pollo Sudado | Kolombiya Usulü Sebzeli Güveç Tavuk",
+     "kapak_kaynak": "varliklar/media/8912.webp",
+     "kapak640": "varlik/video/tarif/pollo-sudado-kolombiya-usulu-sebzeli-guvec-tavuk-640.webp",
+     "sure_dk": 90,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "kizarmis-pirinc-rulolari-kore-usulu-airfryerda-gimbap",
+     "baslik": "Kızarmış Pirinç Ruloları | Kore Usulü Airfryer'da Gimbap",
+     "kapak_kaynak": "varliklar/media/8080.webp",
+     "kapak640": "varlik/video/tarif/kizarmis-pirinc-rulolari-kore-usulu-airfryerda-gimbap-640.webp",
+     "sure_dk": 28,
+     "zorluk": "Zor"
+    },
+    {
+     "slug": "izgara-keci-peyniri-arjantin-usulu-kahvaltilik-peynir",
+     "baslik": "Izgara Keçi Peyniri | Arjantin Usulü Kahvaltılık Peynir",
+     "kapak_kaynak": "varliklar/media/8481.webp",
+     "kapak640": "varlik/video/tarif/izgara-keci-peyniri-arjantin-usulu-kahvaltilik-peynir-640.webp",
+     "sure_dk": 55,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "apfelkraut-alman-usulu-ketojenik-elma-pekmezi",
+     "baslik": "Apfelkraut | Alman Usulü Ketojenik Elma Pekmezi",
+     "kapak_kaynak": "varliklar/media/9262.webp",
+     "kapak640": "varlik/video/tarif/apfelkraut-alman-usulu-ketojenik-elma-pekmezi-640.webp",
+     "sure_dk": 40,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "reganmian-cin-usulu-wuhan-kahvalti-eristesi",
+     "baslik": "Reganmian | Çin Usulü Wuhan Kahvaltı Eriştesi",
+     "kapak_kaynak": "varliklar/media/8933.webp",
+     "kapak640": "varlik/video/tarif/reganmian-cin-usulu-wuhan-kahvalti-eristesi-640.webp",
+     "sure_dk": 30,
+     "zorluk": "Kolay"
+    },
+    {
+     "slug": "acili-kabakli-bugulanmis-manti-ozbek-usulu-kagit-ince-kesim-teknigi",
+     "baslik": "Acılı Kabaklı Buğulanmış Mantı | Özbek Usulü Kâğıt İnce Kesim Tekniği",
+     "kapak_kaynak": "varliklar/media/7470.webp",
+     "kapak640": "varlik/video/tarif/acili-kabakli-bugulanmis-manti-ozbek-usulu-kagit-ince-kesim-teknigi-640.webp",
+     "sure_dk": 28,
+     "zorluk": "Ustalık Gerektirir"
+    }
+   ],
+   "seri_sefi": true,
+   "gastro_profil": "https://dadagastro.com/sefler/canan.yucel"
+  },
+  "daghan.kutlay": {
+   "ad": "Dağhan Kutlay",
+   "kullanici_adi": "daghan.kutlay",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "DK",
+   "tarif_sayisi": 38,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "airfryer-tavuk-sinitzel-citir-panelenmis-tavuk-gogsu"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/daghan.kutlay"
+  },
+  "derin.durmaz": {
+   "ad": "Derin Durmaz",
+   "kullanici_adi": "derin.durmaz",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "DD",
+   "tarif_sayisi": 11,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "cilbir-yogurtlu-pose-yumurta"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/derin.durmaz"
+  },
+  "ebru.ozansoy": {
+   "ad": "Ebru Ozansoy",
+   "kullanici_adi": "ebru.ozansoy",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "EO",
+   "tarif_sayisi": 50,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "icli-kofte-geleneksel-ovma-ince-kabuklu"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/ebru.ozansoy"
+  },
+  "ece.gurmen": {
+   "ad": "Ece Gürmen",
+   "kullanici_adi": "ece.gurmen",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "EG",
+   "tarif_sayisi": 6,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "cikolatali-sufle-akiskan-icli-sicak-fransiz-tatlisi"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/ece.gurmen"
+  },
+  "ece.ozdenak": {
+   "ad": "Ece Özdenak",
+   "kullanici_adi": "ece.ozdenak",
+   "unvan": "Aşçı",
+   "avatar": null,
+   "bas_harf": "EÖ",
+   "tarif_sayisi": 104,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "yuvalama-gaziantep-usulu-yogurtlu-kofteli-corba"
+   ],
+   "ornek_tarifler": [
+    {
+     "slug": "suriye-usulu-izgara-halumi-nane-yaprakli-zeytinyagli-atistirmalik",
+     "baslik": "Suriye Usulü Izgara Halumi | Nane Yapraklı Zeytinyağlı Atıştırmalık",
+     "kapak_kaynak": "varliklar/media/9064.webp",
+     "kapak640": "varlik/video/tarif/suriye-usulu-izgara-halumi-nane-yaprakli-zeytinyagli-atistirmalik-640.webp",
+     "sure_dk": 65,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "molohiya-misir-usulu-tavuklu-ebegumeci-corbasi",
+     "baslik": "Molohiya | Mısır Usulü Tavuklu Ebegümeci Çorbası",
+     "kapak_kaynak": "varliklar/media/4819.webp",
+     "kapak640": "varlik/video/tarif/molohiya-misir-usulu-tavuklu-ebegumeci-corbasi-640.webp",
+     "sure_dk": 60,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "fume-somon-ezmesi-irlanda-usulu-baharatli-parti-mezesi",
+     "baslik": "Füme Somon Ezmesi | İrlanda Usulü Baharatlı Parti Mezesi",
+     "kapak_kaynak": "varliklar/media/8338.webp",
+     "kapak640": "varlik/video/tarif/fume-somon-ezmesi-irlanda-usulu-baharatli-parti-mezesi-640.webp",
+     "sure_dk": 15,
+     "zorluk": "Kolay"
+    },
+    {
+     "slug": "acili-peynirli-kroket-turk-usulu-kizartma-atistirmalik",
+     "baslik": "Acılı Peynirli Kroket | Türk Usulü Kızartma Atıştırmalık",
+     "kapak_kaynak": "varliklar/media/7484.webp",
+     "kapak640": "varlik/video/tarif/acili-peynirli-kroket-turk-usulu-kizartma-atistirmalik-640.webp",
+     "sure_dk": 45,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "duduklude-misir-kocani-ukrayna-usulu-piknik-atistirmaligi",
+     "baslik": "Düdüklüde Mısır Koçanı | Ukrayna Usulü Piknik Atıştırmalığı",
+     "kapak_kaynak": "varliklar/media/7943.webp",
+     "kapak640": "varlik/video/tarif/duduklude-misir-kocani-ukrayna-usulu-piknik-atistirmaligi-640.webp",
+     "sure_dk": 35,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "lubnan-usulu-shorbat-laban-yogurtlu-bugday-corbasi",
+     "baslik": "Lübnan Usulü Shorbat Laban | Yoğurtlu Buğday Çorbası",
+     "kapak_kaynak": "varliklar/media/8154.webp",
+     "kapak640": "varlik/video/tarif/lubnan-usulu-shorbat-laban-yogurtlu-bugday-corbasi-640.webp",
+     "sure_dk": 60,
+     "zorluk": "Kolay"
+    }
+   ],
+   "seri_sefi": true,
+   "gastro_profil": "https://dadagastro.com/sefler/ece.ozdenak"
+  },
+  "ece.yetkiner": {
+   "ad": "Ece Yetkiner",
+   "kullanici_adi": "ece.yetkiner",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "EY",
+   "tarif_sayisi": 27,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "ispanakli-omlet-saglikli-kahvalti",
+    "menemen-domatesli-biberli-klasik",
+    "peynirli-omlet-kabarik-ve-yumusak"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/ece.yetkiner"
+  },
+  "emel.aksu": {
+   "ad": "Emel Aksu",
+   "kullanici_adi": "emel.aksu",
+   "unvan": "Aşçı",
+   "avatar": null,
+   "bas_harf": "EA",
+   "tarif_sayisi": 137,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "misir-usulu-patlican-salatasi-airfryer-baharatli-tarif"
+   ],
+   "ornek_tarifler": [
+    {
+     "slug": "airfryerda-etli-biber-dolgusu-ukrayna-usulu-pirincli-tarif",
+     "baslik": "Airfryer'da Etli Biber Dolgusu | Ukrayna Usulü Pirinçli Tarif",
+     "kapak_kaynak": "varliklar/media/7515.webp",
+     "kapak640": "varlik/video/tarif/airfryerda-etli-biber-dolgusu-ukrayna-usulu-pirincli-tarif-640.webp",
+     "sure_dk": 48,
+     "zorluk": "Zor"
+    },
+    {
+     "slug": "hindistan-cevizli-muzlu-mini-kek-tayland-usulu-buharda-pisen-tarif",
+     "baslik": "Hindistan Cevizli Muzlu Mini Kek | Tayland Usulü Buharda Pişen Tarif",
+     "kapak_kaynak": "varliklar/media/8391.webp",
+     "kapak640": "varlik/video/tarif/hindistan-cevizli-muzlu-mini-kek-tayland-usulu-buharda-pisen-tarif-640.webp",
+     "sure_dk": 28,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "karabiberli-biftek-ingiliz-usulu-bol-karabiberli-pan-steak",
+     "baslik": "Karabiberli Biftek | İngiliz Usulü Bol Karabiberli Pan Steak",
+     "kapak_kaynak": "varliklar/media/8548.webp",
+     "kapak640": "varlik/video/tarif/karabiberli-biftek-ingiliz-usulu-bol-karabiberli-pan-steak-640.webp",
+     "sure_dk": 50,
+     "zorluk": "Zor"
+    },
+    {
+     "slug": "peru-koftesi-albondigas-aji-amarillo-soslu-dana-kofte",
+     "baslik": "Peru Köftesi (Albóndigas) | Aji Amarillo Soslu Dana Köfte",
+     "kapak_kaynak": "varliklar/media/8882.webp",
+     "kapak640": "varlik/video/tarif/peru-koftesi-albondigas-aji-amarillo-soslu-dana-kofte-640.webp",
+     "sure_dk": 55,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "kuba-usulu-acili-tavuk-fricase-duduklude-zeytinli-domatesli",
+     "baslik": "Küba Usulü Acılı Tavuk Fricasé | Düdüklüde Zeytinli Domatesli",
+     "kapak_kaynak": "varliklar/media/9285.webp",
+     "kapak640": "varlik/video/tarif/kuba-usulu-acili-tavuk-fricase-duduklude-zeytinli-domatesli-640.webp",
+     "sure_dk": 45,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "roka-tursusu-yeni-zelanda-usulu-hizli-yaprak-tursusu",
+     "baslik": "Roka Turşusu | Yeni Zelanda Usulü Hızlı Yaprak Turşusu",
+     "kapak_kaynak": "varliklar/media/8947.webp",
+     "kapak640": "varlik/video/tarif/roka-tursusu-yeni-zelanda-usulu-hizli-yaprak-tursusu-640.webp",
+     "sure_dk": 40,
+     "zorluk": "Kolay"
+    }
+   ],
+   "seri_sefi": true,
+   "gastro_profil": "https://dadagastro.com/sefler/emel.aksu"
+  },
+  "emel.durmaz": {
+   "ad": "Emel Durmaz",
+   "kullanici_adi": "emel.durmaz",
+   "unvan": "Çömez Aşçı",
+   "avatar": null,
+   "bas_harf": "ED",
+   "tarif_sayisi": 8,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/emel.durmaz"
+  },
+  "emir.sandalci": {
+   "ad": "Emir Sandalcı",
+   "kullanici_adi": "emir.sandalci",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "ES",
+   "tarif_sayisi": 15,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "hamsi-tava-misir-unlu-citir"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/emir.sandalci"
+  },
+  "gokturk.dizdar": {
+   "ad": "Göktürk Dizdar",
+   "kullanici_adi": "gokturk.dizdar",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "GD",
+   "tarif_sayisi": 171,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "hunkar-begendi-kozlenmis-patlican-besameli-ustunde-kuzu-guvec"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/gokturk.dizdar"
+  },
+  "guney.topcuoglu": {
+   "ad": "Güney Topçuoğlu",
+   "kullanici_adi": "guney.topcuoglu",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "GT",
+   "tarif_sayisi": 14,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "acili-ezme-gavurdagi-usulu-cevizli"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/guney.topcuoglu"
+  },
+  "irem.aksit": {
+   "ad": "İrem Akşit",
+   "kullanici_adi": "irem.aksit",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "İA",
+   "tarif_sayisi": 39,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "risotto-ai-funghi-italyan-usulu-mantarli-kremamsi-pirinc"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/irem.aksit"
+  },
+  "irem.yildizoglu": {
+   "ad": "İrem Yıldızoğlu",
+   "kullanici_adi": "irem.yildizoglu",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "İY",
+   "tarif_sayisi": 35,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "kremali-mantarli-makarna-pratik-mantar-soslu-makarna"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/irem.yildizoglu"
+  },
+  "mert.dogan": {
+   "ad": "Mert Doğan",
+   "kullanici_adi": "mert.dogan",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "MD",
+   "tarif_sayisi": 18,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "kuymak-karadeniz-usulu-misir-unlu-kahvaltilik",
+    "tamagoyaki-japon-usulu-rulo-omlet"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/mert.dogan"
+  },
+  "mert.tasli": {
+   "ad": "Mert Taşlı",
+   "kullanici_adi": "mert.tasli",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "MT",
+   "tarif_sayisi": 22,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "cacik-salatalikli-yogurt-mezesi"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/mert.tasli"
+  },
+  "merve.balci": {
+   "ad": "Merve Balcı",
+   "kullanici_adi": "merve.balci",
+   "unvan": "Çömez Aşçı",
+   "avatar": null,
+   "bas_harf": "MB",
+   "tarif_sayisi": 2,
+   "mutfak": "İtalyan Mutfağı",
+   "tarifler": [
+    "risotto-alla-milanese-italyan-usulu-safranli-kremamsi-pirinc"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/merve.balci"
+  },
+  "omer.polat": {
+   "ad": "Ömer Polat",
+   "kullanici_adi": "omer.polat",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "ÖP",
+   "tarif_sayisi": 36,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "tantuni-durum-mersin-usulu-bakir-sacda-kavrulmus-dana-durum"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/omer.polat"
+  },
+  "polat.abadan": {
+   "ad": "Polat Abadan",
+   "kullanici_adi": "polat.abadan",
+   "unvan": "Kıdemli Yamak",
+   "avatar": null,
+   "bas_harf": "PA",
+   "tarif_sayisi": 78,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [],
+   "ornek_tarifler": [
+    {
+     "slug": "chorek-ermeni-usulu-mahlepli-orgu-ekmek",
+     "baslik": "Chorek | Ermeni Usulü Mahlepli Örgü Ekmek",
+     "kapak_kaynak": "varliklar/media/7874.webp",
+     "kapak640": "varlik/video/tarif/chorek-ermeni-usulu-mahlepli-orgu-ekmek-640.webp",
+     "sure_dk": 45,
+     "zorluk": "Kolay"
+    },
+    {
+     "slug": "artan-rostoyla-alman-usulu-ekmek-arasi-hardalli-tursulu-sandvic",
+     "baslik": "Artan Rostoyla Alman Usulü Ekmek Arası | Hardallı Turşulu Sandviç",
+     "kapak_kaynak": "varliklar/media/7591.webp",
+     "kapak640": "varlik/video/tarif/artan-rostoyla-alman-usulu-ekmek-arasi-hardalli-tursulu-sandvic-640.webp",
+     "sure_dk": 20,
+     "zorluk": "Kolay"
+    },
+    {
+     "slug": "fas-usulu-kozlenmis-biber-salatasi-kimyonlu-sarimsakli-meze",
+     "baslik": "Fas Usulü Közlenmiş Biber Salatası | Kimyonlu Sarımsaklı Meze",
+     "kapak_kaynak": "varliklar/media/8018.webp",
+     "kapak640": "varlik/video/tarif/fas-usulu-kozlenmis-biber-salatasi-kimyonlu-sarimsakli-meze-640.webp",
+     "sure_dk": 65,
+     "zorluk": "Kolay"
+    },
+    {
+     "slug": "irak-usulu-airfryerda-kavrulmus-kayisili-ceviz-salatasi-nane-yaprakli-limonlu",
+     "baslik": "Irak Usulü Airfryer'da Kavrulmuş Kayısılı Ceviz Salatası | Nane Yapraklı Limonlu",
+     "kapak_kaynak": "varliklar/media/8426.webp",
+     "kapak640": "varlik/video/tarif/irak-usulu-airfryerda-kavrulmus-kayisili-ceviz-salatasi-nane-yaprakli-limonlu-640.webp",
+     "sure_dk": 20,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "tarhun-ev-yapimi-gurcu-usulu-tarhun-otlu-soda",
+     "baslik": "Tarhun | Ev Yapımı Gürcü Usulü Tarhun Otlu Soda",
+     "kapak_kaynak": "varliklar/media/5672.webp",
+     "kapak640": "varlik/video/tarif/tarhun-ev-yapimi-gurcu-usulu-tarhun-otlu-soda-640.webp",
+     "sure_dk": 20,
+     "zorluk": "Çok Kolay"
+    },
+    {
+     "slug": "balikli-etiyopya-sambusasi-duduklu-tencerede-pisirilen-mercimekli-balik-harci",
+     "baslik": "Balıklı Etiyopya Sambusası | Düdüklü Tencerede Pişirilen Mercimekli Balık Harcı",
+     "kapak_kaynak": "varliklar/media/7762.webp",
+     "kapak640": "varlik/video/tarif/balikli-etiyopya-sambusasi-duduklu-tencerede-pisirilen-mercimekli-balik-harci-640.webp",
+     "sure_dk": 45,
+     "zorluk": "Orta"
+    }
+   ],
+   "seri_sefi": true,
+   "gastro_profil": "https://dadagastro.com/sefler/polat.abadan"
+  },
+  "ruya.akal": {
+   "ad": "Rüya Akal",
+   "kullanici_adi": "ruya.akal",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "RA",
+   "tarif_sayisi": 12,
+   "mutfak": "Amerikan Mutfağı",
+   "tarifler": [
+    "cilekli-smoothie-muzlu-yogurtlu-cilek-smoothie"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/ruya.akal"
+  },
+  "sahnur.sezek": {
+   "ad": "Şahnur Sezek",
+   "kullanici_adi": "sahnur.sezek",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "ŞS",
+   "tarif_sayisi": 171,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [],
+   "ornek_tarifler": [
+    {
+     "slug": "avustralya-usulu-carkifelek-suruplu-soguk-cay-termosta-piknik-icecegi",
+     "baslik": "Avustralya Usulü Çarkıfelek Şuruplu Soğuk Çay | Termosta Piknik İçeceği",
+     "kapak_kaynak": "varliklar/media/7604.webp",
+     "kapak640": "varlik/video/tarif/avustralya-usulu-carkifelek-suruplu-soguk-cay-termosta-piknik-icecegi-640.webp",
+     "sure_dk": 75,
+     "zorluk": "Zor"
+    },
+    {
+     "slug": "visneli-islak-kek-turk-usulu-serbetli-parti-keki",
+     "baslik": "Vişneli Islak Kek | Türk Usulü Şerbetli Parti Keki",
+     "kapak_kaynak": "varliklar/media/8834.webp",
+     "kapak640": "varlik/video/tarif/visneli-islak-kek-turk-usulu-serbetli-parti-keki-640.webp",
+     "sure_dk": 60,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "cafe-cubano-kuba-usulu-sekerli-kopuklu-kahve",
+     "baslik": "Café Cubano | Küba Usulü Şekerli Köpüklü Kahve",
+     "kapak_kaynak": "varliklar/media/7834.webp",
+     "kapak640": "varlik/video/tarif/cafe-cubano-kuba-usulu-sekerli-kopuklu-kahve-640.webp",
+     "sure_dk": 25,
+     "zorluk": "Kolay"
+    },
+    {
+     "slug": "suanmeitang-cin-usulu-eksi-erik-ve-zencefil-serbeti",
+     "baslik": "Suanmeitang | Çin Usulü Ekşi Erik ve Zencefil Şerbeti",
+     "kapak_kaynak": "varliklar/media/9054.webp",
+     "kapak640": "varlik/video/tarif/suanmeitang-cin-usulu-eksi-erik-ve-zencefil-serbeti-640.webp",
+     "sure_dk": 50,
+     "zorluk": "Çok Kolay"
+    },
+    {
+     "slug": "dahi-sorbasi-hint-usulu-yogurtlu-baharatli-corba",
+     "baslik": "Dahi Şorbası | Hint Usulü Yoğurtlu Baharatlı Çorba",
+     "kapak_kaynak": "varliklar/media/7899.webp",
+     "kapak640": "varlik/video/tarif/dahi-sorbasi-hint-usulu-yogurtlu-baharatli-corba-640.webp",
+     "sure_dk": 30,
+     "zorluk": "Zor"
+    },
+    {
+     "slug": "zencefilli-armut-surubu-airfryerda-kavrulmus-armutlu-ingiliz-cayhane-icecegi",
+     "baslik": "Zencefilli Armut Şurubu | Airfryer'da Kavrulmuş Armutlu İngiliz Çayhane İçeceği",
+     "kapak_kaynak": "varliklar/media/9204.webp",
+     "kapak640": "varlik/video/tarif/zencefilli-armut-surubu-airfryerda-kavrulmus-armutlu-ingiliz-cayhane-icecegi-640.webp",
+     "sure_dk": 25,
+     "zorluk": "Orta"
+    }
+   ],
+   "seri_sefi": true,
+   "gastro_profil": "https://dadagastro.com/sefler/sahnur.sezek"
+  },
+  "sinem.okumus": {
+   "ad": "Sinem Okumuş",
+   "kullanici_adi": "sinem.okumus",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "SO",
+   "tarif_sayisi": 42,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "airfryer-tavuk-but-az-yagli-pratik",
+    "duduklu-tavuk-sote-sebzeli-hizli-pisen"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/sinem.okumus"
+  },
+  "tuna.mayhos": {
+   "ad": "Tuna Mayhoş",
+   "kullanici_adi": "tuna.mayhos",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "TM",
+   "tarif_sayisi": 20,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "arancini-italyan-usulu-kizarmis-risotto-topu"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/tuna.mayhos"
+  },
+  "umran.numanoglu": {
+   "ad": "Ümran Numanoğlu",
+   "kullanici_adi": "umran.numanoglu",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "ÜN",
+   "tarif_sayisi": 13,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "dana-biftek-soganli-tava",
+    "kasarli-tost-klasik-ev-yapimi-peynirli-tost",
+    "klasik-ev-burgeri-cheddarli-dana-burger"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/umran.numanoglu"
+  },
+  "umran.tanrikulu": {
+   "ad": "Ümran Tanrıkulu",
+   "kullanici_adi": "umran.tanrikulu",
+   "unvan": "Aşçı Yamağı",
+   "avatar": null,
+   "bas_harf": "ÜT",
+   "tarif_sayisi": 55,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "mihlama-trabzon-usulu-misir-unlu-peynirli-muhlama"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/umran.tanrikulu"
+  },
+  "yagiz.baykam": {
+   "ad": "Yağız Baykam",
+   "kullanici_adi": "yagiz.baykam",
+   "unvan": "Komi",
+   "avatar": null,
+   "bas_harf": "YB",
+   "tarif_sayisi": 9,
+   "mutfak": "Türk Mutfağı",
+   "tarifler": [
+    "hollandez-sos-fransiz-usulu-tereyagli-sos"
+   ],
+   "ornek_tarifler": [],
+   "seri_sefi": false,
+   "gastro_profil": "https://dadagastro.com/sefler/yagiz.baykam"
+  }
+ }
+}

@@ -1,0 +1,23 @@
+@import url("../kanon/tokenlar.css") print;
+/* A4 fiziksel ölçüleri; ekran arayüzü mevcut kanondan değişmeden gelir. */
+.gastro-belge { display: none; }
+@page { size: A4; margin: 16mm; }
+@media print {
+  html:has(body[data-gastro-belge]), body[data-gastro-belge] { overflow: visible !important; height: auto !important; min-height: 0 !important; background: var(--kagit) !important; margin: 0 !important; padding: 0 !important; }
+  body[data-gastro-belge] > :not(.gastro-belge) { display: none !important; }
+  body[data-gastro-belge] > .gastro-belge { display: block !important; position: relative; isolation: isolate; width: auto; margin: 0; color: var(--murekkep); font-family: inherit; font-size: var(--yazi-14); line-height: var(--satir-orta); }
+  .gastro-belge .gb-suizi { display: block; position: fixed; width: 80%; left: 10%; top: 42%; transform: rotate(-24deg); opacity: .055; z-index: -1; }
+  .gastro-belge .gb-baslik { display: block !important; position: static !important; padding: 0 0 var(--bosluk-12); margin: 0 0 var(--bosluk-16); border-bottom: var(--cizgi-1) solid var(--cizgi); background: transparent; box-shadow: none; break-inside: avoid; }
+  .gastro-belge .gb-baslik > img { width: calc(var(--bosluk-24) * 6); height: auto; }
+  .gastro-belge h1 { font-size: var(--yazi-24); line-height: var(--satir-baslik); margin: var(--bosluk-12) 0; }
+  .gastro-belge h2, .gastro-belge .gb-grup { font-size: var(--yazi-18); font-weight: var(--agirlik-kalin); break-after: avoid; }
+  .gastro-belge p { margin: var(--bosluk-4) 0; orphans: 3; widows: 3; white-space: pre-line; overflow-wrap: anywhere; }
+  .gastro-belge .gb-bolum { margin: 0 0 var(--bosluk-8); break-inside: auto; }
+  .gastro-belge table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  .gastro-belge thead { display: table-header-group; }
+  .gastro-belge th, .gastro-belge td { text-align: left; vertical-align: top; padding: var(--bosluk-6); border-bottom: var(--cizgi-1) solid var(--cizgi); overflow-wrap: anywhere; background: transparent !important; }
+  .gastro-belge tr { break-inside: avoid; }
+  .gastro-belge .gb-isaret { width: 14%; }
+  .gastro-belge .gb-fatura-aciklama { width: 44%; }
+  .gastro-belge .gb-fatura-adet { width: 12%; }
+}

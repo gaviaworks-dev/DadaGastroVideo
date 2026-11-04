@@ -1,0 +1,130 @@
+/* Revize P1 · kulvar dosyası — sahibi: tarif-pisirme. Tarif detay (/tarif/{slug}) dışında yüklenmez. */
+
+/* =====================================================================
+   KALEM 5 · Alt aksiyon çubuğu açılışta görünür
+   ---------------------------------------------------------------------
+   Görünürlük ve ilk kare kuralı (`.rv-anlik`) Revize 5 · madde 53'ten beri
+   `public/gastro/alt-eylem-cubugu.{js,css}`te; püf detayıyla ortak.
+   ===================================================================== */
+/* Çubuk 641–900 arasında taşıyordu: tarif adı dahil doğal genişlik 873px,
+   `max-width:calc(100vw - 24px)` ile 768'de 742px'e kırpılıyor ve Paylaş
+   gizli kaydırma çubuğunun arkasında kalıyordu (ölçüldü, kanon 8030 da aynı:
+   Paylaş x=806–892, çubuk 12–756). Donörün ≤640 kuralı adı zaten gizliyor;
+   aynı kural taşmanın başladığı genişliğe kadar uzatıldı. */
+@media (min-width:641px) and (max-width:900px){
+  .rd-actbar .rd-actbar__name{display:none}
+}
+/* ≤640 · çubuk en alta (kullanıcı kararı 2026-09-14, seçenek c). Donör çubuğu
+   `bottom:calc(78px + safe-area)` ile alt navigasyonun ÜSTÜNE oturtuyor; ama
+   tarif-detay.css:42 çubuk görünürken navigasyonu `display:none` yapıyor (tek
+   şerit kuralı). Çubuk artık açılıştan görünür olduğu için altında kalıcı 78px
+   boşluk kalıyordu (ölçüldü). Çubuk görünürken navigasyon HER ZAMAN gizli
+   olduğundan, boşalan yuvaya navigasyonun kendi dibiyle iner: kanon
+   `--alt-cubuk-dip` (14px) + iPhone ev çizgisi payı — portal.css
+   `.bottom-nav{bottom:calc(14px + env(safe-area-inset-bottom,0px))}` ile aynı
+   yazım. Altbilgide çubuk gizlenince navigasyon aynı yuvaya geri gelir. */
+@media (max-width:640px){
+  .rd-actbar{bottom:calc(var(--alt-cubuk-dip, 14px) + env(safe-area-inset-bottom, 0px))}
+}
+
+/* =====================================================================
+   KALEM 6 · Pişirme modunda adım görseli
+   ---------------------------------------------------------------------
+   `app-*.js` adım görsellerini `.cm-figs > .cm-fig` (arka plan görseli)
+   olarak metnin ALTINA basıyor. tokens.css bunu 140px'lik otomatik
+   ızgaraya koyuyordu → tek görsel 159×119 (1440, ölçüldü). Kart dili
+   donörün `.cm-fig`i (radius-lg · sh-sm · cover); ızgara `auto-fit`
+   olduğundan TEK görsel metin sütununun tam genişliğini alır, 2–3
+   görsel yan yana bölüşür, dar ekranda alt alta iner.
+   Oran: tabandaki 200 adım görselinin 200'ü 1600×1073 (≈1,491). 3:2
+   (1,5) kutuda `cover` kırpması %0,6 — görsel esnemez, yalnız bu kadar
+   kırpılır.
+   ===================================================================== */
+#cookmode .cm-figs{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));
+  gap:var(--sp-3);margin-top:var(--sp-5);
+}
+#cookmode .cm-fig{
+  width:100%;aspect-ratio:3 / 2;border-radius:var(--radius-lg);
+  background-size:cover;background-position:center;box-shadow:var(--sh-sm);
+}
+
+/* =====================================================================
+   KALEM 7 · Sayaç ve "Bitince otomatik geç"
+   ---------------------------------------------------------------------
+   Parça donörün `.ct-btn` / `.ct-auto` / `b` işaretlemesini taşıyor ama
+   o sınıfların kuralı sayfaya hiç gelmemişti: tarif-detay.css `.ct-*`
+   kurallarını "tokens.css'te" diye çıkarmış, tokens.css ise BEM adlarını
+   (`.cm-timer__btn` · `__auto` · `__time`) yazıyor. Sonuç (ölçüldü):
+   sayaç düğmeleri 12×25 saydam, onay kutusu 13×13 tarayıcı varsayılanı,
+   kutu merkezi ile yazı satırı merkezi arası 2,50px (kanon 8030 aynı).
+   Kutu (zemin · çerçeve · iç boşluk · seçili tonu) donörün
+   (v7 tarif-detay-v1) `.ct-auto`su; onay kutusunun kendisi kanonun
+   satır-içi onay kutusu (`public/kanon/bilesenler.css` §39
+   `.giris-satir .onay-kutusu`): 19×19 · margin 0 · esnemez · aksan
+   rengi (Gastro'da --aksan = --marka = #DC3D17 = --tomato) · gap 9 ·
+   13px · satır 1,5 · align-items:center.
+   Kabul edilen sapma · kullanıcı kararı 2026-09-14: donör kenarları
+   `rgba(225,72,39,…)` (#E14827 tonu) yazıyor; burada bizim --tomato'muz
+   (#DC3D17 → `rgba(220,61,23,…)`). Renk farkı kusur sayılmaz.
+   ===================================================================== */
+#cookmode .cm-timer{gap:11px;padding:7px 14px 7px 7px}
+#cookmode .cm-timer .ct-btn{
+  flex:none;width:38px;height:38px;border-radius:var(--radius-sm);border:none;
+  background:var(--tomato);color:#fff;font-size:13px;cursor:pointer;
+  display:grid;place-items:center;transition:.2s var(--ease);
+}
+#cookmode .cm-timer .ct-btn:hover{background:var(--tomato-dark)}
+#cookmode .cm-timer b{font-size:18px;font-variant-numeric:tabular-nums;color:var(--slate);min-width:56px;text-align:center;letter-spacing:.02em}
+#cookmode .cm-timer.running b{color:var(--tomato)}
+#cookmode .ct-auto{
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:13px;font-weight:600;line-height:1.5;color:var(--slate-2);
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:8px 14px;cursor:pointer;user-select:none;white-space:nowrap;transition:.2s var(--ease);
+}
+#cookmode .ct-auto:hover{border-color:rgba(220,61,23,.4);color:var(--slate)}
+#cookmode .ct-auto input{flex:none;width:19px;height:19px;margin:0;accent-color:var(--tomato);cursor:pointer}
+#cookmode .ct-auto span{display:block}
+#cookmode .ct-auto:has(input:checked){background:var(--tomato-tint);border-color:rgba(220,61,23,.45);color:var(--tomato-dark)}
+#cookmode .ct-auto:has(input:focus-visible){outline:2px solid var(--tomato);outline-offset:2px}
+
+/* İlerleme çubuğu — parça donörün `.cm-prog .bar > i`sini basıyor, tokens.css
+   `.cm-bar` yazıyor; kural hiç eşleşmiyordu (çubuk görünmüyordu, ölçüldü).
+   Donörün kuralı. */
+#cookmode .cm-prog .bar{flex:1;height:6px;border-radius:999px;background:var(--bg);overflow:hidden}
+#cookmode .cm-prog .bar i{display:block;height:100%;background:var(--tomato);border-radius:999px;transition:width .35s var(--ease)}
+
+@media (max-width:640px){
+  /* 390'da sayaç satırı (2 düğme + süre + onay) masaüstü boşluklarıyla 364px
+     tutuyor, sütun 342px (ölçüldü). Boşluklar daralınca tek satıra sığar;
+     yazı tipi daha geniş gelirse onay kutusu alt satıra iner, taşmaz. */
+  #cookmode .cm-timer{flex-wrap:wrap;gap:7px 8px;padding:7px}
+  #cookmode .cm-timer b{min-width:50px}
+  #cookmode .ct-auto{padding:8px 10px}
+}
+
+/* =====================================================================
+   KALEM 9 · Paylaş üç nokta düğmesi
+   ---------------------------------------------------------------------
+   `.share-btn:hover{color:#fff}` kanalların marka zeminine göre yazılmış;
+   `.ts-share-mobile`in hover zemini yoktu → beyaz ikon beyaz zeminde
+   kayboluyordu (ölçüldü: color = background = rgb(255,255,255)). Zemin
+   bağlantı kopyala (`.share-btn.cp:hover`) ile aynı: tomato.
+   Menüde satır içinde ZATEN görünen kanallar `tarif-pisirme.js`
+   tarafından `hidden` alır; `.share-btn{display:grid}` tarayıcının
+   `[hidden]` kuralını ezdiği için gizleme burada açıkça yazılır.
+   ===================================================================== */
+.ts-share .share-btn.ts-share-mobile:hover,
+.ts-share .share-btn.ts-share-mobile[aria-expanded="true"]{background:var(--tomato);border-color:var(--tomato);color:#fff}
+.rd-sharepop .share-btn[hidden]{display:none}
+
+/* A/D — mevcut pişirme kartı ölçüleri ve kanon tokenları. */
+.gastro-cm-gorsel { margin: 0; }
+.gastro-cm-gorsel img { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); }
+.gastro-cm-gorsel figcaption { margin-block-start: var(--sp-2); color: var(--muted); }
+.gastro-cm-video { max-width: 100%; margin-block-end: var(--sp-4); }
+.gastro-cm-video summary { cursor: pointer; font-weight: 600; padding: var(--sp-3); }
+.gastro-cm-video .gastro-tarif-medya { margin-inline: auto; }
+.cm-stage:has(.gastro-cm-video) { flex-direction: column; }
+.gastro-cm-video { width: 100%; flex-shrink: 0; }

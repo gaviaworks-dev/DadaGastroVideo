@@ -1,0 +1,12 @@
+/* PORTAL ALTBİLGİ PERDESİ — pencereye sığmayan altbilgi akışa döner (5 Eki 2026, Beyar; ana sayfada canlı, aynı gün
+ * turuncu altbilgili 41 portal sayfasına yayıldı — `footer orange` taşıyan 42 türetilmiş görünümün hepsi bağlar).
+ *
+ * Derlenmiş `portal-*.css` ≥641px'te altbilgiyi `position:fixed` perde yapıyor; portal betiği de
+ * `#pageMain`in alt boşluğunu altbilgi boyuna eşitliyor (ana içerik kayınca altından açılır).
+ * Altbilgi pencereden uzunsa üst kısmı hiçbir kaydırmada görünmez (ölçüldü, 900px pencere:
+ * 768'de 1182px altbilginin üst 282px'i, 1024'te 1156px'in üst 256px'i). Bu durumda
+ * `altbilgi-perde.js` köke `altbilgi-akista` koyar: altbilgi normal akışta, boşluk sıfır.
+ * Sığdığında (1440'ta 518px) perde olduğu gibi kalır. 640px ve altı zaten akışta.
+ */
+html.altbilgi-akista .footer.orange { position: static; }
+html.altbilgi-akista #pageMain { margin-bottom: 0 !important; }

@@ -1,0 +1,22 @@
+/* Revize P1 · kulvar dosyası — sahibi: tarif-malzeme. Tarif detay (/tarif/{slug}) dışında yüklenmez. */
+
+/* ── Kalem 4 · satır sepet düğmesi kanondaki gibi hover'da belirir ─────────
+   Kanon (canlı Gastro) yalnız tarif-detay.css yükler: `.ing-add{opacity:0}`,
+   satır hover'ında 1, ≤1024 .75, ≤640 1 (dokunmatikte hover yok), `.added` 1.
+   Bu sayfada ek yüklenen ortak dm-p3.css (L4) `.ing-row .ing-add{opacity:.55}`
+   yazıyor ve 0,2,0 özgüllüğüyle tarif-detay.css'in medya kurallarını (0,1,0)
+   ve `.ing-add.added`i (0,2,0, dosya sırasıyla) eziyor. dm-p3 60 ekranda ortak
+   olduğu için orada değil, burada geri çekilir — her kural 0,2,0'a çıkarılarak.
+   Hover ve `:focus-within` 1'i dm-p3/tarif-detay'daki 0,3,0 kurallardan gelir
+   ve burayı yener; durum sınıfları (`.added`, dm-p4-m `.listede`) ve klavye
+   odağı 0,3,0 ile aşağıda korunur. */
+.ing-row .ing-add{opacity:0}
+.ing-row .ing-add.added,
+.ing-row .ing-add.listede,
+.ing-row .ing-add:focus-visible{opacity:1}
+@media (max-width:1024px){
+  .ing-row .ing-add{opacity:.75}
+}
+@media (max-width:640px){
+  .ing-row .ing-add{opacity:1}
+}

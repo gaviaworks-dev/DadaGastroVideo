@@ -1,0 +1,40 @@
+/* ZİL ROZETİ — GERÇEK SAYI YAZILANA KADAR GİZLİ.
+ *
+ * 🔴 ÖLÇÜLEN KUSUR (2026-09-11). Türetilmiş 59 ekran üst bantta donmuş
+ * `<span class="hb-badge">3</span>` taşıyor. Doğrusunu yalnız
+ * `zil-sayaci.js` çalışma anında yazıyor. Betik koşmazsa kullanıcı SAHTE
+ * bir sayı görür — ve sahte sayaç `CLAUDE.md`de açık yasak.
+ *
+ * 🔴 NEDEN `<noscript>` DEĞİL — `kabuk-kimlik.css`teki ile aynı üç durum:
+ * (1) JS kapalı, (2) betik yüklenemedi/hata verdi, (3) betik
+ * `DOMContentLoaded`ta yazıyor, yani İLK BOYAMA donörün "3"ü ile yapılır.
+ * Bu dosya üçünü de tek kuralla kapatır: rozet VARSAYILAN OLARAK gizlidir,
+ * betik gerçek sayıyı yazdıktan sonra `<html data-zil-sayaci="yazildi">`
+ * koyar ve rozet açılır. Misafirde sunucu beyan basmaz, bayrak hiç gelmez,
+ * rozet hiç görünmez — doğru davranış, çünkü misafirin bildirimi olamaz.
+ *
+ * 🔴 NEDEN SAYFA İÇİ `<style>` DEĞİL. Yasağın gerekçesi "tüm stil kanon
+ * CSS'lerinden ve prototipin kendi varlıklarından gelir". Bu dosya sayfaya
+ * `<link rel="stylesheet">` olarak `KabukKimligi` tarafından girer;
+ * `public/kanon/*` DEĞİŞTİRİLMEZ, `public/kabuk/` kabuk köprüsünün kendi
+ * kümesidir. Türetilmiş markup'ın gövdesine tek bayt girmez.
+ *
+ * ⚠ `visibility` kullanılır, `display` DEĞİL: rozet mutlak konumlu ve
+ * kardeşlerinin yerleşimini etkilemiyor, ama kuralı `kabuk-kimlik.css` ile
+ * aynı tutmak açıldığında yerinden oynama olmamasını garanti eder.
+ */
+html:not([data-zil-sayaci="yazildi"]) .head-bell .hb-badge {
+  visibility: hidden;
+}
+
+/* 🔴 SIFIRDA DA GİZLİ (revize P3 · kalem 3, Beyar kararı). Betik okunmamış
+   sayısı 0 iken bayrağı `sifir` yazar; yukarıdaki kural zaten `yazildi`
+   dışındaki her değerde gizliyor, bu kural onu AÇIKÇA söyler — sonraki
+   okuyan "sıfır hâli unutulmuş mu" diye aramasın.
+   Kanon ölçüldü: rozeti yalnız sayı > 0 iken basıyor
+   (`partials/header.blade.php` → `@if (($unreadNotificationCount ?? 0) > 0)`).
+   Düğüm sökülmez, gizlenir: markup prototipin bayt kopyası ve rozet mutlak
+   konumlu olduğu için gizlemek yerleşimi oynatmaz. */
+html[data-zil-sayaci="sifir"] .head-bell .hb-badge {
+  visibility: hidden;
+}

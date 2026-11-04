@@ -1,0 +1,3402 @@
+{
+ "_kaynak": "gastro_v2_video (yerel dev MySQL, salt okuma) · araclar/veri-hazirla.py · tarifler.sef_id = uye_profilleri.id",
+ "tarifler": {
+  "acili-ezme-gavurdagi-usulu-cevizli": {
+   "slug": "acili-ezme-gavurdagi-usulu-cevizli",
+   "baslik": "Acılı Ezme | Gavurdağı Usulü Cevizli",
+   "alt_baslik": null,
+   "ozet": "Domates, biber ve soğanın ince ince doğranıp nar ekşisi, ceviz ve pul biberle harmanlandığı ateşli bir Güneydoğu mezesi. Kebapların ve ızgaraların vazgeçilmez eşlikçisi olan bu ezme, ekmekle de iştah açar.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/acili-ezme-gavurdagi-usulu-cevizli-640.webp",
+   "kapak1600": "varlik/video/tarif/acili-ezme-gavurdagi-usulu-cevizli-1600.webp",
+   "kapak_kaynak": "varliklar/media/1459.webp",
+   "hazirlik_dk": 20,
+   "pisirme_dk": 0,
+   "zorluk": "Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 5,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 170,
+   "malzemeler": [
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Domates",
+     "aciklama": "çok ince doğranmış",
+     "grup": "Ezme için",
+     "malzeme_id": 335
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Sivri Biber",
+     "aciklama": "ince doğranmış",
+     "grup": "Ezme için",
+     "malzeme_id": 517
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Kuru Soğan",
+     "aciklama": "çok ince doğranmış",
+     "grup": "Ezme için",
+     "malzeme_id": 484
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "demet",
+     "ad": "Maydanoz",
+     "aciklama": "ince kıyılmış",
+     "grup": "Ezme için",
+     "malzeme_id": 292
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "su bardağı",
+     "ad": "Ceviz İçi",
+     "aciklama": "iri çekilmiş",
+     "grup": "Ezme için",
+     "malzeme_id": 318
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Nar Ekşisi",
+     "aciklama": "",
+     "grup": "Ezme için",
+     "malzeme_id": 473
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Domates Salçası",
+     "aciklama": "",
+     "grup": "Ezme için",
+     "malzeme_id": 290
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "yemek kaşığı",
+     "ad": "Zeytinyağı",
+     "aciklama": "",
+     "grup": "Ezme için",
+     "malzeme_id": 265
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Pul Biber",
+     "aciklama": "",
+     "grup": "Ezme için",
+     "malzeme_id": 260
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Ezme için",
+     "malzeme_id": 252
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Sebzeleri doğrayın",
+     "metin": "Domates, biber, soğan ve maydanozu bıçakla çok ince doğrayın. Dikkat: Robot kullanmayın, ezme suyunu salıp bulamaç olur.",
+     "sure_dk": 12
+    },
+    {
+     "baslik": "Harmanlayın",
+     "metin": "Doğranmış sebzeleri iri çekilmiş ceviz, nar ekşisi, salça, zeytinyağı, pul biber ve tuzla harmanlayın.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Dinlendirin",
+     "metin": "Ezmeyi servisten önce 15-20 dakika buzdolabında dinlendirin; tatlar oturunca ekmekle veya ızgaraların yanında servis edin.",
+     "sure_dk": 3
+    }
+   ],
+   "sef": "guney.topcuoglu"
+  },
+  "airfryer-tavuk-but-az-yagli-pratik": {
+   "slug": "airfryer-tavuk-but-az-yagli-pratik",
+   "baslik": "Airfryer Tavuk But | Az Yağlı Pratik",
+   "alt_baslik": null,
+   "ozet": "Az yağla hazırlanan bu tavuk but tarifi, airfryer sayesinde geleneksel fırına göre çok daha kısa sürede çıtır bir sonuç verir. Baharatlarla marine edilen but parçaları, günlük pratik akşam yemekleri için hem hafif hem doyurucu bir çözüm sunar.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/airfryer-tavuk-but-az-yagli-pratik-640.webp",
+   "kapak1600": "varlik/video/tarif/airfryer-tavuk-but-az-yagli-pratik-1600.webp",
+   "kapak_kaynak": "varliklar/media/2586.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": 20,
+   "zorluk": "Çok Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "adet",
+     "ad": "Tavuk But",
+     "aciklama": "derili",
+     "grup": "Marinasyon için",
+     "malzeme_id": 310
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Zeytinyağı",
+     "aciklama": "",
+     "grup": "Marinasyon için",
+     "malzeme_id": 265
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Pul Biber",
+     "aciklama": "",
+     "grup": "Marinasyon için",
+     "malzeme_id": 260
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Kekik",
+     "aciklama": "",
+     "grup": "Marinasyon için",
+     "malzeme_id": 312
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Marinasyon için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "tatlı kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Marinasyon için",
+     "malzeme_id": 454
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Airfryera dizin",
+     "metin": "Butları airfryer sepetine derisi üste gelecek şekilde, aralarında boşluk kalacak biçimde dizin.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "sinem.okumus"
+  },
+  "airfryer-tavuk-sinitzel-citir-panelenmis-tavuk-gogsu": {
+   "slug": "airfryer-tavuk-sinitzel-citir-panelenmis-tavuk-gogsu",
+   "baslik": "Airfryer Tavuk Şinitzel | Çıtır Panelenmiş Tavuk Göğsü",
+   "alt_baslik": null,
+   "ozet": "Airfryer'da az yağla pişen bu tavuk şinitzel, ince açılmış tavuk göğsünün un, yumurta ve galeta ununa bulanmasıyla hazırlanır. Dışı çıtır, içi sulu kalan sonuç, kızartma kokusu olmadan hızlı bir akşam yemeği arayanlar için pratik bir çözümdür.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/airfryer-tavuk-sinitzel-citir-panelenmis-tavuk-gogsu-640.webp",
+   "kapak1600": "varlik/video/tarif/airfryer-tavuk-sinitzel-citir-panelenmis-tavuk-gogsu-1600.webp",
+   "kapak_kaynak": "varliklar/media/5296.webp",
+   "hazirlik_dk": 30,
+   "pisirme_dk": 20,
+   "zorluk": "Orta",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 320,
+   "malzemeler": [
+    {
+     "miktar": 500,
+     "miktar_metin": "500",
+     "birim": "g",
+     "ad": "Tavuk Göğsü",
+     "aciklama": "ince fileto halinde açılmış",
+     "grup": null,
+     "malzeme_id": 270
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "yemek kaşığı",
+     "ad": "Un",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 249
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Galeta Unu",
+     "aciklama": "",
+     "grup": "Kaplama için",
+     "malzeme_id": 324
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Zeytinyağı",
+     "aciklama": "sepete sürmek için",
+     "grup": "Kaplama için",
+     "malzeme_id": 265
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Limon",
+     "aciklama": "servis için dilimlenmiş",
+     "grup": "Kaplama için",
+     "malzeme_id": 294
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Tavuğu hazırlayın",
+     "metin": "Tavuk göğsünü yatay olarak ikiye açıp oklava ile yaklaşık 1 santimetre kalınlığa gelene kadar dövün. Her iki yüzünü tuz ve karabiberle ovun.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Kaplayın",
+     "metin": "Tavukları önce una, ardından çırpılmış yumurtaya, son olarak galeta ununa bulayın; kaplamanın her yeri sıkıca kapladığından emin olun.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Airfryer'da pişirin",
+     "metin": "Sepete ince bir zeytinyağı sürüp tavukları tek sıra halinde dizin, 200 derecede 20 dakika, ortasında çevirerek altın rengi ve çıtır olana kadar pişirin. Airfryer'ınız yoksa önceden 200 dereceye ısıtılmış fırında, tel ızgara üzerinde 20 dakika, ortasında çevirerek pişirebilirsiniz. Limon dilimleriyle sıcak servis edin.",
+     "sure_dk": 20
+    }
+   ],
+   "sef": "daghan.kutlay"
+  },
+  "arancini-italyan-usulu-kizarmis-risotto-topu": {
+   "slug": "arancini-italyan-usulu-kizarmis-risotto-topu",
+   "baslik": "Arancini | İtalyan Usulü Kızarmış Risotto Topu",
+   "alt_baslik": null,
+   "ozet": "Sicilya mutfağının sokak lezzeti arancini, soğuyan risottonun peynirle doldurulup top şeklinde şekillendirilerek galeta ununa bulanıp kızartılmasından oluşur. Adını turunç meyvesine olan görsel benzerliğinden alan bu atıştırmalık, dışı çıtır içi akışkan bir doku sunar.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/arancini-italyan-usulu-kizarmis-risotto-topu-640.webp",
+   "kapak1600": "varlik/video/tarif/arancini-italyan-usulu-kizarmis-risotto-topu-1600.webp",
+   "kapak_kaynak": "varliklar/media/5192.webp",
+   "hazirlik_dk": 40,
+   "pisirme_dk": 25,
+   "zorluk": "Zor",
+   "mutfak": "İtalyan Mutfağı",
+   "porsiyon": 12,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 220,
+   "malzemeler": [
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "su bardağı",
+     "ad": "Pişmiş Risotto",
+     "aciklama": "soğutulmuş",
+     "grup": null,
+     "malzeme_id": 1351
+    },
+    {
+     "miktar": 100,
+     "miktar_metin": "100",
+     "birim": "g",
+     "ad": "Kaşar Peyniri",
+     "aciklama": "küçük küpler",
+     "grup": null,
+     "malzeme_id": 302
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "çırpılmış",
+     "grup": null,
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Un",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 249
+    },
+    {
+     "miktar": 1.5,
+     "miktar_metin": "1 ½",
+     "birim": "su bardağı",
+     "ad": "Galeta Unu",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 324
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "su bardağı",
+     "ad": "Sıvı Yağ",
+     "aciklama": "kızartmak için",
+     "grup": null,
+     "malzeme_id": 285
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Şekillendirme",
+     "metin": "Soğuk risottodan bir avuç alıp ortasına peynir küpü koyarak top şekli verin.",
+     "sure_dk": 25
+    },
+    {
+     "baslik": "Kaplama",
+     "metin": "Topları sırasıyla una, yumurtaya ve galeta ununa bulayın.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Kızartma",
+     "metin": "Yağda orta ateşte her tarafı altın rengi olana kadar 5-6 dakika kızartın.",
+     "sure_dk": 15
+    },
+    {
+     "baslik": "Servis",
+     "metin": "Sıcak servis edin.",
+     "sure_dk": null
+    }
+   ],
+   "sef": "tuna.mayhos"
+  },
+  "besamel-sos-kivamli-ev-yapimi": {
+   "slug": "besamel-sos-kivamli-ev-yapimi",
+   "baslik": "Beşamel Sos | Kıvamlı Ev Yapımı",
+   "alt_baslik": null,
+   "ozet": "Tereyağı, un ve sütle hazırlanan pürüzsüz, kadifemsi beşamel sos. Fırın makarnadan sebze graten ve musakkaya kadar pek çok yemeğin temeli olan bu klasik sos, birkaç malzemeyle dakikalar içinde hazırlanır.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/besamel-sos-kivamli-ev-yapimi-640.webp",
+   "kapak1600": "varlik/video/tarif/besamel-sos-kivamli-ev-yapimi-1600.webp",
+   "kapak_kaynak": "varliklar/media/1448.webp",
+   "hazirlik_dk": 5,
+   "pisirme_dk": 12,
+   "zorluk": "Kolay",
+   "mutfak": "Fransız Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 130,
+   "malzemeler": [
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Un",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 249
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "su bardağı",
+     "ad": "Süt",
+     "aciklama": "oda sıcaklığında",
+     "grup": "Sos için",
+     "malzeme_id": 316
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "tatlı kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.25,
+     "miktar_metin": "¼",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tutam",
+     "ad": "Muskat",
+     "aciklama": "isteğe bağlı, rendelenmiş",
+     "grup": "Sos için",
+     "malzeme_id": 461
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Unu kavurun",
+     "metin": "Tencerede tereyağını eritip unu ekleyin, kısık ateşte rengi dönmeden, ham kokusu geçene kadar birkaç dakika karıştırarak kavurun.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Sütü ekleyin",
+     "metin": "Sütü azar azar, sürekli çırparak ekleyin. Dikkat: Süt bir defada eklenirse topaklanır; her eklemede iyice karıştırın.",
+     "sure_dk": 4
+    },
+    {
+     "baslik": "Kıvam verin",
+     "metin": "Karışımı orta ateşte, sürekli karıştırarak kaşığın arkasını kaplayacak kıvama gelene kadar pişirin.",
+     "sure_dk": 4
+    },
+    {
+     "baslik": "Baharatlayın",
+     "metin": "Tuz, karabiber ve isteğe bağlı muskatı ekleyip karıştırın ve ocaktan alın.",
+     "sure_dk": 1
+    }
+   ],
+   "sef": "cagan.oymen"
+  },
+  "cacik-salatalikli-yogurt-mezesi": {
+   "slug": "cacik-salatalikli-yogurt-mezesi",
+   "baslik": "Cacık | Salatalıklı Yoğurt Mezesi",
+   "alt_baslik": null,
+   "ozet": "Rendelenmiş salatalık, süzme yoğurt ve taze sarımsakla hazırlanan serinletici bir Türk mezesi. Dereotuyla tazelenen cacık, sıcak günlerde ana yemeklerin yanında hafif bir başlangıç olarak servis edilir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/cacik-salatalikli-yogurt-mezesi-640.webp",
+   "kapak1600": "varlik/video/tarif/cacik-salatalikli-yogurt-mezesi-1600.webp",
+   "kapak_kaynak": "varliklar/media/2881.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": null,
+   "zorluk": "Çok Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "su bardağı",
+     "ad": "Yoğurt",
+     "aciklama": "süzme veya tam yağlı",
+     "grup": "Cacık için",
+     "malzeme_id": 413
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Salatalık",
+     "aciklama": "rendelenmiş, suyu süzülmüş",
+     "grup": "Cacık için",
+     "malzeme_id": 338
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "diş",
+     "ad": "Sarımsak",
+     "aciklama": "ezilmiş",
+     "grup": "Cacık için",
+     "malzeme_id": 257
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Dereotu",
+     "aciklama": "ince kıyılmış",
+     "grup": "Cacık için",
+     "malzeme_id": 267
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Zeytinyağı",
+     "aciklama": "",
+     "grup": "Cacık için",
+     "malzeme_id": 265
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Cacık için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Kuru Nane",
+     "aciklama": "üzerine serpmek için",
+     "grup": "Servis için",
+     "malzeme_id": 261
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Salatalığı hazırlayın",
+     "metin": "Salatalığı ince rendeleyip hafifçe tuzlayın, birkaç dakika dinlendirdikten sonra elinizle sıkarak fazla suyunu süzün; cacığın sulanmaması için bu adım önemlidir.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Yoğurdu çırpın",
+     "metin": "Yoğurdu derin bir kapta pürüzsüz olana kadar çırpın, ezilmiş sarımsağı ve tuzu ekleyip karıştırın.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Malzemeleri birleştirin",
+     "metin": "Süzülmüş salatalığı ve ince kıyılmış dereotu yoğurt karışımına ekleyip iyice karıştırın; kıvam yoğurt kadar yumuşak ve akıcı olmalı.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Servis edin",
+     "metin": "Cacığı servis kâsesine alıp üzerine bir tel zeytinyağı gezdirin, isteğe bağlı kuru nane serpiştirip soğuk servis edin.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "mert.tasli"
+  },
+  "cikolatali-sufle-akiskan-icli-sicak-fransiz-tatlisi": {
+   "slug": "cikolatali-sufle-akiskan-icli-sicak-fransiz-tatlisi",
+   "baslik": "Çikolatalı Sufle | Akışkan İçli Sıcak Fransız Tatlısı",
+   "alt_baslik": null,
+   "ozet": "Bitter çikolata ve tereyağının kısa süre yüksek ısıda fırınlanmasıyla hazırlanan, dışı pişmiş içi akışkan kalan sıcak bir Fransız tatlısı. Servis anında kesildiğinde ortasından akan çikolatasıyla etkileyici bir sunum sağlar.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/cikolatali-sufle-akiskan-icli-sicak-fransiz-tatlisi-640.webp",
+   "kapak1600": "varlik/video/tarif/cikolatali-sufle-akiskan-icli-sicak-fransiz-tatlisi-1600.webp",
+   "kapak_kaynak": "varliklar/media/1896.webp",
+   "hazirlik_dk": 20,
+   "pisirme_dk": 12,
+   "zorluk": "Orta",
+   "mutfak": "Fransız Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 150,
+     "miktar_metin": "150",
+     "birim": "g",
+     "ad": "Bitter Çikolata",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 542
+    },
+    {
+     "miktar": 100,
+     "miktar_metin": "100",
+     "birim": "g",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "su bardağı",
+     "ad": "Toz Şeker",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 284
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Un",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 249
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "kalıplar için",
+     "grup": "Kalıplama için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Kakao",
+     "aciklama": "kalıplar için",
+     "grup": "Kalıplama için",
+     "malzeme_id": 537
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Kalıpları hazırlayın",
+     "metin": "Kalıpların içini tereyağıyla yağlayıp kakao serperek tozlayın.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Çikolatayı eritin",
+     "metin": "Bitter çikolata ve tereyağını benmari usulüyle birlikte eritin.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Karışımı hazırlayın",
+     "metin": "Yumurta ve şekeri köpürene kadar çırpın; eritilmiş çikolatayı ve unu yedirerek karıştırın.",
+     "sure_dk": 10
+    }
+   ],
+   "sef": "ece.gurmen"
+  },
+  "cilbir-yogurtlu-pose-yumurta": {
+   "slug": "cilbir-yogurtlu-pose-yumurta",
+   "baslik": "Çılbır | Yoğurtlu Poşe Yumurta",
+   "alt_baslik": null,
+   "ozet": "Poşe edilmiş yumurtanın sarımsaklı yoğurt yatağına oturtulup üzerine tereyağlı pul biber sosu gezdirildiği geleneksel çılbır. Osmanlı mutfağından gelen bu zarif tabak, hem kahvaltıda hem de hafif bir öğünde şıklıkla yer alır.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/cilbir-yogurtlu-pose-yumurta-640.webp",
+   "kapak1600": "varlik/video/tarif/cilbir-yogurtlu-pose-yumurta-1600.webp",
+   "kapak_kaynak": "varliklar/media/1345.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": 8,
+   "zorluk": "Orta",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 2,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 300,
+   "malzemeler": [
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Süzme Yoğurt",
+     "aciklama": "oda sıcaklığında",
+     "grup": "Yoğurt için",
+     "malzeme_id": 256
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "diş",
+     "ad": "Sarımsak",
+     "aciklama": "ezilmiş",
+     "grup": "Yoğurt için",
+     "malzeme_id": 257
+    },
+    {
+     "miktar": 0.25,
+     "miktar_metin": "¼",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Yoğurt için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "",
+     "grup": "Yumurta için",
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Sirke",
+     "aciklama": "poşe suyu için",
+     "grup": "Yumurta için",
+     "malzeme_id": 472
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Pul Biber",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 260
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Sarımsaklı yoğurdu hazırlayın",
+     "metin": "Oda sıcaklığındaki süzme yoğurdu ezilmiş sarımsak ve tuzla karıştırıp servis tabağına yayın. Kenara alın.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Yumurtaları poşe edin",
+     "metin": "Geniş bir tencerede suyu kaynatıp sirkeyi ekleyin ve ateşi kısın. Yumurtaları tek tek bir kepçeyle suya kaydırıp beyazı toplanana, sarısı akışkan kalacak şekilde 3 dakika pişirin. Delikli kaşıkla alın.",
+     "sure_dk": 4
+    },
+    {
+     "baslik": "Sosu hazırlayıp gezdirin",
+     "metin": "Küçük bir tavada tereyağını eritip pul biberi ekleyin. Yağ kırmızı rengi alınca ateşten alın. Poşe yumurtaları yoğurdun üzerine yerleştirip tereyağlı sosu üzerine gezdirin ve hemen servis edin.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "derin.durmaz"
+  },
+  "cilekli-smoothie-muzlu-yogurtlu-cilek-smoothie": {
+   "slug": "cilekli-smoothie-muzlu-yogurtlu-cilek-smoothie",
+   "baslik": "Çilekli Smoothie | Muzlu Yoğurtlu Çilek Smoothie",
+   "alt_baslik": null,
+   "ozet": "Çilek, muz ve yoğurdun blenderdan geçirildiği kremamsı, besleyici çilekli smoothie. Kahvaltıya ve ara öğüne pratik bir seçenek olan bu içecek, meyvenin doğal tatlılığıyla hem doyurucu hem ferahlatıcıdır.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/cilekli-smoothie-muzlu-yogurtlu-cilek-smoothie-640.webp",
+   "kapak1600": "varlik/video/tarif/cilekli-smoothie-muzlu-yogurtlu-cilek-smoothie-1600.webp",
+   "kapak_kaynak": "varliklar/media/1374.webp",
+   "hazirlik_dk": 5,
+   "pisirme_dk": 0,
+   "zorluk": "Çok Kolay",
+   "mutfak": "Amerikan Mutfağı",
+   "porsiyon": 2,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 180,
+   "malzemeler": [
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Çilek",
+     "aciklama": "taze veya donmuş",
+     "grup": "İçecek için",
+     "malzeme_id": 354
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Muz",
+     "aciklama": "olgun",
+     "grup": "İçecek için",
+     "malzeme_id": 317
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Yoğurt",
+     "aciklama": "",
+     "grup": "İçecek için",
+     "malzeme_id": 413
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "su bardağı",
+     "ad": "Süt",
+     "aciklama": "",
+     "grup": "İçecek için",
+     "malzeme_id": 316
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Bal",
+     "aciklama": "isteğe göre",
+     "grup": "İçecek için",
+     "malzeme_id": 479
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Malzemeleri hazırlayın",
+     "metin": "Çilekleri yıkayıp saplarını ayırın, muzu dilimleyin. Donmuş çilek kullanıyorsanız doğrudan blendera alabilirsiniz.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Blenderdan geçirin",
+     "metin": "Tüm malzemeleri blendera alıp pürüzsüz ve kremamsı bir kıvam elde edene kadar çekin. Kıvam koyuysa biraz süt ekleyin. Bardaklara döküp hemen servis edin.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "ruya.akal"
+  },
+  "dana-biftek-soganli-tava": {
+   "slug": "dana-biftek-soganli-tava",
+   "baslik": "Dana Biftek | Soğanlı Tava",
+   "alt_baslik": null,
+   "ozet": "Dana bifteğin bol soğanla birlikte tavada pişirildiği, sade malzemelerle hazırlanan pratik bir ev yemeği. Soğanların karamelize olmasıyla tatlanan et, pilav ya da patates kızartması yanında akşam sofralarının klasik seçeneklerinden biridir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/dana-biftek-soganli-tava-640.webp",
+   "kapak1600": "varlik/video/tarif/dana-biftek-soganli-tava-1600.webp",
+   "kapak_kaynak": "varliklar/media/1680.webp",
+   "hazirlik_dk": 15,
+   "pisirme_dk": 20,
+   "zorluk": "Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "adet",
+     "ad": "Dana Biftek",
+     "aciklama": "yaklaşık 150 gramlık dilimler",
+     "grup": "Biftek için",
+     "malzeme_id": 724
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Soğan",
+     "aciklama": "yarım ay doğranmış",
+     "grup": "Biftek için",
+     "malzeme_id": 254
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Biftek için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Un",
+     "aciklama": "hafif tozlama için",
+     "grup": "Biftek için",
+     "malzeme_id": 249
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Biftek için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Biftek için",
+     "malzeme_id": 454
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Soğanları kavurun",
+     "metin": "Tereyağının yarısını tavada eritin, soğanları ekleyip kısık ateşte karamelize olana kadar kavurun; kenara alın.",
+     "sure_dk": 12
+    },
+    {
+     "baslik": "Etleri tozlayın",
+     "metin": "Dana biftekleri hafifçe una bulayıp fazlasını silkeleyin.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Etleri pişirin",
+     "metin": "Kalan tereyağını aynı tavada kızdırıp biftekleri yüksek ateşte her yüzünü birkaç dakika kızartın.",
+     "sure_dk": 6
+    },
+    {
+     "baslik": "Birleştirip servis edin",
+     "metin": "Kavrulmuş soğanları etin üzerine dökün, tuz ve karabiberle tatlandırıp sıcak servis edin.",
+     "sure_dk": 3
+    }
+   ],
+   "sef": "umran.numanoglu"
+  },
+  "duduklu-tavuk-sote-sebzeli-hizli-pisen": {
+   "slug": "duduklu-tavuk-sote-sebzeli-hizli-pisen",
+   "baslik": "Düdüklü Tavuk Sote | Sebzeli Hızlı Pişen",
+   "alt_baslik": null,
+   "ozet": "Tavuk göğsü ve mevsim sebzelerinin düdüklü tencerede kısa sürede buharla pişirilmesiyle hazırlanan bu sote, klasik tavaya göre çok daha az sürede yumuşacık bir kıvam yakalar. Az malzemeyle hazırlanan bu pratik yemek, yoğun günlerde hızlı bir çözüm arayanlara uygundur.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/duduklu-tavuk-sote-sebzeli-hizli-pisen-640.webp",
+   "kapak1600": "varlik/video/tarif/duduklu-tavuk-sote-sebzeli-hizli-pisen-1600.webp",
+   "kapak_kaynak": "varliklar/media/2587.webp",
+   "hazirlik_dk": 15,
+   "pisirme_dk": 15,
+   "zorluk": "Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 500,
+     "miktar_metin": "500",
+     "birim": "g",
+     "ad": "Tavuk Göğsü",
+     "aciklama": "kuşbaşı",
+     "grup": "Sote için",
+     "malzeme_id": 270
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "Patates",
+     "aciklama": "küp doğranmış",
+     "grup": "Sote için",
+     "malzeme_id": 311
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Havuç",
+     "aciklama": "dilimlenmiş",
+     "grup": "Sote için",
+     "malzeme_id": 263
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Kuru Soğan",
+     "aciklama": "dilimlenmiş",
+     "grup": "Sote için",
+     "malzeme_id": 484
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Sıvı Yağ",
+     "aciklama": "",
+     "grup": "Sote için",
+     "malzeme_id": 285
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Sote için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "tatlı kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Sote için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "su bardağı",
+     "ad": "Su",
+     "aciklama": "",
+     "grup": "Sote için",
+     "malzeme_id": 251
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Soğanı kavurun",
+     "metin": "Düdüklü tencerede sıvı yağla soğanı hafif rengini alana kadar kavurun.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Tavuğu ekleyin",
+     "metin": "Kuşbaşı tavuk göğsünü ekleyip dış yüzeyi rengini alana kadar karıştırarak pişirin.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Sebzeleri ve suyu ekleyin",
+     "metin": "Patates ve havucu, tuz, karabiber ve suyu ekleyip tencerenin kapağını kapatın.",
+     "sure_dk": 3
+    }
+   ],
+   "sef": "sinem.okumus"
+  },
+  "hamsi-tava-misir-unlu-citir": {
+   "slug": "hamsi-tava-misir-unlu-citir",
+   "baslik": "Hamsi Tava | Mısır Unlu Çıtır",
+   "alt_baslik": null,
+   "ozet": "Taze hamsinin mısır ununa bulanıp çıtır çıtır kızartıldığı Karadeniz klasiği. Dışı gevrek, içi yumuşak kalan bu balık, limonla ve yeşillikle sofraya gelir; hem meze hem ana yemek olur.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/hamsi-tava-misir-unlu-citir-640.webp",
+   "kapak1600": "varlik/video/tarif/hamsi-tava-misir-unlu-citir-1600.webp",
+   "kapak_kaynak": "varliklar/media/1444.webp",
+   "hazirlik_dk": 20,
+   "pisirme_dk": 15,
+   "zorluk": "Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 3,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 340,
+   "malzemeler": [
+    {
+     "miktar": 500,
+     "miktar_metin": "500",
+     "birim": "g",
+     "ad": "Hamsi",
+     "aciklama": "temizlenmiş, ayıklanmış",
+     "grup": "Balık için",
+     "malzeme_id": 393
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Mısır Unu",
+     "aciklama": "",
+     "grup": "Kaplama için",
+     "malzeme_id": 593
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Kaplama için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Kaplama için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Ayçiçek Yağı",
+     "aciklama": "",
+     "grup": "Kızartmak için",
+     "malzeme_id": 594
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Limon",
+     "aciklama": "dilimlenmiş",
+     "grup": "Servis için",
+     "malzeme_id": 294
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Hamsileri hazırlayın",
+     "metin": "Temizlenmiş hamsileri yıkayıp kağıt havluyla iyice kurulayın; nemin tamamen alınması çıtırlık için şarttır.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Una bulayın",
+     "metin": "Mısır ununu tuz ve karabiberle karıştırıp hamsileri bu karışıma iyice bulayın, fazla unu silkeleyin.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Kızartın",
+     "metin": "Tavada yağı iyice kızdırıp hamsileri gruplar halinde çıtır ve altın rengi olana kadar kızartın. Dikkat: Yağ yeterince kızmadan balık koymayın, yoksa yağ çeker.",
+     "sure_dk": 12
+    },
+    {
+     "baslik": "Süzüp servis edin",
+     "metin": "Kızaran hamsileri kağıt havlu serili tabağa alıp fazla yağını süzün ve limon dilimleriyle sıcak servis edin.",
+     "sure_dk": 3
+    }
+   ],
+   "sef": "emir.sandalci"
+  },
+  "hollandez-sos-fransiz-usulu-tereyagli-sos": {
+   "slug": "hollandez-sos-fransiz-usulu-tereyagli-sos",
+   "baslik": "Hollandez Sos | Fransız Usulü Tereyağlı Sos",
+   "alt_baslik": null,
+   "ozet": "Yumurta sarısı ve eritilmiş tereyağının benmaride sabırla birleştirilmesiyle elde edilen klasik Fransız sosu; ipeksi kıvamıyla haşlanmış sebzelerin ve kahvaltılık yumurtaların en klasik eşlikçisidir. Hazırlanışı özen ister ama sonucu her denemeye değer.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/hollandez-sos-fransiz-usulu-tereyagli-sos-640.webp",
+   "kapak1600": "varlik/video/tarif/hollandez-sos-fransiz-usulu-tereyagli-sos-1600.webp",
+   "kapak_kaynak": "varliklar/media/2540.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": 15,
+   "zorluk": "Orta",
+   "mutfak": "Fransız Mutfağı",
+   "porsiyon": 3,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 125,
+     "miktar_metin": "125",
+     "birim": "g",
+     "ad": "Tereyağı",
+     "aciklama": "eritilmiş",
+     "grup": "Sos için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Yumurta Sarısı",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 504
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Limon Suyu",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 269
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tutam",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tutam",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Soğuk Su",
+     "aciklama": "",
+     "grup": "Sos için",
+     "malzeme_id": 552
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Benmaride yumurta sarılarını çırpın",
+     "metin": "Yumurta sarılarını limon suyu ve soğuk suyla birlikte kaynayan suyun üzerindeki bir kapta, su kaynamaya değmeyecek şekilde tel çırpıcıyla köpürene kadar çırpın.",
+     "sure_dk": 6
+    },
+    {
+     "baslik": "Tatlandırıp hemen servis edin",
+     "metin": "Tuz ve karabiberle tatlandırın; hollandez sos beklemeden, ılıkken servis edilmelidir, aksi halde ayrışma riski taşır.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "yagiz.baykam"
+  },
+  "hunkar-begendi-kozlenmis-patlican-besameli-ustunde-kuzu-guvec": {
+   "slug": "hunkar-begendi-kozlenmis-patlican-besameli-ustunde-kuzu-guvec",
+   "baslik": "Hünkar Beğendi | Közlenmiş Patlıcan Beşameli Üstünde Kuzu Güveç",
+   "alt_baslik": "Közlenmiş Patlıcan Beşameli Üstünde Kuzu Güveç",
+   "ozet": "Hünkar beğendi, közlenmiş patlıcanla kurulan bir beşamelin üstüne kuzu güveç konarak servis edilen bir saray yemeğidir. Beğendi sıradan bir patlıcan püresi değildir: un tereyağında kavrulup sütle açıldıktan sonra patlıcan sosun içine katılır ve sosu kendi lifiyle koyulaştırır. Tabakta etin sosu beğendinin kremsi dokusuna karışır, bu yüzden güveç fazla koyu bırakılmaz.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/hunkar-begendi-kozlenmis-patlican-besameli-ustunde-kuzu-guvec-640.webp",
+   "kapak1600": "varlik/video/tarif/hunkar-begendi-kozlenmis-patlican-besameli-ustunde-kuzu-guvec-1600.webp",
+   "kapak_kaynak": "varliklar/media/yayilim/t-hunkar-begendi-kozlenmis-patlican-besameli-ustunde-kuzu-guvec-kapak.webp",
+   "hazirlik_dk": 30,
+   "pisirme_dk": 140,
+   "zorluk": "Zor",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 585,
+   "malzemeler": [
+    {
+     "miktar": 600,
+     "miktar_metin": "600",
+     "birim": "g",
+     "ad": "kuzu kuşbaşı (kol ya da but)",
+     "aciklama": "",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 20,
+     "miktar_metin": "20",
+     "birim": "g",
+     "ad": "tereyağı",
+     "aciklama": "",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 15,
+     "miktar_metin": "15",
+     "birim": "ml",
+     "ad": "sıvı yağ",
+     "aciklama": "",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "kuru soğan (küp doğranmış)",
+     "aciklama": "adet (100 g)",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "domates (rendelenmiş)",
+     "aciklama": "adet (200 g)",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "domates salçası",
+     "aciklama": "yemek kaşığı (15 g)",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "sivri biber",
+     "aciklama": "adet (40 g)",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 400,
+     "miktar_metin": "400",
+     "birim": "ml",
+     "ad": "sıcak su",
+     "aciklama": "",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "tuz",
+     "aciklama": "tatlı kaşığı (5 g)",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "karabiber",
+     "aciklama": "",
+     "grup": "Kuzu güveç için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 5,
+     "miktar_metin": "5",
+     "birim": "adet",
+     "ad": "patlıcan (kemer)",
+     "aciklama": "adet (1 kg)",
+     "grup": "Beğendi için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "limon suyu",
+     "aciklama": "yemek kaşığı (15 ml)",
+     "grup": "Beğendi için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 30,
+     "miktar_metin": "30",
+     "birim": "g",
+     "ad": "tereyağı",
+     "aciklama": "",
+     "grup": "Beğendi için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "un",
+     "aciklama": "silme yemek kaşığı (30 g)",
+     "grup": "Beğendi için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 500,
+     "miktar_metin": "500",
+     "birim": "ml",
+     "ad": "süt (yarım yağlı)",
+     "aciklama": "",
+     "grup": "Beğendi için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 80,
+     "miktar_metin": "80",
+     "birim": "g",
+     "ad": "kaşar peyniri (rendelenmiş)",
+     "aciklama": "",
+     "grup": "Beğendi için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "g",
+     "ad": "tuz",
+     "aciklama": "g",
+     "grup": "Beğendi için",
+     "malzeme_id": null
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Patlıcanları közle",
+     "metin": "Patlıcanları çatalla birkaç yerinden delip doğrudan ocak alevinin ya da ızgara telinin üstüne yerleştir; delik açılmazsa içeride biriken buhar kabuğu patlatır. Maşayla çevirerek her yüzünü karart: kabuk kavlayıp kabarmalı, patlıcan kendi üstüne çökmeli. Bir patlıcan 10-12 dakikada olur, ocakta ikişerli çalışınca beşi 30 dakika sürer. En kalın yerine batırılan çatal hiç direnç görmüyorsa iç tamamen dağılmıştır; yarı çiğ kalan patlıcan beşamelin içinde topak bırakır.",
+     "sure_dk": 30
+    },
+    {
+     "baslik": "Közü acı suyundan ayır",
+     "metin": "Patlıcanları sıcakken kabuğundan sıyır — soğuyunca kabuk ete yapışır ve temiz ayrılmaz. İçlerini bir kâsede 1 yemek kaşığı limon suyu ve 2 su bardağı soğuk suyla 5 dakika beklet, sonra süzgece al, elinle bastırarak suyunu at ve 10 dakika süzül. Süzgecin altına biriken koyu renkli sıvı patlıcanın acılığını ve fazla suyunu taşır; içinde kalırsa beşamel koyulaşmaz ve rengi griye döner. Limon suyu bu arada kesik yüzeyin kararmasını geciktirir.",
+     "sure_dk": 15
+    },
+    {
+     "baslik": "Eti kavur",
+     "metin": "Tereyağını ve sıvı yağı güveç tenceresinde ısıt, kuzu kuşbaşını ekle. Et önce suyunu bırakır; o su çekilene kadar karıştırma, tencerenin dibi cızırdamaya başlayınca 5 dakika çevirerek kızart. Küp doğranmış soğanı ekleyip 3 dakika, salçayı ekleyip 1 dakika daha kavur; yağda kavrulmayan salça yemekte ham domates tadı bırakır.",
+     "sure_dk": 15
+    },
+    {
+     "baslik": "Güveci pişir",
+     "metin": "Rendelenmiş domatesi, ikiye böldüğün sivri biberleri, 5 g tuzu, karabiberi ve 400 ml sıcak suyu ekle. Kapağı kapat, en kısık ateşte 70-75 dakika pişir. Et çatalla bastırınca lif lif ayrılmalı, sos kaşığın arkasını kaplamalı ama tabağa döküldüğünde akmalı; suyunu erken çekerse 100 ml sıcak su daha ekle. Güveç bu kıvamda bırakılır, çünkü beğendinin üstünde onunla birlikte yenir.",
+     "sure_dk": 75
+    },
+    {
+     "baslik": "Beşameli kur",
+     "metin": "Ayrı bir tencerede 30 g tereyağını erit, 30 g unu ekle ve orta-kısık ateşte 3 dakika, renk almadan, fındıksı kokusu çıkana kadar kavur. Sütü üç seferde, her seferinde çırparak ekle; hepsini birden dökersen un topaklanır. 8 dakika, kaynama noktasının hemen altında karıştırarak pişir. Sos, çırpı telinin bıraktığı izi bir saniye tutacak kıvama gelince hazırdır.",
+     "sure_dk": 12
+    },
+    {
+     "baslik": "Patlıcanı kat, kaşarı en son ekle",
+     "metin": "Süzülmüş patlıcanı bıçakla iri iri doğra ve beşamele ekle; blender kullanma, makine patlıcanın nişastasını koparıp karışımı sakızlaştırır. Kısık ateşte 7 dakika, tahta kaşıkla ezerek pişir: patlıcanın lifi sosun suyunu içine çeker ve karışım gözle görülür biçimde koyulaşır. Tencereyi ateşten al, 3 g tuzu ve rendelenmiş kaşarı ekleyip kalan ısıyla erittir. Kaşar ateşten alındıktan sonra girer, çünkü ısıtılmaya devam edilirse proteini kasılıp yağını bırakır ve beğendi tel tel, yağlı bir hâl alır.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Tabakta birleştir",
+     "metin": "Beğendiyi ısıtılmış servis tabağının ortasına kaşıkla yay, kaşığın arkasıyla kenarları yüksek ortası çukur bir yatak aç. Güveci etiyle birlikte bu çukura koy, sosundan 2-3 kaşık üstüne gezdir. Tabağı bekletmeden sofraya götür: beğendi soğudukça katılaşır ve kaşıkla yayılmaz.",
+     "sure_dk": 5
+    }
+   ],
+   "sef": "gokturk.dizdar"
+  },
+  "icli-kofte-geleneksel-ovma-ince-kabuklu": {
+   "slug": "icli-kofte-geleneksel-ovma-ince-kabuklu",
+   "baslik": "İçli Köfte | Geleneksel Ovma İnce Kabuklu",
+   "alt_baslik": null,
+   "ozet": "İnce bulgur kabuğunun cevizli, kıymalı iç harçla doldurulup pişirildiği geleneksel içli köfte. Güneydoğu mutfağının ustalık isteyen bu klasiği, ince kabuğu ve bol baharatlı iç harcıyla özel gün sofralarının gururudur.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/icli-kofte-geleneksel-ovma-ince-kabuklu-640.webp",
+   "kapak1600": "varlik/video/tarif/icli-kofte-geleneksel-ovma-ince-kabuklu-1600.webp",
+   "kapak_kaynak": "varliklar/media/1286.webp",
+   "hazirlik_dk": 75,
+   "pisirme_dk": 20,
+   "zorluk": "Ustalık Gerektirir",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 6,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 480,
+   "malzemeler": [
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "su bardağı",
+     "ad": "Köftelik İnce Bulgur",
+     "aciklama": "",
+     "grup": "Kabuk için",
+     "malzeme_id": 505
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "İrmik",
+     "aciklama": "ince irmik",
+     "grup": "Kabuk için",
+     "malzeme_id": 486
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Salça",
+     "aciklama": "domates salçası",
+     "grup": "Kabuk için",
+     "malzeme_id": 497
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Kabuk için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Ilık Su",
+     "aciklama": "kıvama göre",
+     "grup": "Kabuk için",
+     "malzeme_id": 506
+    },
+    {
+     "miktar": 300,
+     "miktar_metin": "300",
+     "birim": "g",
+     "ad": "Dana Kıyma",
+     "aciklama": "",
+     "grup": "İç harç için",
+     "malzeme_id": 298
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "Kuru Soğan",
+     "aciklama": "ince doğranmış",
+     "grup": "İç harç için",
+     "malzeme_id": 484
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "su bardağı",
+     "ad": "Ceviz İçi",
+     "aciklama": "iri çekilmiş",
+     "grup": "İç harç için",
+     "malzeme_id": 318
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Pul Biber",
+     "aciklama": "",
+     "grup": "İç harç için",
+     "malzeme_id": 260
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "İç harç için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Yenibahar",
+     "aciklama": "",
+     "grup": "İç harç için",
+     "malzeme_id": 459
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "İç harç için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Sıvı Yağ",
+     "aciklama": "",
+     "grup": "İç harç için",
+     "malzeme_id": 285
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "su bardağı",
+     "ad": "Sıvı Yağ",
+     "aciklama": "kızartmak için",
+     "grup": "Pişirmek için",
+     "malzeme_id": 285
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "İç harcı kavurun",
+     "metin": "Tavada sıvı yağı kızdırıp doğranmış soğanları pembeleşene kadar kavurun. Kıymayı ekleyip suyunu çekene kadar kavurun, ceviz, pul biber, karabiber, yenibahar ve tuzu ilave edip 3 dakika daha kavurun. Kenara alıp soğutun.",
+     "sure_dk": 15
+    },
+    {
+     "baslik": "Kabuk hamurunu yoğurun",
+     "metin": "Şişen bulgura salça ve tuzu ekleyip ıslak elle 10 dakika, kulak memesi yumuşaklığında pürüzsüz bir hamur olana kadar yoğurun. Hamur çatlıyorsa azar azar ılık su ekleyin.",
+     "sure_dk": 12
+    },
+    {
+     "baslik": "Köfteleri şekillendirin",
+     "metin": "Hamurdan ceviz büyüklüğünde parça alıp ıslak işaret parmağınızla ortasını açarak ince bir kabuk oluşturun. İçine bir tatlı kaşığı iç harç koyup ağzını kapatın ve iki ucunu sivrilterek şekil verin.",
+     "sure_dk": 25
+    },
+    {
+     "baslik": "Kızartın",
+     "metin": "Derin tavada sıvı yağı kızdırın; köfteleri kısık-orta ateşte, her tarafı altın rengine dönene kadar kızartın. Dikkat: Yağ çok kızgınsa dışı yanar içi çiğ kalır, orta ateşte pişirin. Yağını süzüp sıcak servis edin.",
+     "sure_dk": 20
+    }
+   ],
+   "sef": "ebru.ozansoy"
+  },
+  "ispanakli-omlet-saglikli-kahvalti": {
+   "slug": "ispanakli-omlet-saglikli-kahvalti",
+   "baslik": "Ispanaklı Omlet | Sağlıklı Kahvaltı",
+   "alt_baslik": null,
+   "ozet": "Taze ıspanağın soğanla soteleşip yumurtayla pişirildiği hafif ve besleyici ıspanaklı omlet. Yeşilliğin bol olduğu bu doyurucu tabak, güne enerjik başlamak isteyenler için pratik bir kahvaltı seçeneğidir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/ispanakli-omlet-saglikli-kahvalti-640.webp",
+   "kapak1600": "varlik/video/tarif/ispanakli-omlet-saglikli-kahvalti-1600.webp",
+   "kapak_kaynak": "varliklar/media/1344.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": 10,
+   "zorluk": "Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 2,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 220,
+   "malzemeler": [
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 100,
+     "miktar_metin": "100",
+     "birim": "g",
+     "ad": "Taze Ispanak",
+     "aciklama": "iri doğranmış",
+     "grup": "Omlet için",
+     "malzeme_id": 545
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "adet",
+     "ad": "Kuru Soğan",
+     "aciklama": "ince doğranmış",
+     "grup": "Omlet için",
+     "malzeme_id": 484
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Zeytinyağı",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 265
+    },
+    {
+     "miktar": 40,
+     "miktar_metin": "40",
+     "birim": "g",
+     "ad": "Beyaz Peynir",
+     "aciklama": "ufalanmış, isteğe bağlı",
+     "grup": "Omlet için",
+     "malzeme_id": 419
+    },
+    {
+     "miktar": 0.25,
+     "miktar_metin": "¼",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.25,
+     "miktar_metin": "¼",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 454
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Soğan ve ıspanağı sotele",
+     "metin": "Tavada zeytinyağını ısıtıp doğranmış soğanı pembeleşene kadar kavurun. Ispanağı ekleyip sadece solup suyunu bırakana kadar 2-3 dakika sotele.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Yumurtayı ekleyin",
+     "metin": "Çırpıp tuz ve karabiber eklediğiniz yumurtaları tavaya dökün. Ufalanmış beyaz peyniri üzerine serpin ve kısık ateşte alt yüzü tutana kadar pişirin.",
+     "sure_dk": 4
+    },
+    {
+     "baslik": "Katlayıp servis edin",
+     "metin": "Omletin yüzeyi tutunca ikiye katlayıp 1 dakika daha pişirin. Sıcak servis edin.",
+     "sure_dk": 1
+    }
+   ],
+   "sef": "ece.yetkiner"
+  },
+  "kasarli-tost-klasik-ev-yapimi-peynirli-tost": {
+   "slug": "kasarli-tost-klasik-ev-yapimi-peynirli-tost",
+   "baslik": "Kaşarlı Tost | Klasik Ev Yapımı Peynirli Tost",
+   "alt_baslik": null,
+   "ozet": "Bol kaşarın eriyip uzadığı, dışı çıtır klasik peynirli tost. Birkaç dakikada hazırlanan bu pratik lezzet, kahvaltının ve hızlı ara öğünlerin en sevilen kurtarıcısıdır.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/kasarli-tost-klasik-ev-yapimi-peynirli-tost-640.webp",
+   "kapak1600": "varlik/video/tarif/kasarli-tost-klasik-ev-yapimi-peynirli-tost-1600.webp",
+   "kapak_kaynak": "varliklar/media/1390.webp",
+   "hazirlik_dk": 5,
+   "pisirme_dk": 6,
+   "zorluk": "Çok Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 2,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 380,
+   "malzemeler": [
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "dilim",
+     "ad": "Tost Ekmeği",
+     "aciklama": "",
+     "grup": "Tost için",
+     "malzeme_id": 549
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Kaşar Peyniri",
+     "aciklama": "rendelenmiş",
+     "grup": "Tost için",
+     "malzeme_id": 302
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "yumuşamış",
+     "grup": "Tost için",
+     "malzeme_id": 255
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Tostu hazırlayın",
+     "metin": "Ekmek dilimlerinin bir yüzüne ince tereyağı sürün. Yağsız yüzlerin arasına rendelenmiş kaşarı bolca koyup ekmekleri kapatın.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Pişirin",
+     "metin": "Tostu tost makinesinde veya orta ateşteki tavada, ağırlık koyarak her iki yüzü altın sarısı olup peynir tamamen eriyene kadar pişirin. Sıcak servis edin.",
+     "sure_dk": 6
+    }
+   ],
+   "sef": "umran.numanoglu"
+  },
+  "klasik-ev-burgeri-cheddarli-dana-burger": {
+   "slug": "klasik-ev-burgeri-cheddarli-dana-burger",
+   "baslik": "Klasik Ev Burgeri | Cheddarlı Dana Burger",
+   "alt_baslik": null,
+   "ozet": "El yapımı dana köftesi, eriyen cheddar ve taze malzemelerle hazırlanan doyurucu ev burgeri. Kızgın tavada mühürlenen sulu köftesiyle, dışarıda yenen burgerleri aratmayan bir ana yemektir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/klasik-ev-burgeri-cheddarli-dana-burger-640.webp",
+   "kapak1600": "varlik/video/tarif/klasik-ev-burgeri-cheddarli-dana-burger-1600.webp",
+   "kapak_kaynak": "varliklar/media/1388.webp",
+   "hazirlik_dk": 15,
+   "pisirme_dk": 12,
+   "zorluk": "Orta",
+   "mutfak": "Amerikan Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 560,
+   "malzemeler": [
+    {
+     "miktar": 500,
+     "miktar_metin": "500",
+     "birim": "g",
+     "ad": "Dana Kıyma",
+     "aciklama": "orta yağlı",
+     "grup": "Köfte için",
+     "malzeme_id": 298
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Köfte için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Köfte için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "adet",
+     "ad": "Hamburger Ekmeği",
+     "aciklama": "",
+     "grup": "Servis için",
+     "malzeme_id": 568
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "dilim",
+     "ad": "Cheddar Peyniri",
+     "aciklama": "",
+     "grup": "Servis için",
+     "malzeme_id": 569
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "adet",
+     "ad": "Marul",
+     "aciklama": "yaprak",
+     "grup": "Servis için",
+     "malzeme_id": 520
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Domates",
+     "aciklama": "dilimlenmiş",
+     "grup": "Servis için",
+     "malzeme_id": 335
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Soğan",
+     "aciklama": "halka dilimlenmiş",
+     "grup": "Servis için",
+     "malzeme_id": 254
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Köfteleri hazırlayın",
+     "metin": "Dana kıymayı tuz ve karabiberle hafifçe karıştırın, fazla yoğurmayın. Dört eşit parçaya bölüp ekmek boyunda köfteler şekillendirin ve ortalarına başparmakla küçük bir çukur açın.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Köfteleri pişirin",
+     "metin": "Kızgın tavayı orta-yüksek ateşte ısıtın, köfteleri koyup her iki yüzünü mühürleyin. İçi tamamen pişene kadar çevirerek pişirin. Piştikten sonra üzerlerine birer dilim cheddar koyup erimesini bekleyin.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Ekmekleri hazırlayın ve birleştirin",
+     "metin": "Hamburger ekmeklerini tavada hafifçe kızartın. Alt ekmeğe marul, domates ve soğanı dizip peynirli köfteyi yerleştirin, üst ekmekle kapatıp sıcak servis edin.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "umran.numanoglu"
+  },
+  "kremali-mantarli-makarna-pratik-mantar-soslu-makarna": {
+   "slug": "kremali-mantarli-makarna-pratik-mantar-soslu-makarna",
+   "baslik": "Kremalı Mantarlı Makarna | Pratik Mantar Soslu Makarna",
+   "alt_baslik": null,
+   "ozet": "Sote mantarların krema ve parmesanla buluştuğu, kısa sürede hazırlanan kremalı mantarlı makarna. Kadifemsi sosu ve mantarın toprak aromasıyla hem günlük yemeklere hem de sade bir misafir sofrasına yakışan pratik bir lezzettir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/kremali-mantarli-makarna-pratik-mantar-soslu-makarna-640.webp",
+   "kapak1600": "varlik/video/tarif/kremali-mantarli-makarna-pratik-mantar-soslu-makarna-1600.webp",
+   "kapak_kaynak": "varliklar/media/1322.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": 20,
+   "zorluk": "Kolay",
+   "mutfak": "İtalyan Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 510,
+   "malzemeler": [
+    {
+     "miktar": 400,
+     "miktar_metin": "400",
+     "birim": "g",
+     "ad": "Burgu Makarna",
+     "aciklama": "",
+     "grup": "Makarna için",
+     "malzeme_id": 533
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "l",
+     "ad": "Su",
+     "aciklama": "",
+     "grup": "Makarna için",
+     "malzeme_id": 251
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Makarna için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 300,
+     "miktar_metin": "300",
+     "birim": "g",
+     "ad": "Mantar",
+     "aciklama": "dilimlenmiş",
+     "grup": "Sosu için",
+     "malzeme_id": 348
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Sosu için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "diş",
+     "ad": "Sarımsak",
+     "aciklama": "ince kıyılmış",
+     "grup": "Sosu için",
+     "malzeme_id": 257
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Krema",
+     "aciklama": "",
+     "grup": "Sosu için",
+     "malzeme_id": 416
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "yemek kaşığı",
+     "ad": "Rendelenmiş Parmesan",
+     "aciklama": "",
+     "grup": "Sosu için",
+     "malzeme_id": 527
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Sosu için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Sosu için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 0.25,
+     "miktar_metin": "¼",
+     "birim": "demet",
+     "ad": "Maydanoz",
+     "aciklama": "ince kıyılmış",
+     "grup": "Üzeri için",
+     "malzeme_id": 292
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Makarnayı haşlayın",
+     "metin": "Bol tuzlu suyu kaynatıp makarnayı diri kalacak şekilde haşlayın. Süzmeden önce bir kepçe haşlama suyunu ayırın.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Mantarları soteleyin",
+     "metin": "Tereyağını geniş tavada eritip dilimlenmiş mantarları yüksek ateşte, suyunu çekip altın rengi alana kadar soteleyin. İnce kıydığınız sarımsağı ekleyip kokusu çıkana kadar çevirin.",
+     "sure_dk": 8
+    },
+    {
+     "baslik": "Sosu tamamlayın",
+     "metin": "Ateşi kısıp kremayı ekleyin, hafifçe kaynayınca parmesanı, tuzu ve karabiberi katın. Sos koyulaşırsa ayırdığınız haşlama suyundan ekleyerek istediğiniz kıvama getirin.",
+     "sure_dk": 4
+    },
+    {
+     "baslik": "Birleştirip servis edin",
+     "metin": "Süzdüğünüz makarnayı sosa alıp harmanlayın. Ocaktan alıp ince kıydığınız maydanozla süsleyerek sıcak servis edin.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "irem.yildizoglu"
+  },
+  "kuymak-karadeniz-usulu-misir-unlu-kahvaltilik": {
+   "slug": "kuymak-karadeniz-usulu-misir-unlu-kahvaltilik",
+   "baslik": "Kuymak | Karadeniz Usulü Mısır Unlu Kahvaltılık",
+   "alt_baslik": null,
+   "ozet": "Mısır unu ve tereyağının taze kaşar peyniriyle eritilerek karıştırılmasıyla hazırlanan kuymak, Karadeniz bölgesinin sıcak ve doyurucu kahvaltılık lezzetlerinden biridir. Tavada sıcak servis edilip ekmekle yenir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik-640.webp",
+   "kapak1600": "varlik/video/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik-1600.webp",
+   "kapak_kaynak": "varliklar/media/1651.webp",
+   "hazirlik_dk": 5,
+   "pisirme_dk": 20,
+   "zorluk": "Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Mısır Unu",
+     "aciklama": "",
+     "grup": "Tarif için",
+     "malzeme_id": 593
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "su bardağı",
+     "ad": "Su",
+     "aciklama": "",
+     "grup": "Tarif için",
+     "malzeme_id": 251
+    },
+    {
+     "miktar": 100,
+     "miktar_metin": "100",
+     "birim": "g",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Tarif için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 250,
+     "miktar_metin": "250",
+     "birim": "g",
+     "ad": "Taze Kaşar Peyniri",
+     "aciklama": "rendelenmiş",
+     "grup": "Tarif için",
+     "malzeme_id": 688
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Tarif için",
+     "malzeme_id": 252
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Mısır ununu pişirin",
+     "metin": "Suyu kaynatıp mısır ununu yavaşça ekleyin, topaklanmadan sürekli karıştırarak kısık ateşte pişirin.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Tereyağını ekleyin",
+     "metin": "Tereyağını karışıma katıp iyice eriyene kadar karıştırmaya devam edin.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Peyniri eritin",
+     "metin": "Dikkat: ateşi kısık tutarak rendelenmiş peyniri azar azar ekleyin, tamamen eriyip ipliksi kıvam alana kadar karıştırın.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Sıcak servis edin",
+     "metin": "Kuymağı pişirdiğiniz tavada sofraya getirip sıcak ekmekle hemen servis edin.",
+     "sure_dk": 1
+    }
+   ],
+   "sef": "mert.dogan"
+  },
+  "menemen-domatesli-biberli-klasik": {
+   "slug": "menemen-domatesli-biberli-klasik",
+   "baslik": "Menemen | Domatesli Biberli Klasik",
+   "alt_baslik": null,
+   "ozet": "Sivri biber ve domatesin tavada kavrulup yumurtayla harmanlandığı geleneksel menemen. Türk kahvaltı sofralarının vazgeçilmezi olan bu pratik yemek, sıcak ekmekle en güzel hafta sonu kahvaltısını tamamlar.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/menemen-domatesli-biberli-klasik-640.webp",
+   "kapak1600": "varlik/video/tarif/menemen-domatesli-biberli-klasik-1600.webp",
+   "kapak_kaynak": "varliklar/media/1341.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": 12,
+   "zorluk": "Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 2,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 240,
+   "malzemeler": [
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "",
+     "grup": "Menemen için",
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Domates",
+     "aciklama": "rendelenmiş",
+     "grup": "Menemen için",
+     "malzeme_id": 335
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Yeşil Sivri Biber",
+     "aciklama": "ince doğranmış",
+     "grup": "Menemen için",
+     "malzeme_id": 499
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Sıvı Yağ",
+     "aciklama": "",
+     "grup": "Menemen için",
+     "malzeme_id": 285
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Menemen için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Menemen için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Pul Biber",
+     "aciklama": "isteğe bağlı",
+     "grup": "Menemen için",
+     "malzeme_id": 260
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Biberleri kavurun",
+     "metin": "Tavada sıvı yağı orta ateşte kızdırıp doğranmış sivri biberleri ekleyin. Biberler yumuşayıp hafif renk alana kadar 4-5 dakika kavurun.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Domatesi ekleyin",
+     "metin": "Rendelenmiş domatesi ekleyip suyunu salıp çekene kadar orta ateşte pişirin. Tuz, karabiber ve isteğe bağlı pul biberi ilave edin.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Yumurtayı katın",
+     "metin": "Yumurtaları doğrudan tavaya kırın ve hafifçe karıştırarak istediğiniz kıvama gelene kadar pişirin. Dikkat: Fazla karıştırmayın, iri parçalar halinde bırakın. Sıcak ekmekle hemen servis edin.",
+     "sure_dk": 3
+    }
+   ],
+   "sef": "ece.yetkiner"
+  },
+  "mihlama-trabzon-usulu-misir-unlu-peynirli-muhlama": {
+   "slug": "mihlama-trabzon-usulu-misir-unlu-peynirli-muhlama",
+   "baslik": "Mıhlama | Trabzon Usulü Mısır Unlu Peynirli Muhlama",
+   "alt_baslik": null,
+   "ozet": "Karadeniz kahvaltı sofralarının vazgeçilmezi mıhlama, mısır unu ve tereyağının taze kaşar peyniriyle eritilerek karıştırılmasından oluşur. Ekmeğe batırılarak yenen sıcak, uzayan dokusuyla bölgenin en tanınmış lezzetlerindendir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/mihlama-trabzon-usulu-misir-unlu-peynirli-muhlama-640.webp",
+   "kapak1600": "varlik/video/tarif/mihlama-trabzon-usulu-misir-unlu-peynirli-muhlama-1600.webp",
+   "kapak_kaynak": "varliklar/media/5150.webp",
+   "hazirlik_dk": 5,
+   "pisirme_dk": 15,
+   "zorluk": "Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 3,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 380,
+   "malzemeler": [
+    {
+     "miktar": 120,
+     "miktar_metin": "120",
+     "birim": "g",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "yemek kaşığı",
+     "ad": "Mısır Unu",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 593
+    },
+    {
+     "miktar": 250,
+     "miktar_metin": "250",
+     "birim": "g",
+     "ad": "Taze Kaşar Peyniri",
+     "aciklama": "rendelenmiş",
+     "grup": null,
+     "malzeme_id": 688
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "su bardağı",
+     "ad": "Su",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 251
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Mısır Ununu Kavurma",
+     "metin": "Tereyağını eritip mısır ununu ekleyin, kısık ateşte 3-4 dakika kavurun.",
+     "sure_dk": 4
+    },
+    {
+     "baslik": "Suyu Ekleme",
+     "metin": "Suyu yavaşça ekleyip kısık ateşte karıştırarak 5 dakika pişirin.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Peyniri Eritme",
+     "metin": "Peyniri ekleyip kısık ateşte tamamen eriyip uzayan bir kıvam alana kadar 5-6 dakika karıştırarak pişirin.",
+     "sure_dk": 6
+    },
+    {
+     "baslik": "Servis",
+     "metin": "Tavada sıcak, ekmek eşliğinde hemen servis edin.",
+     "sure_dk": null
+    }
+   ],
+   "sef": "umran.tanrikulu"
+  },
+  "misir-usulu-patlican-salatasi-airfryer-baharatli-tarif": {
+   "slug": "misir-usulu-patlican-salatasi-airfryer-baharatli-tarif",
+   "baslik": "Mısır Usulü Patlıcan Salatası | Airfryer Baharatlı Tarif",
+   "alt_baslik": null,
+   "ozet": "Patlıcanların airfryer'da kavrulup nohut ve kimyonla harmanlanmasıyla hazırlanan bu salata, Nil kıyısı mutfağının klasik lezzetlerinden ilham alır. Kan şekerini hızlı yükseltmeyen bu tarif, gece atıştırmalarında da hafif bir seçenek sunar.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/misir-usulu-patlican-salatasi-airfryer-baharatli-tarif-640.webp",
+   "kapak1600": "varlik/video/tarif/misir-usulu-patlican-salatasi-airfryer-baharatli-tarif-1600.webp",
+   "kapak_kaynak": "varliklar/media/8219.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": 15,
+   "zorluk": "Orta",
+   "mutfak": "Mısır Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 190,
+   "malzemeler": [
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "Patlıcan",
+     "aciklama": "küp doğranmış",
+     "grup": null,
+     "malzeme_id": 337
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Nohut",
+     "aciklama": "haşlanmış",
+     "grup": null,
+     "malzeme_id": 438
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Zeytinyağı",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 265
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Limon Suyu",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 269
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Kimyon",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 299
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Patlıcanı airfryer'da kavurun",
+     "metin": "Küp doğranmış patlıcanı zeytinyağıyla karıştırıp airfryer'da 200 derecede 15 dakika kavurun. Airfryer'ınız yoksa önceden ısıtılmış fırında aynı sürede pişirebilirsiniz.",
+     "sure_dk": 15
+    },
+    {
+     "baslik": "Harmanlayın",
+     "metin": "Kavrulan patlıcanı nohut, limon suyu ve kimyonla karıştırın.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Servis edin",
+     "metin": "Salatayı oda sıcaklığında ya da soğutarak servis edin.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "emel.aksu"
+  },
+  "peynirli-omlet-kabarik-ve-yumusak": {
+   "slug": "peynirli-omlet-kabarik-ve-yumusak",
+   "baslik": "Peynirli Omlet | Kabarık ve Yumuşak",
+   "alt_baslik": null,
+   "ozet": "Çırpılmış yumurtanın peynirle doldurulup ikiye katlandığı yumuşacık peynirli omlet. Birkaç dakikada hazırlanan bu pratik kahvaltı, hem sabahları hem de hızlı bir ara öğün için ideal bir seçimdir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/peynirli-omlet-kabarik-ve-yumusak-640.webp",
+   "kapak1600": "varlik/video/tarif/peynirli-omlet-kabarik-ve-yumusak-1600.webp",
+   "kapak_kaynak": "varliklar/media/1343.webp",
+   "hazirlik_dk": 5,
+   "pisirme_dk": 6,
+   "zorluk": "Çok Kolay",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 2,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 290,
+   "malzemeler": [
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Süt",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 316
+    },
+    {
+     "miktar": 60,
+     "miktar_metin": "60",
+     "birim": "g",
+     "ad": "Kaşar Peyniri",
+     "aciklama": "rendelenmiş",
+     "grup": "Omlet için",
+     "malzeme_id": 302
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 0.25,
+     "miktar_metin": "¼",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.25,
+     "miktar_metin": "¼",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Omlet için",
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 0.25,
+     "miktar_metin": "¼",
+     "birim": "demet",
+     "ad": "Maydanoz",
+     "aciklama": "ince kıyılmış",
+     "grup": "Omlet için",
+     "malzeme_id": 292
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Yumurtaları çırpın",
+     "metin": "Yumurtaları, sütü, tuz ve karabiberi bir kapta köpürene kadar çırpın. Süt omlete hafiflik ve kabarıklık katar.",
+     "sure_dk": 2
+    },
+    {
+     "baslik": "Tavaya dökün",
+     "metin": "Tavada tereyağını eritip kısık ateşe alın. Çırpılmış yumurtayı dökün ve alt yüzü tutmaya başlayana kadar pişirin.",
+     "sure_dk": 2
+    },
+    {
+     "baslik": "Peynirle katlayın",
+     "metin": "Yüzey henüz hafif nemliyken omletin bir yarısına rendelenmiş kaşarı ve kıyılmış maydanozu yayın. Diğer yarısıyla üzerini kapatıp peynir eriyene kadar 1-2 dakika pişirip servis edin.",
+     "sure_dk": 2
+    }
+   ],
+   "sef": "ece.yetkiner"
+  },
+  "peynirli-sufle-firinda-kabarik-yumurta-yemegi": {
+   "slug": "peynirli-sufle-firinda-kabarik-yumurta-yemegi",
+   "baslik": "Peynirli Sufle | Fırında Kabarık Yumurta Yemeği",
+   "alt_baslik": null,
+   "ozet": "Yumurta akının kar gibi çırpılıp peynirli sostan yapılan hamurla birleştirildiği, fırında yükselen zarif bir sufle. Özel davetlerde etkileyici bir başlangıç ya da hafif ana yemek olarak servis edilir.",
+   "durum": "yayinda",
+   "sayfa": false,
+   "kapak640": "varlik/video/tarif/peynirli-sufle-firinda-kabarik-yumurta-yemegi-640.webp",
+   "kapak1600": "varlik/video/tarif/peynirli-sufle-firinda-kabarik-yumurta-yemegi-1600.webp",
+   "kapak_kaynak": "varliklar/media/2663.webp",
+   "hazirlik_dk": 25,
+   "pisirme_dk": 30,
+   "zorluk": "Zor",
+   "mutfak": "Fransız Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Un",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 249
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Süt",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 316
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Kaşar Peyniri",
+     "aciklama": "rendelenmiş",
+     "grup": "Sufle için",
+     "malzeme_id": 302
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "beyazı ve sarısı ayrılmış",
+     "grup": "Sufle için",
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": "Sufle için",
+     "malzeme_id": 454
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Beşamel hazırlayın",
+     "metin": "Tereyağını eritip unu ekleyerek birkaç dakika kavurun, sütü azar azar ekleyip pürüzsüz bir beşamel elde edene kadar karıştırın.",
+     "sure_dk": 8
+    },
+    {
+     "baslik": "Peyniri ekleyin",
+     "metin": "Ocaktan aldığınız beşamele rendelenmiş peyniri, yumurta sarılarını, tuz ve karabiberi ekleyip karıştırın.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Yumurta akını çırpın",
+     "metin": "Yumurta aklarını sert köpük kıvamına gelene kadar ayrı bir kapta çırpın.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Karıştırıp kalıplara doldurun",
+     "metin": "Çırpılmış akı peynirli karışıma nazikçe katlayarak karıştırın, yağlanmış sufle kalıplarına dörtte üç oranında doldurun.",
+     "sure_dk": 4
+    }
+   ],
+   "sef": "emel.durmaz"
+  },
+  "risotto-ai-funghi-italyan-usulu-mantarli-kremamsi-pirinc": {
+   "slug": "risotto-ai-funghi-italyan-usulu-mantarli-kremamsi-pirinc",
+   "baslik": "Risotto ai Funghi | İtalyan Usulü Mantarlı Kremamsı Pirinç",
+   "alt_baslik": null,
+   "ozet": "İtalyan mutfağının kremamsı pirinç yemeği risotto ai funghi, arborio pirincinin sıcak et suyuyla azar azar demlenip mantarla harmanlanmasından oluşur. Sürekli karıştırma tekniğiyle elde edilen kadifemsi dokusu bu tarifin belirleyici özelliğidir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/risotto-ai-funghi-italyan-usulu-mantarli-kremamsi-pirinc-640.webp",
+   "kapak1600": "varlik/video/tarif/risotto-ai-funghi-italyan-usulu-mantarli-kremamsi-pirinc-1600.webp",
+   "kapak_kaynak": "varliklar/media/5164.webp",
+   "hazirlik_dk": 15,
+   "pisirme_dk": 30,
+   "zorluk": "Orta",
+   "mutfak": "İtalyan Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 420,
+   "malzemeler": [
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "su bardağı",
+     "ad": "Arborio Pirinci",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 1296
+    },
+    {
+     "miktar": 300,
+     "miktar_metin": "300",
+     "birim": "g",
+     "ad": "Mantar",
+     "aciklama": "dilimlenmiş",
+     "grup": null,
+     "malzeme_id": 348
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Soğan",
+     "aciklama": "ince doğranmış",
+     "grup": null,
+     "malzeme_id": 254
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "diş",
+     "ad": "Sarımsak",
+     "aciklama": "ezilmiş",
+     "grup": null,
+     "malzeme_id": 257
+    },
+    {
+     "miktar": 5,
+     "miktar_metin": "5",
+     "birim": "su bardağı",
+     "ad": "Sebze Suyu",
+     "aciklama": "sıcak",
+     "grup": null,
+     "malzeme_id": 768
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "su bardağı",
+     "ad": "Beyaz Şarap",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 1132
+    },
+    {
+     "miktar": 50,
+     "miktar_metin": "50",
+     "birim": "g",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 50,
+     "miktar_metin": "50",
+     "birim": "g",
+     "ad": "Kaşar Peyniri",
+     "aciklama": "rendelenmiş",
+     "grup": null,
+     "malzeme_id": 302
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 252
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Mantarı Kavurma",
+     "metin": "Tereyağının yarısında mantarı orta-yüksek ateşte 6-8 dakika kavurup kenara alın.",
+     "sure_dk": 8
+    },
+    {
+     "baslik": "Soğanı Kavurma",
+     "metin": "Kalan tereyağında soğan ve sarımsağı orta ateşte 5 dakika kavurun, pirinci ekleyip 2 dakika kavurun.",
+     "sure_dk": 7
+    },
+    {
+     "baslik": "Şarabı Ekleme",
+     "metin": "Şarabı ekleyip buharlaşana kadar karıştırın.",
+     "sure_dk": 2
+    },
+    {
+     "baslik": "Demleme",
+     "metin": "Sıcak sebze suyunu bir kepçe azar azar ekleyip her seferinde emilene kadar orta-kısık ateşte sürekli karıştırarak 18-20 dakika pişirin.",
+     "sure_dk": 20
+    },
+    {
+     "baslik": "Bitirme",
+     "metin": "Mantarı geri ekleyip peyniri karıştırın, tuzunu ayarlayın.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Servis",
+     "metin": "Sıcak servis edin.",
+     "sure_dk": null
+    }
+   ],
+   "sef": "irem.aksit"
+  },
+  "risotto-alla-milanese-italyan-usulu-safranli-kremamsi-pirinc": {
+   "slug": "risotto-alla-milanese-italyan-usulu-safranli-kremamsi-pirinc",
+   "baslik": "Risotto alla Milanese | İtalyan Usulü Safranlı Kremamsı Pirinç",
+   "alt_baslik": "İtalyan Usulü Safranlı Kremamsı Pirinç",
+   "ozet": "Milano risottosunun rengini ve kokusunu safran verir; kremasını ise krema değil, pirincin kendi nişastası. Sıcak et suyunun kepçe kepçe eklenip sürekli karıştırılması tanenin dışındaki nişastayı çözer, tanenin içi ise diri kalır. Ateşten alındıktan sonra soğuk tereyağı ve parmesanla çırpılması (mantecatura) risottoyu dalga gibi akar hâle getiren adımdır ve asla atlanmaz.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/risotto-alla-milanese-italyan-usulu-safranli-kremamsi-pirinc-640.webp",
+   "kapak1600": "varlik/video/tarif/risotto-alla-milanese-italyan-usulu-safranli-kremamsi-pirinc-1600.webp",
+   "kapak_kaynak": "varliklar/media/yayilim/t-risotto-alla-milanese-italyan-usulu-safranli-kremamsi-pirinc-kapak.webp",
+   "hazirlik_dk": 15,
+   "pisirme_dk": 30,
+   "zorluk": "Orta",
+   "mutfak": "İtalyan Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 528,
+   "malzemeler": [
+    {
+     "miktar": 320,
+     "miktar_metin": "320",
+     "birim": "g",
+     "ad": "carnaroli ya da arborio pirinci",
+     "aciklama": "",
+     "grup": "Risotto için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 1200,
+     "miktar_metin": "1200",
+     "birim": "ml",
+     "ad": "sıcak dana eti suyu",
+     "aciklama": "",
+     "grup": "Risotto için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 80,
+     "miktar_metin": "80",
+     "birim": "g",
+     "ad": "soğan",
+     "aciklama": "",
+     "grup": "Risotto için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 80,
+     "miktar_metin": "80",
+     "birim": "g",
+     "ad": "tereyağı",
+     "aciklama": "",
+     "grup": "Risotto için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 70,
+     "miktar_metin": "70",
+     "birim": "g",
+     "ad": "rendelenmiş parmesan",
+     "aciklama": "",
+     "grup": "Risotto için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 0.3,
+     "miktar_metin": "0,3",
+     "birim": "g",
+     "ad": "safran teli",
+     "aciklama": "",
+     "grup": "Risotto için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "g",
+     "ad": "tuz",
+     "aciklama": "",
+     "grup": "Risotto için",
+     "malzeme_id": null
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "g",
+     "ad": "karabiber",
+     "aciklama": "",
+     "grup": "Risotto için",
+     "malzeme_id": null
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Et suyunu ısıt, safranı aç",
+     "metin": "Et suyunu ayrı bir tencerede kaynama noktasının hemen altında tutun; soğuk sıvı eklemek pişmeyi durdurur ve tanenin dışını sertleştirir. Safran tellerini küçük bir kâsede bir kepçe sıcak et suyuyla ezin ve kenara alın. Su turuncuya dönene kadar bekleyin, en az 10 dakika. Dana eti suyu yerine tavuk suyu kullanıyor ve suyu kendiniz çekiyorsanız, suyunu aldığınız tavuğun en kalın yerinde 74 °C'yi gördüğünüzden emin olun.",
+     "sure_dk": 8
+    },
+    {
+     "baslik": "Soğanı yumuşat",
+     "metin": "Tereyağının yarısını (40 g) geniş ve kalın tabanlı bir tencerede eritin, çok ince kıyılmış soğanı kısık ateşte renk aldırmadan yumuşatın. Soğan şeffaflaştığında durun; kızarmış soğan risottoya karamel tadı katar ve safranın kokusunu bastırır.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Pirinci kavur (tostatura)",
+     "metin": "Pirinci yıkamadan tencereye dökün ve ateşi orta seviyeye getirip sürekli karıştırarak kavurun. Taneler ısındığında kenarları camlaşıp ortaları beyaz kalır; elinizi tencerenin üstüne tuttuğunuzda sıcaklığı hissedersiniz. Pirinci yıkamayın — yıkanan nişasta risottoyu kremamsı yapacak olan nişastadır.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Kepçe kepçe et suyu ekle",
+     "metin": "Pirincin üzerini örtecek kadar sıcak et suyu ekleyin ve tahta kaşıkla karıştırın. Sıvı çekilip kaşık tencerenin dibinde bir an iz bırakır bırakmaz bir kepçe daha ekleyin; bunu 18 dakika boyunca tekrarlayın. Tuzu yarı yolda katın ve son 3 dakikada bir tane ısırarak bakın: ortasında minik beyaz bir nokta kalmalı.",
+     "sure_dk": 18
+    },
+    {
+     "baslik": "Safranı kat",
+     "metin": "Açılmış safran suyunu risottoya dökün ve renk her tarafa eşit dağılana kadar karıştırın. Safranı en başta eklerseniz uzun pişme kokusunun uçucu kısmını alır. Renk parlak sarıya dönecek.",
+     "sure_dk": 2
+    },
+    {
+     "baslik": "Mantecatura yap",
+     "metin": "Tencereyi ateşten alın, kalan 40 g soğuk tereyağını ve parmesanı ekleyin. Kaşıkla değil, tencereyi kendinize doğru sallayarak ve arada güçlüce karıştırarak birleştirin; risotto parlar ve akışkanlaşır. Karabiberi çekin, tabağa alıp tabağın kenarına hafifçe vurun — doğru kıvamdaki risotto kendiliğinden yayılır.",
+     "sure_dk": 3
+    }
+   ],
+   "sef": "merve.balci"
+  },
+  "tamagoyaki-japon-usulu-rulo-omlet": {
+   "slug": "tamagoyaki-japon-usulu-rulo-omlet",
+   "baslik": "Tamagoyaki | Japon Usulü Rulo Omlet",
+   "alt_baslik": null,
+   "ozet": "Şeker ve soya sosuyla tatlandırılan çırpılmış yumurtanın ince katlar hâlinde pişirilip üst üste sarılmasıyla hazırlanan tamagoyaki, Japon kahvaltı sofralarının ve bento kutularının tanıdık rulo omletidir. Dilimlenerek ılık veya soğuk servis edilir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/tamagoyaki-japon-usulu-rulo-omlet-640.webp",
+   "kapak1600": "varlik/video/tarif/tamagoyaki-japon-usulu-rulo-omlet-1600.webp",
+   "kapak_kaynak": "varliklar/media/1647.webp",
+   "hazirlik_dk": 10,
+   "pisirme_dk": 10,
+   "zorluk": "Orta",
+   "mutfak": "Japon Mutfağı",
+   "porsiyon": 2,
+   "porsiyon_birimi": "dilim",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "",
+     "grup": "Tarif için",
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Toz Şeker",
+     "aciklama": "",
+     "grup": "Tarif için",
+     "malzeme_id": 284
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Soya Sosu",
+     "aciklama": "",
+     "grup": "Tarif için",
+     "malzeme_id": 471
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tutam",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Tarif için",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Sıvı Yağ",
+     "aciklama": "tavayı yağlamak için",
+     "grup": "Tarif için",
+     "malzeme_id": 285
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Karışımı hazırlayın",
+     "metin": "Yumurtaları şeker, soya sosu ve tuzla çırpıp pürüzsüz bir karışım elde edin.",
+     "sure_dk": 4
+    },
+    {
+     "baslik": "İlk katmanı pişirin",
+     "metin": "Yağlanmış tavaya ince bir tabaka karışım dökün, yarı pişince tavanın bir ucundan diğerine doğru rulo yapın.",
+     "sure_dk": 3
+    },
+    {
+     "baslik": "Katman katman sarın",
+     "metin": "Ruloyu tavanın boş tarafına itip yeni bir tabaka karışım dökün, önceki ruloya doğru sararak katmanları çoğaltın.",
+     "sure_dk": 6
+    },
+    {
+     "baslik": "Dilimleyip servis edin",
+     "metin": "Ruloyu birkaç dakika dinlendirip dilimler hâlinde kesin ve servis edin.",
+     "sure_dk": 3
+    }
+   ],
+   "sef": "mert.dogan"
+  },
+  "tantuni-durum-mersin-usulu-bakir-sacda-kavrulmus-dana-durum": {
+   "slug": "tantuni-durum-mersin-usulu-bakir-sacda-kavrulmus-dana-durum",
+   "baslik": "Tantuni Dürüm | Mersin Usulü Bakır Sacda Kavrulmuş Dana Dürüm",
+   "alt_baslik": null,
+   "ozet": "Mersin sokaklarının efsanevi lezzeti tantuni, ince doğranmış dana etinin iç yağında yüksek ateşte kavrulup domates, biber ve soğanla buluşmasıyla hazırlanır. Sumak ve limonla tazelenen bu dürüm, günün her saatinde -kahvaltıda, brunch sofrasında ya da gece atıştırmasında- severek yenir.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/tantuni-durum-mersin-usulu-bakir-sacda-kavrulmus-dana-durum-640.webp",
+   "kapak1600": "varlik/video/tarif/tantuni-durum-mersin-usulu-bakir-sacda-kavrulmus-dana-durum-1600.webp",
+   "kapak_kaynak": "varliklar/media/9108.webp",
+   "hazirlik_dk": 15,
+   "pisirme_dk": 20,
+   "zorluk": "Zor",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 500,
+     "miktar_metin": "500",
+     "birim": "g",
+     "ad": "Dana Kuşbaşı",
+     "aciklama": "ince doğranmış",
+     "grup": null,
+     "malzeme_id": 1306
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "İç Yağı",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 1642
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "Soğan",
+     "aciklama": "küp doğranmış",
+     "grup": null,
+     "malzeme_id": 254
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "Domates",
+     "aciklama": "küp doğranmış",
+     "grup": null,
+     "malzeme_id": 335
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "adet",
+     "ad": "Yeşil Biber",
+     "aciklama": "küp doğranmış",
+     "grup": null,
+     "malzeme_id": 304
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "diş",
+     "ad": "Sarımsak",
+     "aciklama": "ezilmiş",
+     "grup": null,
+     "malzeme_id": 257
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Kimyon",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 299
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Pul Biber",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 260
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 4,
+     "miktar_metin": "4",
+     "birim": "adet",
+     "ad": "Lavaş",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 502
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "demet",
+     "ad": "Maydanoz",
+     "aciklama": "ince kıyılmış",
+     "grup": null,
+     "malzeme_id": 292
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Limon",
+     "aciklama": "suyu sıkılmış",
+     "grup": null,
+     "malzeme_id": 294
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Sumak",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 456
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Eti Kavurun",
+     "metin": "İnce doğranmış dana kuşbaşıyı erimiş iç yağında yüksek ateşte 10 dakika suyunu salıp çekene kadar kavurun.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Sebzeleri Ekleyin",
+     "metin": "Soğan, domates, yeşil biber ve sarımsak eklenip kimyon, pul biber ve tuzla birlikte 8 dakika daha kavrulur.",
+     "sure_dk": 8
+    },
+    {
+     "baslik": "Lavaşı Isıtın",
+     "metin": "Lavaşları kuru bir tavada birkaç saniye ısıtıp yumuşatın.",
+     "sure_dk": 2
+    },
+    {
+     "baslik": "Dürüm Yapın",
+     "metin": "Kavrulan eti lavaşların ortasına paylaştırıp üzerine maydanoz, sumak ve limon sıkıp sıkıca sarın.",
+     "sure_dk": 5
+    }
+   ],
+   "sef": "omer.polat"
+  },
+  "yuvalama-gaziantep-usulu-yogurtlu-kofteli-corba": {
+   "slug": "yuvalama-gaziantep-usulu-yogurtlu-kofteli-corba",
+   "baslik": "Yuvalama | Gaziantep Usulü Yoğurtlu Köfteli Çorba",
+   "alt_baslik": null,
+   "ozet": "Gaziantep mutfağının doyurucu çorbası yuvalama, minik bulgur köftelerinin yoğurtlu bir çorba içinde pişirilip nohutla zenginleştirilmesinden oluşur. Naneli tereyağı sosuyla tamamlanan bu çorba, misafir sofralarının değerli bir parçasıdır.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/yuvalama-gaziantep-usulu-yogurtlu-kofteli-corba-640.webp",
+   "kapak1600": "varlik/video/tarif/yuvalama-gaziantep-usulu-yogurtlu-kofteli-corba-1600.webp",
+   "kapak_kaynak": "varliklar/media/4853.webp",
+   "hazirlik_dk": 35,
+   "pisirme_dk": 30,
+   "zorluk": "Zor",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 5,
+   "porsiyon_birimi": "kişilik",
+   "kalori": 320,
+   "malzemeler": [
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "İnce Bulgur",
+     "aciklama": "",
+     "grup": "Köfte İçin",
+     "malzeme_id": 519
+    },
+    {
+     "miktar": 150,
+     "miktar_metin": "150",
+     "birim": "g",
+     "ad": "Kıyma",
+     "aciklama": "",
+     "grup": "Köfte İçin",
+     "malzeme_id": 253
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "tatlı kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": "Köfte İçin",
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "su bardağı",
+     "ad": "Nohut",
+     "aciklama": "haşlanmış",
+     "grup": "Çorba İçin",
+     "malzeme_id": 438
+    },
+    {
+     "miktar": 6,
+     "miktar_metin": "6",
+     "birim": "su bardağı",
+     "ad": "Et Suyu",
+     "aciklama": "",
+     "grup": "Çorba İçin",
+     "malzeme_id": 633
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "su bardağı",
+     "ad": "Yoğurt",
+     "aciklama": "",
+     "grup": "Çorba İçin",
+     "malzeme_id": 413
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Un",
+     "aciklama": "",
+     "grup": "Çorba İçin",
+     "malzeme_id": 249
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Yumurta",
+     "aciklama": "",
+     "grup": "Çorba İçin",
+     "malzeme_id": 250
+    },
+    {
+     "miktar": 3,
+     "miktar_metin": "3",
+     "birim": "yemek kaşığı",
+     "ad": "Tereyağı",
+     "aciklama": "",
+     "grup": "Üzeri İçin",
+     "malzeme_id": 255
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "tatlı kaşığı",
+     "ad": "Kuru Nane",
+     "aciklama": "",
+     "grup": "Üzeri İçin",
+     "malzeme_id": 261
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Köfte Harcını Hazırlama",
+     "metin": "Bulgur, kıyma ve tuzu yoğurup nohut tanesi büyüklüğünde minik yuvarlaklar şekillendirin.",
+     "sure_dk": 25
+    },
+    {
+     "baslik": "Köfteleri Haşlama",
+     "metin": "Et suyunu kaynatıp minik köfteleri tek tek ekleyin, orta ateşte yüzeye çıkana kadar 10 dakika haşlayın.",
+     "sure_dk": 10
+    },
+    {
+     "baslik": "Nohut Ekleme",
+     "metin": "Haşlanmış nohudu ekleyip 5 dakika daha kaynatın.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Terbiye Ekleme",
+     "metin": "Yoğurt, un ve yumurtayı çırpıp bir kepçe sıcak çorbayla ılıklaştırın, tencereye yavaşça ekleyip kaynatmadan 5 dakika pişirin.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Sunum",
+     "metin": "Tereyağını eritip naneyle karıştırın, çorbanın üzerine gezdirerek sıcak servis edin.",
+     "sure_dk": null
+    }
+   ],
+   "sef": "ece.ozdenak"
+  },
+  "zerdecalli-tavuk-sote-sarimsakli-hizli-tava-yemegi": {
+   "slug": "zerdecalli-tavuk-sote-sarimsakli-hizli-tava-yemegi",
+   "baslik": "Zerdeçallı Tavuk Sote | Sarımsaklı Hızlı Tava Yemeği",
+   "alt_baslik": null,
+   "ozet": "Tavuk göğsünün zerdeçal, sarımsak ve soğanla zeytinyağında soteleneceği bu tarif, az malzemeyle kısa sürede hazırlanır. Zerdeçalın rengi ve tadı, günlük bir tava yemeğine sıcak bir karakter katar.",
+   "durum": "yayinda",
+   "sayfa": true,
+   "kapak640": "varlik/video/tarif/zerdecalli-tavuk-sote-sarimsakli-hizli-tava-yemegi-640.webp",
+   "kapak1600": "varlik/video/tarif/zerdecalli-tavuk-sote-sarimsakli-hizli-tava-yemegi-1600.webp",
+   "kapak_kaynak": "varliklar/media/5982.webp",
+   "hazirlik_dk": 8,
+   "pisirme_dk": 15,
+   "zorluk": "Orta",
+   "mutfak": "Türk Mutfağı",
+   "porsiyon": 4,
+   "porsiyon_birimi": "kişilik",
+   "kalori": null,
+   "malzemeler": [
+    {
+     "miktar": 500,
+     "miktar_metin": "500",
+     "birim": "g",
+     "ad": "Tavuk Göğsü",
+     "aciklama": "küp doğranmış",
+     "grup": null,
+     "malzeme_id": 270
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "yemek kaşığı",
+     "ad": "Zeytinyağı",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 265
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "adet",
+     "ad": "Soğan",
+     "aciklama": "yarım ay doğranmış",
+     "grup": null,
+     "malzeme_id": 254
+    },
+    {
+     "miktar": 2,
+     "miktar_metin": "2",
+     "birim": "diş",
+     "ad": "Sarımsak",
+     "aciklama": "ezilmiş",
+     "grup": null,
+     "malzeme_id": 257
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "tatlı kaşığı",
+     "ad": "Zerdeçal",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 457
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "çay kaşığı",
+     "ad": "Tuz",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 252
+    },
+    {
+     "miktar": 0.5,
+     "miktar_metin": "½",
+     "birim": "çay kaşığı",
+     "ad": "Karabiber",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 454
+    },
+    {
+     "miktar": 1,
+     "miktar_metin": "1",
+     "birim": "yemek kaşığı",
+     "ad": "Limon Suyu",
+     "aciklama": "",
+     "grup": null,
+     "malzeme_id": 269
+    }
+   ],
+   "adimlar": [
+    {
+     "baslik": "Tavuğu Doğrayın",
+     "metin": "Tavuk göğsünü küp küp doğrayın.",
+     "sure_dk": 5
+    },
+    {
+     "baslik": "Soteleyin",
+     "metin": "Zeytinyağında soğan ve sarımsağı kavurup tavuğu ekleyin, zerdeçal, tuz ve karabiberle 12 dakika pişirin.",
+     "sure_dk": 12
+    },
+    {
+     "baslik": "Servis Edin",
+     "metin": "Üzerine limon suyu gezdirip sıcak servis edin.",
+     "sure_dk": 3
+    }
+   ],
+   "sef": "armagan.yalcin1"
+  }
+ }
+}

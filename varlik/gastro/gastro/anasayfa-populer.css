@@ -1,0 +1,5 @@
+.feat-sec .populer-head { margin-top: var(--sp-8); }
+.feat-sec .populer-head + .grid-4 { margin-top: 0; }
+@media (max-width: 640px) {
+  .feat-sec .populer-head { margin-top: var(--sp-7); }
+}

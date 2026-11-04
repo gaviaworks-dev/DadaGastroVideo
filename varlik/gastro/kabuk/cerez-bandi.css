@@ -1,0 +1,21 @@
+/* ÇEREZ BANDI YERLEŞİMİ — acil düzeltme (2 Eki 2026, Yasin Bey).
+ *
+ * Bandın kuralları derlenmiş `portal-*.css`te. Orada metin `max-width:700px`
+ * ile kırpılıyor: 1440'ta yazı ile düğmeler arasında ~130px boşluk kalıyor,
+ * metin üç-dört satıra sıkışıyordu. 640px altında da çerez ikonu solda kendi
+ * sütununu tutuyor, yazı 274px'lik dar bir sütunda 8 satıra iniyordu.
+ *
+ * Bu dosya kabuk tarafından `<head>`in BAŞINA basılır (portal'dan önce);
+ * kurallar `#cookieBanner` ile yazılır ki sıra değil özgüllük kazansın.
+ */
+#cookieBanner .cookie-inner { gap: 32px; }
+#cookieBanner .cookie-text { flex: 1 1 auto; min-width: 0; }
+#cookieBanner .cookie-text p { max-width: none; }
+
+@media (max-width: 640px) {
+  /* İkon yazının içine yüzer: ilk satırlar ikonun yanından, kalanı bandın tam
+     genişliğinde akar; düğmeler altta aynı genişlikte. */
+  #cookieBanner .cookie-inner { gap: 13px; }
+  #cookieBanner .cookie-text { display: block; }
+  #cookieBanner .cookie-ico { float: left; width: 36px; height: 36px; margin: 2px 12px 2px 0; font-size: 16px; }
+}

@@ -1,0 +1,7 @@
+/* ALTBİLGİ MARKA YAZIMI — 24 Eki 2026 (Beyar): telif satırındaki marka "DadaGastro" yazılır. Kabuk her sayfaya enjekte eder
+   (`KabukKimligi`).
+
+   Eski altbilgiyi taşıyan sayfaların `varliklar/build/assets/portal-*.css`i `.foot-bottom .fb-left b{text-transform:lowercase}`
+   kuralıyla markayı küçük harfe çeviriyor; markup "Dada"/"Gastro" yazsa da ekranda "dadagastro" kalıyordu. Kabuk dosyası sayfa
+   CSS'inden ÖNCE yüklendiği için kural `footer` etiketiyle bir adım özgül yazılır. Renk ve kalınlık kanonda kalır. */
+footer .foot-bottom .fb-left b { text-transform: none; }

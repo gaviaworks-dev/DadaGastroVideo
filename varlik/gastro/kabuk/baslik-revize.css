@@ -1,0 +1,8 @@
+/* Başlık revizeleri — revize 20 Eki 2026 (Beyar). Kabuk her sayfaya enjekte eder (`KabukKimligi`).
+
+   Madde 5 · DİL MENÜSÜ GENİŞLİĞİ. Ölçüldü (1440): açılır menü donörden `min-width: 196px` taşıyordu; en uzun satır
+   ("DE Deutsch" + onay işareti, iç boşluklarla) bunun çok altında. Menü artık içeriği kadar geniş (`max-content`), kenar
+   payı korunur. Sayfanın hedef dilde karşılığı yoksa listeye eklenen bilgi notu (`.tb-lang-note`) okunur kalsın diye menüyü
+   en çok 172 px notluk genişliğe kadar açar ve orada sarılır (yalnız o durumda; içerik genişliğindeki dar menüde not çok satıra bölünürdü). */
+.tb-lang .tb-lang-menu { min-width: 0; width: max-content; }
+.tb-lang .tb-lang-menu .tb-lang-note { max-width: 172px; box-sizing: border-box; }

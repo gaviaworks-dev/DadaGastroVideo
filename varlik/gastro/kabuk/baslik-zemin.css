@@ -1,0 +1,90 @@
+/* ÜST BAŞLIK — YAZI RENGİ ARKASINDAKİ ZEMİNE GÖRE.
+ *
+ * 🔴 ÖLÇÜLEN KUSUR (2026-09-14, canlıda Beyar bildirdi). Ders sayfalarında
+ * (`/mutfaga-giris/{slug}`) üst başlık GÖRÜNÜYOR ama OKUNMUYOR: logo, menü,
+ * arama, zil, avatar hiçbiri seçilmiyor, yalnız "Giriş Yap" düğmesi
+ * okunuyordu. Sebep gizlenme değil RENK — gerçek tarayıcıda ölçüldü:
+ *   menü bağının rengi  rgb(255,255,255)
+ *   arkasındaki zemin   rgb(255,255,255)   → kontrast 1.00
+ * `checkVisibility` bu yüzden "görünür" diyordu; beyaz yazı beyaz zeminde
+ * duruyordu (`scripts/olcum/revize-p3/baslik-tarama.mjs`).
+ *
+ * 🔴 KÖK SEBEP TEK, YAMA SAYFA BAŞINA DEĞİL. Türetilmiş markup başlığı
+ * `class="header kabuk-basi at-top tepede"` diye DONMUŞ taşıyor ve
+ * `dm-kabuk.css` `.header.at-top`i "koyu hero üstünde duruyorum" hâli
+ * sayıyor: zemin saydam, logo beyaz, menü beyaz, ikonlar beyaz. Bu hâl
+ * yalnız ARKADA KOYU BİR HERO VARSA doğru. Revize P2 · kalem 6'da ders
+ * sayfasının ekstra hero bandı Beyar kararıyla kaldırıldı (kanon da
+ * basmıyor); bant gidince beyaz yazının arkasındaki koyu zemin de gitti,
+ * ama donmuş `at-top` yerinde kaldı.
+ *
+ * 🔴 İLK SÜRÜM SINIFA GÜVENDİ VE YANLIŞ YERE UYGULANDI (2026-09-15, Beyar
+ * `/ara`da yakaladı). Kural `body:not(.has-dark-hero)` yazıyordu; `/ara` koyu
+ * hero taşıyor ama o sınıfı taşımıyor, başlık opak beyaz oldu ve BEYAZ SVG
+ * LOGO beyaz zeminde kayboldu (ölçüldü: kontrast 1.00). Aynı kusur ders
+ * sayfalarında ve ansiklopedi detayında da vardı — ilk tarama yalnız MENÜ
+ * BAĞINA baktığı için üçünü de "ok" saymıştı.
+ *
+ * ÇÖZÜM: kararı sayfa da sınıf da değil ZEMİN versin. `baslik-zemin.js`
+ * başlığın arkasındaki gerçek katmanı ölçer ve `<html data-baslik-zemin>`
+ * yazar; aşağıdaki kurallar yalnız ölçüm "açık" dediğinde uygulanır.
+ * Belirsizse bayrak `koyu` kalır ve donörün hâli korunur.
+ *
+ * ⚠ DOKUNMADIĞI HÂLLER — ölçüldü, sağlam olanlar sağlam kalsın:
+ *   · Zemini koyu ölçülen ekranlar (/tarifler · /ara · /puf-noktalari ·
+ *     /mutfaga-giris · hero fotoğrafı taşıyan her ekran): kural uygulanmaz.
+ *   · Markup'ında `at-top` OLMAYAN ekranlar (/sefler/{slug} ·
+ *     /video-mutfagi/seriler · tarif detayı · sözlük terimi): zaten koyu
+ *     yazıyla basılıyorlar, seçici onlara da uymaz.
+ *
+ * ⚠ NEDEN `public/kabuk/` — `public/kanon/*` ve `varliklar/reference/*`
+ * prototipin bayt kopyası, değiştirilmez. Bu dosya kabuk köprüsünün kendi
+ * kümesi ve `KabukKimligi` tarafından `<link>` olarak basılır; türetilmiş
+ * markup'ın gövdesine tek bayt girmez.
+ */
+
+/* Zemin koyu değilse: başlık kendi kâğıt zeminine döner. */
+html[data-baslik-zemin="acik"] .header.at-top {
+  background: var(--paper, #fff);
+  border-color: var(--line);
+  box-shadow: rgba(33, 30, 22, 0.05) 0 4px 20px;
+}
+
+/* Logo: beyaz sürüm kapanır, renkli sürüm açılır. */
+html[data-baslik-zemin="acik"] .header.at-top .brand .logo-white { display: none; }
+html[data-baslik-zemin="acik"] .header.at-top .brand .logo-color { display: block; }
+
+/* 🔴 MARKA YAZISI — logo bir SVG ve rengini `.brand-word`den alıyor.
+   Prototipin kendi kuralı `.header.at-top .brand .brand-word{color:#fff}`
+   (`build/assets/portal-*.css`); ilk sürüm bunu karşılamadığı için logo
+   beyaz kaldı. Varsayılanı `.brand-word{color:var(--slate)}`. */
+html[data-baslik-zemin="acik"] .header.at-top .brand .brand-word { color: var(--slate); }
+/* 🔴 Revize 20 Eki · madde 11 (Beyar: "logo bazen siyah varyanta dönüyor"). Ölçüldü (Playwright, 139 adres × tepede/kaydırılmış ×
+   1440/390): hero'suz açık zeminli ekranlarda — ansiklopedi maddesi ve Mutfağa Giriş dersi (TR/EN/DE) — sayfa TEPEDEYKEN logo
+   `rgb(33,30,22)` (slate) basılıyordu; 60 px kaydırınca başlığın düz hâli (`.gastro-word-mark{color:var(--tomato)}`) devreye girip
+   domates rengine dönüyordu. Sebep bu satırın eski hâli `svg { color: var(--slate) }`: iki tonlu görsel logonun döneminden kalma;
+   bugünkü logo `currentColor` kullanan tek renk SVG. Açık zeminde logo, düz başlıktaki gibi marka renginde. */
+html[data-baslik-zemin="acik"] .header.at-top .brand svg { color: var(--tomato); }
+
+/* Marka yazısı ve menü bağları koyu metne döner. */
+html[data-baslik-zemin="acik"] .header.at-top .fit-word b,
+html[data-baslik-zemin="acik"] .header.at-top .fit-word .ft { color: var(--ink, #211e16); }
+
+html[data-baslik-zemin="acik"] .header.at-top .nav > .nav-item > a { color: var(--slate); }
+html[data-baslik-zemin="acik"] .header.at-top .nav > .nav-item > a:hover { color: var(--tomato); background: var(--tomato-tint); }
+html[data-baslik-zemin="acik"] .header.at-top .nav > .nav-item > a.active { color: var(--tomato); }
+html[data-baslik-zemin="acik"] .header.at-top .nav > .nav-item > a.active::after { background: var(--tomato); }
+html[data-baslik-zemin="acik"] .header.at-top .nav-item > span.nav-soon-link { color: var(--muted); }
+html[data-baslik-zemin="acik"] .header.at-top .nav-item.nav-store::before { background: var(--line); }
+
+/* İkon düğmeleri (arama · zil · avatar) kendi çerçevelerine döner. */
+html[data-baslik-zemin="acik"] .header.at-top .icon-btn {
+  background: var(--paper);
+  border-color: var(--line);
+  color: var(--slate);
+}
+html[data-baslik-zemin="acik"] .header.at-top .icon-btn:hover {
+  background: var(--paper);
+  border-color: var(--fit);
+  color: var(--fit);
+}

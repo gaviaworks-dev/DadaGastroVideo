@@ -1,0 +1,8 @@
+/* Revize 5 · madde 37f — tarif detayında tek H1.
+   Donörde de iki H1 var: sahnedeki başlık + yazdırma başlığı (`.print-head h1`).
+   Yazdırma başlığı `<h1>` olmaktan çıkıp `.ph-baslik` oldu; yazdırmadaki görünüşü
+   donörün `.print-head h1` kuralı (tarif-detay.css) + genel `h1` kuralıyla (portal)
+   birebir aynı kalsın diye iki kuralın bileşimi burada — ölçüldü, sapma 0. */
+@media print{
+  .print-head .ph-baslik{font-size:26px;font-weight:700;line-height:1.12;letter-spacing:-.01em;color:var(--slate);margin-bottom:8px}
+}

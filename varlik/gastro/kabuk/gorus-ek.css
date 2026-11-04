@@ -1,0 +1,64 @@
+/* Görüş Bildir · ekran görüntüsü (Revize 5 · madde 43).
+   eklendi: donörün penceresinde yalnız `.fb-shot` düğmesi var; seçilen görselin
+   önizlemesi, "Kaldır" düğmesi ve alan hatası donörde yok. Ölçüler aynı
+   pencerenin `.fb-shot` (1.5px çizgi · --radius-md · 11px alt boşluk) ve
+   `.fb-kvkk` (12.5px yazı) kalıbından alındı. */
+.fb-ek { display: flex; align-items: center; gap: 11px; border: 1.5px solid #d9d9d9; border-radius: var(--radius-md); padding: 9px; margin-bottom: 11px; }
+.fb-ek[hidden], .fb-shot[hidden] { display: none; }
+.fb-ek img { width: 56px; height: 56px; flex: none; object-fit: cover; border-radius: var(--radius-sm); background: #f4f4f4; }
+.fb-ek-ad { flex: 1; min-width: 0; font-size: 13px; font-weight: 700; color: var(--slate); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fb-ek-ad small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); }
+.fb-ek-kaldir { flex: none; display: inline-flex; align-items: center; gap: 6px; font-family: inherit; font-size: 12.5px; font-weight: 700; color: var(--muted); background: transparent; border: 0; border-radius: var(--radius-sm); padding: 6px 8px; cursor: pointer; }
+.fb-ek-kaldir:hover { color: var(--tomato); }
+.fb-ek-hata, .fb-uyari { font-size: 12.5px; font-weight: 600; line-height: 1.5; color: var(--tehlike, #b3261e); margin: 0 0 11px; }
+.fb-ek-hata[hidden], .fb-uyari[hidden] { display: none; }
+/* Alan hatası: alanın hemen altında (`.fb-field` 11px alt boşluğunun içine oturur). */
+.fb-alan-hata { margin: -5px 0 11px; }
+.fb-kvkk + .fb-alan-hata { margin: -10px 0 14px; }
+
+/* Görüş Bildir · dar ekran (Revize 5 · madde 49).
+   ≤640px pencere alttan açılır. Kalıp donörün kendi alttan açılan paneli
+   (tarifler.html `.lst-side`, render edilmiş DOM @390 ölçüldü): tam genişlik ·
+   üst köşeler 24px · `0 -18px 50px rgba(33,30,22,.2)` gölge · en çok 82vh ·
+   `translateY(105%)` → 0, .34s. Pencerenin kendi örtüsü ve katmanı (98) kalır. */
+@media (max-width: 640px) {
+  #fbModal { place-items: end stretch; padding: 0; }
+  #fbModal .fb-panel {
+    width: 100%; max-height: 82vh;
+    border-radius: 24px 24px 0 0; box-shadow: 0 -18px 50px rgba(33, 30, 22, .2);
+    transform: translateY(105%); transition: transform .34s cubic-bezier(.22, .61, .36, 1);
+  }
+  #fbModal.show .fb-panel { transform: translateY(0); }
+}
+
+/* Görüş Bildir · giriş kapısının kalıbı (Revize 7 · madde 87).
+   Pencere `#lgGate`in anatomisine çekilir; değerler kanonun `.lg-panel` ·
+   `.lg-close` · `.lg-gate h4` · `.lg-gate p` kurallarından (her public
+   sayfada yüklü — ölçüldü, `scripts/olcum/revize-tur7/p-envanter.mjs`):
+     kutu   = 32/26/26 iç boşluk; başlık şeridi ve alt çizgisi kalktı
+     başlık = ortalı; üstünde `.lg-ico` dairesi (`gorus-gonder.js` ekler),
+              19px + 8px alt pay; alt satır 13.5px/500 · --muted · 1.55 · 22px
+     ×      = sağ üst, 13/13 · 36×36 · --radius-md · 15px ikon (panelin köşesine göre;
+              başlığın yapışkan konumu kalktı, kaydırma gövdede)
+   Genişlik 520px KALDI (kapı 352/382): beş konu düğmesi ve form alanları
+   için — sapma raporda gerekçeli. Dar ekranın alttan açılan yaprağı
+   (madde 49) aynen korunur; yalnız başlık ve × kalıba geçer.
+   Başarı görünürken başlık metni ve ikon gizlenir: başarı içeriği kendi
+   onay dairesini ve başlığını taşır (ortak başarı penceresiyle aynı görünüm). */
+#fbModal .fb-panel { position: relative; display: flex; flex-direction: column; overflow: hidden; box-sizing: border-box; padding: 32px 26px 26px; }
+#fbModal .fb-panel .fb-head { position: static; flex: none; display: block; padding: 0; border-bottom: 0; background: none; text-align: center; }
+#fbModal .fb-head h3 { font-size: 19px; margin-bottom: 8px; }
+#fbModal .fb-head p { max-width: 300px; margin: 0 auto 22px; font-size: 13.5px; font-weight: 500; line-height: 1.55; color: var(--muted); text-align-last: auto; }
+#fbModal .fb-close {
+  position: absolute; top: 13px; right: 13px; z-index: 1;
+  width: 36px; height: 36px; border-radius: var(--radius-md); font-size: 15px;
+}
+/* Kaydırma panelden gövdeye iner: uzun formda (dar ekran yaprağı) başlık ve × yerinde kalır —
+   önceki yapışkan başlığın (`dm-kabuk.css` `:is(#ftModal, #fdModal, [role="dialog"]) .fb-head` —
+   özgüllüğü kimlik düzeyinde, bu yüzden başlık seçicisi `.fb-panel` ile güçlendirildi) işini görür. 2px iç pay odak halkası için. */
+#fbModal .fb-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 2px; margin: -2px; }
+#fbModal .fb-panel:has(#fbBasari:not([hidden])) .fb-head > :not(.fb-close) { display: none; }
+#fbModal .fb-success { padding: 0; }
+#fbModal .fb-success h4 { font-size: 19px; margin-bottom: 8px; }
+#fbModal .fb-success p { max-width: 300px; margin: 0 auto 22px; font-size: 13.5px; line-height: 1.55; }
+#fbModal .fb-success .basari-tamam { width: 100%; margin-top: 0; }

@@ -1,0 +1,14 @@
+/* ÇEKMECE ALT MENÜ OKU — Revize 5 · madde 56 düzeltmesi (Beyar, 24 Eylül).
+ *
+ * Kabuğun kuralı `.d-toggle:hover{background:var(--fit-wash);color:var(--fit)}`
+ * (dm-kabuk.css · kanon/gomulu/s-*.css). Dokunmatik ekranda :hover dokunuştan sonra
+ * yapışık kalır: alt menü kapandığı hâlde ok pembe kalıyordu (ölçüldü: /hesabim/
+ * cozum-merkezi, kapalı okun arka planı wash). Yalnız dokunmatikte (hover:none):
+ * kapalı okun gezinme vurgusu nötrlenir, vurgu alt menü AÇIKKEN verilir.
+ * Masaüstü (hover:hover) ve :focus-visible çerçevesi (yalnız klavye) değişmez.
+ * Build dosyası ve kanon değişmez.
+ */
+@media (hover: none) {
+  #drawer .d-item:not(.open) > .d-row > .d-toggle:hover { background: none; color: var(--muted); }
+  #drawer .d-item.open > .d-row > .d-toggle { background: var(--fit-wash); }
+}

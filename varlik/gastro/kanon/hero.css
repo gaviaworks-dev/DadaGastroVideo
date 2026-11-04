@@ -1,0 +1,357 @@
+/* =====================================================================
+   KANON — HERO / BANNER BİLEŞENİ  ·  TEK KAYNAK
+   ---------------------------------------------------------------------
+   BEYAR KARARI, 2026-09-04 (madde 10). Referans "best":
+   `egzersiz-kutuphane-v1.html` hero'su. Bozuk örnek: `hareket-rehberi-v1`.
+
+   `kanon/alt-cubuk.css` ile aynı sözleşme: AYRI DOSYA, tek başına
+   yüklenebilir, seçiciler `:where()` ile kapsanır, sayfaya EN SON bağlanır.
+   Gerekçe aynı ve ölçülmüş: FIT'in 42 yüzey sayfası `bilesenler.css`i HİÇ
+   yüklemiyor; bileşen orada kalırsa o sayfalara inmiyor.
+
+   ── SÖZLEŞME ─────────────────────────────────────────────────────────
+     · Ekmek kırıntısı HER ZAMAN sol üstte, hero başlangıcından SABİT ofset.
+       İki kolonun DIŞINDA, onların üstünde ayrı bir satır.
+     · Sol sütun: üst etiket (çizgi+ikon+küçük başlık) → H1 → açıklama.
+       Sabit y hizası, sabit genişlik.
+     · İstatistik bloğu SAĞDA, dikey, ALTA hizalı, dikey ayraçlı,
+       HER ZAMAN 3 kalem (sayı + etiket).
+     · Hero yüksekliği SAYFA TİPİNE göre sabit; içerik uzunluğuna göre
+       esnemez. LİSTE tek yükseklik · DETAY tek yükseklik ·
+       YASAL sayfalar DETAY ile aynı.
+     · 🔴 İSTİSNA · MEDYA HERO'SU (DETAY tipinin içinde) — 2026-09-05
+       Bandın kendisi BİR MEDYA SAHNESİYSE (fotoğraf hero'nun İÇİNDE,
+       başlık fotoğrafın üstünde altyazı olarak duruyorsa) sabit
+       yükseklik UYGULANMAZ: yükseklik sahnenin ölçüsünden doğar.
+       Beyar kararı, DadaGastro tarif detayı: koyu bant kalktı, kaynağın
+       kendi medya sahnesi hero'ya döndü.
+         kanca      `section.rd-top[data-revize="b1-medya"]`
+                    (`data-hero-band` YOK — yükseklik kuralı hiçbir
+                     elemanı tutmuyor; muafiyet CSS'te değil kancanın
+                     yokluğunda. `body[data-fit-hero-kind="detay"]` KALIR:
+                     tip bilgisi doğru.)
+         nüfus      521 sayfa (480 tr + 41 en) · DETAY ailesinin 611'inde
+         ölçüldü    @1440×900, 521/521 sayfa tek tek:
+                    789.6px (430 sayfa · 1–2 satır başlık)
+                    812.9px (91 sayfa · 3 satır başlık)
+                    ⚠ İlk yazımda 805.6 / 828.9'du. Aynı gün B3'ün
+                      kırıntı ofseti tek ilkeye indirilince (ofset YALNIZ
+                      bandın padding-top'undan; kırıntının kendi dikey
+                      dolgusu 0) her iki değer de 16px kısaldı. Sayı
+                      YENİDEN ÖLÇÜLDÜ, 521/521 sayfa tek tek.
+                    bant zemini beyaz 521/521 · taşma ≤0.4px (alt piksel)
+         niçin sabit değil: sahne yüksekliği (.rd-stage 480px) + künye
+                    satırı içerikten doğuyor; sabitlemek fotoğrafı
+                    kırpardı — sözleşmenin kendi "TAŞMA/KIRPMA yok"
+                    şartıyla çelişirdi.
+       ⚠ DETAY ailesinin KALANI kuralın içinde: `mutfaga-giris` (16) ·
+         `mutfak-ansiklopedisi` (4) · `mutfak-sozlugu` (54) koyu bantta
+         ve `puf-noktalari` (16) — hepsi `[data-hero-band]` taşıyor.
+       ⚠ Bu istisna FIT'e DEĞMEZ: seçici eklenmedi, token değişmedi.
+         Dosyanın FIT'e inen kural kümesi BAYT-NÖTR (ölçüldü, 8 FIT
+         hero sayfası önce/sonra: kutu farkı 0).
+     · Yükseklik o tipteki EN UZUN içeriğe göre belirlenir — kısaya göre
+       alıp uzunu sıkıştırmak yasak. Kısa sayfada boşluk kalması sorun
+       değil; TAŞMA/KIRPMA yok.
+
+   ── ÖLÇÜM (@1440, 33 `.lib-top` sayfası, her sayfa tek tek) ──────────
+     tip     sayfa  sabit h   içerik+dolgu: min / medyan / MAKS   maks kim
+     ------  -----  -------   --------------------------------   -------------
+     liste     31     544px          378 / 483 / 521             anatomi-v1
+     detay      2     560px          455 / 503 / 503             fit-testi-detay-v1
+   LİSTE ailesinde mevcut 544px en uzun içeriği (521) zaten karşılıyordu —
+   DEĞİŞTİRİLMEDİ; ölçümün söylemediği bir büyütme yazılmadı.
+   DETAY/YASAL ailesinde durum başka: üç yasal sayfanın üçü de 560'ı aşıp
+   590'a çıkıyordu. İki aile aynı yüksekliği paylaşacağı için değer EN
+   UZUNUNKİ oldu → 590 (aşağıdaki token şerhinde ölçümüyle).
+   SONUÇ (yeniden ölçüldü): liste 544 · detay 590 · yasal 590 · kırpma 0.
+   ⚠ `--banner-h-kurumsal` 544 (=liste) idi; Beyar "YASAL sayfalar DETAY
+     ile aynı" dediği için ayrı bir `--banner-h-yasal` doğdu ve detaya bağlandı.
+   ⚠ Aile ayrımı DOSYA ADINDAN yapılır (`fit-shell.js`). `data-fit-page`
+     kullanılamaz: ölçüldü, dosya adıyla aynı değil (`yasal-v1.html` → "yasal",
+     `veri-islem-kaydi-v1.html` → "hesabim").
+
+   ── TOKENLAR ─────────────────────────────────────────────────────────
+   Her `var()` bir yedek taşır; dosya `tokenlar.css` olmadan da çizer.
+   Yedekler kaynağın kendi ölçülmüş değerleridir, yeni değer DEĞİLDİR.
+
+   ── GASTRO'YA ENJEKSİYON NOTU ────────────────────────────────────────
+   Sözleşme marka bağımsızdır; değişen yalnız SAYFA TİPİ eşlemesi.
+   Gastro'nun karşılıkları (ad eşlemesi, ölçüm Gastro turunda yapılacak):
+     LİSTE   tarifler · mutfak sözlüğü · şefler · koleksiyonlar · market
+     DETAY   tarif detay · şef detay · koleksiyon detay
+     YASAL   kullanım · gizlilik · çerez · KVKK  → DETAY yüksekliği
+   ===================================================================== */
+
+:root{
+  --banner-h-liste:544px;      /* ölçüldü · 31 liste sayfası, en uzun içerik 521 */
+  /* 🔴 560 → 590 · ÖLÇÜLDÜ 2026-09-04. Beyar: "YASAL sayfalar DETAY tipiyle
+     aynı" + "tip başına sabit yükseklik o tipteki EN UZUN içeriğe göre;
+     kısaya göre alıp uzunu sıkıştırmak yasak". Üç yasal sayfanın üçü de
+     560'lık `min-height`i AŞIYOR ve 590'a çıkıyor:
+         yasal-v1 590 · saglik-bilgilendirme-v1 590 · veri-islem-kaydi-v1 590
+         fit-testi-detay-v1 560 (detay ailesinin `.lib-top` taşıyan tek üyesi)
+     İki aile aynı yüksekliği paylaşacaksa değer EN UZUNUN ölçüsüdür: 590.
+     Detay sayfaları 30px büyür — Beyar'ın izin verdiği boşluk. */
+  --banner-h-detay:590px;
+  --banner-h-yasal:var(--banner-h-detay);   /* BEYAR: yasal = detay */
+  --banner-stat-gutter:44px;   /* sol kolon ↔ şerit · kardeş marka ölçümü */
+  --banner-stat-gap:16px;      /* şerit kalemleri arası · kardeş marka ölçümü */
+  --banner-crumb-ofset:128px;  /* kırıntının hero üstünden ofseti — REFERANS */
+}
+
+/* ── TİP BAŞINA SABİT YÜKSEKLİK ──────────────────────────────────────
+   `min-height` kullanılır, `height` değil: içerik beklenmedik biçimde
+   uzarsa TAŞMAZ, bant büyür. Beyar'ın "taşma/kırpma yok" şartı bu. */
+:where(body[data-fit-hero-kind="liste"]) .lib-top{ min-height:var(--banner-h-liste, 544px); }
+:where(body[data-fit-hero-kind="detay"]) .lib-top{ min-height:var(--banner-h-detay, 560px); }
+:where(body[data-fit-hero-kind="yasal"]) .lib-top{ min-height:var(--banner-h-yasal, 560px); }
+
+/* ── 🔴 MOBİL YÜKSEKLİK · ÖLÇÜLDÜ, DEĞER YAZILMADI · 2026-09-04 ──────
+   Tip yüksekliklerini önce YALNIZ 1440'ta ölçmüştüm. @390 ölçülünce
+   `fit-testi-sonuc-v1` sabit 544'ü aşıyor göründü ve buraya
+   `--banner-h-liste:572px` yazdım. **GERİ ALINDI — o bir gerilemeydi.**
+
+   OLUMSUZ SINAMA (hero.css ağ düzeyinde iptal edilip ölçüldü, anatomi-v1 @390):
+       hero.css KAPALI   yükseklik 587 · scrollHeight 621 · taşma 34 · alt pay 0
+       hero.css AÇIK/572 yükseklik 572 · scrollHeight 606 · taşma 34 · alt pay 0
+   İki şey birden çıktı:
+   ① Kabuğun KENDİ mobil liste yüksekliği zaten **587**; benim 572'm onu
+     15px KÜÇÜLTÜYORDU. Yani "en uzuna göre" şartını iyileştirmiyor, bozuyordu.
+   ② İçeriğin kutuyu 34px taşırması (=yazılan `padding-bottom`) **hero.css
+     OLMADAN DA** aynen var — 33 bandın 30'unda, `overflow:hidden` ile birlikte.
+     Yani kusur bu bileşenin değil, kabuğun banner kutu modelinin; bu turda
+     DOKUNULMADI ve `docs/fit-hero-olcum.md`de kalem olarak duruyor.
+
+   🔴 DAHA ÖNEMLİSİ — ÖLÇÜM YÖNTEMİ GÜVENİLİR DEĞİLDİ. "Gereken yükseklik"i
+   `min-height` yürürlükteyken ölçmek DAİRESELDİR: şerit `align-self:flex-end`
+   ile gerildiği için kısıtı büyütünce ölçülen ihtiyaç da büyüyor (aynı sayfa
+   üç yöntemde 571 · 585 · 606 verdi). Bu yüzden buraya SAYI YAZILMADI:
+   mobil için doğru değer, kısıttan bağımsız bir ölçümle belirlenmeli.
+   Masaüstü değerleri (544 / 590) bu sorundan etkilenmiyor; onlar duruyor.
+
+   ── MOBİL DEĞERLER KABUĞUN KENDİ ÖLÇÜSÜDÜR ────────────────────────
+   Kanon kuralı medya kapısı taşımadığı için masaüstü değeri 390'da da
+   uygulanıyor ve kabuğun kendi mobil yüksekliğini KÜÇÜLTÜYORDU
+   (liste 587 → 544, 43px). Ölçüldü (hero.css ağ düzeyinde iptal edilip):
+       @390  liste 587 · detay 726 · yasal 621 (kabuk yasalı liste sayıyor)
+   Beyar'ın "yasal = detay" şartıyla ikisinin ortak değeri EN UZUNUDUR:
+   726. Hiçbiri uydurulmadı; üçü de kabuğun kendi bildirdiği ölçü. */
+@media (max-width:640px){
+  :root{
+    --banner-h-liste:587px;
+    --banner-h-detay:726px;   /* yasal buna bağlı (--banner-h-yasal) */
+    /* Kırıntı ofsetinin mobil karşılığı — 45 banner sayfasının ORTAK
+       ölçüsü (@390). Uydurulmadı, sayıldı. */
+    --banner-crumb-ofset:96px;
+  }
+}
+
+/* ── KIRINTI · HER ZAMAN SOL ÜSTTE, SABİT OFSET ──────────────────────
+   🔴 ÖLÇÜLDÜ 2026-09-04: 31 liste sayfasının 30'unda kırıntı hero üstünden
+      128px'te; BİRİNDE 235px (`hareket-rehberi-v1`, 107px aşağıda).
+      Kök kırıntının kendisi değil: `.wrap`ın İLK çocuğu olarak fazladan
+      bir `<button class="kyt-btn">` (kaydet) duruyor ve kırıntıyı aşağı
+      itiyor. Kural kırıntıyı akıştaki sırasından bağımsız kılar:
+      kırıntı satırın BAŞINA çekilir (`order:-1`), yatayda sola yaslanır.
+   ⚠ Yeni ofset uydurulmadı; 128px referansın kendi değeri ve zaten
+     30 sayfanın ortak ölçüsü. */
+
+/* 🔴 KURAL YALNIZ `.lib-top`A İNİYORDU — GENİŞLETİLDİ, 2026-09-04.
+   ÖLÇÜLDÜ (64 sayfa, iki genişlik): kırıntı ofseti banner ailesinde
+   45 sayfada 128/96, BİR sayfada sapıyordu:
+       fit-antrenor-ol (`section.ol-top`)   @1440 152.3   @390 126.1
+   Kök: `.ol-top` bu kuralın seçicisine girmiyordu; kırıntısı akışta
+   (`position:static`) kalıyor ve `.wrap`ın üstünden 24.3 / 49.1 px
+   aşağı düşüyordu. Kardeşlerinde (`lib-top` · `bant`) kırıntı `.wrap`ın
+   üstüne raptiyeli.
+   AİLE LİSTESİ UYDURULMADI — kabuğun KENDİ banner bildirimidir
+   (`fit-shell.js` · OVER_MODE seçicisi: `.lib-top, .cp-top, .kp-top,
+   .chl-hero, .pd-hero, .fs-top, .ol-top, .ed-top`), üstüne bu üç ekran
+   ailesi eklendi: `.bant` (7 hata/durum sayfası) · `.arama-hero` ·
+   `.giris-hero` — üçü de zaten 128/96'da, yani onlar için BAYT-NÖTR.
+   ⚠ Profil kimlik bandı (`.kimlik-bant` · `.fp-profil` · `.pf-top`)
+     LİSTEYE ALINMADI: ayrı bileşen, kendi ofseti 113/63 ve 15 sayfada
+     tutarlı (ölçüldü). Onu bu kurala sokmak bileşen kararıdır. */
+/* 🔴 KIRINTI OFSETİ ARTIK TOKENA BAĞLI — 2026-09-04.
+   `--banner-crumb-ofset` dosyanın ilk sürümünde tanımlıydı ama HİÇBİR
+   kural onu okumuyordu; ofset her sayfanın kendi `padding-top`undan
+   kazara doğuyordu. Ölçüldü: aile 45 sayfada 128/96'da buluşuyor, İKİ
+   sayfa kendi ölçüsünde kalıyordu —
+       fit-antrenor-ol (`.ol-top`)     @390 padding-top 77
+       fit-giris       (`.giris-hero`) @390 padding-top 74
+   Değer UYDURULMADI: 128 ve 96 ailenin kendi ortak ölçüleri (45 sayfa).
+   45 sayfa için BAYT-NÖTR; yalnız iki sapan sayfa aileye oturuyor.
+   ⚠ `padding-top` yazılıyor, `top` değil: kırıntı `.wrap`a raptiyeli ve
+     `.wrap`ın üstü hero'nun üst dolgusudur — ofseti orada tutmak, iki
+     kolonun da aynı çizgiden başlamasını korur. */
+:where(body[data-fit-hero-kind])
+  :is(.lib-top,.bant,.cp-top,.kp-top,.chl-hero,.pd-hero,.fs-top,.ol-top,.ed-top,.arama-hero,.giris-hero){
+  padding-top:var(--banner-crumb-ofset, 128px);
+}
+:where(body[data-fit-hero-kind])
+  :is(.lib-top,.bant,.cp-top,.kp-top,.chl-hero,.pd-hero,.fs-top,.ol-top,.ed-top,.arama-hero,.giris-hero) > .wrap{
+  display:flex; flex-direction:column; align-items:stretch;
+  position:relative;
+}
+:where(body[data-fit-hero-kind])
+  :is(.lib-top,.bant,.cp-top,.kp-top,.chl-hero,.pd-hero,.fs-top,.ol-top,.ed-top,.arama-hero,.giris-hero) > .wrap
+  > :is([class*="crumb"],[class*="kirinti"]){
+  order:-1; align-self:flex-start; width:auto; flex:none;
+  margin-right:auto; margin-top:0;
+  /* 🔴 `.wrap`ın ÜST kenarına raptiye. `order:-1` tek başına yetmedi —
+     ölçüldü: `.ol-top`un `.wrap`ı `justify-content:center` taşıyor ve
+     kolonu dikeyde ortalıyor, kırıntı satırın BAŞINDA olduğu hâlde
+     24.3px (@1440) / 49.1px (@390) aşağı düşüyordu. Sütun akışında
+     "en üstte" olmak yeterli değil; kap ortalıyorsa baş da kayar.
+     Mutlak yerleşim BU AİLENİN KENDİ MEKANİZMASIDIR, icat değil:
+     `.lib-crumb` (28 sayfa) ve `.bant .kirinti` (7 sayfa) zaten
+     `position:absolute; top:0` ile duruyor — kural yalnız aynı
+     davranışı ailenin kalanına yayıyor.
+     🔴 `left` YAZILMAZ. İlk denemede `left:0` yazdım ve 47 sayfada
+     kırıntı 32px SOLA kaydı (@1440 132→100, @390 16→0): `.wrap`ın
+     yatay dolgusu kayboldu, "sol üst" şartı bozuldu. `left:auto`
+     bırakılınca kutu YATAYDA statik konumunda kalır — yani kırıntı
+     kolonun kendi sol kenarında durur, dikeyde raptiyelenir. */
+}
+
+/* =====================================================================
+   🔴 RAPTİYE DAR LİSTEYE ÇEKİLDİ — 2026-09-05
+   ---------------------------------------------------------------------
+   BULGU (Beyar): `egzersiz-detay-v1.html?slug=…` hero'sunda kırıntı
+   (y=128, absolute) ile ÜST ETİKET (y=133.7) ÜST ÜSTE biniyordu.
+   Aynı kusur `challenge-v1` ve `fit-arama`da da vardı; kardeş markada
+   `g-arama`da bildirildi.
+
+   KÖK — BENİM 2026-09-04 KURALIM. Raptiyeyi (`position:absolute; top:0`)
+   kabuğun BÜTÜN banner ailesine yaymıştım. Oysa aile ikiye ayrılıyor ve
+   ayrımı KAYNAK yapmış (ölçüldü, `hero.css` ağ düzeyinde iptal edilip
+   64 sayfa taranarak):
+
+     kaynağın kırıntısı ZATEN mutlak            → raptiye BAYT-NÖTR
+       .lib-top 33 · .bant 7 · .pd-hero 1        (üçü de y=128)
+     kaynağın kırıntısı AKIŞTA, y ZATEN doğru   → raptiye ZARARLI
+       .ed-top · .chl-hero · .cp-top ·
+       .arama-hero · .giris-hero                 (beşi de y=128)
+     kaynağın kırıntısı AKIŞTA ve KAYIYOR       → raptiye GEREKLİ
+       .ol-top                                   (y=152.3, 24.3 aşağıda)
+
+   NEDEN ZARARLI: akıştaki kırıntı kendi satırını AYIRIR. Raptiyelenince
+   o satır boşalır ve `justify-content:flex-start` taşıyan kaplarda
+   (`.ed-top` · `.chl-hero` · `.arama-hero`) üst etiket kırıntının
+   ÜSTÜNE tırmanır. Ölçülen örtüşme:
+       egzersiz-detay-v1  13.7px (@1440) · 13.7px (@390)
+       challenge-v1       14.5px (@1440) ·  9.5px (@390)
+       fit-arama          18.6px (@1440) · 18.6px (@390)
+   `justify-content:center` taşıyan kaplarda (`.lib-top` · `.pd-hero` ·
+   `.bant`) içerik zaten çok aşağıda olduğu için görünmüyordu — kusuru
+   gizleyen şey kuralın doğruluğu değil, o ailelerin boşluğuydu.
+
+   OLUMSUZ SINAMA: `hero.css` ağ düzeyinde iptal edilip aynı 64 sayfa
+   yeniden tarandı → örtüşme **0**. Yani kusuru üreten tek şey bu kural.
+
+   KURAL: raptiye YALNIZ kaynağın kendi mekanizması olduğu ailelerde
+   (bayt-nötr) ve gerçekten kayan tek ailede uygulanır. Kalan ailelerde
+   kırıntı AKIŞTA kalır — sözleşmenin *"iki kolonun dışında, onların
+   üstünde AYRI BİR SATIR"* ifadesinin birebir karşılığı budur.
+   ⚠ Sayfaya ezme kuralı YAZILMADI; ayrım kanonun kendi seçicisinde.
+   ===================================================================== */
+:where(body[data-fit-hero-kind])
+  :is(.lib-top,.bant,.pd-hero,.ol-top) > .wrap
+  > :is([class*="crumb"],[class*="kirinti"]){
+  position:absolute; top:0;
+}
+/* =====================================================================
+   🔴 KIRINTI SATIRI KENDİ DİKEY DOLGUSUNU TAŞIMAZ — 2026-09-05
+   ---------------------------------------------------------------------
+   Sözleşme "kırıntı hero başlangıcından SABİT ofset" diyor ve ofseti
+   `--banner-crumb-ofset` (hero'nun üst dolgusu) veriyor. Kırıntı BİR DE
+   kendi dikey dolgusunu taşırsa, KUTUSU doğru yerde durur ama YAZISI
+   aşağı kayar — ve kutuyu ölçen kapı bunu göremez.
+
+   🔴 ÖLÇÜM DERSİ, DEPODA İKİNCİ KEZ: kutu değil SATIR ölçüldü
+   (`document.createRange().selectNodeContents()`), MADDE 1'deki
+   `text-align-last` tuzağının aynısı. Kutu 10 sayfanın 10'unda 128;
+   SATIR ikisinde 146:
+       antrenor-detay-v1 (`.cp-crumb`)  padding 18/14 → satır 146 · kutu h 51.4
+       fit-giris         (`.kirinti`)   padding 18/14 → satır 146 · kutu h 52.1
+   Kalan sekiz ailede dikey dolgu ZATEN 0 → kural onlar için BAYT-NÖTR.
+
+   YAN ETKİ (aranmadı, ölçüldü): `.cp-top` @390'da 736.3px'ti ve DETAY
+   tipinin 726'sını 10.3px aşıyordu. Kırıntının 32px'lik dolgusu kalkınca
+   doğal yükseklik 726'nın altına iniyor ve `min-height` bağlanıyor →
+   tip içi sapma da kapanıyor. Yani yükseklik sapması kırıntının kutu
+   modelinden doğuyormuş; yüksekliğe hiç dokunulmadı.
+
+   ⚠ YATAY dolgu ve MARGIN'e dokunulmuyor: `.pd-crumb` 8px, `.rd-crumb`
+     20px, `.kirinti` 12px alt boşluk taşıyor ve bunlar kırıntının
+     KENDİ ofsetini değil, ALTINDAKİ içeriğin nefesini belirliyor.
+   ===================================================================== */
+:where(body[data-fit-hero-kind])
+  :is(.lib-top,.bant,.cp-top,.kp-top,.chl-hero,.pd-hero,.fs-top,.ol-top,.ed-top,.arama-hero,.giris-hero) > .wrap
+  > :is([class*="crumb"],[class*="kirinti"]){
+  padding-top:0; padding-bottom:0;
+}
+
+/* Kaydet düğmesi gibi mutlak yerleşimli süsler kırıntıyı İTMEZ. */
+:where(body[data-fit-hero-kind]) .lib-top > .wrap > .kyt-btn{
+  position:absolute; top:0; right:0;
+}
+
+/* ── İKİ KOLONLU SATIR — kabuk JS'i kurar (fit-shell.js · `.lib-row`) ──
+     .wrap > kırıntı                       (tam genişlik, satırın ÜSTÜNDE)
+     .wrap > .lib-row > .lib-main | .lib-stats
+   🔴 JS bu satırı YALNIZ `.lib-stats` varsa kuruyor. Ölçüldü: 31 liste
+      sayfasının 16'sında istatistik markup'ı YOK, o yüzden iki kolonlu
+      düzen hiç kurulmuyor. Sözleşme "her zaman 3 kalem" olduğu için
+      eksik olan CSS değil VERİDİR; liste `docs/fit-hero-olcum.md`de. */
+:where(body[data-fit-hero-kind]) .wrap > .lib-row{
+  display:flex; flex-direction:row; align-items:stretch;
+  column-gap:var(--banner-stat-gutter, 44px); min-width:0;
+}
+:where(body[data-fit-hero-kind]) .wrap > .lib-row > .lib-main{
+  display:flex; flex-direction:column; align-items:stretch;
+  row-gap:var(--banner-gap, 10px); min-width:0; flex:1 1 auto;
+}
+:where(body[data-fit-hero-kind]) .lib-row > .lib-main > *{ margin-top:0; margin-bottom:0; }
+
+/* ── İSTATİSTİK ŞERİDİ · SAĞDA, DİKEY, ALTA HİZALI, AYRAÇLI ──────────
+   Ölçüm kardeş markalardan (kanon kaydı, `fit-shell.css` R6 şerhi):
+   kolon sağa yaslı · flex COLUMN · kalem arası 16px · sol kolonla arası
+   44px · alt kenarlar Δ0. Dikey ayraç Beyar'ın şartı; referansın kendi
+   çizgisi (`1px rgba(255,255,255,.18)`) kanona alındı. */
+:where(body[data-fit-hero-kind]) .wrap > .lib-row > .lib-stats{
+  display:flex; flex-direction:column; flex:none;
+  align-self:flex-end; align-items:flex-start;
+  gap:var(--banner-stat-gap, 16px);
+  margin-top:0; padding-left:38px;
+  border-left:1px solid rgba(255,255,255,.18);
+}
+:where(body[data-fit-hero-kind]) .lib-row > .lib-stats > .lib-stat{ display:block; }
+:where(body[data-fit-hero-kind]) .lib-row > .lib-stats > .lib-stat b{
+  display:block; font-size:29px; font-weight:700; line-height:1.1;
+  letter-spacing:-.02em; color:#fff;
+}
+:where(body[data-fit-hero-kind]) .lib-row > .lib-stats > .lib-stat span{
+  display:block; margin-top:6px; font-size:12.5px; font-weight:500;
+  line-height:1.55; color:rgba(255,255,255,.85);
+}
+/* içi boş kalem satırda hayalet boşluk bırakmasın */
+:where(body[data-fit-hero-kind]) .lib-row > .lib-stats > .lib-stat:empty{ display:none; }
+
+/* ── ≤1024 · şerit sol kolonun ALTINA düşer, yatay sıraya döner ───────
+   Referansın kendi davranışı (üç kardeş sayfada ölçüldü). Ayraç dikeyden
+   yataya döner; yoksa yatay sırada dikey çizgi anlamsız kalır. */
+@media (max-width:1024px){
+  :where(body[data-fit-hero-kind]) .wrap > .lib-row{ flex-direction:column; }
+  :where(body[data-fit-hero-kind]) .wrap > .lib-row > .lib-stats{
+    flex-direction:row; flex-wrap:wrap; align-self:flex-start;
+    column-gap:34px; row-gap:14px;
+    padding-left:0; padding-top:18px;
+    border-left:0; border-top:1px solid rgba(255,255,255,.18);
+  }
+}
+@media (max-width:640px){
+  :where(body[data-fit-hero-kind]) .lib-row > .lib-stats{ column-gap:20px; row-gap:12px; }
+  :where(body[data-fit-hero-kind]) .lib-row > .lib-stats > .lib-stat b{ font-size:20px; }
+}

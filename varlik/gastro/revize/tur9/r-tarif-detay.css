@@ -1,0 +1,4 @@
+/* Revize 20 Eki 2026 (Beyar) · madde 3 — tarif detayının üst açıklaması, görsel + sağ blok toplam genişliğine yayılır.
+   Ölçüldü (1440): açıklama `.rd-sub` donörden `max-width: 860px` taşıyordu; kabı `.rd-head` görsel (740) + sağ blok (384) +
+   ara boşluk = 1176 px. Sınır kalkınca paragraf kabın tamamını kullanır; 390'da zaten kap genişliğindeydi (değişmez). */
+.rd-head .rd-sub { max-width: none; }

@@ -1,0 +1,19 @@
+/* Video Mutfağı P2 · kulvar dosyası — sahibi: pisirme. Yalnız tarif detayında, pişirme modu parçası
+   (`parcalar/tarif-detay/pisirme-modu.blade.php`) tarafından yüklenir. Kullanılan tokenların tamamı
+   (`--sp-*`, `--muted`, `--green`) sayfada zaten yüklü `tokens-*.css`ten gelir. */
+
+/* Büyük önceki / sonraki düğmeleri — düğmeler kanonun `.btn .btn-ghost` / `.btn .btn-primary`ı, yerleri
+   (`.cm-bottom > .cm-nav`, ekranın alt kenarı) değişmedi. Kanon `.btn` 14px dolgu + 14,5px yazıyla 52px
+   yüksek basıyordu (ölçüldü, 1440 ve 390); pişirme modunda dokunma hedefi en az 56px. Yazı boyu kanonda kalır:
+   16px denendi, 390'da "Sonraki Adım" iki satıra kırılıp düğme 78px oldu (ölçüldü). */
+#cookmode .cm-nav .btn{min-height:56px}
+
+/* iPhone ev çizgisi düğmelerin altına binmesin: alt şeride güvenli alan payı (portal.css'in
+   `env(safe-area-inset-bottom, 0px)` yazımı). Ev çizgisi olmayan ekranda pay 0, kutu değişmez. */
+#cookmode .cm-bottom{padding-bottom:calc(var(--sp-4) + env(safe-area-inset-bottom, 0px))}
+
+/* "Ekran açık kalır" — yalnız ekran kilidi gerçekten alındıysa `pisirme.js` `hidden`ı kaldırır.
+   Yazı dili adım sayacının (`.cm-count`: .82rem · 800 · --muted) bir kademe altı. */
+#cookmode .cm-ekran{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:700;color:var(--muted);white-space:nowrap}
+#cookmode .cm-ekran[hidden]{display:none}
+#cookmode .cm-ekran i{color:var(--green)}

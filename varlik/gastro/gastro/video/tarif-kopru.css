@@ -1,0 +1,24 @@
+/* Video Mutfağı P0-5 — tarif köprüsü. Kanon dosyalarına dokunmadan yalnız yeni parçaların yerleşimi.
+
+   1) "Bu Tarifin Videosunu İzle" kartı: kutu kanonun `.cook-cta`sı (`varliklar/reference/tarif-detay/tarif-detay.css`).
+      Burada yalnız yazar satırı ile hikâye arasındaki boşluk ve uzun dillerde (DE/RU) satır sarma: `.cook-cta`
+      `white-space:nowrap` taşır, 390'da metin kutudan taşmasın. Tabanın ≤640 kuralı (`width:100%; justify-content:center`)
+      aynen işler.
+   2) "Tarif videosu" bölümü dosya türünde <video> basar; `f6/icerik-bloklari.css` yalnız iframe'i boyuyor.
+   3) `#adimlar` çapası (izle sayfasının "Yazılı adımlara git" bağı): kanonun `#yorumlar`/`#bendeyaptim` kalıbı
+      (`tarif-detay.css:877-878`), sabit üst menü başlığı örtmesin. Bu dosya tarif sayfasının <head>inde koşulsuz yüklü. */
+.rd-head .tarif-video-karti {
+  margin-block: var(--sp-3, 12px) var(--sp-4, 16px);
+  white-space: normal;
+  text-align: center;
+}
+.icerik-video video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #000;
+}
+#adimlar {
+  scroll-margin-top: 140px;
+}

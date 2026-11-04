@@ -1,0 +1,17 @@
+{
+  "name": "dadavideo-prototip",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "snapshot": "node araclar/snapshot.mjs",
+    "veri": "python3 -I araclar/veri-hazirla.py",
+    "build": "node araclar/build.mjs",
+    "serve": "node araclar/sunucu.mjs",
+    "kapi": "node araclar/varlik-kapisi.mjs",
+    "bag": "node araclar/bag-kapisi.mjs",
+    "parite": "node araclar/parite-kapisi.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.63.0"
+  }
+}

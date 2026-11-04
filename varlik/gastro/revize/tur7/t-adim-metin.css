@@ -1,0 +1,16 @@
+/* Revize 7 · madde 81 — tarif detayında zengin metin (editör) adım açıklaması.
+   Paragraflar donörün `.step-card p` kuralını zaten alır (soy seçici); burada yalnız eskiden tek
+   <p> olan kutunun birden çok bloğa bölünmesi karşılanır: bloklar arası pay, listeler, kalın/eğik.
+   Eski düz metin adım bu dosyadan etkilenmez (kap sınıfı yalnız HTML adımda basılır).
+   Yaslama ve tireleme madde 41'in `.step-card__body > p` kuralıyla aynı. */
+.step-card__body .adim-zengin-metin :is(p, li){text-align:justify;-webkit-hyphens:auto;hyphens:auto;overflow-wrap:break-word}
+.step-card__body .adim-zengin-metin > * + *{margin-top:var(--bosluk-8, 8px)}
+.step-card__body .adim-zengin-metin :is(ul, ol){
+  padding-left:1.25em; font-size:calc(14.5px*var(--ts, 1)); color:var(--slate-2); font-weight:500; line-height:1.6;
+}
+.step-card__body .adim-zengin-metin ul{list-style:disc}
+.step-card__body .adim-zengin-metin ol{list-style:decimal}
+.step-card__body .adim-zengin-metin :is(strong, b){color:var(--slate); font-weight:700}
+.step-card__body .adim-zengin-metin :is(em, i){font-style:italic}
+.step-card__body .adim-zengin-metin a{color:inherit; text-decoration:underline}
+.step-card.done .step-card__body .adim-zengin-metin{display:none}

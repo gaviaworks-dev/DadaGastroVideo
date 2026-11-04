@@ -1,0 +1,225 @@
+/* =====================================================================
+   KANON — ALT ÇUBUK BİLEŞENİ  ·  TEK KAYNAK
+   ---------------------------------------------------------------------
+   BEYAR KARARI, 2026-09-04: *"Alt çubuk TEK KAYNAK olacak … ayrı dosya
+   kanon/alt-cubuk.css (+ tek şablon), kapsamlı seçiciler (:where), tek
+   başına yüklenebilir."*
+
+   ── NEDEN AYRI DOSYA ─────────────────────────────────────────────────
+   Bileşen `bilesenler.css` içindeydi ve ORAYA HAPSOLMUŞTU. Ölçüldü
+   (2026-09-04): FIT'in 42 yüzey sayfası `kanon/bilesenler.css`i **hiç
+   yüklemiyor** — yalnız `tokenlar.css` ve `markalar/fit.css` bağlı:
+       <link href="../kanon/tokenlar.css">
+       <link href="../kanon/markalar/fit.css">
+       <link href="assets/css/fit-shell.css">     ← kabuk, kanondan SONRA
+   Yani kanonun çubuk kuralları o sayfalara inmiyordu; çubuk kabuğun
+   "icon-only" kipinde, etiketsiz kalıyordu (Beyar canlı ekranda gördü).
+   Aynı durum Gastro maket sayfaları için de geçerli.
+   Bu dosya tek başına yüklenebilir: `bilesenler.css`e bağımlı değil.
+
+   ── YÜKLEME SIRASI ÖNEMLİ · `:where()` BUNUN İÇİN ────────────────────
+   Seçiciler `:where(.alt-cubuk)` ile kapsanır, yani kap SIFIR özgüllük
+   taşır. Kalan özgüllük kabuğunkiyle EŞİT olur:
+       kabuk   `.bn-item`                       (0,1,0)
+       kanon   `:where(.alt-cubuk) .ac-kalem`   (0,1,0)
+       kabuk   `.bn-item>span:last-child`       (0,2,1)
+       kanon   `:where(.alt-cubuk) .ac-kalem>span:last-child`  (0,2,1)
+   Eşitlikte SONRA yüklenen kazanır. Bu yüzden bu dosya sayfada **en son**
+   bağlanır. Özgüllüğü yükseltmek yerine sıraya güvenmek bilinçli: kabuğun
+   kendi kuralını "yazılı olmayan bir savaşla" değil, bildirilen bir
+   sırayla devralıyoruz — ve marka kabukları kendi kuralını yine
+   yazabilir, yeter ki bu dosyadan sonra gelsin.
+   ⚠ Depo dersi: kabuk ile kanon aynı özgüllükte çarpıştığında kaybeden
+     taraf sessizce ölür ve ölçüme görünmez (bkz. `.basa-don` mobil
+     istifi, 2026-09-04). Bu dosya o çarpışmayı bir KARARA bağlıyor.
+
+   ── YAPI SÖZLEŞMESİ (§67) ────────────────────────────────────────────
+       kalem sayısı   5          FAB pozisyonu  3 (orta, yükseltilmiş)
+       yükseklik      64px       dip payı       14px
+       kalem kipi     <a> · ikon + ETİKET, dikey
+       boş yuva       YOK — kalem gizlenmez, rol her markada doludur
+   Markup TEK ŞABLONDAN gelir: `kanon/alt-cubuk.html`.
+   **Kalem seti marka verisidir, yapı kanondur.**
+
+   ── TOKENLAR ─────────────────────────────────────────────────────────
+   Her `var()` bir yedek taşır: dosya `tokenlar.css` olmadan da çizer.
+   Yedekler kanonun kendi ölçülmüş değerleridir, yeni değer DEĞİLDİR.
+   ===================================================================== */
+
+:root{
+  --alt-cubuk-h:64px;          /* ölçüldü · FIT 59 sayfa */
+  --alt-cubuk-dip:14px;        /* ölçüldü */
+  --alt-cubuk-kalem:5;         /* SÖZLEŞME · dört markada aynı */
+  --alt-cubuk-fab-poz:3;       /* SÖZLEŞME · orta kalem */
+}
+
+/* Taban: çubuk YALNIZ ≤640'ta vardır. Ölçüt kaynağın kendi bildirimi
+   (`fit-shell.css`: `.bottom-nav{display:none}` + `@media(max-width:640px)
+   {.bottom-nav{display:flex}}`). Masaüstünde çubuk YOKTUR. */
+:where(.alt-cubuk){ display:none; }
+
+@media (max-width:640px){
+
+:where(.alt-cubuk){
+  position:fixed; left:0; right:0;
+  bottom:var(--alt-cubuk-dip, 14px);
+  height:var(--alt-cubuk-h, 64px);
+  z-index:var(--kat-alt-bar, 90);
+  display:flex; align-items:stretch;
+}
+
+:where(.alt-cubuk) .ac-kalem{
+  flex:1; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:var(--bosluk-3, 3px);
+  font-family:inherit; text-decoration:none;
+  /* 🔴 DOKUNMA HEDEFİ — kalem yüksekliği çubuğun tamamı, 64px.
+     WCAG 2.5.5'in 44px tabanını kalemin KENDİSİ karşılar; ikon
+     ölçüsü değil kalem kutusu hedefi tanımlar. */
+  min-height:var(--alt-cubuk-h, 64px);
+}
+
+/* 🔴 ETİKET GÖRÜNÜR — §67.1'in "ikon + etiket, dikey" şartı.
+   ÖLÇÜLDÜ 2026-09-04: kabuk etiketi ekran-okuyucuya gizliyordu
+   (`fit-shell.css` · `.bn-item>span:last-child{position:absolute;
+   width:1px;height:1px;clip:rect(0 0 0 0)}`, şerhi "icon-only, IG tarzı").
+   ⚠ ÖLÇÜ UYDURULMADI — Gastro'nun canlı çubuğundan HTTP üstünden okundu
+     (deploy ağacı @390): etiket 9.5px / 700 / rgb(86,81,74) ·
+     satır 10.925px (≈1.15) · position:static · kalem 72×64 · gap 3px.
+     9.5px kanonda zaten kullanılan bir ölçü; 700 `--agirlik-kalin`,
+     renk `--murekkep-yumusak`. */
+:where(.alt-cubuk) .ac-kalem>span:last-child{
+  position:static; width:auto; height:auto; padding:0;
+  overflow:visible; clip:auto; clip-path:none; border:0;
+  white-space:nowrap;
+  font-size:9.5px; line-height:1.15;
+  font-weight:var(--agirlik-kalin, 700);
+  color:var(--murekkep-yumusak, #56514a);
+}
+
+/* =====================================================================
+   AKTİF DURUM SÖZLEŞMESİ  ·  BEYAR KARARI 2026-09-04
+   ---------------------------------------------------------------------
+   Beyar: *"Hareketler'e tıklayınca seçili oluyor, Programlarım'da
+   olmuyor. Kural: geçerli sayfaya göre aria-current; aktif = dolgulu
+   ikon + marka rengi + etiket vurgusu; 5 kalemde aynı; orta FAB da
+   kendi sayfasında aktif."*
+
+   ── DURUMU KİM YAZAR ─────────────────────────────────────────────────
+   Kanon GÖRÜNÜMÜ yazar, DURUMU değil. Aktif kalem markup'ta işaretlenir:
+       class="… active"   +   aria-current="page"
+   İkisi BİRLİKTE gider (kanonun akordeon şerhindeki aynı sözleşme).
+   Hangi kalemin işaretleneceği MARKA VERİSİDİR — kalem seti gibi.
+
+   ⚠ ÖLÇÜLDÜ 2026-09-04, KARDEŞ MARKANIN CANLI AĞACI (Gastro deploy):
+     `tarif__*` ve `tarifler__kategori__*` sayfaları, kendi sayfaları
+     olmadığı hâlde `tarifler.html` kalemini `active + aria-current="page"`
+     ile işaretliyor. Yani sözleşme SAYFA değil ALAN düzeyinde:
+        kalem aktiftir  ⇔  geçerli sayfa o kalemin ALANINDADIR
+     Aynı ağaçta yasal · kurumsal · sistem/hata · arama · giriş
+     sayfalarının HİÇBİRİ aktif kalem taşımıyor (ölçüm: 0/40).
+     Bu bir eksiklik değil KURAL: hiçbir alana ait olmayan sayfada çubuk
+     yalan söylemez, hiçbir kalem yanmaz. `aria-current` yalnız doğru
+     olduğunda yazılır.
+
+   ── GÖRÜNÜM · ÜÇ İŞARET, BEŞ KALEMDE AYNI ────────────────────────────
+     1 · DOLGU   ikonun arkasında marka tonlu hap
+     2 · RENK    ikon marka rengine geçer
+     3 · ETİKET  etiket de aynı renge geçer (vurgu)
+
+   ⚠ "Dolgulu ikon"un FA sürümü ile YAPILAMAYACAK hâli ölçüldü:
+     Font Awesome Free 6.5.2'de outline (regular) karşılığı YALNIZ
+     `fa-user`da var; `fa-house` · `fa-person-running` · `fa-list-check` ·
+     `fa-wand-magic-sparkles` Free'de regular TAŞIMIYOR (Pro). Yani
+     "pasif outline → aktif solid" glif takası beş kalemde AYNI olamazdı
+     ve sözleşmenin ilk şartını (5 kalemde aynı) çiğnerdi. Dolgu bu
+     yüzden GLİFTE değil ikonun ARKASINDA: kanonun kendi ikon çipi
+     zeminiyle (`--aksan-yikama`, tokenlar.css §4 şerhi birebir
+     "ikon çipi, açık band zemini"). YENİ DEĞER ÜRETİLMEDİ.
+
+   ⚠ KABUĞUN AKTİF DOLGUSU SÖKÜLÜYOR, EZİLMİYOR. Kabuk kalemin
+     TAMAMINI boyuyor (`fit-shell.css` · `.bn-item.active{background:
+     color-mix(in srgb,var(--marka) 15%,transparent)}`) ve bu (0,2,0).
+     Aşağıdaki kural da (0,2,0) — eşitlikte SONRA yüklenen kazanır
+     (dosya başındaki YÜKLEME SIRASI şerhi). `background:transparent`
+     bilerek yazılıdır: yazılmazsa kabuğun kalem-boyu dolgusu ayakta
+     kalır ve ikon hapıyla ÜST ÜSTE biner.
+   ===================================================================== */
+
+/* İkon yuvası — hap, beş kalemde de AYNI kutu. Pasifken saydam, aktifken
+   dolu. Kutu her iki hâlde de aynı olsun diye dolgu TABANA yazılır;
+   yoksa aktif kalemin ikonu 8px büyüyüp çubuğun ritmi bozulurdu.
+   Ölçüler token: 4px `--bosluk-4` · 12px `--bosluk-12` · hap
+   `--yuvarlak-hap`. 19px ikon + 2×4 = 27px yükseklik, 43px genişlik. */
+:where(.alt-cubuk) .ac-kalem>i{
+  display:inline-flex; align-items:center; justify-content:center;
+  /* 🔴 HAP BEŞ KALEMDE AYNI GENİŞLİKTE. Glif genişlikleri farklı
+     (ölçüldü @390: fa-house 21.4 · fa-person-running 16.6 · fa-list-check
+     19 → hap 45.4 / 40.6 / 43). Sabit bir sayı UYDURMAK yerine Font
+     Awesome'ın kendi sabit-genişlik ölçüsü kullanıldı: `.fa-fw{width:
+     1.25em}` (FA 6.5.2, kabuğun yüklediği dosyanın kendi bildirimi).
+     19px ikonda 1.25em = 23.75px → hap 47.75×27, beşinde de aynı. */
+  box-sizing:content-box; width:1.25em;
+  padding:var(--bosluk-4, 4px) var(--bosluk-12, 12px);
+  border-radius:var(--yuvarlak-hap, 999px);
+  background:transparent;
+  transition:background .18s ease, color .18s ease;
+}
+
+/* Aktif kalem TEK stil: ikon ve etiket birlikte aksana geçer.
+   İki ad da tanınır — kabuk `active`, kanon `aktif` yazıyor;
+   `aria-current` de tanınır, çünkü sözleşme onu zorunlu kılıyor. */
+:where(.alt-cubuk) .ac-kalem:is(.active,.aktif,[aria-current]),
+:where(.alt-cubuk) .ac-kalem:is(.active,.aktif,[aria-current])>span:last-child{
+  color:var(--aksan-koyu, #0077a8);
+}
+:where(.alt-cubuk) .ac-kalem:is(.active,.aktif,[aria-current]){
+  background:transparent;      /* kabuğun kalem-boyu dolgusu sökülür */
+}
+:where(.alt-cubuk) .ac-kalem:is(.active,.aktif,[aria-current])>i{
+  background:var(--aksan-yikama, #e8f5fb);
+}
+
+/* Ortadaki FAB — pozisyon 3. Kabuk basar, sayfa basmaz. */
+:where(.alt-cubuk) .ac-kalem.ac-orta .ac-fab{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:52px; height:52px;
+  border-radius:var(--yuvarlak-lg, 16px);
+  background:var(--aksan-koyu, #0077a8); color:var(--kagit, #fff);
+  box-shadow:var(--golge-yuzen, 0 8px 20px rgba(33,30,22,.16));
+}
+/* FAB kaleminin PASİF etiketi tabanda kalır — karo zaten aksan zeminli,
+   etiket de aksana geçerse ikisi aynı renge düşer. */
+:where(.alt-cubuk) .ac-kalem.ac-orta>span:last-child{
+  color:var(--murekkep-yumusak, #56514a);
+}
+/* 🔴 ORTA FAB DA KENDİ SAYFASINDA AKTİFTİR — Beyar, 2026-09-04.
+   Diğer dört kalemin aktif işareti "gri → marka + açık marka hapı".
+   FAB'ın karosu ZATEN marka dolgusunda olduğu için aynı hap onda iş
+   görmez: ÖLÇÜLDÜ — `--aksan-yikama` halkası (#e7f5fb) çubuğun kendi
+   buzlu beyazının üstünde ayırt edilmiyordu (ilk deneme, 4px halka →
+   görüntüde kayıp). Bu yüzden FAB'ın işareti HALKA: beyaz bir pay,
+   sonra marka çemberi. İkisi de token (`--bosluk-2` 2px boşluk,
+   `--bosluk-5` 5px dış yarıçap → 3px kalınlıkta marka halkası).
+   Etiket diğer dördüyle aynı biçimde aksana geçer; böylece beş kalemin
+   aktif dili tek kalır. Yeni renk üretilmedi.
+   ⚠ Karo 52px; halka ile dış ölçü 62px, kalemin kendi kutusu 65.2px
+     (@390, ölçüldü) — komşuya taşmaz. */
+:where(.alt-cubuk) .ac-kalem.ac-orta:is(.active,.aktif,[aria-current])>span:last-child{
+  color:var(--aksan-koyu, #0077a8);
+}
+:where(.alt-cubuk) .ac-kalem.ac-orta:is(.active,.aktif,[aria-current]) .ac-fab{
+  box-shadow:0 0 0 var(--bosluk-2, 2px) var(--kagit, #fff),
+             0 0 0 var(--bosluk-5, 5px) var(--aksan-koyu, #0077a8),
+             var(--golge-yuzen, 0 8px 20px rgba(33,30,22,.16));
+}
+
+/* 🔴 GÖVDE ALT DOLGUSU — alt çubuk sabit, içeriğin altına biner.
+   Gövde kendi dibine çubuğun yüksekliği + dip payı kadar nefes bırakır;
+   yoksa son eleman çubuğun ALTINDA kalır ve okunamaz.
+   Gövdenin kanonik adı `main.page-main` — kaynak adı korundu. */
+:where(main.page-main){
+  padding-bottom:calc(var(--alt-cubuk-h, 64px) + var(--alt-cubuk-dip, 14px) + var(--bosluk-16, 16px));
+}
+
+}   /* ← @media (max-width:640px) · alt çubuk mobil kapsamı biter */

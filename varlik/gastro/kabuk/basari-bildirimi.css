@@ -1,0 +1,67 @@
+/* Ortak başarı bildirimi — Revize 5 · madde 47. Pencere kanonun `.fb-modal`
+   ailesi (`.fb-panel` · `.fb-success` · `.ok`); buradaki kurallar yalnız takip
+   numarası kutusunu ve iki düğmeyi kurar. Değerler donörün render edilmiş
+   DOM'undan ölçüldü (`scripts/olcum/revize-tur5/m47-basari.mjs`, canlı):
+     kutu    = g-hesabim 2FA `.tfa-sir` (kanon `.sir-kutu`): dikey akış · 7px
+               aralık · 16px dolgu · 12px yuvarlak · ince çizgi · zemin rengi;
+               etiketi `.fk-label` 14px/700 + 9px alt pay, kodu tek aralıklı
+               16px/700 · .12em
+     Kopyala = aynı pencerenin `.tfa-acts .btn` (btn-ghost) 11/18 · 13.5px
+     düğme   = `.fb-success .fb-again` (btn-ghost) 14/26 · 14.5px/1.55 · üst 18px
+               (Kopyala'nın satır yüksekliği donörde `normal`, bununki 1.55 —
+               iki ayrı ölçüm, ikisi de birebir)
+   Düğmeler sayfanın `.btn`ine bırakılmadı: o sayfadan sayfaya farklı
+   hesaplanıyor (ölçüldü: destek sayfasında Kopyala 30px, öbür iki yüzeyde
+   33.4px, donörde 40px); üç yüzeyde aynı bileşen ancak böyle aynı kutuyu verir.
+   Jeton yoksa yedek değer donörün ölçülen rengidir.
+   eklendi: donörde takip numaralı başarı paneli yok; kutu `.fb-success`in
+   ortalı akışına uysun diye ortalandı ve 320px'e sınırlandı. */
+.fb-success .basari-takip,
+.basari-bildirimi .basari-takip {
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+  max-width: 320px; margin: 0 auto 18px; padding: 16px;
+  border-radius: 12px; border: 1px solid var(--cizgi, #ececec);
+  background: var(--zemin, #f9f9f9);
+}
+.fb-success .basari-takip[hidden],
+.basari-bildirimi .basari-takip[hidden] { display: none; }
+.fb-success .basari-takip > span,
+.basari-bildirimi .basari-takip > span {
+  margin-bottom: 9px; font-size: 14px; font-weight: 700; line-height: 1.55; color: var(--slate, #211e16);
+}
+.fb-success .basari-takip code,
+.basari-bildirimi .basari-takip code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 16px; font-weight: 700; letter-spacing: .12em; color: var(--slate, #211e16);
+}
+.fb-success .basari-kopyala,
+.fb-success .basari-tamam,
+.basari-bildirimi .basari-kopyala,
+.basari-bildirimi .basari-tamam {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  font-family: inherit; font-weight: 700; line-height: normal; letter-spacing: normal;
+  border-radius: 12px; border: 1px solid var(--cizgi, #ececec);
+  background: var(--kagit, #fff); color: var(--slate, #211e16);
+  cursor: pointer; min-height: auto; text-decoration: none; transition: .25s ease;
+}
+.fb-success .basari-kopyala:hover,
+.fb-success .basari-tamam:hover,
+.basari-bildirimi .basari-kopyala:hover,
+.basari-bildirimi .basari-tamam:hover { border-color: var(--slate, #211e16); transform: translateY(-2px); }
+.fb-success .basari-kopyala,
+.basari-bildirimi .basari-kopyala { margin-top: 0; padding: 11px 18px; font-size: 13.5px; }
+.fb-success .basari-tamam,
+.basari-bildirimi .basari-tamam { margin-top: 18px; padding: 14px 26px; font-size: 14.5px; line-height: 1.55; }
+
+/* Revize 7 · madde 87 — ortak pencere giriş kapısının kalıbında (`.lg-gate` ·
+   `.lg-panel` · `.lg-close` · `.lg-ico` · `.lg-acts`; kanon, her public
+   sayfada yüklü — ölçüldü). Buradaki kurallar yalnız başarıya özgü olanı
+   kurar:
+     ikon  = Görüş Bildir başarısının `.fb-success .ok` rengi (#eaf7f0 zemin,
+             --green); kutu `.lg-ico`nun 62px dairesi
+     Tamam = `.lg-acts` satırında tam genişlik; `.lg-gate p`nin 22px alt payı
+             üstündeki boşluğu zaten verdiği için 18px üst pay burada sıfır
+   Takip numarası kutusu, `.lg-gate p`nin 300px/22px kuralından etkilenmesin
+   diye kendi `<span>`/`<code>` öğeleriyle kalır. */
+.basari-bildirimi .lg-ico.ok { background: #eaf7f0; color: var(--green, #3bb77e); }
+.basari-bildirimi .lg-acts .basari-tamam { margin-top: 0; }

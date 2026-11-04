@@ -1,0 +1,18 @@
+/* Public revize R1 tur 3 — tarif malzeme kartı: "Listeyi Gör" tek parça düğme.
+   Ölçüler üstteki "Listeye Eklendi" (`.ing-foot .btn`) ile aynı: 50px · köşe 12 · 14/18 dolgu (ince kenar payı 1px
+   düşülür) · 14.5/700 · `.25s var(--ease)`. Normal: sitenin ikincil düğmesi (`.btn-ghost`: --paper · 1px --line ·
+   --slate). Hover/odak: sitenin birincil rengi (`.btn-primary`: --tomato-dark), yazı ve ikonlar beyaz, ok sağa kayar. */
+.liste-geri-bildirim[hidden]{display:none}
+.ing-foot .liste-gor-dugme{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;padding:13px 17px;border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--slate);font-size:14.5px;font-weight:700;line-height:1.55;text-decoration:none;transition:background-color .25s var(--ease),border-color .25s var(--ease),color .25s var(--ease)}
+.liste-gor-dugme .liste-gor-durum{display:inline-flex;align-items:center;gap:8px;min-width:0;font-weight:600}
+.liste-gor-dugme .liste-gor-durum i{color:var(--green);font-size:15px;transition:color .25s var(--ease)}
+.liste-gor-dugme .liste-gor-durum b{font-weight:800}
+.liste-gor-dugme .liste-gor-git{display:inline-flex;align-items:center;gap:8px;flex:none;color:var(--tomato-dark)}
+.liste-gor-dugme .liste-gor-git i{transition:transform .25s var(--ease)}
+.ing-foot .liste-gor-dugme:hover,.ing-foot .liste-gor-dugme:focus-visible{background:var(--tomato-dark);border-color:var(--tomato-dark);color:#fff;transform:none}
+.liste-gor-dugme:hover .liste-gor-durum i,.liste-gor-dugme:focus-visible .liste-gor-durum i,
+.liste-gor-dugme:hover .liste-gor-git,.liste-gor-dugme:focus-visible .liste-gor-git{color:#fff}
+.liste-gor-dugme:hover .liste-gor-git i,.liste-gor-dugme:focus-visible .liste-gor-git i{transform:translateX(4px)}
+.ing-foot .liste-gor-dugme:focus-visible{outline:0;box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--tomato-dark)}
+@media (max-width:400px){.ing-foot .liste-gor-dugme{padding:13px 14px;font-size:14px}.liste-gor-dugme .liste-gor-durum{gap:6px}}
+@media (prefers-reduced-motion:reduce){.ing-foot .liste-gor-dugme,.liste-gor-dugme .liste-gor-git i,.liste-gor-dugme .liste-gor-durum i{transition:none}}

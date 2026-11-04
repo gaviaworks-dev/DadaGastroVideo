@@ -1,0 +1,24 @@
+/* Kanonik içerik gövdesi içinde gerçek kullanıcı medya bloğu; yeni tema yok. */
+.icerik-video{position:relative;width:100%;aspect-ratio:16/9;margin:24px 0;overflow:hidden;border-radius:var(--radius-lg)}
+.icerik-video iframe{display:block;width:100%;height:100%;border:0}
+.art-fig img.bg{display:block;object-fit:cover;height:auto}
+
+/* Galeri, mevcut küçük görsel anatomisi ve kanon aralıklarıyla. */
+.gastro-tarif-galeri{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-block:var(--sp-3) var(--sp-5)}
+.gastro-tarif-galeri .rd-thumb{flex:0 0 auto;width:calc(var(--sp-8) + var(--sp-6));aspect-ratio:4/3;padding:0;overflow:hidden;background:transparent}
+.gastro-tarif-galeri .rd-thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.gastro-tarif-galeri .rd-thumb:focus-visible{outline:solid var(--tomato);outline-offset:var(--sp-1)}
+
+.gastro-tarif-medya{margin:0;min-width:0}
+.gastro-tarif-medya > button{display:block;width:100%;padding:0;border:0;border-radius:var(--radius-lg);overflow:hidden;background:transparent;cursor:zoom-in}
+.gastro-tarif-medya > button:focus-visible{outline:solid var(--tomato);outline-offset:var(--sp-1)}
+.gastro-tarif-medya img{display:block;width:100%;height:auto}
+.gastro-tarif-medya figcaption{margin-block-start:var(--sp-2);color:var(--slate-2)}
+.gastro-tarif-medya .icerik-video{margin-block:var(--sp-4)}
+
+.rd-stage > .gastro-tarif-kapak{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover}
+
+/* G69: kullanıcı görseli ve açıklaması sabit yükseklikteki dekoratif alan değildir. */
+.step-card .sc-figs:has(.gastro-tarif-medya){height:auto;flex-direction:column;gap:var(--sp-3)}
+.step-card .sc-figs > .gastro-tarif-medya{flex:none;min-width:0}
+.step-card .gastro-tarif-medya figcaption{padding:var(--sp-2) var(--sp-3);margin:0;overflow-wrap:anywhere}
