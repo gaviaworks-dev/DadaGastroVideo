@@ -22,10 +22,59 @@
    "unvan": "Dada'nın Şefi",
    "avatar": "varlik/gastro/storage/medya/berkan-gunes-xsgcmhxxc0jp.webp",
    "bas_harf": "BG",
-   "tarif_sayisi": 202,
+   "tarif_sayisi": 201,
    "mutfak": "Türk Mutfağı",
    "tarifler": [],
-   "ornek_tarifler": [],
+   "ornek_tarifler": [
+    {
+     "slug": "yalvac-hamursuzu-tahinli-patatesli-mayasiz-firin-coregi",
+     "baslik": "Yalvaç Hamursuzu | Tahinli Patatesli Mayasız Fırın Çöreği",
+     "kapak_kaynak": "varliklar/media/pilot/t-yalvac-hamursuzu-tahinli-patatesli-mayasiz-firin-coregi-kapak.webp",
+     "kapak640": "varlik/video/tarif/yalvac-hamursuzu-tahinli-patatesli-mayasiz-firin-coregi-640.webp",
+     "sure_dk": 90,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "tarhanali-pogaca-ev-tarhanali-yogurtlu-mayali-pogaca",
+     "baslik": "Tarhanalı Poğaça | Ev Tarhanalı Yoğurtlu Mayalı Poğaça",
+     "kapak_kaynak": "varliklar/media/pilot/t-tarhanali-pogaca-ev-tarhanali-yogurtlu-mayali-pogaca-kapak.webp",
+     "kapak640": "varlik/video/tarif/tarhanali-pogaca-ev-tarhanali-yogurtlu-mayali-pogaca-640.webp",
+     "sure_dk": 60,
+     "zorluk": "Kolay"
+    },
+    {
+     "slug": "uzlemeli-pilav-sanliurfa-usulu-uzumlu-pekmezli-etli-pilav",
+     "baslik": "Üzlemeli Pilav | Şanlıurfa Usulü Üzümlü Pekmezli Etli Pilav",
+     "kapak_kaynak": "varliklar/media/pilot/t-uzlemeli-pilav-sanliurfa-usulu-uzumlu-pekmezli-etli-pilav-kapak.webp",
+     "kapak640": "varlik/video/tarif/uzlemeli-pilav-sanliurfa-usulu-uzumlu-pekmezli-etli-pilav-640.webp",
+     "sure_dk": 100,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "mardin-kebabi-kaburga-etli-kuyruk-yagli-ince-sis-kebap",
+     "baslik": "Mardin Kebabı | Kaburga Etli Kuyruk Yağlı İnce Şiş Kebap",
+     "kapak_kaynak": "varliklar/media/pilot/t-mardin-kebabi-kaburga-etli-kuyruk-yagli-ince-sis-kebap-kapak.webp",
+     "kapak640": "varlik/video/tarif/mardin-kebabi-kaburga-etli-kuyruk-yagli-ince-sis-kebap-640.webp",
+     "sure_dk": 100,
+     "zorluk": "Orta"
+    },
+    {
+     "slug": "ahmetbey-koftesi-luleburgaz-usulu-kaburgali-izgara-kofte",
+     "baslik": "Ahmetbey Köftesi | Lüleburgaz Usulü Kaburgalı Izgara Köfte",
+     "kapak_kaynak": "varliklar/media/pilot/t-ahmetbey-koftesi-luleburgaz-usulu-kaburgali-izgara-kofte-kapak.webp",
+     "kapak640": "varlik/video/tarif/ahmetbey-koftesi-luleburgaz-usulu-kaburgali-izgara-kofte-640.webp",
+     "sure_dk": 60,
+     "zorluk": "Kolay"
+    },
+    {
+     "slug": "lahana-kapama-zeytinyagli-pirincli-dereotlu-beyaz-lahana",
+     "baslik": "Lahana Kapama | Zeytinyağlı Pirinçli Dereotlu Beyaz Lahana",
+     "kapak_kaynak": "varliklar/media/pilot/t-lahana-kapama-zeytinyagli-pirincli-dereotlu-beyaz-lahana-kapak.webp",
+     "kapak640": "varlik/video/tarif/lahana-kapama-zeytinyagli-pirincli-dereotlu-beyaz-lahana-640.webp",
+     "sure_dk": 75,
+     "zorluk": "Kolay"
+    }
+   ],
    "seri_sefi": true,
    "gastro_profil": "https://dadagastro.com/sefler/berkan.gunes"
   },

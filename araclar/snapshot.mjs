@@ -173,8 +173,8 @@ function htmlYollari(html, tabanYol) {
     if (varlikMi(y)) { varliklar.add(y); return `${VARLIK}/${temizYol(y)}`.replace(/\//g, '\\/'); }
     return (CANLI + y).replace(/\//g, '\\/');
   });
-  // URL kodlu köken (YouTube gömme `origin=` parametresi) → yayın kökeni
-  html = html.replace(/http%3A%2F%2F(?:127\.0\.0\.1|localhost)%3A89\d\d/gi, 'https%3A%2F%2Fgaviaworks-dev.github.io');
+  // URL kodlu köken (paylaşım uçlarının `u=` parametresi, YouTube gömme `origin=`) → canlı site kökeni (paylaşılan adres gerçek tarif olsun)
+  html = html.replace(/http%3A%2F%2F(?:127\.0\.0\.1|localhost)%3A89\d\d/gi, 'https%3A%2F%2Fdadagastro.com');
   return { html, varliklar };
 }
 
@@ -184,9 +184,10 @@ async function main() {
   for (const [ad, yol] of Object.entries(DONORLER)) {
     const yanit = await fetch(KAYNAK + yol, { headers: { 'User-Agent': UA } });
     if (!yanit.ok) throw new Error(`${ad}: ${yanit.status} (${KAYNAK}${yol})`);
-    let html = kabukTemizle(htmlTemizle(await yanit.text()));
+    const tarif = ad.startsWith('tarif-');
+    let html = kabukTemizle(htmlTemizle(await yanit.text()), { tarif });
     const r = htmlYollari(html, yol);
-    const kalan = tokenTaramasi(r.html);
+    const kalan = tokenTaramasi(r.html, { tarif });
     if (kalan.length) {
       for (const m of [...r.html.matchAll(/.{0,120}(\/\/(127\.0\.0\.1|localhost):89\d\d|name="_token"|eyJpdiI6|kayit\/toggle|takip-et).{0,60}/g)].slice(0, 6)) console.error('   ', m[0].replace(/\s+/g, ' '));
       throw new Error(`${ad}: temizlik sonrası kalan: ${kalan.join(', ')}`);

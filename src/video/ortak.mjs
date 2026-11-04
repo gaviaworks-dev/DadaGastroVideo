@@ -60,7 +60,7 @@ export const sefAdresi = (k) => sefDosyaAdi(typeof k === 'string' ? k : k?.kulla
 /** Şefin Gastro profili (prototipte sayfası yok) */
 export const sefGastroAdresi = (k) => `${GASTRO}/sefler/${encodeURIComponent(k)}`;
 /** Katalogdaki (sayfası üretilen) tarif → tarif-<slug>.html · diğerleri → dadagastro.com/tarif/<slug> */
-export const tarifAdresi = (slug) => (TARIF[slug]?.sayfa ? `tarif-${slug}.html` : `${GASTRO}/tarif/${slug}`);
+export const tarifAdresi = (slug) => (!slug ? null : TARIF[slug]?.sayfa ? `tarif-${slug}.html` : `${GASTRO}/tarif/${slug}`);
 
 /* ---------- Video türetimleri ---------- */
 export const videoSerisi = (v) => SERI[(typeof v === 'string' ? VIDEO[v] : v)?.seri] || null;
@@ -76,33 +76,79 @@ export function videoPosteri(v) {
 /** Vitrin videosu: vitrin === ad (ör. 'Haftanın Serisi'); ad verilmezse ilk vitrinli video. */
 export const vitrinVideosu = (ad) => Object.values(VIDEO).find((v) => (ad ? v.vitrin === ad : !!v.vitrin)) || null;
 
+/** Poster görseli yolu: bağlı tarifin kapağı, tarifsiz videoda katalogdaki `poster_tarif`in kapağı; boyut 640 | 1600. Yoksa null. */
+export function posterGorsel(v, boyut = 640) {
+  const p = videoPosteri(v); if (!p) return null;
+  return Number(boyut) >= 1000 ? p.k1600 : p.k640;
+}
+/** Videonun malzeme listesi: bağlı tarifin malzemeleri; tarifsiz (ör. kısa "3 malzemeli sufle") → katalogdaki `malzemeler` metinleri
+ *  aynı biçimde ({ miktar_metin:'', birim:'', ad:<metin>, aciklama:'', grup:null, malzeme_id:null, serbest:true }). */
+export function videoMalzemeleri(v) {
+  const x = typeof v === 'string' ? VIDEO[v] : v; if (!x) return [];
+  const t = videoTarifi(x); if (t) return t.malzemeler || [];
+  return (x.malzemeler || []).map((m) => ({ miktar: null, miktar_metin: '', birim: '', ad: String(m), aciklama: '', grup: null, malzeme_id: null, serbest: true }));
+}
+
+/* ---------- Bölüm damgaları ---------- */
+const BASLIK_MAX = 28;
+/** Kısa bölüm başlığı (≤ 28 karakter, kelime sınırında): adım başlığı, yoksa metnin ilk anlamlı ifadesi. */
+export function kisaBaslik(metin) {
+  let t = String(metin || '').replace(/\s+/g, ' ').trim().replace(/^(dikkat|not|ipucu)\s*:\s*/i, '');
+  t = t.split(/[.;:!?]|,\s/)[0].trim();
+  if (t.length <= BASLIK_MAX) return t.charAt(0).toLocaleUpperCase('tr') + t.slice(1);
+  const k = t.slice(0, BASLIK_MAX + 1); const i = k.lastIndexOf(' ');
+  t = (i > 10 ? k.slice(0, i) : k.slice(0, BASLIK_MAX)).replace(/[\s,;–-]+$/, '').replace(/\s+(ve|ile|ya|veya|da|de|ya da)$/i, '');
+  return t.charAt(0).toLocaleUpperCase('tr') + t.slice(1);
+}
+const cumleler = (m) => String(m || '').replace(/\s+/g, ' ').match(/[^.!?]+[.!?]*/g)?.map((c) => c.trim()).filter((c) => c.length > 12) || [];
 /**
- * Bölüm damgaları → [{ sn, baslik, adim }]
+ * Bölüm damgaları → [{ sn, baslik, adim }]   (lead kuralı, 4 Kas)
+ *  · kısa video (9:16) → [] (kısa videoda bölüm yok)
  *  · katalogda `bolumler: [[sn, "başlık"], …]` verilmişse olduğu gibi (adim: null)
- *  · yoksa bağlı tarifin adımlarından türetilir: 0'da "Malzemeler" (adim: null), sonra her adım süresiyle orantılı
- *    (sure_dk yoksa 2 dk sayılır; ağırlık 1–15 dk arasına kırpılır ki tek uzun bekleme adımı videoyu yutmasın).
- *    `adim` = tarif adımının numarası (1'den başlar) → TARIF[slug].adimlar[adim - 1].
- *  · tarif de yoksa tek bölüm [{ sn: 0, baslik: video başlığı, adim: null }].
+ *  · yoksa bağlı tarifin adımlarından türetilir: en az 4, en çok 7 bölüm —
+ *    00:00 "Giriş" · (gerekirse) "Malzemelerin hazırlığı" · adımlar · son bölüm "Sunum".
+ *    Adım azsa (< 2) uzun adım metni cümlelere bölünür; fazlaysa (> 5) komşu adımlar birleştirilir (ilk adımın başlığı).
+ *    Saniyeler adım sürelerine orantılı (sure_dk yoksa 2 dk; ağırlık 1–15 dk), kesin artan; "Sunum" süreden en az 20 sn önce başlar.
+ *  · `adim` = tarif adımının NUMARASI (1'den başlar) → TARIF[slug].adimlar[adim - 1]; Giriş / hazırlık / Sunum için null.
+ *  · tarif yoksa (ve bolumler verilmemişse) → [{ sn: 0, baslik: 'Giriş', adim: null }].
  */
 export function bolumler(v) {
   const x = typeof v === 'string' ? VIDEO[v] : v;
-  if (!x) return [];
+  if (!x || kisaMi(x)) return [];
   if (Array.isArray(x.bolumler) && x.bolumler.length) return x.bolumler.map((b) => (Array.isArray(b) ? { sn: b[0], baslik: b[1], adim: null } : { adim: null, ...b }));
-  const t = videoTarifi(x); const toplam = Math.max(1, Number(x.sure_sn) || 0);
-  if (!t || !t.adimlar?.length) return [{ sn: 0, baslik: x.baslik, adim: null }];
-  const giris = Math.round(Math.min(Math.max(toplam * 0.08, 4), 45));
-  const agirlik = t.adimlar.map((a) => Math.min(15, Math.max(1, Number(a.sure_dk) || 2)));
-  const top = agirlik.reduce((s, a) => s + a, 0);
-  const kalan = toplam - giris - Math.min(20, Math.round(toplam * 0.05)); // sonda kısa kapanış payı
-  const sonuc = [{ sn: 0, baslik: 'Malzemeler', adim: null }];
+  const t = videoTarifi(x); const toplam = Math.max(60, Number(x.sure_sn) || 0);
+  if (!t || !t.adimlar?.length) return [{ sn: 0, baslik: 'Giriş', adim: null }];
+  // orta bölümler: adımlar
+  let orta = t.adimlar.map((a, i) => ({ baslik: kisaBaslik(a.baslik || a.metin) || `Adım ${i + 1}`, adim: i + 1, w: Math.min(15, Math.max(1, Number(a.sure_dk) || 2)), metin: a.metin }));
+  if (orta.length < 2) { // cümlelere böl (en uzun metinli adım)
+    const yeni = [];
+    for (const o of orta) {
+      const c = cumleler(o.metin);
+      if (c.length >= 2) c.slice(0, 4).forEach((cm, j) => yeni.push({ baslik: j === 0 ? o.baslik : kisaBaslik(cm), adim: o.adim, w: o.w / Math.min(4, c.length) }));
+      else yeni.push(o);
+    }
+    orta = yeni;
+  }
+  if (orta.length > 5) { // komşuları birleştir → 5 grup
+    const g = []; const boy = orta.length / 5;
+    for (let i = 0; i < 5; i++) { const parca = orta.slice(Math.round(i * boy), Math.round((i + 1) * boy)); g.push({ baslik: parca[0].baslik, adim: parca[0].adim, w: parca.reduce((s, p) => s + p.w, 0) }); }
+    orta = g;
+  }
+  if (orta.length < 3) orta.unshift({ baslik: 'Malzemelerin hazırlığı', adim: null, w: 2 });
+  // başlık tekrarı olmasın
+  orta.forEach((o, i) => { if (i && o.baslik === orta[i - 1].baslik) o.baslik = kisaBaslik(`${o.baslik} (devam)`); });
+  const giris = Math.round(Math.min(Math.max(toplam * 0.07, 8), 40));
+  const sunum = Math.min(toplam - 20, Math.round(toplam * 0.9));
+  // tarifin son adımı zaten "Sunum" ise ayrı bölüm açılmaz; o adım son "Sunum" bölümü olur (başlık tekrarı yok)
+  let sunumAdim = null;
+  if (orta.length > 1 && /^sunum$/i.test(orta[orta.length - 1].baslik)) sunumAdim = orta.pop().adim;
+  const top = orta.reduce((s, o) => s + o.w, 0);
+  const sonuc = [{ sn: 0, baslik: 'Giriş', adim: null }];
   let imlec = giris;
-  t.adimlar.forEach((a, i) => {
-    sonuc.push({ sn: Math.round(imlec), baslik: a.baslik || `Adım ${i + 1}`, adim: i + 1 });
-    imlec += (kalan * agirlik[i]) / top;
-  });
-  // kesin artan ve videonun içinde
+  for (const o of orta) { sonuc.push({ sn: Math.round(imlec), baslik: o.baslik, adim: o.adim }); imlec += ((sunum - giris) * o.w) / top; }
+  sonuc.push({ sn: sunum, baslik: 'Sunum', adim: sunumAdim });
   for (let i = 1; i < sonuc.length; i++) if (sonuc[i].sn <= sonuc[i - 1].sn) sonuc[i].sn = sonuc[i - 1].sn + 1;
-  return sonuc.filter((b) => b.sn < toplam);
+  return sonuc;
 }
 
 /** Tarif süresi (hazırlık + pişirme) dk; tarifsiz videoda video süresi (katalog notu, 3 Kas karar 7). */

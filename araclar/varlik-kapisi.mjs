@@ -53,7 +53,20 @@ for (const w of GENISLIK) {
     await sayfa.evaluate(() => scrollTo(0, 0)); await sayfa.waitForTimeout(400);
     const r = await sayfa.evaluate(() => {
       const kirik = [...document.querySelectorAll('img')].filter((i) => i.complete && i.naturalWidth === 0 && i.getAttribute('src') && i.getBoundingClientRect().width > 0 && getComputedStyle(i).display !== 'none').map((i) => i.getAttribute('src'));
-      return { yatay: document.documentElement.scrollWidth - innerWidth, kirik };
+      // Yatay taşma: Gastro body'si overflow-x:clip taşır → scrollWidth KÖRDÜR (taşan içerik kesilir, kaydırma çıkmaz).
+      // Bu yüzden öğe öğe bakılır: görünür, ekranın sağ/sol kenarını KISMEN aşan öğe (tamamen ekran dışı off-canvas çekmece sayılmaz),
+      // kendisini kırpan/kaydıran bir ata (overflow-x ≠ visible; html/body hariç) içinde değilse taşmadır.
+      const kirpanAta = (e) => { for (let a = e.parentElement; a && a !== document.body && a !== document.documentElement; a = a.parentElement) { const o = getComputedStyle(a).overflowX; if (o !== 'visible') return true; } return false; };
+      const tasan = [];
+      for (const e of document.body.querySelectorAll('*')) {
+        const b = e.getBoundingClientRect(); if (b.width === 0 || b.height === 0) continue;
+        const kismen = (b.right > innerWidth + 1 && b.left < innerWidth - 1) || (b.left < -1 && b.right > 1);
+        if (!kismen || !e.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) || kirpanAta(e)) continue;
+        if (getComputedStyle(e).position === 'fixed' && (b.left >= innerWidth - 60)) continue; // kenara park etmiş sabit çekmece/sekme
+        tasan.push((e.tagName.toLowerCase() + '.' + (typeof e.className === 'string' ? e.className.trim().split(/\s+/).join('.') : '')).slice(0, 50) + ` sağ=${Math.round(b.right)}`);
+        if (tasan.length > 5) break;
+      }
+      return { yatay: Math.max(document.documentElement.scrollWidth - innerWidth, 0), tasan, kirik };
     });
     const ad = s.replace(/\.html.*$/, '').replace(/[^a-z0-9-]/gi, '_');
     await sayfa.screenshot({ path: path.join(KOK, `rapor/kapi/${ad}-${w}.png`) });
@@ -61,7 +74,7 @@ for (const w of GENISLIK) {
     if (kotu.length) { sorun.push(`404:${kotu.length} (${kotu.slice(0, 3).join(', ')})`); kusurTurleri.add('404'); }
     if (dis.length) { sorun.push(`izinsiz dış istek:${dis.length} (${dis.slice(0, 2).join(', ')})`); kusurTurleri.add('dis'); }
     if (jsHata.length) { sorun.push(`JS:${jsHata.length} (${jsHata[0].slice(0, 100)})`); kusurTurleri.add('js'); }
-    if (r.yatay > 0) { sorun.push(`yatay taşma ${r.yatay}px`); kusurTurleri.add('tasma'); }
+    if (r.yatay > 0 || r.tasan.length) { sorun.push(`yatay taşma ${r.yatay}px · taşan öğe ${r.tasan.length} (${r.tasan.slice(0, 2).join(', ')})`); kusurTurleri.add('tasma'); }
     if (r.kirik.length) { sorun.push(`kırık görsel ${r.kirik.length} (${r.kirik.slice(0, 2).join(', ')})`); kusurTurleri.add('kirik'); }
     olcum++; if (sorun.length) hata++;
     console.log(`${sorun.length ? '✗' : '✓'} ${String(w).padEnd(4)} ${s}${sorun.length ? '  ' + sorun.join(' · ') : ''}`);

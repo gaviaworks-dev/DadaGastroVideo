@@ -28,7 +28,10 @@ const ID_SIL = ['rdActbar', 'rdSharePop', 'lightbox', 'cookmode', 'fbTab', 'fbOv
 const SINIF_SIL = ['fb-rail', 'head-bell', 'acct-item acct-wrap', 'drawer-acct', 'd-item d-acct-block'];
 const BETIK_SIL = /<script[^>]*src="[^"]*(analitik|goruntulenme|gorus-gonder|gorus-girisleri|dm-gorus|dm-p4-depo|dm-p4-m|dm-p5-l|tarif-eylem|yol-koprusu|telefon-maskesi|sosyal-kayit-onayi|basari-bildirimi|kaydedilmemis|zil-sayaci|depo-kapisi)[^"]*"[^>]*><\/script>\s*/g;
 
-export function kabukTemizle(html) {
+// Tarif sayfası (tarif-<slug>.html) olarak yayınlanan donörde istemci tarafında çalışan paneller KORUNUR:
+// pişirme modu (#cookmode), görsel önizleme (#lightbox), paylaşım menüsü (#rdSharePop). Kabuk olarak kullanılan donörde silinir.
+export const TARIF_KORUNAN = ['cookmode', 'lightbox', 'rdSharePop'];
+export function kabukTemizle(html, { tarif = false } = {}) {
   // 1 · head: kimlik, CSRF, şifreli değerler, canlı sayfa kimliği
   html = html
     .replace(/<meta name="(csrf-token|dada-kimlik|dada-kalkan|dada-goruntulenme|dada-yollar)"[^>]*>\s*/g, '')
@@ -43,7 +46,7 @@ export function kabukTemizle(html) {
     for (let n = 0; n < 400 && re.test(html); n++) html = ogeSil(html, new RegExp(re.source, 'i'));
   }
   // 3 · gövde: kullanıcıya özel ve gönderim yüzeyleri, tarif detayına özgü gizli paneller
-  for (const id of ID_SIL) html = ogeSil(html, new RegExp(`<([a-z]+)\\b[^>]*\\bid="${id}"`, 'i'));
+  for (const id of ID_SIL.filter((x) => !(tarif && TARIF_KORUNAN.includes(x)))) html = ogeSil(html, new RegExp(`<([a-z]+)\\b[^>]*\\bid="${id}"`, 'i'));
   for (const s of SINIF_SIL) for (let n = 0; n < 20; n++) { const once = html; html = ogeSil(html, new RegExp(`<([a-z]+)\\b[^>]*\\bclass="[^"]*\\b${s}\\b[^"]*"`, 'i')); if (once === html) break; }
   // 4 · kalan veri nitelikleri: imzalı/şifreli değer taşıyabilecek her şey
   html = html.replace(/\sdata-[a-z-]*(jeton|token|imza|signature|csrf)[a-z-]*="[^"]*"/gi, '');
@@ -54,7 +57,7 @@ export function kabukTemizle(html) {
 }
 
 /** Temizlik sonrası kalan şüpheli izleri döndürür (kapı ve CLI için). */
-export function tokenTaramasi(html) {
+export function tokenTaramasi(html, { tarif = false } = {}) {
   const bulgu = [];
   // Kaynak gösteren HTML yorumları (<!-- donör: http://127.0.0.1:8960/… -->) bilerek yerel adresi taşır; tarama işaretlemeye bakar.
   html = html.replace(/<!--[\s\S]*?-->/g, '');
@@ -69,7 +72,7 @@ export function tokenTaramasi(html) {
     ['Görüş Bildir formu', /id="fbModal"|class="feedback-tab"/],
     ['hesap menüsü', /class="acct-menu"|class="[^"]*acct-wrap|class="drawer-acct"|d-acct-block|data-cikis/],
     ['bildirim rozeti', /class="hb-badge"|head-bell/],
-    ['gizli tarif paneli', /id="cookmode"|id="rdActbar"|id="rdSharePop"/],
+    ['gizli tarif paneli', tarif ? /id="rdActbar"/ : /id="cookmode"|id="rdActbar"|id="rdSharePop"/],
     ['yerel sunucu adresi', /(https?:)?\/\/(127\.0\.0\.1|localhost):89\d\d/],
     ['yerel sunucu adresi (JSON kaçışlı)', /\\\/\\\/(127\.0\.0\.1|localhost):89\d\d/],
     ['yerel sunucu adresi (URL kodlu)', /(127\.0\.0\.1|localhost)%3A89\d\d/i],

@@ -45,9 +45,25 @@ SERI_SEF = {s['sef'] for s in K.get('seriler', []) if s.get('sef')}
 UZUN = {v['tarif'] for v in K.get('videolar', []) if v.get('tarif')}
 KISA = {v['tarif'] for v in K.get('kisalar', []) if v.get('tarif')}
 
+# Kapak kaynağı: yerel kopyalar (snapshot.mjs ile aynı yedek sırası). Yeni "pilot" tarif kapakları gastro-mysql kopyasında yok;
+# içerik hattının yayına çıkan dosyası (gastro-icerik-*/tasks/**/yayin/<ad>-kapak.webp) kullanılır.
+DM = os.path.expanduser('~/Developer/Revenge Projects/DadaMentor')
+YAYIN_KAPAK = {}
+for hat in ('gastro-icerik-ekim-sonu', 'gastro-icerik-kasim-20261031', 'gastro-icerik-kasim'):
+    for kok, _, dosyalar in os.walk(os.path.join(DM, hat, 'tasks')):
+        if os.path.basename(kok) == 'yayin':
+            for f in dosyalar:
+                if f.endswith('-kapak.webp'): YAYIN_KAPAK[f] = os.path.join(kok, f)
+def kapak_dosyasi(url):
+    if not url: return None
+    u = url.lstrip('/')
+    adaylar = [os.path.join(GASTRO, 'public', u), os.path.join(DM, 'DadaGastro/public', u),
+               os.path.join(DM, 'DadaGastro/public/varliklar', u), os.path.join(KOK, 'varlik/gastro', u), YAYIN_KAPAK.get(os.path.basename(u))]
+    return next((a for a in adaylar if a and os.path.exists(a)), None)
+
 eksen_ad = {r['id']: r['ad'] for r in sorgu('select id, ad from eksen_degerleri')}
 tar = sorgu(f"""select t.id, t.slug, t.baslik, t.alt_baslik, t.ozet, t.kapak_url, t.hazirlik_dk, t.pisirme_dk, t.zorluk_id, t.mutfak_id,
-  t.porsiyon_sayisi, t.porsiyon_birimi, t.sef_id, t.durum, up.kullanici_adi sef from tarifler t left join uye_profilleri up on up.id = t.sef_id
+  t.porsiyon_sayisi, t.porsiyon_birimi, t.durum, t.sef_kullanici_adi sef from tarifler t
   where t.slug in ({','.join(lit(s) for s in SLUGLAR)}) and t.deleted_at is null""")
 bulunan = {t['slug'] for t in tar}
 eksik = [s for s in SLUGLAR if s not in bulunan]
@@ -89,20 +105,22 @@ for t in sorted(tar, key=lambda x: x['slug']):
 SEFLER = sorted(SERI_SEF | {t['sef'] for t in tar if t['sef']})
 prof = sorgu(f"""select up.id, up.kullanici_adi, up.unvan, up.avatar_url, k.ad, k.soyad from uye_profilleri up
   left join kimlik_hesaplar k on k.id = up.hesap_id where up.kullanici_adi in ({','.join(lit(s) for s in SEFLER)}) and up.deleted_at is null""")
-pid = ','.join(p['id'] for p in prof) or '0'
-sayim = {r['sef_id']: int(r['n']) for r in sorgu(f"select sef_id, count(*) n from tarifler where durum = 'yayinda' and deleted_at is null and sef_id in ({pid}) group by sef_id")}
+# Lead notu (4 Kas): tarifin şefi `tarifler.sef_kullanici_adi`; sayım ve mutfak da bu sütundan (sef_id eski kimlik).
+kadi = ','.join(lit(p['kullanici_adi']) for p in prof) or "''"
+sayim = {r['sef_kullanici_adi']: int(r['n']) for r in sorgu(f"select sef_kullanici_adi, count(*) n from tarifler where durum = 'yayinda' and deleted_at is null and sef_kullanici_adi in ({kadi}) group by sef_kullanici_adi")}
 mutfak = {}
-for r in sorgu(f"""select sef_id, mutfak_id, count(*) n from tarifler where durum = 'yayinda' and deleted_at is null and mutfak_id is not null
-  and sef_id in ({pid}) group by sef_id, mutfak_id order by sef_id, n desc, mutfak_id"""):
-    mutfak.setdefault(r['sef_id'], eksen_ad.get(r['mutfak_id']))
+for r in sorgu(f"""select sef_kullanici_adi, mutfak_id, count(*) n from tarifler where durum = 'yayinda' and deleted_at is null and mutfak_id is not null
+  and sef_kullanici_adi in ({kadi}) group by sef_kullanici_adi, mutfak_id order by sef_kullanici_adi, n desc, mutfak_id"""):
+    mutfak.setdefault(r['sef_kullanici_adi'], eksen_ad.get(r['mutfak_id']))
 ornek = {}
 for p in prof:
-    if p['kullanici_adi'] not in SERI_SEF: continue  # şef sayfası yalnız seri şefleri için (video-sef-*)
-    ornek[p['id']] = [{'slug': r['slug'], 'baslik': r['baslik'], 'kapak_kaynak': r['kapak_url'], 'kapak640': f"varlik/video/tarif/{r['slug']}-640.webp",
+    k = p['kullanici_adi']
+    if k not in SERI_SEF: continue  # şef sayfası yalnız seri şefleri için (video-sef-*)
+    ornek[k] = [{'slug': r['slug'], 'baslik': r['baslik'], 'kapak_kaynak': r['kapak_url'], 'kapak640': f"varlik/video/tarif/{r['slug']}-640.webp",
         'sure_dk': (sayi(r['hazirlik_dk']) or 0) + (sayi(r['pisirme_dk']) or 0) or None, 'zorluk': eksen_ad.get(r['zorluk_id'])}
-        for r in sorgu(f"""select slug, baslik, kapak_url, hazirlik_dk, pisirme_dk, zorluk_id from tarifler where sef_id = {int(p['id'])} and durum = 'yayinda'
-          and deleted_at is null and kapak_url like 'varliklar/media/%' order by goruntulenme desc, id limit 40""")
-        if os.path.exists(os.path.join(GASTRO, 'public', r['kapak_url']))][:SEF_SAYISI_ORNEK]  # yerel kopyası olan kapaklar
+        for r in sorgu(f"""select slug, baslik, kapak_url, hazirlik_dk, pisirme_dk, zorluk_id from tarifler where sef_kullanici_adi = {lit(k)} and durum = 'yayinda'
+          and deleted_at is null and kapak_url is not null order by goruntulenme desc, id limit 400""")
+        if kapak_dosyasi(r['kapak_url'])][:SEF_SAYISI_ORNEK]  # yerel kopyası bulunan kapaklar
 
 def bas_harf(ad):
     p = [x for x in re.split(r'\s+', ad or '') if x]
@@ -116,9 +134,9 @@ for p in sorted(prof, key=lambda x: x['kullanici_adi']):
     avatar = ('varlik/gastro' + av) if av and av.startswith('/storage/') and os.path.exists(os.path.join(KOK, 'varlik/gastro' + av)) else None
     if av and not avatar: print(f'· {p["kullanici_adi"]}: avatar yolu {av} yerelde yok → baş harf', file=sys.stderr)
     sefler[p['kullanici_adi']] = {'ad': ad, 'kullanici_adi': p['kullanici_adi'], 'unvan': p['unvan'], 'avatar': avatar, 'bas_harf': bas_harf(ad),
-        'tarif_sayisi': sayim.get(p['id'], 0), 'mutfak': mutfak.get(p['id']),
+        'tarif_sayisi': sayim.get(p['kullanici_adi'], 0), 'mutfak': mutfak.get(p['kullanici_adi']),
         'tarifler': sorted(s for s, t in tarifler.items() if t['sef'] == p['kullanici_adi'] and t['sayfa']),
-        'ornek_tarifler': ornek.get(p['id'], []), 'seri_sefi': p['kullanici_adi'] in SERI_SEF, 'gastro_profil': f"https://dadagastro.com/sefler/{p['kullanici_adi']}"}
+        'ornek_tarifler': ornek.get(p['kullanici_adi'], []), 'seri_sefi': p['kullanici_adi'] in SERI_SEF, 'gastro_profil': f"https://dadagastro.com/sefler/{p['kullanici_adi']}"}
 for s in SEFLER:
     if s not in sefler: print('✗ şef bulunamadı:', s, file=sys.stderr)
 
@@ -129,8 +147,8 @@ def uret(kaynak_url, hedef, gen):
     global yeni
     h = os.path.join(KOK, hedef)
     if os.path.exists(h): return True
-    k = os.path.join(GASTRO, 'public', kaynak_url or '')
-    if not kaynak_url or not os.path.exists(k): eksik_gorsel.append(f'{hedef} ← {kaynak_url}'); return False
+    k = kapak_dosyasi(kaynak_url)
+    if not k: eksik_gorsel.append(f'{hedef} ← {kaynak_url}'); return False
     subprocess.run(['cwebp', '-quiet', '-q', '78' if gen == 1600 else '76', '-resize', str(gen), '0', k, '-o', h], check=True); yeni += 1; return True
 for s, t in tarifler.items():
     uret(t['kapak_kaynak'], t['kapak640'], 640)

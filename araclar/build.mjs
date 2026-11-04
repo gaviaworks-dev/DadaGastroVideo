@@ -51,15 +51,17 @@ const MEGA_ESKI = /<a class="mega-find mf-video"[^>]*>[\s\S]*?<\/a>/;
 function markaYazimi(html) {
   return html.replace(/DadaGastro(?![a-z.\/])/g, 'Dada Gastro').replace(/>Dada<\/(b|strong)>Gastro/g, '>Dada</$1> Gastro');
 }
-async function kabukEkle(html, { css = [], js = [], video = false } = {}) {
+async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = video } = {}) {
   html = markaYazimi(html);
   html = zorunlu(html, MEGA_ESKI, megaOnizleme(), 'mega menü .mf-video');
   zorunlu(html, /<a class="mf-video-tumu" href="video-mutfagi\.html"/, '', 'mega menü hub bağı (video-mutfagi.html)');
   const cssEk = [`<link rel="stylesheet" href="varlik/video/kabuk.css?v=${SURUM}">`];
   const jsEk = [`<script src="varlik/video/kabuk.js?v=${SURUM}" defer></script>`];
-  if (video) {
+  if (videoTaban) { // video.css/js (hub ajanı: kart + ortak davranış) — video sayfaları ve video kartı taşıyan index
     if (await varMi('varlik/video/video.css')) cssEk.push(`<link rel="stylesheet" href="varlik/video/video.css?v=${SURUM}">`);
     if (await varMi('varlik/video/video.js')) jsEk.push(`<script src="varlik/video/video.js?v=${SURUM}" defer></script>`);
+  }
+  if (video) {
     for (const c of css) { const y = `varlik/video/css/${c}.css`; if (!(await varMi(y))) { uyar(`css yok (atlandı): ${y}`); continue; } cssEk.push(`<link rel="stylesheet" href="${y}?v=${SURUM}">`); }
     for (const j of js) { const y = `varlik/video/js/${j}.js`; if (!(await varMi(y))) { uyar(`js yok (atlandı): ${y}`); continue; } jsEk.push(`<script src="${y}?v=${SURUM}" defer></script>`); }
   }
@@ -112,14 +114,25 @@ async function indexSayfasi() {
   let html = kabukTemizle(await oku('src/donor/ana.html'));
   html = await anaSayfaVideoBolumu(html);
   html = basliklar(html, 'Dada Gastro ana sayfası · Video Mutfağı (prototip)', 'Dada Gastro ana sayfasının prototip kopyası: üst menüde Video Mutfağı, Tarifler mega menüsünde haftanın serisi önizlemesi ve ana sayfa video bölümü.', { dosya: 'index.html', site: 'Dada Gastro (prototip)' });
-  return yorum('http://127.0.0.1:8960/', 'ana sayfa: mega menü video önizlemesi + video bölümü kartları') + await kabukEkle(html);
+  return yorum('http://127.0.0.1:8960/', 'ana sayfa: mega menü video önizlemesi + video bölümü kartları') + await kabukEkle(html, { videoTaban: true });
 }
-// Ana sayfa "İzle & Pişir · En lezzetli videolar" bölümü: başlık ve "Tamamını Gör" bağı donörden (→ video-mutfagi.html);
-// kartlar hub ajanının videoKarti()sı teslim edilince prototip videolarıyla değişir (o zamana kadar donör kartları + onclick bağı hub'a).
+// Ana sayfa "İzle & Pişir · En lezzetli videolar" bölümü (donör: section.sec.vids-sec): başlık, açıklama, "Tamamını Gör" bağı
+// (→ video-mutfagi.html) ve Gastro'nun .row-nav ok düğmeleri (data-track="vidTrack", portal JS) AYNEN kalır; yalnız #vidTrack izindeki
+// donör kartları (prototip artığı: boş kapak, "0" görüntülenme, hepsi hub'a giden onclick) prototip videolarıyla değişir —
+// hub ajanının videoKarti()sı (Gastro .r-card), ray boyu; örnek izleme ilerlemesi ana sayfada basılmaz (etiketsiz örnek olmasın). Seçim: haftanın serisi + her uzun serinin ilk bölümü + mevsimin tarifi (6 kart).
+export function anaSayfaVideolari() {
+  const ilk = (slug) => (KATALOG.videolar || []).filter((v) => v.seri === slug).sort((a, b) => a.bolum - b.bolum)[0];
+  const sec = [ortak0.vitrinVideosu('Haftanın Serisi'), ...(KATALOG.seriler || []).filter((x) => x.format === '16:9').map((x) => ilk(x.slug)), ortak0.vitrinVideosu('Mevsimin Tarifi')];
+  const g = []; for (const v of sec) if (v && !g.some((x) => x.slug === v.slug)) g.push(VIDEO[v.slug]);
+  return g.slice(0, 6);
+}
 async function anaSayfaVideoBolumu(html) {
-  zorunlu(html, /<section class="sec vids-sec">/, '', 'ana sayfa video bölümü');
-  if (typeof ortak.videoKarti !== 'function') return html;
-  return html; // adım 5c: bkz. anaSayfaKartlari (kart.mjs teslimi sonrası)
+  const m = /<div class="vid-grid row-track drag-scroll" id="vidTrack">/.exec(html);
+  if (!m) throw new Error('Ekleme noktası bulunamadı: ana sayfa video bölümü #vidTrack');
+  if (typeof ortak.videoKarti !== 'function') { uyar('kart.mjs videoKarti yok → ana sayfa video kartları donörde kaldı'); return html; }
+  const son = ogeSonu(html, m.index);
+  const kartlar = anaSayfaVideolari().map((v) => ortak.videoKarti(v, ortak, { boyut: 'ray', baslikSeviye: 'h4', ilerleme: false })).join('\n');
+  return html.slice(0, m.index) + m[0] + '\n' + kartlar + '\n</div>' + html.slice(son);
 }
 
 /** `bas` konumunda açılan öğenin kapanış etiketinin bittiği konum (aynı adlı iç içe etiketler sayılır). */
@@ -146,8 +159,18 @@ function tarifKoprusu(slug) {
     + `<span class="mf-body"><b>Bu Tarifin Videosunu İzle (${sure})</b><span class="vd-tarif-kopru__ad">${esc(v.baslik)}</span><small>${esc(s ? s.ad : '')}${v.tur === 'kisa' ? ' · Kısa video' : ` · Bölüm ${v.bolum}`}</small></span>`
     + `${ortak0.ui('arrow-right', 'mf-arr')}</a>`;
 }
+// 3 Kas karar 6 (lead onayı 4 Kas): tarif sayfası videoyu yalnız video_id bağından okur; serbest video_url gösterilmez, yerini D.2a köprü
+// kartı alır. Donörde (dev DB'deki test video_url'si yüzünden) basılan "Tarif videosu" bölümü (section.gastro-tarif-medya, YouTube iframe)
+// hangi tarif sayfasında varsa çıkarılır; sayısı derleme çıktısına yazılır.
+let tarifMedyaCikan = 0;
+function tarifMedyaCikar(html, slug) {
+  for (;;) {
+    const m = /<section class="gastro-tarif-medya"[^>]*>/.exec(html); if (!m) return html;
+    html = html.slice(0, m.index) + html.slice(ogeSonu(html, m.index)); tarifMedyaCikan++; uyar(`"Tarif videosu" bölümü çıkarıldı: tarif-${slug}.html`);
+  }
+}
 async function tarifSayfasi(slug) {
-  let html = kabukTemizle(await oku(`src/donor/tarif-${slug}.html`));
+  let html = tarifMedyaCikar(kabukTemizle(await oku(`src/donor/tarif-${slug}.html`), { tarif: true }), slug);
   const kart = tarifKoprusu(slug);
   if (kart) {
     // .rd-head içindeki .art-hmeta bloğunun KAPANIŞINDAN sonra (iç içe <div>'ler sayılarak; full-stack video-karti.blade.php'nin yeri)
@@ -188,10 +211,11 @@ for (const [ad, yol] of kaynaklar) {
 }
 let hata = 0;
 for (const [ad, html] of cikti) {
-  const kalan = tokenTaramasi(html);
+  const kalan = tokenTaramasi(html, { tarif: /^tarif-/.test(ad) });
   if (kalan.length) { console.error(`✗ ${ad}: token taraması kırmızı → ${kalan.join(', ')}`); hata++; continue; }
   await writeFile(path.join(KOK, ad), html);
   console.log('✓', ad.padEnd(64), (html.length / 1024).toFixed(0) + ' KB');
 }
 for (const u of uyarilar) console.warn('·', u);
+console.log(`tarif sayfalarından çıkarılan "Tarif videosu" bölümü (section.gastro-tarif-medya): ${tarifMedyaCikan}`);
 if (hata) process.exit(1);
