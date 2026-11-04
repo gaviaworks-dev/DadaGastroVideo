@@ -40,3 +40,14 @@
 - `data-vd-kirp="2"` + `title`: bölüm düğmesi başlığı, bölüm listesi satırı, sıradaki bölüm başlığı + özeti, sıradaki katmanı, pişirme modu
   tarif adı, kısa video başlığı. (Benzerler ve şefin diğer videoları hub'ın videoKarti'si — kırpma hub'da.) CSS line-clamp yalnız yedek.
   Oynatıcı çubuğundaki bölüm adında ellipsis kaldırıldı; dar ekranda hiç basılmaz (damgalar altta).
+
+## REKLAM ENTEGRE (5 Kas) — reklam-durum.md §4 izle 1–7 + EK
+- izle.mjs: sinema bölümü `data-rk-hero`; seri satırında `sponsorEtiketi(s.slug)`; gövdeden sonra `reklamSlotu('ust')`, benzerlerden sonra
+  `reklamSlotu('alt')`; malzeme panelinin listesinin sonunda eşlik kartı (`oynatici(..., { eslik })` → yalnız tarifli videolarda).
+- oynatici.mjs: yeni seçenek `eslik` (panel listesinin EN ALTINA konan HTML; hub spotlight'ta kullanılmaz).
+- sef.mjs: kanal başlığı `data-rk-hero`, ardına `reklamSlotu('ust')`, sona `reklamSlotu('alt')`.
+- kisa.mjs: 3. öğeden sonra `reklamSlotu('native', { sayfa: 'kisa' })`; EK: üst satırda `reklamAnahtari()` (yalnız simge; ad ekran okuyucuda).
+- kisa.js: `vd:reklam` olayında yeniden tarama (öğe listesi + segmentler + sayaç "n / 10"); sponsorlu öğede simülasyon yok, ?v= yazılmaz,
+  ilerleme parçası o öğenin <video>'sundan; adres yazarken diğer parametreler korunur (reklam=1 düşmüyordu → reklam kapısı yakaladı, düzeltildi).
+- Kapılar (5 Kas): reklam-kapisi izle+sef+kisa yeşil 220 / 0 · davranis-izle 23 / 0 · kirpma-kapisi (33 sayfa) 0 kırmızı · ss taşma/JS/404 0.
+- Görüntüler: tasks/ss/izle/izle-reklamli-{1440,390}.png, izle-reklamli-eslik-{1440,390}.png, kisa-reklamli-1440.png, kisa-reklam-ogesi-1440.png

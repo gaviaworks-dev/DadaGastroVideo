@@ -3,6 +3,7 @@
 // kisaKarti, bolumKarti, seriAfisi), tarif kartı Gastro .r-card (.r-media-wrap > .r-media · .r-body > h4 · .r-facts).
 // Sekmeler (tablist) Gastro'da karşılığı olmadığı için yeni (vd-kanal__sekme). Takipçi / izlenme sayısı YOK.
 import * as kart from '../kart.mjs';
+import { reklamSlotu } from '../reklam.mjs';
 import { sefTanitimi } from './izle.mjs';
 
 const DONOR = '<!-- Video Mutfağı şef kanalı · donör: Gastro tarif detayı kabuğu (yerel 8960 render) + .rd-crumb/.sec-head/.r-card kalıpları · sekmeler yeni (vd-kanal) -->';
@@ -41,7 +42,7 @@ function sayfa(k, o) {
 
   const main = `${DONOR}
 <div class="vd-kanal" data-vd-kanal>
- <section class="vd-kanal__bas">
+ <section class="vd-kanal__bas" data-rk-hero="">
   <div class="wrap">
    <nav class="rd-crumb vd-kanal__kirinti" aria-label="Sayfa yolu">
     <a href="video-mutfagi.html"><i class="fa-solid fa-clapperboard" aria-hidden="true"></i> Video Mutfağı</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
@@ -71,6 +72,7 @@ function sayfa(k, o) {
    </div>
   </div>
  </section>
+ ${reklamSlotu('ust', o, { sayfa: 'sef' })}
 
  <div class="wrap vd-kanal__govde">
   <div class="vd-kanal__sekmeler" role="tablist" aria-label="${esc(sef.ad)} kanalı">
@@ -78,6 +80,7 @@ function sayfa(k, o) {
   </div>
   ${sekmeler.map((s, i) => `<section class="vd-kanal__panel" role="tabpanel" id="panel-${s.id}" aria-labelledby="sekme-${s.id}" tabindex="0"${i ? ' hidden' : ''}>${s.govde}</section>`).join('\n  ')}
  </div>
+ ${reklamSlotu('alt', o, { sayfa: 'sef' })}
 </div>`;
 
   return {

@@ -4,6 +4,7 @@
 // damgaları, pişirme modu, sıradaki bölüm katmanı) vd- önekli ve izle.css / oynatici.css / pisirme.css'te.
 import { oynatici, malzemeBolumleri, adimBolumu, posterYolu } from '../oynatici.mjs';
 import * as kart from '../kart.mjs';
+import { reklamSlotu, sponsorEtiketi } from '../reklam.mjs';
 
 const DONOR = '<!-- Video Mutfağı izleme sayfası · donör: Gastro tarif detayı kabuğu (yerel 8960 render) + .rd-crumb/.sec-head/.r-card kalıpları · oynatıcı/panel/damga/pişirme modu yeni (vd-) -->';
 const YAYIN = 'https://gaviaworks-dev.github.io/DadaGastroVideo/';
@@ -28,20 +29,20 @@ function sayfa(v, o, uzunlar) {
 
   const main = `${DONOR}
 <div class="vd-izle${kilitli ? ' vd-izle--kilitli' : ''}" data-vd-izle data-slug="${esc(v.slug)}"${sonraki && !kilitli ? ` data-sonraki="${esc(o.videoAdresi(sonraki))}"` : ''}>
- <section class="vd-izle__sinema" aria-label="Video">
+ <section class="vd-izle__sinema" aria-label="Video" data-rk-hero="">
   <div class="wrap">
    <nav class="rd-crumb vd-izle__kirinti" aria-label="Sayfa yolu">
     <a href="video-mutfagi.html"><i class="fa-solid fa-clapperboard" aria-hidden="true"></i> Video Mutfağı</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
     <a href="${esc(o.seriAdresi(s))}">${esc(s.ad)}</a><i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
     <b>Bölüm ${v.bolum}</b>
    </nav>
-   <div class="vd-izle__sahne">${oynatici(v, o, { kip: 'izle', kilitli, alt: damgalar(v, o, bolumler, kilitli) })}</div>
+   <div class="vd-izle__sahne">${oynatici(v, o, { kip: 'izle', kilitli, alt: damgalar(v, o, bolumler, kilitli), eslik: t ? reklamSlotu('eslik', o, { sayfa: 'izle' }) : '' })}</div>
   </div>
  </section>
 
  <div class="wrap vd-izle__govde">
   <header class="vd-izle__bas">
-   <a class="vd-izle__seri" href="${esc(o.seriAdresi(s))}"><i class="fa-solid ${esc(s.ikon)}" aria-hidden="true"></i> ${esc(s.ad)} · Bölüm ${v.bolum} / ${seriBolum.length}</a>${kilitli ? ' <span class="vd-pro vd-izle__pro"><i class="fa-solid fa-lock" aria-hidden="true"></i> Pro</span>' : ''}
+   <a class="vd-izle__seri" href="${esc(o.seriAdresi(s))}"><i class="fa-solid ${esc(s.ikon)}" aria-hidden="true"></i> ${esc(s.ad)} · Bölüm ${v.bolum} / ${seriBolum.length}</a>${sponsorEtiketi(s.slug)}${kilitli ? ' <span class="vd-pro vd-izle__pro"><i class="fa-solid fa-lock" aria-hidden="true"></i> Pro</span>' : ''}
    <h1 class="vd-izle__baslik">${esc(v.baslik)}</h1>
    ${v.ozet ? `<p class="vd-izle__ozet">${esc(v.ozet)}</p>` : ''}
    <div class="vd-izle__meta">
@@ -64,7 +65,9 @@ function sayfa(v, o, uzunlar) {
   ${seriBaglami(v, o, s, seriBolum, sira, sonraki)}
  </div>
 
+ ${reklamSlotu('ust', o, { sayfa: 'izle' })}
  ${benzerler(v, o, uzunlar)}
+ ${reklamSlotu('alt', o, { sayfa: 'izle' })}
  ${t && t.adimlar?.length ? pisirmeModu(v, o, t, bolumler, malzemeler, kilitli) : ''}
  ${sonraki && !kilitli ? siradakiKatmani(v, o, sonraki) : ''}
  <script type="application/ld+json">${jsonLd(v, o, s, t, bolumler, sira).replace(/</g, '\\u003c')}</script>

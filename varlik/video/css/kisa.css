@@ -90,3 +90,10 @@ html.vd-dikey-acik .ke-toast, html.vd-dikey-acik .dm-toast-kap { z-index: 2600; 
   .vd-dikey__eylemler { right: 6px; bottom: calc(20px + env(safe-area-inset-bottom)); }
   .vd-dikey__baslik { font-size: 19px !important; }
 }
+
+/* Reklamlı görünümde sponsorlu öğenin kabı akışta kutu kurmaz (öğe doğrudan scroll-snap alanı olur) */
+.vd-dikey__akis > .vd-reklam--kisa:not([hidden]) { display: contents; }
+/* Reklamlı görünüm anahtarı tam ekran görüntüleyicinin üst satırında (Gastro .chip): dar sahnede yalnız simge, ad ekran okuyucuda */
+.vd-dikey__ust-satir .vd-rk-anahtar { flex: none; min-height: 44px; padding: 0 12px; }
+.vd-dikey__ust-satir .vd-rk-anahtar__metin { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.vd-dikey__kapat, .vd-dikey__seri { white-space: nowrap; }

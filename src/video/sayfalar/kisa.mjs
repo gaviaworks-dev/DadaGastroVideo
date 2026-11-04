@@ -4,6 +4,7 @@
 // Hub da aynı görüntüleyiciyi katman olarak kullanır: `kisaGoruntuleyici(o, { katman: true })` markup'ı + css 'kisa' + js 'kisa';
 // kisa.js hub sayfasında `a[data-vd-kisa]` tıklamasını yakalayıp `window.vdKisa.ac(slug)` ile katmanı açar.
 import { posterYolu } from '../oynatici.mjs';
+import { reklamSlotu, reklamAnahtari } from '../reklam.mjs';
 
 const DONOR = '<!-- Video Mutfağı kısa video görüntüleyici · donör: Gastro tarif detayı kabuğu (yerel 8960 render); görüntüleyici yeni (vd-dikey) -->';
 
@@ -46,10 +47,11 @@ export function kisaGoruntuleyici(o, { katman = false } = {}) {
     ${katman ? `<button class="vd-dikey__kapat" type="button" data-vd-dikey-kapat aria-label="Kısa videoları kapat"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Video Mutfağı</span></button>` : `<a class="vd-dikey__kapat" href="video-mutfagi.html" data-vd-dikey-kapat aria-label="Kısa videoları kapat, Video Mutfağı'na dön"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i><span>Video Mutfağı</span></a>`}
     <span class="vd-dikey__seri"><i class="fa-solid fa-bolt" aria-hidden="true"></i> ${esc(seri?.ad || 'Kısa videolar')}</span>
     <span class="vd-dikey__sira" data-vd-dikey-sira aria-live="polite">1 / ${kisalar.length}</span>
+    ${reklamAnahtari()}
    </div>
   </div>
   <div class="vd-dikey__akis" data-vd-dikey-akis tabindex="-1">
-   ${kisalar.map(oge).join('')}
+   ${kisalar.map((k, i) => oge(k, i) + (i === 2 ? reklamSlotu('native', o, { sayfa: 'kisa' }) : '')).join('')}
   </div>
   <div class="vd-dikey__gezinti">
    <button class="vd-dikey__git" type="button" data-vd-dikey-onceki aria-label="Önceki kısa video"><i class="fa-solid fa-chevron-up" aria-hidden="true"></i></button>
