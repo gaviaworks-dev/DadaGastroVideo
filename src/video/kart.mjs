@@ -28,16 +28,9 @@ const tarifi = (v, o) => (v && v.tarif && o.TARIF ? o.TARIF[v.tarif] || null : n
 /** Kapak: bağlı tarifin kapağı. Tarifsiz videoda null → kart seri afişi (tipografik, seri ikonu) basar.
  *  Karar (hub, önerimle): tarifsiz videoya başka bir tarifin fotoğrafı konmaz — bıçak rehberine biftek kapağı yanıltıcı olurdu. */
 export function kapakBul(v, o, { buyuk = false } = {}) {
-  // Lead kararı (katalog _not, 1c8872e): tarifsiz videoda `poster_tarif` kapağı yalnız görsel olarak kullanılır (bağ değil).
-  // Tek kaynak: kabuğun ortak.mjs `posterGorsel(v, boyut)`u varsa o; yoksa aynı kural burada.
-  if (o && typeof o.posterGorsel === 'function') {
-    const pg = o.posterGorsel(v, buyuk ? 1600 : 640);
-    const src = typeof pg === 'string' ? pg : pg && (pg.src || pg.yol || (buyuk ? pg.k1600 || pg.k640 : pg.k640 || pg.k1600));
-    if (src) return { src, alt: v.baslik };
-  }
-  const t = tarifi(v, o) || (v && v.poster_tarif && o.TARIF ? o.TARIF[v.poster_tarif] : null);
-  if (!t) return null;
-  const src = (buyuk && t.kapak1600) || t.kapak640 || t.kapak1600;
+  // Tek kaynak: kabuğun ortak.mjs `videoPosteri(v)` → { k640, k1600, alt } (tarif kapağı; tarifsizde katalog `poster_tarif`, lead 1c8872e).
+  const p = o.videoPosteri(v);
+  const src = p && (buyuk ? p.k1600 || p.k640 : p.k640 || p.k1600);
   return src ? { src, alt: v.baslik } : null;
 }
 /** Süre süzgeci dakikası: tarif süresi (hazırlık + pişirme); tarifsizde video süresi (katalog _not, 3 Kas karar 7). */
@@ -66,7 +59,7 @@ export function metaRozetleri(v, o, { sinif = '' } = {}) {
   const p = [];
   if (t) {
     const hz = (Number(t.hazirlik_dk) || 0) + (Number(t.pisirme_dk) || 0);
-    if (hz) p.push(`<span title="Hazırlık süresi (hazırlık + pişirme)">${ik('fa-clock')} <span class="rf-txt">${hz} dk</span></span>`);
+    if (hz) p.push(`<span title="Hazırlık süresi (hazırlık + pişirme)">${ik('fa-clock')} <span class="rf-txt">Hazırlık ${hz} dk</span></span>`);
     const z = zorlukUc(t.zorluk);
     if (z) p.push(`<span title="Zorluk: ${e(o, z)}" data-vd-zorluk="${e(o, z)}">${ik(ZORLUK_IKON[z] || 'fa-gauge-simple')} <span class="rf-txt">${e(o, z)}</span></span>`);
     const kal = Number(t.kalori);
@@ -127,7 +120,8 @@ export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGos
   const s = seriBul(v.seri, o);
   const k = kapakBul(v, o);
   const href = videoHref(v, o);
-  const seriEt = s ? `<span class="r-chip vd-kart__seri">${ik(s.ikon || 'fa-video')} <span>${boyut === 'ray' ? `Bölüm ${v.bolum}` : `${e(o, s.ad)} · Bölüm ${v.bolum}`}</span></span>` : '';
+  // Bölüm numarası her zaman görünür; dar yerde yalnız seri adı üç noktayla kısalır (lead 5 Kas düzeltme 2)
+  const seriEt = s ? `<span class="r-chip vd-kart__seri">${ik(s.ikon || 'fa-video')} ${boyut === 'ray' ? '' : `<span class="vd-kart__seri-ad">${e(o, s.ad)}</span><span class="vd-kart__seri-ayrac" aria-hidden="true">·</span>`}<span class="vd-kart__seri-no">Bölüm ${v.bolum}</span></span>` : '';
   const h = baslikSeviye;
   const medya = `<div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya${k ? '' : ' vd-kart__medya--afis'}">
    ${k ? kapakImg(k, o, { sinif: 'vd-kart__kapak', oncelik }) : afisKapak(v, o, s)}
@@ -143,7 +137,7 @@ export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGos
     return `<article class="r-card vd-kart vd-kart--kompakt" ${suzgecVerisi(v, o)}>
   ${medya}
   <div class="r-body">
-   <span class="vd-kart__ust">${s ? `${e(o, s.ad)} · Bölüm ${v.bolum}` : ''}</span>
+   ${s ? `<span class="vd-kart__ust"><span class="vd-kart__ust-seri">${e(o, s.ad)}</span><span aria-hidden="true">·</span><span class="vd-kart__ust-no">Bölüm ${v.bolum}</span></span>` : ''}
    <${h}><a href="${e(o, href)}">${e(o, v.baslik)}</a></${h}>
    ${kalan ? `<span class="vd-kart__kalan">${ik('fa-clock-rotate-left')} ${kalan} dk kaldı · %${Math.round(v.ornek_ilerleme * 100)} izlendi</span>` : ''}
   </div>
