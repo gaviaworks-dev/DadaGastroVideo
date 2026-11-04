@@ -50,7 +50,7 @@ export default async function (o) {
      </div>
      <div class="vd-spot__alt">${s ? K.sefRozeti(s.sef, o, { etiket: 'Sunan' }) : ''}${K.metaRozetleri(v, o, { sinif: 'vd-spot__meta' })}</div>
     </div>
-    ${oynatici(v, o, { kip: 'spotlight', kilitli: !!(s && s.pro), baslikSeviye: 'h3' })}
+    ${oynatici(v, o, { kip: 'spotlight', kilitli: !!(s && s.pro), baslikSeviye: 'h3', oncelik: i === 0 })}
    </div>`;
   }).join('');
   const spot = `<section class="vd-spot" aria-labelledby="vd-h1">
