@@ -138,3 +138,5 @@
 .vd-tum .vd-bos { margin-top: 0; }
 
 .vd-suzgec + .vd-alan { margin-top: var(--vd-ara, 24px); }
+/* REVİZE 1 madde 7 — süzgeç sonucunda native reklam kartı yok (hub.js data-vd-suzgec-gizli yazar; reklam.css'in display:contents !important'ını ezer) */
+html.vd-reklamli .vd-hub .vd-reklam[data-vd-suzgec-gizli] { display: none !important; }

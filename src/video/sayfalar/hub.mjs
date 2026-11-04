@@ -7,6 +7,7 @@
 import * as K from '../kart.mjs';
 import { oynatici } from '../oynatici.mjs';
 import { kisaGoruntuleyici } from './kisa.mjs'; // izle ajanının tam ekran dikey görüntüleyicisi, hub'da katman (1.3b)
+import { reklamSlotu, sponsorEtiketi } from '../reklam.mjs'; // REVİZE 1 madde 7 (reklam ajanının API'si)
 
 export const KONSEPT_IKON = { '10 Dakikada Pratik': 'fa-stopwatch', 'Şef Teknikleri': 'fa-book-open', 'Restoran Sırları': 'fa-bell-concierge', 'Yöresel Keşifler': 'fa-map-location-dot', 'Fit Tarifler': 'fa-leaf' };
 const { konseptKodu } = K;
@@ -44,7 +45,7 @@ export default async function (o) {
      <div class="vd-spot__kunye-sol">
       <div class="vd-spot__kunye-ust">
        ${s ? `<a class="vd-spot__seri" href="${esc(o.seriAdresi(s))}">${ui(s.ikon)} ${esc(s.ad)} · Bölüm ${v.bolum}</a>` : ''}
-       ${x.sponsor ? `<span class="vd-ornek vd-ornek--koyu">${ui('fa-bullhorn')} Sponsor alanı · prototip örneği</span>` : ''}
+       ${x.sponsor ? `<span class="vd-ornek vd-ornek--koyu" data-vd-reklamsiz>${ui('fa-bullhorn')} Sponsor alanı · prototip örneği</span>${s ? sponsorEtiketi(s.slug) : ''}` : ''}
       </div>
       <h2 class="vd-spot__baslik"><a href="${esc(o.videoAdresi(v))}">${esc(v.baslik)}</a></h2>
      </div>
@@ -53,7 +54,7 @@ export default async function (o) {
     ${oynatici(v, o, { kip: 'spotlight', kilitli: !!(s && s.pro), baslikSeviye: 'h3', oncelik: i === 0 })}
    </div>`;
   }).join('');
-  const spot = `<section class="vd-spot" aria-labelledby="vd-h1">
+  const spot = `<section class="vd-spot" aria-labelledby="vd-h1" data-rk-hero="">
  <div class="wrap">
   <div class="vd-spot__bas">
    <div class="vd-spot__giris">
@@ -113,7 +114,7 @@ export default async function (o) {
   const seriRay = (s) => {
     const bol = videolar.filter((v) => v.seri === s.slug).sort((a, b) => a.bolum - b.bolum);
     const sef = o.SEF[s.sef];
-    const sponsor = s.sponsor_yuvasi ? `<aside class="vd-sponsor" aria-label="Sponsor alanı (prototip örneği)">
+    const sponsor = s.sponsor_yuvasi ? `<aside class="vd-sponsor" data-vd-reklamsiz aria-label="Sponsor alanı (prototip örneği)">
      <span class="vd-sponsor__logo" aria-hidden="true">${ui('fa-handshake')}</span>
      <span class="vd-sponsor__metin"><b>Sponsor alanı</b> Bu serinin bölümleri bir mutfak aleti markasıyla ortak yayınlanabilir; marka adı ve ürün bağlantısı bu yuvada görünür.</span>
      <span class="vd-ornek">${ui('fa-flask')} Prototip örneği</span>
@@ -123,7 +124,7 @@ export default async function (o) {
     <div class="vd-seri-ray__bas">
      <span class="vd-seri-ray__ikon">${ui(s.ikon)}</span>
      <div class="vd-seri-ray__metin">
-      <h3 id="vd-ray-${s.slug}"><a href="${esc(o.seriAdresi(s))}">${esc(s.ad)}</a>${s.pro ? ` <span class="vd-pro vd-pro--satir">${ui('fa-lock')} Pro</span>` : ''}</h3>
+      <h3 id="vd-ray-${s.slug}"><a href="${esc(o.seriAdresi(s))}">${esc(s.ad)}</a>${s.pro ? ` <span class="vd-pro vd-pro--satir">${ui('fa-lock')} Pro</span>` : ''}</h3>${sponsorEtiketi(s.slug)}
       <p>${esc(s.vaat)}</p>
       <ul class="vd-seri-ray__kunye">
        <li>${ui('fa-film')} ${bol.length} bölüm</li><li>${ui('fa-hourglass-half')} ${K.sureAraligi(s)}</li><li>${ui('fa-calendar-days')} ${esc(s.ritim)}</li>${sef ? `<li>${ui('fa-user')} Sunan: <a href="${esc(o.sefAdresi(s.sef))}">${esc(sef.ad)}</a></li>` : ''}
@@ -177,7 +178,7 @@ export default async function (o) {
    <p class="lead" data-vd-tum-alt>Bütün serilerin bölümleri bir arada. Aşağı kaydırdıkça yenileri yüklenir.</p></div>
   </div>
   <div class="vd-izgara vd-tum__izgara" data-vd-izgara>
-   ${karisik.slice(0, ILK).map(kart).join('\n   ')}
+   ${[...karisik.slice(0, 3).map(kart), reklamSlotu('native', o, { sayfa: 'hub' }), ...karisik.slice(3, ILK).map(kart)].join('\n   ')}
    <div class="vd-son" data-vd-son hidden>
     <span class="vd-son__ikon">${ui('fa-circle-check')}</span>
     <span class="vd-son__metin"><b>Hepsi bu kadar</b><span data-vd-son-alt>Yeni bölümler serilerin yayın ritmine göre eklenir.</span></span>
@@ -199,12 +200,14 @@ export default async function (o) {
   const main = `<!-- donör: Gastro kabuğu = yerel Gastro tarif sayfası (src/donor/kabuk.html); bölüm başlığı .sec-head/.eyebrow, ray .row-track/.row-nav, çip .chip, kart .r-card — portal-*.css · hub ajanı -->
 <div class="vd-hub" data-vd-hub data-vd-toplam="${videolar.length}">
 ${spot}
+${reklamSlotu('ust', o, { sayfa: 'hub' })}
 ${suzgec}
 ${devam}
 ${kisa}
 ${seriBolum}
 ${sefBolum}
 ${tum}
+${reklamSlotu('alt', o, { sayfa: 'hub' })}
 </div>
 ${kisaGoruntuleyici(o, { katman: true })}`;
 

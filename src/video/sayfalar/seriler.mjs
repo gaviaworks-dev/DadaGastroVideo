@@ -2,6 +2,7 @@
 // (kolaj kapak, format 16:9/9:16, süre aralığı, vaat, bölüm sayısı, ritim, sunucu şef, ilk iki bölüm = "zorunlu örnek başlıklar").
 // İşaretleme tabanı Gastro: .rd-crumb, .eyebrow, .sec-head; afiş kartı kart.mjs seriAfisi.
 import * as K from '../kart.mjs';
+import { reklamSlotu } from '../reklam.mjs';
 
 export default async function (o) {
   const { esc } = o;
@@ -10,7 +11,7 @@ export default async function (o) {
   const uzun = seriler.filter((s) => s.format !== '9:16').length;
   const main = `<!-- donör: Gastro kabuğu = yerel Gastro tarif sayfası (src/donor/kabuk.html); kırıntı .rd-crumb, başlık .eyebrow — portal-*.css · tarif-detay.css · hub ajanı -->
 <div class="vd-seriler-sayfa">
- <section class="vd-sade-hero" aria-labelledby="vd-sr-h1">
+ <section class="vd-sade-hero" aria-labelledby="vd-sr-h1" data-rk-hero="">
   <div class="wrap">
    <nav class="rd-crumb" aria-label="Sayfa yolu"><a href="index.html">${ui('fa-house')}</a>${ui('fa-chevron-right')}<a href="video-mutfagi.html">Video Mutfağı</a>${ui('fa-chevron-right')}<b>Seriler</b></nav>
    <div class="vd-sade-hero__ic">
@@ -27,12 +28,14 @@ export default async function (o) {
    </div>
   </div>
  </section>
+ ${reklamSlotu('ust', o, { sayfa: 'seriler' })}
  <section class="vd-alan vd-alan--duz" aria-labelledby="vd-sr-liste">
   <div class="wrap">
    <h2 class="vd-gizli" id="vd-sr-liste">Seri listesi</h2>
    <div class="vd-izgara vd-izgara--3 vd-seriler-izgara">${seriler.map((s) => K.seriAfisi(s, o, { ornekler: 2 })).join('')}</div>
   </div>
  </section>
+ ${reklamSlotu('alt', o, { sayfa: 'seriler' })}
 </div>`;
   return [{
     dosya: 'video-seriler.html',

@@ -47,14 +47,54 @@
   function yukle(adet) {
     if (!tpl) return 0;
     var n = 0;
-    while (tpl.content.firstElementChild && (adet === Infinity || n < adet)) { izgara.insertBefore(tpl.content.firstElementChild, son); n++; }
+    while (tpl.content.firstElementChild && (adet === Infinity || n < adet)) { var y = tpl.content.firstElementChild; bagTemizle(y); izgara.insertBefore(y, son); n++; }
     if (n && window.VD && VD.kirp) VD.kirp(izgara); // sonradan eklenen kart başlıkları da kelime sınırında kırpılır
     return n;
   }
   function kartlar() { return Array.prototype.slice.call(izgara.querySelectorAll('[data-vd-video]')); }
   function sutun() { var c = getComputedStyle(izgara).gridTemplateColumns; return c && c !== 'none' ? c.split(' ').filter(Boolean).length : 1; }
+  /* REVİZE 1 madde 7 — reklam: ızgaradaki native kap (.vd-reklam--kart, display:contents) reklamlı görünümde bir HÜCRE kaplar.
+     Video sayımına girmez; yarım satır hesabına girer. */
+  var native = izgara.querySelector('[data-vd-reklam]');
+  function reklamli() { return document.documentElement.classList.contains('vd-reklamli'); }
+  function hucre() { // ızgarada gerçekten yer kaplayan hücre sayısı (son kutusu hariç)
+    var n = 0;
+    Array.prototype.forEach.call(izgara.children, function (c) {
+      if (c === son) return;
+      var d = getComputedStyle(c).display;
+      if (d === 'none') return;
+      if (d === 'contents') { Array.prototype.forEach.call(c.children, function (x) { if (getComputedStyle(x).display !== 'none') n++; }); return; }
+      n++;
+    });
+    return n;
+  }
+  /* Yarım satır kuralı (reklamlı + süzgeçsiz, arşiv henüz tam yüklenmemişken): yüklü hücre sayısı ADIM'ın katı kalsın.
+     Reklamlıda native bir hücre aldığı için son organik kart devam kuyruğunun başına geri alınır; reklam kapanınca geri gelir. */
+  function dengele() {
+    if (!tpl || !kalan() && !geriAlinan.length) return;
+    var acikSuzgec = !!(durum.konsept || durum.sure);
+    if (acikSuzgec) return;
+    var hedefNative = reklamli() && native ? 1 : 0;
+    var org = kartlar().length;
+    if (!kalan()) return; // hepsi yüklendi: son kutusu satırı tamamlar
+    while ((org + hedefNative) % ADIM !== 0 && org > 0) {
+      if (hedefNative) { var k = kartlar()[org - 1]; tpl.content.insertBefore(k, tpl.content.firstChild); geriAlinan.push(k); org--; }
+      else { if (!kalan()) break; var y = tpl.content.firstElementChild; bagTemizle(y); izgara.insertBefore(y, son); org++; }
+    }
+  }
+  var geriAlinan = [];
+  /* Kuyruktan ızgaraya dönen kart, kuyruktayken reklam anahtarı kapandıysa bağlarında eski ?reklam=1'i taşır
+     (reklam.js belgedeki bağları temizler, <template> içini görmez) → reklamsızda dönüşte temizlenir. */
+  function bagTemizle(el) {
+    if (reklamli()) return;
+    el.querySelectorAll('a[href*="reklam=1"]').forEach(function (a) {
+      var h = a.getAttribute('href'); var i = h.indexOf('?'); if (i < 0) return;
+      var yol = h.slice(0, i), kalanQ = h.slice(i + 1).split('#'), q = new URLSearchParams(kalanQ[0]); q.delete('reklam');
+      a.setAttribute('href', yol + (q.toString() ? '?' + q.toString() : '') + (kalanQ[1] !== undefined ? '#' + kalanQ[1] : ''));
+    });
+  }
   function sonDuzen() {
-    var gorunen = kartlar().filter(function (k) { return !k.hidden; }).length;
+    var gorunen = hucre();
     var bitti = !kalan();
     son.hidden = !(bitti && gorunen > 0);
     if (gozcu) gozcu.hidden = bitti;
@@ -67,8 +107,9 @@
   if (gozcu && 'IntersectionObserver' in window) {
     gozlemci = new IntersectionObserver(function (g) {
       if (!g.some(function (x) { return x.isIntersecting; })) return;
-      if (yukle(ADIM)) { suz(false); }
+      if (yukle(ADIM)) { dengele(); suz(false); }
       if (!kalan()) { gozlemci.disconnect(); }
+      else { gozlemci.unobserve(gozcu); gozlemci.observe(gozcu); } // gözcü hâlâ yükleme payındaysa yeni olay gelmez → yeniden gözle (ilk bildirim anlık durumu verir)
       sonDuzen();
     }, { rootMargin: '0px 0px 480px 0px' });
     gozlemci.observe(gozcu);
@@ -121,6 +162,7 @@
     if (cipTumu) cipTumu.setAttribute('aria-pressed', acik ? 'false' : 'true');
     var n = 0;
     kartlar().forEach(function (k) { var g = !acik || uyar(k); k.hidden = !g; if (g) n++; });
+    if (native) { if (acik) native.setAttribute('data-vd-suzgec-gizli', ''); else native.removeAttribute('data-vd-suzgec-gizli'); } // reklam: süzgeç sonucunda native kart yok (hidden'ı reklam.js'in)
     var gercek = acik ? n : toplam;
     if (sayi) sayi.textContent = String(gercek);
     if (acik) hub.setAttribute('data-vd-suzuluyor', ''); else hub.removeAttribute('data-vd-suzuluyor');
@@ -161,7 +203,9 @@
     golge();
   }
 
+  addEventListener('vd:reklam', function () { dengele(); sonDuzen(); });
   adrestenOku();
+  dengele();
   suz(false);
   // adresten süzgeçle açıldıysa sonuçlar ekranın üstüne gelsin
   if ((durum.konsept || durum.sure) && bolumTum) {

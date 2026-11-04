@@ -43,3 +43,10 @@ Hepsi HTML dizesi döndürür; `o` = build'in sayfa modülüne verdiği ortak ne
 
 ## REVİZE 1 — panel düzeni
 Hero/sahne ve bölüm panelleri kutu: `.vd-alan` (beyaz) · `.vd-alan--krem` · `.vd-alan--duz` (zeminsiz, yalnız ızgara) · `.vd-spot` · `.vd-seri-hero` · `.vd-sade-hero` → genişlik container içi, `--vd-kart-r`, `--vd-ic`; aralar `--vd-bolum-ara` / `--vd-ara`. Kartlar (`vd-kart`, `vd-kisa`, `vd-bolum`, `vd-seri-afis`, `vd-sef-kart`) `--vd-kart-r` + `--vd-ic`. Yapışkan süzgeç barı tam genişlik kaldı (gezinme çubuğu, Gastro header gibi).
+
+## REKLAM ENTEGRE (Revize 1 madde 7, 5 Kas)
+- reklam-durum.md §4 hub 1–10 uygulandı: data-rk-hero (spotlight · seri hero · seriler hero), sponsorEtiketi (spotlight "Sponsorlu Şef" sekmesi · Akıllı Ekipman ray başlığı · seri eyebrow ardı · seriAfisi görseli `{medya:true}`), data-vd-reklamsiz (iki "Sponsor alanı" yer tutucusu + spotlight etiketi), reklamSlotu ust/alt (hub · seriler · seri) ve native (hub ızgarası, 3. karttan sonra).
+- hub.js: native hücre `hucre()` ile yarım satır hesabına girer, video sayımına girmez; süzgeç açıkken `data-vd-suzgec-gizli` (CSS hub.css); reklamlı + süzgeçsiz ve arşiv tam yüklenmemişken yüklü hücre 12'nin katı kalır (`dengele()`: son organik kart kuyruğa geri / reklam kapanınca geri gelir, bağlarındaki eski ?reklam=1 temizlenir); gözcü yükleme payında kaldıkça yeniden gözlenir (reklamlıda 23'te takılıyordu — düzeltildi).
+- video.css: reklamlıda yayılım şeridinin dikey payı --vd-ara, ardından gelen kutu/bar ek pay almaz (reklamsız düzen değişmedi: spot→bar 24 px ölçüldü).
+- Kapılar (8796): reklam-kapisi hub seriler seri → 271 yeşil / 0 kırmızı · davranis-hub 32/0 · kirpma-kapisi (8 sayfa) 0 · reklamlı ızgara 1440: 11+1 → 12 hücre, dibe inince 26+1+yayılım 1 = 28 (tam); 390: tam.
+- SS: tasks/ss/hub/{hub,seriler,seri-akilli-ekipman-test}-reklam-{1440,390}.png (+ reklamsız aynı adlar).

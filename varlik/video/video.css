@@ -295,3 +295,8 @@
 [data-vd-kirp="2"], [data-vd-kirp="3"] { display: -webkit-box; -webkit-box-orient: vertical; }
 [data-vd-kirp="2"] { -webkit-line-clamp: 2; }
 [data-vd-kirp="3"] { -webkit-line-clamp: 3; }
+
+/* REVİZE 1 madde 7 — reklam yayılım şeridi (ust/alt) sayfa ritmine uysun: şeridin kendi 40px dikey payı --vd-ara olur,
+   ardından gelen kutu/bar ek pay almaz. Yalnız reklamlı görünümde (reklamsız düzen birebir aynı kalır). */
+html.vd-reklamli :is(.vd-hub, .vd-seri-sayfa, .vd-seriler-sayfa) > .vd-reklam .rk-yayilim-bant { padding-block: var(--vd-ara, 24px); }
+html.vd-reklamli :is(.vd-hub, .vd-seri-sayfa, .vd-seriler-sayfa) > .vd-reklam:not([hidden]) + :is(.vd-alan, .vd-suzgec) { margin-top: 0; }

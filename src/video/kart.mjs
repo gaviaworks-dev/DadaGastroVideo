@@ -3,6 +3,7 @@
 // kaydet .r-save, rozet .r-chip) — stilleri kabuğun yüklediği portal-*.css + kabuk/kart-standart.css'ten gelir.
 // Gastro'da karşılığı olmayan parçalar (süre etiketi, Pro kilidi, izleme çubuğu, hover önizleme, 9:16 kısa kart, bölüm satırı,
 // seri afişi) `vd-` önekli ve varlik/video/video.css'te.
+import { sponsorEtiketi } from './reklam.mjs'; // REVİZE 1 madde 7: seri sponsor hapı (afiş görselinin sağ üstü)
 // Kural: sahte sayaç yok (izlenme/puan/takipçi basılmaz); veri yoksa rozet hiç basılmaz.
 
 const e = (o, x) => (o && o.esc ? o.esc(x) : String(x ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])));
@@ -208,7 +209,7 @@ export function seriAfisi(s, o, { boyut = 'kart', baslikSeviye = 'h3', ornekler 
     : `<span class="vd-seri-afis__kolaj">${afisKapak({}, o, s)}</span>`;
   const h = baslikSeviye;
   return `<article class="vd-seri-afis vd-seri-afis--${boyut}${s.pro ? ' vd-seri-afis--pro' : ''}">
-  <div class="vd-seri-afis__medya">${kolaj}
+  <div class="vd-seri-afis__medya">${kolaj}${sponsorEtiketi(s.slug, { medya: true })}
    <span class="vd-seri-afis__format">${ik(dikey ? 'fa-mobile-screen' : 'fa-tv')} ${formatAd(s)}</span>
    ${s.pro ? `<span class="vd-pro">${ik('fa-lock')} Pro</span>` : ''}
    <span class="vd-seri-afis__ikon">${ik(s.ikon || 'fa-video')}</span>

@@ -4,6 +4,7 @@
 // Pro seri: kilit anlatımı + "Pro'ya Yükselt" → dadagastro.com/pro (bugünkü davranış: bölümler görünür, izleme sayfasında kilit).
 // Akıllı Ekipman & Test: sponsor yuvası (prototip örneği). 30 Saniyede Tat: dikey 9:16 ızgara. Altta "Diğer seriler" rayı.
 import * as K from '../kart.mjs';
+import { reklamSlotu, sponsorEtiketi } from '../reklam.mjs';
 
 const PRO = 'https://dadagastro.com/pro';
 
@@ -23,12 +24,12 @@ export default async function (o) {
     const toplamMetin = toplamSn < 600 ? `${Math.round(toplamSn / 60 * 10) / 10} dk`.replace('.', ',') : `${Math.round(toplamSn / 60)} dk`;
     const ilkHref = ilk ? o.videoAdresi(ilk) : '#';
 
-    const hero = `<section class="vd-seri-hero${s.pro ? ' vd-seri-hero--pro' : ''}" aria-labelledby="vd-seri-h1">
+    const hero = `<section class="vd-seri-hero${s.pro ? ' vd-seri-hero--pro' : ''}" aria-labelledby="vd-seri-h1" data-rk-hero="">
   ${sahne ? `<img class="vd-seri-hero__sahne" src="${esc(sahne.src)}" alt="" width="1600" height="900" fetchpriority="high" decoding="async">` : ''}
   <div class="wrap vd-seri-hero__ic">
    <nav class="rd-crumb" aria-label="Sayfa yolu"><a href="index.html">${ui('fa-house')}</a>${ui('fa-chevron-right')}<a href="video-mutfagi.html">Video Mutfağı</a>${ui('fa-chevron-right')}<a href="video-seriler.html">Seriler</a>${ui('fa-chevron-right')}<b>${esc(s.ad)}</b></nav>
    <div class="vd-seri-hero__govde">
-    <span class="eyebrow">${ui(s.ikon)} ${esc(s.konsept || (dikey ? 'Kısa video serisi' : 'Video serisi'))}</span>
+    <span class="eyebrow">${ui(s.ikon)} ${esc(s.konsept || (dikey ? 'Kısa video serisi' : 'Video serisi'))}</span>${sponsorEtiketi(s.slug)}
     <h1 id="vd-seri-h1">${esc(s.ad)}${s.pro ? ` <span class="vd-pro vd-pro--satir">${ui('fa-lock')} Pro</span>` : ''}</h1>
     <p class="vd-seri-hero__vaat">${esc(s.vaat)}</p>
     <ul class="vd-seri-hero__kunye">
@@ -54,7 +55,7 @@ export default async function (o) {
    <div class="vd-kilit__metin"><b>Bu seri Gastro Pro üyelerine açık</b><p>Bölüm başlıkları, süreleri ve yazılı tarifler herkese açık; bölümleri izlemek için Gastro Pro üyeliği gerekir. Bir bölüme tıklayınca izleme sayfasında kilit ekranı açılır.</p></div>
    <a class="btn btn-primary" href="${PRO}">${ui('fa-crown')} Pro'ya Yükselt</a>
   </aside>` : '';
-    const sponsor = s.sponsor_yuvasi ? `<aside class="vd-sponsor" aria-label="Sponsor alanı (prototip örneği)">
+    const sponsor = s.sponsor_yuvasi ? `<aside class="vd-sponsor" data-vd-reklamsiz aria-label="Sponsor alanı (prototip örneği)">
    <span class="vd-sponsor__logo" aria-hidden="true">${ui('fa-handshake')}</span>
    <span class="vd-sponsor__metin"><b>Sponsor alanı</b> Bu seri bir mutfak aleti markasıyla ortak yayınlanabilir; marka adı, logo ve ürün bağlantısı bu yuvada ve her bölümün altında görünür.</span>
    <span class="vd-ornek">${ui('fa-flask')} Prototip örneği</span>
@@ -80,6 +81,7 @@ export default async function (o) {
     const main = `<!-- donör: Gastro kabuğu = yerel Gastro tarif sayfası (src/donor/kabuk.html); kırıntı .rd-crumb, başlık .sec-head/.eyebrow, ray .row-track/.row-nav, düğme .btn — portal-*.css · tarif-detay.css · hub ajanı -->
 <div class="vd-seri-sayfa${dikey ? ' vd-seri-sayfa--dikey' : ''}">
  ${hero}
+ ${reklamSlotu('ust', o, { sayfa: 'seri' })}
  <section class="vd-alan" aria-labelledby="vd-bolumler-h">
   <div class="wrap">
    <div class="sec-head">
@@ -91,6 +93,7 @@ export default async function (o) {
   </div>
  </section>
  ${diger}
+ ${reklamSlotu('alt', o, { sayfa: 'seri' })}
 </div>`;
 
     return {
