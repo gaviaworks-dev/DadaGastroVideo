@@ -3,7 +3,7 @@
 Dada Gastro'nun **Video Mutfağı** alanının yeniden tasarlanmış statik prototipi: keşif sayfası, seriler, seri, video izleme,
 şef, 30 Saniyede Tat kısa videoları ve yazılı tarif köprüsü.
 Kaynak: "Dada Gastro Video Mutfağı Ürün Geliştirme ve İcra İş Listesi" (DADA-VID-2026/Q4 · REV 1.2). Yöntem Dada Gastro Kids ve Health prototipleriyle aynı.
-Yayın: GitHub Pages (`noindex`) → https://gaviaworks-dev.github.io/DadaGastroVideo/
+Yayın: GitHub Pages (`noindex`) → https://gaviaworks-dev.github.io/DadaGastroVideo/ · Depo: https://github.com/gaviaworks-dev/DadaGastroVideo (yerel klasör `~/Developer/Projects/dadagastrovideo-prototip`)
 
 > **Videolar örnektir; oynatıcı görüntüsü temsilîdir.** Oynatıcı, gerçek tarif kapağı üzerinde simüle edilen bir zaman çizgisidir.
 > İzlenme, puan, takipçi, yorum ya da abone sayısı gösterilmez. Örnek etkileşimler (izleme ilerlemesi, sponsor yuvası, şef tanıtım metni)
@@ -21,8 +21,8 @@ Yayın: GitHub Pages (`noindex`) → https://gaviaworks-dev.github.io/DadaGastro
 | `video-sef-<kullanıcı-adı>.html` | Seri şefinin sayfası (ad, unvan ve tarif sayısı gerçek) |
 | `tarif-<tarif>.html` | Gastro tarif sayfası (yerel kopya) + yazar satırının altında **"Bu Tarifin Videosunu İzle (mm:ss)"** kartı |
 
-Her sayfada Gastro kabuğu (üst bant, header, mega menü, mobil çekmece, footer) Gastro'nun kendi sunucu HTML'inden alınır; Video sayfalarında
-logonun yanında "video" alt marka rozeti ve header'ın altında Video alt menüsü (ev · Keşfet · Seriler · 30 Saniyede Tat · Şefler) vardır.
+Her sayfada Gastro kabuğu (üst bant, header, logo, mega menü, mobil çekmece, footer) Gastro'nun kendi sunucu HTML'inden alınır; üst menüdeki
+"Video Mutfağı" bağı kırmızı **VİDEO** rozeti taşır. Video sayfalarında header'ın altında Video alt menüsü (Keşfet · Seriler · 30 Saniyede Tat · Şefler) vardır.
 Aşağı kaydırınca yalnız Gastro header'ı gizlenir; üst siyah bant ve Video menüsü yerinde kalır.
 
 ## Nasıl çalışır

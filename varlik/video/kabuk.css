@@ -14,18 +14,21 @@
   --vd-bar-h: 61px;
   /* Sayfa yapışkan barları (ör. hub süzgeç barı) BUNA yapışır: top: var(--vd-bar-alt) */
   --vd-bar-alt: calc(var(--vd-ust-bosluk) + var(--vd-bar-h));
+  /* Ortak ölçü token'ları (REVİZE 1, lead 5 Kas) — hub/izle bunlara bağlı; ADLAR DEĞİŞMEZ */
+  --vd-kart-r: var(--radius-lg, 16px);   /* Gastro .r-card yarıçapı */
+  --vd-ic: 24px;                          /* panel/kart iç boşluğu */
+  --vd-ara: 24px;                         /* panel/kart arası */
+  --vd-bolum-ara: 64px;                   /* bölümler arası dikey */
+  --vd-kenar: 32px;                       /* Gastro .wrap yatay iç boşluğu (portal CSS: padding 0 32px; ≤1024 24px; ≤640 16px — ölçüldü) */
 }
+@media (max-width: 1024px) { :root { --vd-kenar: 24px; } }
+@media (max-width: 767px) { :root { --vd-ic: 16px; --vd-ara: 16px; --vd-bolum-ara: 48px; } }
+@media (max-width: 640px) { :root { --vd-kenar: 16px; } }
 
 /* ---------- Video sayfası zemini: Gastro açık zemini (D2); içerik sabit header'ın altından başlar ---------- */
 .pg-video .vd-sayfa { padding-top: calc(var(--header-offset, 112px) + 1px); background: var(--bg, #F9F9F9); }
 
-/* ---------- Logo yanında "video" alt marka rozeti (Health "health" rozetinin kalıbı: Gastro DOM'una öğe eklenmez, ::after) ---------- */
-.pg-video .header .brand { position: relative; }
-.pg-video .header .brand::after, .pg-video .drawer-brand::after { content: "video"; flex: none; display: inline-block; font-family: var(--vd-font-ekstra); font-size: 16px; font-weight: 800; line-height: 1; letter-spacing: 0; color: var(--tomato, #DC3D17); text-transform: lowercase; }
-.pg-video .header .brand::after { position: absolute; right: 2px; top: calc(100% - 4px); margin: 0; pointer-events: none; }
-.pg-video .drawer-brand { display: inline-flex; align-items: center; }
-.pg-video .drawer-brand::after { margin-left: 8px; }
-@media (max-width: 640px) { .pg-video .header .brand::after { top: calc(100% - 5px); font-size: 15px; } }
+/* (REVİZE 1, 5 Kas) Logo yanındaki "video" alt marka rozeti KALDIRILDI: her sayfada donördeki normal Dada Gastro logosu. */
 
 /* ---------- Üst menü ve çekmecede "Video Mutfağı · VİDEO" rozeti KIRMIZI (lead kararı 4 Kas, doküman D.1a "kırmızı rozet") ----------
    Donör işaretlemesi (span.soon, Gastro'nun yeşil "yeni" rozeti) değişmez; yalnız Video bağının içindeki .soon boyanır (seçici bağın
@@ -33,19 +36,17 @@
    kontrast 5,8:1 (AA). --tomato (#DC3D17) beyazla 4,45:1 verir, 9,5px metin için AA'nın (4,5) altında kalır. Tüm sayfalarda yüklü. */
 a[href="video-mutfagi.html"] > .soon { background: var(--tomato-dark, #BA3413); color: #fff; }
 
-/* ---------- Video alt menüsü (Health .sg-ust kalıbı): ev ikonu + Keşfet · Seriler · 30 Saniyede Tat · Şefler ---------- */
+/* ---------- Video alt menüsü (Health .sg-ust kalıbı; REVİZE 1: ev ikonu yok): Keşfet · Seriler · 30 Saniyede Tat · Şefler ---------- */
 .vd-ust { position: sticky; top: var(--vd-ust-bosluk); z-index: 40; background: color-mix(in srgb, var(--bg, #F9F9F9) 94%, transparent); -webkit-backdrop-filter: saturate(1.2) blur(10px); backdrop-filter: saturate(1.2) blur(10px); border-bottom: 1px solid var(--line, #ECECEC); transition: top .28s cubic-bezier(.2, .7, .2, 1); }
 .vd-ust .wrap { display: flex; align-items: center; gap: 12px; min-height: 60px; }
-/* Header gizlenince marka bu bara geçer (kimlik kaybolmaz); header görünürken yer kaplamaz */
-.vd-ust__marka { flex: none; display: inline-flex; align-items: center; gap: 8px; max-width: 0; margin-right: -12px; overflow: hidden; opacity: 0; visibility: hidden; color: var(--tomato, #DC3D17); font-family: var(--vd-font-ekstra); font-weight: 800; font-size: 15px; line-height: 1; white-space: nowrap; text-decoration: none; transition: max-width .28s ease, opacity .2s ease, margin .28s ease, visibility 0s linear .28s; }
-.vd-ust__marka i { font-size: 18px; }
+/* Header gizlenince bölüm adı ("Video Mutfağı") bu barın soluna gelir: sade sayfa başlığı metni (logo/ikon değil); header görünürken yer kaplamaz */
+.vd-ust__marka { flex: none; display: inline-flex; align-items: center; max-width: 0; margin-right: -12px; overflow: hidden; opacity: 0; visibility: hidden; color: var(--ink, #211E16); font-family: var(--vd-font-kalin); font-weight: 700; font-size: 15px; line-height: 1; white-space: nowrap; text-decoration: none; transition: max-width .28s ease, opacity .2s ease, margin .28s ease, visibility 0s linear .28s; }
 html.vd-ust-gizli .vd-ust__marka { max-width: 180px; margin-right: 0; opacity: 1; visibility: visible; transition-delay: 0s; }
 .vd-ust__menu { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 2px; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; padding: 6px 2px; }
 .vd-ust__menu::-webkit-scrollbar { display: none; }
 .vd-ust__menu > a { position: relative; flex: none; display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-radius: var(--radius-md, 12px); font-size: 14.5px; font-weight: 700; font-family: var(--vd-font-kalin); line-height: 1; text-decoration: none; color: var(--ink, #211E16); white-space: nowrap; transition: color .2s ease, background .2s ease; }
-.vd-ust__menu > .vd-ust__ev { justify-content: center; min-width: 44px; padding: 0; margin-left: auto; }
+.vd-ust__menu > a:first-child { margin-left: auto; }   /* grup ortada */
 .vd-ust__menu > a:last-child { margin-right: auto; }
-.vd-ust__ev svg { display: block; width: 22px; height: 22px; flex: none; }
 .vd-ust__menu > a:hover { background: var(--tomato-tint, #FBE6E1); color: var(--tomato-dark, #BA3413); }
 .vd-ust__menu > a[aria-current="page"] { color: var(--tomato-dark, #BA3413); }
 .vd-ust__menu > a[aria-current="page"]::after { content: ""; position: absolute; left: 12px; right: 12px; bottom: 2px; height: 2px; background: currentColor; border-radius: var(--radius-sm, 8px); }
@@ -64,11 +65,9 @@ html.vd-ust-gizli .pg-video header.header { transform: translateY(calc(-1 * var(
 }
 @media (max-width: 480px) {
   .vd-ust .wrap { gap: 6px; }
-  .vd-ust__marka span { display: none; }
-  html.vd-ust-gizli .vd-ust__marka { max-width: 24px; }
+  html.vd-ust-gizli .vd-ust__marka { display: none; }   /* 390'da dört bağ sığsın diye başlık gösterilmez */
   .vd-ust__menu { gap: 0; }
   .vd-ust__menu > a { padding: 0 8px; }
-  .vd-ust__menu > .vd-ust__ev { margin-left: 0; }
 }
 
 /* ---------- Mega menü: haftanın serisi canlı mini önizlemesi (D.1b) — Gastro .mega-find kutusu + 16:9 mini poster ---------- */

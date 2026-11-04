@@ -51,16 +51,25 @@ const MEGA_ESKI = /<a class="mega-find mf-video"[^>]*>[\s\S]*?<\/a>/;
 function markaYazimi(html) {
   return html.replace(/DadaGastro(?![a-z.\/])/g, 'Dada Gastro').replace(/>Dada<\/(b|strong)>Gastro/g, '>Dada</$1> Gastro');
 }
-async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = video } = {}) {
+// REVİZE 1 kırpıcı (hub isteği, 5 Kas): Gastro donör kartlarının (.r-card .r-body > h4) başlığına `data-vd-kirp="2"` niteliği eklenir;
+// video.js kelime sınırında 2 satır + "…" kırpar (Gastro'nun line-clamp'i kelime ortasında kesiyordu). Metin ve sınıflar değişmez.
+function kartBaslikKirp(html) {
+  let n = 0;
+  html = html.replace(/(<div class="r-body">\s*<h4)(?![^>]*data-vd-kirp)/g, (t, a) => { n++; return `${a} data-vd-kirp="2"`; });
+  return html;
+}
+async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = video, videoJs = videoTaban } = {}) {
   html = markaYazimi(html);
+  if (videoJs) html = kartBaslikKirp(html);
   html = zorunlu(html, MEGA_ESKI, megaOnizleme(), 'mega menü .mf-video');
   zorunlu(html, /<a class="mf-video-tumu" href="video-mutfagi\.html"/, '', 'mega menü hub bağı (video-mutfagi.html)');
   const cssEk = [`<link rel="stylesheet" href="varlik/video/kabuk.css?v=${SURUM}">`];
   const jsEk = [`<script src="varlik/video/kabuk.js?v=${SURUM}" defer></script>`];
   if (videoTaban) { // video.css/js (hub ajanı: kart + ortak davranış) — video sayfaları ve video kartı taşıyan index
     if (await varMi('varlik/video/video.css')) cssEk.push(`<link rel="stylesheet" href="varlik/video/video.css?v=${SURUM}">`);
-    if (await varMi('varlik/video/video.js')) jsEk.push(`<script src="varlik/video/video.js?v=${SURUM}" defer></script>`);
   }
+  // video.js: video sayfaları, video kartı taşıyan index ve köprü kartı taşıyan tarif sayfaları ([data-vd-kirp] başlık kırpıcısı)
+  if (videoJs && (await varMi('varlik/video/video.js'))) jsEk.push(`<script src="varlik/video/video.js?v=${SURUM}" defer></script>`);
   if (video) {
     for (const c of css) { const y = `varlik/video/css/${c}.css`; if (!(await varMi(y))) { uyar(`css yok (atlandı): ${y}`); continue; } cssEk.push(`<link rel="stylesheet" href="${y}?v=${SURUM}">`); }
     for (const j of js) { const y = `varlik/video/js/${j}.js`; if (!(await varMi(y))) { uyar(`js yok (atlandı): ${y}`); continue; } jsEk.push(`<script src="${y}?v=${SURUM}" defer></script>`); }
@@ -86,13 +95,12 @@ function basliklar(html, baslik, aciklama, { dosya = '', gorsel = '', tur = 'web
 }
 
 /* ---------- Video alt menüsü (Health altMenu kalıbı; vd- öneki) ---------- */
-const EV_SVG = '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true" focusable="false"><path d="M11.3 3.27a1.1 1.1 0 0 1 1.4 0l8.4 7.06c.78.66.32 1.94-.71 1.94H19v7.63c0 .61-.49 1.1-1.1 1.1h-3.6v-5.4a.9.9 0 0 0-.9-.9h-2.8a.9.9 0 0 0-.9.9V21H6.1c-.61 0-1.1-.49-1.1-1.1v-7.63H3.61c-1.03 0-1.49-1.28-.71-1.94z"/></svg>';
 export const ALT_MENU = [['kesfet', 'Keşfet', 'video-mutfagi.html'], ['seriler', 'Seriler', 'video-seriler.html'], ['kisa', '30 Saniyede Tat', 'video-kisa.html'], ['sefler', 'Şefler', 'video-mutfagi.html#sefler']];
 export function altMenu(aktif) {
   const bag = ALT_MENU.map(([k, ad, href]) => `<a href="${href}" data-vd-ust="${k}"${k === aktif ? ' aria-current="page"' : ''}>${esc(ad)}</a>`).join('');
   return `<nav class="vd-ust" aria-label="Video Mutfağı menüsü"><div class="wrap">`
-    + `<a class="vd-ust__marka" href="video-mutfagi.html" tabindex="-1" aria-hidden="true">${ortak0.ui('circle-play')}<span>Video Mutfağı</span></a>`
-    + `<div class="vd-ust__menu"><a class="vd-ust__ev" href="index.html" aria-label="Dada Gastro ana sayfa">${EV_SVG}</a>${bag}</div>`
+    + `<a class="vd-ust__marka" href="video-mutfagi.html" tabindex="-1" aria-hidden="true">Video Mutfağı</a>`
+    + `<div class="vd-ust__menu">${bag}</div>`
     + `</div></nav>`;
 }
 
@@ -104,7 +112,7 @@ async function videoSayfasi({ dosya, baslik, aciklama, main, css = [], js = [], 
   if (a < 0 || b < ac) throw new Error('kabuk donöründe <main> yok');
   html = html.slice(0, ac) + `\n<div class="vd-sayfa">\n${altMenu(aktif)}\n${main}\n</div>\n` + html.slice(b);
   html = zorunlu(html, /<body([^>]*) class="([^"]*)"/, (t, n, s) => `<body${n} class="pg-video ${govdeSinifi} ${s.replace('pg-tarif-detay', '')}"`.replace(/\s+"/, '"').replace(/class="\s+/, 'class="').replace(/ {2,}/g, ' '), 'body class');
-  html = html.replace(/(<a class="(?:brand|drawer-brand)" href=")index\.html(" aria-label=")[^"]*"/g, '$1video-mutfagi.html$2Dada Gastro Video Mutfağı ana sayfa"');
+  // REVİZE 1 (5 Kas): logo ve bağı donördeki gibi (index.html); alt marka rozeti yok
   html = basliklar(html, baslik, aciklama, { dosya, gorsel, tur: /^video-izle-/.test(dosya) ? 'video.other' : 'website' });
   return yorum('http://127.0.0.1:8960/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik (kabuk: tarif detayı)', `Video sayfası · modül ${modul}`) + await kabukEkle(html, { css, js, video: true });
 }
@@ -156,7 +164,7 @@ function tarifKoprusu(slug) {
   // Gastro'nun kendi `.mega-find` satır kartı (portal CSS; tarif sayfasında yüklü) — full-stack P0-5 kartının yeri (.rd-head, yazar satırının altı)
   return `<a class="mega-find vd-tarif-kopru" href="${ortak0.videoAdresi(v)}" data-vd-tarif-kopru="${esc(v.slug)}">`
     + `<span class="vd-tarif-kopru__poster" aria-hidden="true">${p ? `<img src="${p.k640}" alt="" width="640" height="360" loading="lazy" decoding="async">` : ''}<span class="vd-tarif-kopru__oynat">${ortak0.ui('play')}</span><span class="vd-tarif-kopru__sure">${sure}</span></span>`
-    + `<span class="mf-body"><b>Bu Tarifin Videosunu İzle (${sure})</b><span class="vd-tarif-kopru__ad">${esc(v.baslik)}</span><small>${esc(s ? s.ad : '')}${v.tur === 'kisa' ? ' · Kısa video' : ` · Bölüm ${v.bolum}`}</small></span>`
+    + `<span class="mf-body"><b>Bu Tarifin Videosunu İzle (${sure})</b><span class="vd-tarif-kopru__ad" data-vd-kirp="2">${esc(v.baslik)}</span><small>${esc(s ? s.ad : '')}${v.tur === 'kisa' ? ' · Kısa video' : ` · Bölüm ${v.bolum}`}</small></span>`
     + `${ortak0.ui('arrow-right', 'mf-arr')}</a>`;
 }
 // 3 Kas karar 6 (lead onayı 4 Kas): tarif sayfası videoyu yalnız video_id bağından okur; serbest video_url gösterilmez, yerini D.2a köprü
@@ -181,7 +189,7 @@ async function tarifSayfasi(slug) {
   }
   const t = TARIF[slug];
   html = basliklar(html, `${t.baslik} · Dada Gastro (prototip)`, `${t.baslik} tarifinin prototip kopyası; "Bu Tarifin Videosunu İzle" kartıyla Video Mutfağı'na bağlanır.`, { dosya: `tarif-${slug}.html`, gorsel: t.kapak1600, site: 'Dada Gastro (prototip)' });
-  return yorum(`http://127.0.0.1:8960/tarif/${slug}`, 'yalnız "Bu Tarifin Videosunu İzle" kartı eklendi (D.2a)') + await kabukEkle(html);
+  return yorum(`http://127.0.0.1:8960/tarif/${slug}`, 'yalnız "Bu Tarifin Videosunu İzle" kartı eklendi (D.2a)') + await kabukEkle(html, { videoJs: !!kart });
 }
 
 /* ---------- Derle ---------- */

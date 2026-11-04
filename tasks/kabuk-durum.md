@@ -45,3 +45,10 @@
 - `SEF[k].avatar` yalnız berkan.gunes (yerel kopya `varlik/gastro/storage/medya/…`); diğerleri `bas_harf`.
 - `SEF[k].ornek_tarifler` (yalnız seri şefleri, en çok 6): {slug, baslik, kapak640, sure_dk, zorluk} — bağ dadagastro.com/tarif/<slug>.
 - Kalori yalnız `hesaplanabildi=1` ve `porsiyon_basi=1` ise (20/31), yoksa null → rozet gizlenir.
+
+## REVİZE 1 (5 Kas) — yapıldı
+- Logo "video" rozeti (::after) TÜM sayfalardan kaldırıldı; logo bağı her sayfada donördeki gibi index.html. Kırmızı VİDEO menü rozeti kaldı.
+- Alt menü: ev ikonu yok → Keşfet · Seriler · 30 Saniyede Tat · Şefler (grup ortada). Yapışkan durumda solda sade metin "Video Mutfağı" (ikon yok, mürekkep rengi; 390'da gizli).
+- Ortak token'lar (kabuk.css :root, ADLAR SABİT): `--vd-kart-r` = var(--radius-lg) 16px (Gastro .r-card ölçüldü: 16px) · `--vd-ic` 24/16 · `--vd-ara` 24/16 · `--vd-bolum-ara` 64/48 (≤767) · `--vd-kenar` 32 / 24 (≤1024) / 16 (≤640) = Gastro içerik .wrap padding-inline (ölçüldü 1440/1024/390; header .wrap'ı kendi kuralıyla hep 32).
+- video.js tarif-*.html'e de yüklenir (köprü kartı başlığı `data-vd-kirp="2"`); index zaten yüklüyordu.
+- parite-kapisi: `DONOR=yerel` seçeneği (8960 kapalıyken src/donor kopyasıyla ölçer).

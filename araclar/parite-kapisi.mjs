@@ -23,6 +23,17 @@ if (BOZ) {
   await writeFile(path.join(KOK, BOZUK), h);
   CIFTLER = [[BOZUK, '/']];
 }
+// DONOR=yerel → 8960 kapalıyken: src/donor/<ad>.html (8960'ın snapshot anındaki sunucu HTML'i, yollar göreli) köke geçici kopyalanır ve
+// prototip sunucusundan açılır. Kanıt değeri daha düşüktür (donörün kendisi değil, kaydedilmiş kopyası); raporda belirtilir.
+const YEREL = DONOR === 'yerel';
+const geciciler = [];
+if (YEREL) {
+  CIFTLER = await Promise.all(CIFTLER.map(async ([yerel, d]) => {
+    const ad = d === '/' ? 'ana' : 'tarif-' + d.replace('/tarif/', '');
+    const g = `_donor-${ad}.html`; await writeFile(path.join(KOK, g), await readFile(path.join(KOK, 'src/donor', ad + '.html'), 'utf8')); geciciler.push(g);
+    return [yerel, g];
+  }));
+}
 const BOLGE = ['.topbar', 'header.header', 'footer.footer'];
 
 async function olc(ctx, url) {
@@ -48,7 +59,7 @@ let kirmizi = 0;
 for (const w of [1440, 390]) {
   const ctx = await b.newContext({ viewport: { width: w, height: w < 500 ? 844 : 900 }, reducedMotion: 'reduce', deviceScaleFactor: 1 });
   for (const [yerel, donor] of CIFTLER) {
-    const [P, D] = [await olc(ctx, TABAN + yerel), await olc(ctx, DONOR + donor)];
+    const [P, D] = [await olc(ctx, TABAN + yerel), await olc(ctx, YEREL ? TABAN + donor : DONOR + donor)];
     for (let i = 0; i < BOLGE.length; i++) {
       const p = P[i], d = D[i]; const sapma = [];
       if (p.yok || d.yok) { if (p.yok !== d.yok) sapma.push(`bölge ${p.yok ? 'prototipte' : 'donörde'} yok`); }
@@ -71,6 +82,8 @@ for (const w of [1440, 390]) {
   await ctx.close();
 }
 await b.close();
+for (const g of geciciler) await rm(path.join(KOK, g), { force: true });
+if (YEREL) console.log('(donör: src/donor kopyası — 8960 kapalı)');
 if (BOZ) { await rm(path.join(KOK, BOZUK), { force: true }); console.log(kirmizi ? `\nBOZ sınaması: ${kirmizi} bölge kırmızı → kapı kırmızı verebiliyor ✓` : '\nBOZ sınaması: KAPI KÖR ✗'); process.exit(kirmizi ? 1 : 3); }
 console.log(kirmizi ? `\nPARİTE KAPISI KIRMIZI (${kirmizi} bölge)` : `\nPARİTE KAPISI YEŞİL: üst bant + header + footer donörle ${TOL}px içinde (1440/390)`);
 process.exit(kirmizi ? 1 : 0);
