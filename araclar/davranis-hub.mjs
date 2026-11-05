@@ -9,6 +9,7 @@
 //  5 ray: "sonraki" oku → iz kayar, "önceki" etkinleşir
 //  6 kaydet: kartın yer imi → aria-pressed=true, aynı slug'lı bütün düğmeler, bildirim cümlesi görünür
 //  7 kaydırdıkça yükleme: ilk 12 kart · dibe inince 26 · "Hepsi bu kadar" görünür · son satır tam (kart + kutu yayılımı sütunun katı)
+//  6b (V2) şef takibi: Gastro şef kartı "+ Takip Et" → aria-pressed + "Takip Ediliyor" + bildirim, sayfa değişmez
 //  8 depo: localStorage/sessionStorage boş
 // Kullanım: node araclar/davranis-hub.mjs   (TABAN=http://localhost:8796/DadaGastroVideo/  GENISLIK=1440,390)
 //           BOZ=1 → süzgeç adres yazmaz, IntersectionObserver yok, bar yapışmaz, kaydet tıklaması yutulur (kırmızı vermeli)
@@ -18,6 +19,7 @@ import * as O from '../src/video/ortak.mjs';
 const TABAN = process.env.TABAN || 'http://localhost:8796/DadaGastroVideo/';
 const GENISLIK = (process.env.GENISLIK || '1440,390').split(',').map(Number);
 const BOZ = !!process.env.BOZ;
+const V2 = /\/v2\/$/.test(TABAN) || !!process.env.V2;
 const konseptKodu = (ad) => String(ad || '').toLocaleLowerCase('tr').replace(/ı/g, 'i').replace(/ş/g, 's').replace(/ç/g, 'c').replace(/ğ/g, 'g').replace(/ö/g, 'o').replace(/ü/g, 'u').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 // beklenen sayılar katalogdan (sayfadan bağımsız)
@@ -48,7 +50,7 @@ for (const w of GENISLIK) {
   if (BOZ) await ctx.addInitScript(() => {
     history.replaceState = function () {};
     delete window.IntersectionObserver;
-    document.addEventListener('click', (e) => { if (e.target.closest('[data-vd-kaydet]')) e.stopImmediatePropagation(); }, true);
+    document.addEventListener('click', (e) => { if (e.target.closest('[data-vd-kaydet], [data-vd-takip]')) e.stopImmediatePropagation(); }, true);
     document.addEventListener('DOMContentLoaded', () => { const s = document.createElement('style'); s.textContent = '.vd-suzgec{position:static!important}'; document.head.appendChild(s); });
   });
   const p = await ctx.newPage();
@@ -94,7 +96,7 @@ for (const w of GENISLIK) {
 
     // 4 yapışkanlık
     await p.goto(TABAN + 'video-mutfagi.html', { waitUntil: 'load' });
-    await p.evaluate(() => scrollTo(0, document.querySelector('#seriler').offsetTop + 400));
+    await p.evaluate(() => scrollTo(0, document.querySelector('#seriler, .vd-seri-ray').offsetTop + 400));
     await p.waitForTimeout(400);
     const yap = await p.evaluate(() => {
       const bar = document.querySelector('[data-vd-suzgec]'); const r = bar.getBoundingClientRect();
@@ -127,6 +129,17 @@ for (const w of GENISLIK) {
     const durum = await p.$$eval(`[data-vd-kaydet="${slug}"]`, (b) => b.map((x) => x.getAttribute('aria-pressed')));
     sonuc(durum.length > 0 && durum.every((x) => x === 'true'), w, 'kaydet → aria-pressed (aynı videonun bütün düğmeleri)', durum.join(','));
     sonuc(await cumleGorunur(p, 'Mutfak Defterine kaydedildi'), w, 'kaydet bildirimi görünür');
+
+    // 6b şef takibi (V2: Gastro şef kartı "+ Takip Et" → VD.takip; V1'de bu düğme yok)
+    if (V2) {
+      const tk = p.locator('#sefler [data-vd-takip]').first();
+      const k = await tk.getAttribute('data-vd-takip');
+      const adres0 = p.url();
+      await gercekTikla(p, tk, 'şef kartı Takip Et');
+      const td = await p.$$eval(`[data-vd-takip="${k}"]`, (b) => b.map((x) => [x.getAttribute('aria-pressed'), x.textContent.trim()]));
+      sonuc(td.length > 0 && td.every(([a, m]) => a === 'true' && /Takip Ediliyor/i.test(m)), w, 'Takip Et → aria-pressed + "Takip Ediliyor"', JSON.stringify(td));
+      sonuc(p.url() === adres0 && (await cumleGorunur(p, 'takip ediliyor')), w, 'takip bildirimi görünür, sayfa değişmedi');
+    }
 
     // 7b kaydırdıkça yükleme
     for (let i = 0; i < 12; i++) { await p.evaluate(() => scrollTo(0, document.body.scrollHeight)); await p.waitForTimeout(250); }

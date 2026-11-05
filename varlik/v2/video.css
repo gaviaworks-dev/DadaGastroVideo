@@ -1,0 +1,359 @@
+/* Video Mutfağı — ortak bileşen katmanı (hub ajanı).
+   donör: Gastro tarif kartı .r-card / .r-chip / .r-save / .r-facts / .r-author (portal-*.css · kabuk/kart-standart.css),
+   bölüm başlığı .sec-head/.eyebrow/.lead, ray .row-track/.row-nav, düğme .btn/.see-all, çip .chip, bildirim .ke-toast —
+   hepsi kabuğun yüklediği Gastro CSS'inde tanımlı; burada yalnız video uzantıları (vd-) ve 16:9 / 9:16 oranları.
+   Köşe: kart/düğme/panel = --radius-md (12px) · etiket/rozet/çip = --radius-sm (8px) · daire istisna.
+   Boşluk ölçeği: 4/8/12/16/24/32/48/64/96. Renk: Gastro jetonları; yalnız oynatıcı sahnesi koyu (D2). */
+
+:root {
+  --vd-r: var(--radius-md, 12px);
+  --vd-r-sm: var(--radius-sm, 8px);
+  --vd-sahne: #16120d;
+  --vd-sahne-2: #211a13;
+  --vd-sahne-3: #2c241b;
+  --vd-sahne-cizgi: rgba(255, 255, 255, .12);
+  --vd-sahne-metin: #f7f2ea;
+  --vd-sahne-ikincil: #c9bfb0;
+  --vd-kirmizi: var(--tomato, #DC3D17);
+  --vd-golge-kart: 0 1px 2px rgba(33, 30, 22, .04), 0 8px 24px rgba(33, 30, 22, .06);
+}
+
+/* ---------- Sayfa iskeleti (Revize 1, 5 Kas: kenardan kenara panel YOK) ----------
+   Hero/sahne ve bütün bölüm panelleri container içinde, --vd-kart-r yarıçaplı, --vd-ic iç boşluklu KUTU.
+   Kutunun genişliği Gastro .wrap içeriği (var(--wrap) − 2 × --vd-kenar); içindeki .wrap'ın kendi kenar boşluğu sıfırlanır.
+   Bölümler arası --vd-bolum-ara; hero ve süzgeç barından sonra --vd-ara. İstisna: yapışkan süzgeç barı (gezinme) tam genişlik. */
+.vd-sayfa { position: relative; }
+.vd-alan, .vd-spot, .vd-seri-hero, .vd-sade-hero {
+  box-sizing: border-box;
+  width: min(calc(var(--wrap, 1240px) - 2 * var(--vd-kenar, 32px)), calc(100% - 2 * var(--vd-kenar, 32px)));
+  margin-inline: auto;
+  border-radius: var(--vd-kart-r, 16px);
+  padding: var(--vd-ic, 24px);
+}
+.vd-alan > .wrap, .vd-spot > .wrap, .vd-seri-hero > .wrap, .vd-sade-hero > .wrap { max-width: none; margin: 0; padding: 0; }
+.vd-alan { margin-top: var(--vd-bolum-ara, 64px); background: var(--paper, #fff); }
+.vd-alan--krem { background: var(--cream-2, #F7F1E6); }
+.vd-alan--duz { background: transparent; padding-inline: 0; }
+.vd-spot, .vd-seri-hero, .vd-sade-hero { margin-top: var(--vd-ara, 24px); }
+.vd-hub, .vd-seri-sayfa, .vd-seriler-sayfa { padding-bottom: var(--vd-bolum-ara, 64px); }
+.vd-alan .sec-head { margin-bottom: 32px; }
+.vd-alan .sec-head h2 { font-size: 34px; }
+.vd-ornek { display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: var(--vd-r-sm); background: var(--cream, #EFE5D3); color: var(--slate-2, #56514a); font-size: 11.5px; font-weight: 700; letter-spacing: .01em; line-height: 1.3; white-space: nowrap; vertical-align: middle; }
+.vd-ornek i { font-size: 11px; color: var(--tomato-deep, #9C2B10); }
+.vd-gizli { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (max-width: 640px) {
+  .vd-alan .sec-head { margin-bottom: 24px; }
+  .vd-alan .sec-head h2 { font-size: 26px; }
+}
+
+/* ---------- 16:9 video kartı (Gastro .r-card uzantısı) ---------- */
+.vd-kart.r-card { border-radius: var(--vd-kart-r, 16px); }
+.vd-kart[hidden] { display: none; }
+.vd-kart .vd-kart__kap { position: relative; } /* yer imi görselin köşesinde kalsın (kompakt kartta da) */
+.vd-kart .r-media { height: auto; aspect-ratio: 16 / 9; background-color: var(--cream, #EFE5D3); overflow: hidden; }
+.vd-kart__kapak { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: 60% 40%; }
+.vd-kart .r-chip.vd-kart__seri { z-index: 1; display: inline-flex; align-items: center; gap: 4px; max-width: calc(100% - 26px - 48px); overflow: hidden; white-space: nowrap; line-height: 1.2; }
+.vd-kart .r-chip.vd-kart__seri i { flex: none; }
+.vd-kart .r-chip.vd-kart__seri .vd-kart__seri-ad { min-width: 0; }
+.vd-kart .r-chip.vd-kart__seri .vd-kart__seri-ayrac, .vd-kart .r-chip.vd-kart__seri .vd-kart__seri-no { flex: none; }
+.vd-kart .r-chip.vd-kart__seri i { color: var(--vd-kirmizi); font-size: 11px; }
+.vd-kart .r-save { z-index: 2; }
+.vd-kaydet[aria-pressed="true"] { background: var(--vd-kirmizi); color: #fff; }
+.vd-kart .r-body h4 a { color: inherit; }
+.vd-kart .r-body h4 a:focus-visible { outline: none; }
+.vd-kart:has(.r-body h4 a:focus-visible) { outline: 3px solid var(--yellow, #FAC045); outline-offset: 2px; }
+.vd-kart .r-foot .r-author { position: relative; z-index: 2; }
+.vd-kart .r-foot { justify-content: flex-start; }
+.vd-kart .r-body { padding: var(--vd-ic, 24px); }
+.vd-kart .r-body h4 { font-size: 16.5px; line-height: 1.22; }
+/* kart başlığı bölüm içinde h3 olabilir (başlık hiyerarşisi); Gastro'nun h4 kuralı (2 satır kilidi) aynen h3'e de */
+.vd-kart .r-body h3 { font-size: 16.5px; line-height: 1.22; margin-bottom: 12px; letter-spacing: -.01em; min-height: 2.44em; transition: color .3s var(--ease, ease); }
+.vd-kart:hover .r-body h3 { color: var(--tomato, #DC3D17); }
+.vd-kart .r-body h3 a { color: inherit; }
+.vd-kart .r-body h3 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.vd-kart .r-body h3 a:focus-visible { outline: none; }
+.vd-kart:has(.r-body h3 a:focus-visible) { outline: 3px solid var(--yellow, #FAC045); outline-offset: 2px; }
+.vd-kart .r-facts.vd-meta { margin-bottom: 12px; }
+
+/* süre · Pro · ilerleme */
+.vd-sure { position: absolute; right: 12px; bottom: 12px; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: var(--vd-r-sm); background: rgba(22, 18, 13, .84); color: #fff; font-size: 12px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.vd-sure i { font-size: 9px; }
+.r-media:has(.vd-ilerleme) .vd-sure, .vd-bolum__medya:has(.vd-ilerleme) .vd-sure { bottom: 16px; }
+.vd-pro { position: absolute; left: 12px; bottom: 12px; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: var(--vd-r-sm); background: var(--yellow, #FAC045); color: var(--slate, #211E16); font-size: 11.5px; font-weight: 800; line-height: 1.2; letter-spacing: .02em; }
+.vd-pro i { font-size: 10px; }
+.vd-pro.vd-pro--satir { position: static; }
+.r-media:has(.vd-ilerleme) .vd-pro { bottom: 16px; }
+.vd-ilerleme { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; height: 4px; background: rgba(255, 255, 255, .42); }
+.vd-ilerleme > span { display: block; height: 100%; width: var(--vd-ilerleme, 0%); background: var(--vd-kirmizi); }
+
+/* E.2c hover önizleme (3 sn sessiz; dokunmatik ve reduced-motion'da kapalı — JS sınıfı yalnız ince işaretçide ekler) */
+.vd-onizleme { position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity .25s var(--ease, ease); background: linear-gradient(180deg, transparent 52%, rgba(22, 18, 13, .55)); }
+.vd-onizleme__etiket { position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: var(--vd-r-sm); background: rgba(255, 255, 255, .94); color: var(--slate, #211E16); font-size: 11.5px; font-weight: 700; line-height: 1.2; }
+.vd-onizleme__etiket i { font-size: 10px; color: var(--muted, #6f6f6f); }
+.vd-onizleme__cizgi { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: #fff; }
+.vd-kart.is-onizleme .vd-onizleme { opacity: 1; }
+.vd-kart.is-onizleme .vd-onizleme__cizgi { animation: vd-cizgi 3s linear forwards; }
+.vd-kart.is-onizleme .vd-kart__kapak { animation: vd-kenburns 3s ease-out forwards; }
+.vd-kart.is-onizleme .vd-pro, .vd-kart.is-onizleme .vd-ilerleme { opacity: 0; }
+.vd-kart.is-onizleme.is-onizleme-bitti .vd-onizleme__etiket { opacity: .0; transition: opacity .3s; }
+@keyframes vd-cizgi { to { width: 100%; } }
+@keyframes vd-kenburns { from { transform: scale(1.04); } to { transform: scale(1.16) translate(-2.5%, -1.5%); } }
+@media (prefers-reduced-motion: reduce) { .vd-onizleme { display: none; } .vd-kart.is-onizleme .vd-kart__kapak { animation: none; } }
+
+/* tarifsiz video kapağı: seri afişi (tipografik) */
+.vd-afis-kapak { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; padding: 16px; text-align: center; background: radial-gradient(120% 90% at 22% 12%, #4a2f1e 0%, var(--vd-sahne-2) 52%, var(--vd-sahne) 100%); color: var(--vd-sahne-metin); }
+.vd-afis-kapak__ikon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: rgba(220, 61, 23, .2); color: #f08a6e; font-size: 24px; box-shadow: inset 0 0 0 1px rgba(240, 138, 110, .35); }
+.vd-afis-kapak__seri { font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--vd-sahne-ikincil); }
+
+/* ray kartı (seri rayı): başlık tek seri olduğundan çip yalnız "Bölüm N" */
+.vd-kart--ray .r-chip.vd-kart__seri { background: var(--vd-sahne); color: #fff; }
+.vd-kart--ray .r-chip.vd-kart__seri i { color: #f08a6e; }
+
+/* kompakt (İzlemeye devam et): yatay */
+.vd-kart--kompakt { flex-direction: row; align-items: stretch; }
+.vd-kart--kompakt .vd-kart__kap { flex: none; width: 42%; }
+.vd-kart--kompakt .r-media { height: 100%; aspect-ratio: auto; min-height: 112px; }
+.vd-kart--kompakt .r-chip.vd-kart__seri { display: none; }
+.vd-kart--kompakt .r-save { width: 34px; height: 34px; top: 8px; right: 8px; font-size: 13px; }
+.vd-kart--kompakt .r-body { justify-content: center; gap: 8px; padding: var(--vd-ic, 24px); min-width: 0; }
+.vd-kart--kompakt .r-body :is(h3, h4) { font-size: 15px; line-height: 1.25; margin: 0; min-height: 0; max-height: 2.5em; }
+.vd-kart__ust { display: block; font-size: 11.5px; font-weight: 700; line-height: 1.3; letter-spacing: .06em; text-transform: uppercase; color: var(--tomato-deep, #9C2B10); } /* "Bölüm N" başta: kırpıcı sondan kestiği için numara hiç kırpılmaz; 2 satıra kadar */
+.vd-kart__kalan { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--muted, #6f6f6f); }
+.vd-kart__kalan i { color: var(--vd-kirmizi); font-size: 12px; }
+
+/* ---------- 9:16 kısa video kartı ---------- */
+.vd-kisa { position: relative; display: block; aspect-ratio: 9 / 16; border-radius: var(--vd-kart-r, 16px); overflow: hidden; background: var(--vd-sahne); color: #fff; isolation: isolate; text-decoration: none; transition: transform .3s var(--ease, ease), box-shadow .3s var(--ease, ease); }
+.vd-kisa:hover { transform: translateY(-6px); box-shadow: var(--sh-md, 0 6px 22px rgba(33, 30, 22, .09)); }
+.vd-kisa:focus-visible { outline: 3px solid var(--yellow, #FAC045); outline-offset: 3px; }
+.vd-kisa__medya { position: absolute; inset: 0; z-index: -1; }
+.vd-kisa__kapak { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease, ease); }
+.vd-kisa:hover .vd-kisa__kapak { transform: scale(1.05); }
+.vd-kisa::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(22, 18, 13, .38) 0%, transparent 22%, transparent 42%, rgba(22, 18, 13, .9) 100%); }
+.vd-kisa__alt { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.vd-kisa__rozetler { display: flex; flex-wrap: wrap; gap: 4px; }
+.vd-rozet { display: inline-flex; align-items: center; padding: 4px 8px; border-radius: var(--vd-r-sm); background: rgba(255, 255, 255, .95); color: var(--slate, #211E16); font-size: 11.5px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+.vd-kisa__sure { position: absolute; top: 12px; left: 12px; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: var(--vd-r-sm); background: rgba(22, 18, 13, .72); font-size: 11.5px; font-weight: 700; line-height: 1.2; }
+.vd-kisa__sure i { color: var(--yellow, #FAC045); font-size: 10px; }
+.vd-kisa__oynat { position: absolute; left: 50%; top: 46%; display: grid; place-items: center; width: 52px; height: 52px; margin: -24px 0 0 -24px; border-radius: 50%; background: rgba(255, 255, 255, .2); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45); font-size: 16px; transition: background .2s var(--ease, ease), transform .2s var(--ease, ease); }
+.vd-kisa__oynat i { margin-left: 4px; }
+.vd-kisa:hover .vd-kisa__oynat { background: var(--vd-kirmizi); transform: scale(1.06); box-shadow: none; }
+.vd-kisa__baslik { font-size: 15px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; text-wrap: pretty; }
+
+/* ---------- ray (Gastro .row-track uzantısı) ---------- */
+.vd-ray { position: relative; }
+.vd-ray .row-track { align-items: stretch; gap: 24px; padding: 8px 4px 12px; margin: -8px -4px -12px; cursor: grab; overscroll-behavior-x: contain; }
+.vd-ray .row-track.is-surukle { cursor: grabbing; scroll-snap-type: none; user-select: none; }
+.vd-ray .row-track.is-surukle a { pointer-events: none; }
+.vd-ray--kisa .row-track { gap: 16px; }
+.vd-ray--kisa .row-track > * { width: calc((100% - 4 * 16px) / 5.35); }
+.vd-ray--video .row-track > * { width: calc((100% - 3 * 24px) / 3.45); }
+.vd-ray--seri .row-track > * { width: calc((100% - 2 * 24px) / 3); }
+.row-nav button:disabled { opacity: .4; cursor: default; background: var(--paper, #fff); border-color: var(--line, #ececec); color: var(--slate, #211e16); }
+@media (max-width: 1024px) {
+  .vd-ray--kisa .row-track > * { width: calc((100% - 3 * 16px) / 3.4); }
+  .vd-ray--video .row-track > * { width: calc((100% - 24px) / 2.3); }
+  .vd-ray--seri .row-track > * { width: calc((100% - 24px) / 2.2); }
+}
+@media (max-width: 640px) {
+  .vd-ray .row-track { gap: 12px; margin-right: -16px; padding-right: 16px; scroll-padding-left: 2px; }
+  .vd-ray--kisa .row-track > * { width: 44%; }
+  .vd-ray--video .row-track > * { width: 80%; }
+  .vd-ray--seri .row-track > * { width: 84%; }
+  .vd-ray .row-nav { display: none; }
+}
+
+/* ---------- Bölüm satırı (binge) ---------- */
+.vd-bolum { position: relative; display: grid; grid-template-columns: 56px minmax(0, 300px) minmax(0, 1fr) auto; align-items: center; gap: 24px; padding: var(--vd-ic, 24px); border-radius: var(--vd-kart-r, 16px); background: var(--paper, #fff); border: 1px solid var(--line, #ececec); transition: border-color .2s var(--ease, ease), box-shadow .2s var(--ease, ease); }
+.vd-bolum[hidden] { display: none; }
+.vd-bolum:hover { border-color: var(--cizgi-vurgu-acik, #dcdcdc); box-shadow: var(--vd-golge-kart); }
+.vd-bolum__no { font-size: 40px; font-weight: 800; line-height: 1; letter-spacing: -.04em; color: var(--cream, #EFE5D3); text-align: center; font-variant-numeric: tabular-nums; -webkit-text-stroke: 1px var(--tomato-deep, #9C2B10); }
+.vd-bolum__medya { position: relative; aspect-ratio: 16 / 9; border-radius: var(--vd-r-sm); overflow: hidden; background: var(--cream, #EFE5D3); }
+.vd-bolum__kapak { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s var(--ease, ease); }
+.vd-bolum:hover .vd-bolum__kapak { transform: scale(1.04); }
+.vd-bolum__oynat { position: absolute; left: 50%; top: 50%; display: grid; place-items: center; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%; background: rgba(255, 255, 255, .94); color: var(--vd-kirmizi); font-size: 15px; box-shadow: var(--sh-md); transition: transform .2s var(--ease, ease), background .2s; }
+.vd-bolum__oynat .fa-play { margin-left: 4px; }
+.vd-bolum:hover .vd-bolum__oynat { transform: scale(1.08); background: var(--vd-kirmizi); color: #fff; }
+.vd-bolum__govde { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.vd-bolum__ust { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--tomato-deep, #9C2B10); }
+.vd-bolum__izlendi { color: var(--vd-kirmizi); }
+.vd-bolum__baslik { font-size: 19px; line-height: 1.25; margin: 0; }
+.vd-bolum__baslik a { color: inherit; }
+.vd-bolum__baslik a::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.vd-bolum:hover .vd-bolum__baslik { color: var(--vd-kirmizi); }
+.vd-bolum__baslik a:focus-visible { outline: none; }
+.vd-bolum:has(.vd-bolum__baslik a:focus-visible) { outline: 3px solid var(--yellow, #FAC045); outline-offset: 2px; }
+.vd-bolum__ozet { margin: 0; font-size: 14.5px; line-height: 1.55; color: var(--slate-2, #56514a); }
+.vd-bolum .r-facts.vd-bolum__meta { display: flex; flex-wrap: wrap; row-gap: 4px; align-items: center; font-size: 12.5px; color: var(--muted, #6f6f6f); font-weight: 500; margin: 4px 0 0; }
+.vd-bolum .r-facts.vd-bolum__meta > span { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.vd-bolum .r-facts.vd-bolum__meta > span + span { border-left: 1px solid var(--line, #ececec); padding-left: 12px; margin-left: 12px; }
+.vd-bolum .r-facts.vd-bolum__meta i { color: var(--vd-kirmizi); font-size: 12px; }
+.vd-bolum__kaydet.r-save { position: relative; top: auto; right: auto; z-index: 2; background: var(--bg, #f9f9f9); border: 1px solid var(--line, #ececec); }
+.vd-bolum__kaydet.r-save[aria-pressed="true"] { background: var(--vd-kirmizi); border-color: var(--vd-kirmizi); }
+@media (max-width: 860px) {
+  .vd-bolum { grid-template-columns: 40px minmax(0, 1fr) auto; grid-template-areas: "no medya medya" "govde govde kaydet"; gap: 12px; padding: var(--vd-ic, 16px); }
+  .vd-bolum__no { grid-area: no; font-size: 28px; align-self: start; }
+  .vd-bolum__medya { grid-area: medya; }
+  .vd-bolum__govde { grid-area: govde; }
+  .vd-bolum__kaydet.r-save { grid-area: kaydet; align-self: start; }
+  .vd-bolum__baslik { font-size: 17px; }
+}
+
+/* ---------- Seri afişi ---------- */
+.vd-seri-afis { position: relative; display: flex; flex-direction: column; height: 100%; border-radius: var(--vd-kart-r, 16px); overflow: hidden; background: var(--paper, #fff); border: 1px solid var(--line, #ececec); transition: transform .3s var(--ease, ease), border-color .3s var(--ease, ease), box-shadow .3s var(--ease, ease); }
+.vd-seri-afis:hover { transform: translateY(-6px); border-color: var(--cizgi-vurgu-acik, #dcdcdc); box-shadow: var(--vd-golge-kart); }
+.vd-seri-afis__medya { position: relative; aspect-ratio: 16 / 9; background: var(--vd-sahne); overflow: hidden; }
+.vd-seri-afis__kolaj { position: absolute; inset: 0; display: grid; gap: 4px; }
+.vd-seri-afis__kolaj--yatay { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+.vd-seri-afis__kolaj--yatay .vd-seri-afis__img--1 { grid-row: 1 / 3; }
+.vd-seri-afis__kolaj--yatay:has(.vd-seri-afis__img--1:only-child) { grid-template-columns: 1fr; }
+.vd-seri-afis__kolaj--dikey { grid-template-columns: repeat(3, 1fr); }
+.vd-seri-afis__img { width: 100%; height: 100%; object-fit: cover; display: block; min-width: 0; min-height: 0; transition: transform .6s var(--ease, ease); }
+.vd-seri-afis:hover .vd-seri-afis__img--1 { transform: scale(1.04); }
+.vd-seri-afis__medya::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(22, 18, 13, .35) 0%, transparent 30%, transparent 60%, rgba(22, 18, 13, .55) 100%); pointer-events: none; }
+.vd-seri-afis__format { position: absolute; top: 12px; left: 12px; z-index: 1; display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: var(--vd-r-sm); background: rgba(255, 255, 255, .95); color: var(--slate, #211E16); font-size: 11.5px; font-weight: 700; line-height: 1.2; }
+.vd-seri-afis__format i { color: var(--vd-kirmizi); font-size: 11px; }
+.vd-seri-afis .vd-pro { left: auto; right: 12px; bottom: auto; top: 12px; }
+.vd-seri-afis__ikon { position: absolute; left: 16px; bottom: -24px; z-index: 2; display: grid; place-items: center; width: 48px; height: 48px; border-radius: var(--vd-r); background: var(--vd-kirmizi); color: #fff; font-size: 19px; box-shadow: 0 6px 16px rgba(220, 61, 23, .32); border: 3px solid var(--paper, #fff); }
+.vd-seri-afis__medya { overflow: visible; }
+.vd-seri-afis__kolaj { overflow: hidden; }
+.vd-seri-afis__govde { display: flex; flex-direction: column; gap: 12px; flex: 1; padding: 48px var(--vd-ic, 24px) var(--vd-ic, 24px); }
+.vd-seri-afis__ad { font-size: 20px; line-height: 1.2; margin: 0; }
+.vd-seri-afis__ad a { color: inherit; }
+.vd-seri-afis__ad a::after { content: ""; position: absolute; inset: 0; z-index: 3; }
+.vd-seri-afis:hover .vd-seri-afis__ad { color: var(--vd-kirmizi); }
+.vd-seri-afis__ad a:focus-visible { outline: none; }
+.vd-seri-afis:has(.vd-seri-afis__ad a:focus-visible) { outline: 3px solid var(--yellow, #FAC045); outline-offset: 2px; }
+.vd-seri-afis__vaat { margin: 0; font-size: 14px; line-height: 1.55; color: var(--slate-2, #56514a); }
+.vd-seri-afis__kunye { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.vd-seri-afis__kunye li { display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: var(--vd-r-sm); background: var(--bg, #f9f9f9); border: 1px solid var(--line, #ececec); font-size: 12px; font-weight: 600; color: var(--slate-2, #56514a); line-height: 1.2; white-space: nowrap; }
+.vd-seri-afis__kunye i { color: var(--vd-kirmizi); font-size: 11px; }
+.vd-seri-afis__ornek { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.vd-seri-afis__ornek a { position: relative; z-index: 4; display: flex; gap: 12px; padding: 8px 0; font-size: 13.5px; font-weight: 600; line-height: 1.35; color: var(--slate, #211E16); text-decoration: none; }
+.vd-seri-afis__ornek a span { flex: none; min-width: 20px; font-weight: 800; color: var(--tomato, #DC3D17); font-variant-numeric: tabular-nums; }
+.vd-seri-afis__ornek a:hover { color: var(--tomato, #DC3D17); }
+.vd-seri-afis__sef { display: flex; align-items: center; gap: 12px; margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line, #ececec); font-size: 13px; color: var(--muted, #6f6f6f); }
+.vd-seri-afis__sef b { color: var(--slate, #211E16); }
+.vd-seri-afis__sef .av { position: relative; width: 30px; height: 30px; border-radius: 50%; overflow: hidden; flex: none; }
+.vd-seri-afis__sef .av > span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--cream, #EFE5D3); color: var(--tomato-deep, #9C2B10); font-weight: 800; font-size: 12px; }
+
+/* ---------- Şef ---------- */
+.vd-sef { display: inline-flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; min-width: 0; }
+.vd-sef__av, .vd-sef-kart__av { position: relative; flex: none; border-radius: 50%; overflow: hidden; }
+.vd-sef__av { width: 40px; height: 40px; }
+.vd-sef__av > span, .vd-sef-kart__av > span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--cream, #EFE5D3); color: var(--tomato-deep, #9C2B10); font-weight: 800; font-size: 15px; }
+.vd-sef__av > img, .vd-sef-kart__av > img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vd-sef__metin { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+.vd-sef__metin b { font-size: 14.5px; }
+.vd-sef__metin small { font-size: 12.5px; color: var(--muted, #6f6f6f); font-weight: 500; }
+.vd-sef:hover b { color: var(--vd-kirmizi); }
+.vd-sef-kart { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; padding: var(--vd-ic, 24px); border-radius: var(--vd-kart-r, 16px); background: var(--paper, #fff); border: 1px solid var(--line, #ececec); text-align: center; color: inherit; text-decoration: none; transition: transform .3s var(--ease, ease), border-color .3s var(--ease, ease), box-shadow .3s var(--ease, ease); }
+.vd-sef-kart:hover { transform: translateY(-6px); border-color: var(--cizgi-vurgu-acik, #dcdcdc); box-shadow: var(--vd-golge-kart); }
+.vd-sef-kart:focus-visible { outline: 3px solid var(--yellow, #FAC045); outline-offset: 2px; }
+.vd-sef-kart__av { width: 76px; height: 76px; margin-bottom: 12px; box-shadow: 0 0 0 3px var(--paper, #fff), 0 0 0 5px var(--tomato-tint, #FBE6E1); }
+.vd-sef-kart__av > span { font-size: 26px; }
+.vd-sef-kart__ad { font-size: 16px; font-weight: 700; color: var(--slate, #211E16); line-height: 1.25; }
+.vd-sef-kart:hover .vd-sef-kart__ad { color: var(--vd-kirmizi); }
+.vd-sef-kart__unvan { font-size: 13px; color: var(--muted, #6f6f6f); line-height: 1.35; min-height: 2.7em; }
+.vd-sef-kart__seri { display: inline-block; text-align: center; margin-top: 8px; padding: 4px 8px; border-radius: var(--vd-r-sm); background: var(--tomato-tint, #FBE6E1); color: var(--tomato-deep, #9C2B10); font-size: 12px; font-weight: 700; line-height: 1.25; }
+.vd-sef-kart__seri i { margin-right: 4px; }
+.vd-sef-kart__sayi { margin-top: auto; padding-top: 12px; font-size: 12.5px; color: var(--muted, #6f6f6f); }
+.vd-sef-kart__sayi b { color: var(--slate, #211E16); }
+
+/* ---------- Izgara ---------- */
+.vd-izgara { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px 24px; }
+.vd-izgara--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.vd-izgara--6 { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 24px; }
+@media (max-width: 1180px) { .vd-izgara { grid-template-columns: repeat(3, minmax(0, 1fr)); } .vd-izgara--6 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 860px) { .vd-izgara, .vd-izgara--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .vd-izgara, .vd-izgara--3 { grid-template-columns: minmax(0, 1fr); gap: 24px; } .vd-izgara--6 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+
+/* ---------- Boş durum (Gastro .rev-empty-first kalıbı) ---------- */
+.vd-bos { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 48px 24px; border: 1px dashed #d8d4cc; border-radius: var(--vd-kart-r, 16px); background: var(--paper, #fff); text-align: center; }
+.vd-bos[hidden] { display: none; }
+.vd-bos__ikon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: var(--tomato-tint, #FBE6E1); color: var(--vd-kirmizi); font-size: 22px; }
+.vd-bos h3 { margin: 0; font-size: 20px; }
+.vd-bos p { margin: 0; max-width: 420px; font-size: 14.5px; color: var(--muted, #6f6f6f); }
+
+/* sponsor yuvası (Akıllı Ekipman & Test) — prototip örneği, tıklanmaz */
+.vd-sponsor { display: flex; align-items: center; gap: 16px; margin: -8px 0 24px; padding: var(--vd-ic, 24px); border: 1px dashed #d8d4cc; border-radius: var(--vd-kart-r, 16px); background: var(--bg, #f9f9f9); }
+.vd-sponsor__logo { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: var(--vd-r-sm); background: var(--paper, #fff); border: 1px solid var(--line, #ececec); color: var(--muted, #6f6f6f); font-size: 18px; }
+.vd-sponsor__metin { flex: 1; min-width: 0; font-size: 13.5px; line-height: 1.5; color: var(--slate-2, #56514a); }
+.vd-sponsor__metin b { display: block; color: var(--slate, #211E16); font-size: 14px; }
+@media (max-width: 640px) { .vd-sponsor { flex-wrap: wrap; gap: 12px; } .vd-sponsor__metin { flex-basis: calc(100% - 60px); } }
+
+/* ---------- Koyu sahne düğmeleri (Gastro .btn tabanı) ---------- */
+.vd-btn-koyu { background: rgba(255, 255, 255, .08); color: var(--vd-sahne-metin); border: 1px solid var(--vd-sahne-cizgi); }
+.vd-btn-koyu:hover { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .3); transform: translateY(-2px); }
+.vd-btn-koyu[aria-pressed="true"] { background: var(--green, #3BB77E); border-color: var(--green, #3BB77E); color: #fff; }
+.btn:focus-visible, .see-all:focus-visible, .row-nav button:focus-visible, .r-save:focus-visible, .chip:focus-visible { outline: 3px solid var(--yellow, #FAC045); outline-offset: 2px; }
+.vd-ray .row-track > .vd-seri-afis { height: auto; }
+@media (max-width: 640px) { .vd-sef-kart { padding: var(--vd-ic, 16px); } .vd-sef-kart__av { width: 60px; height: 60px; } .vd-sef-kart__av > span { font-size: 21px; } .vd-sef-kart__ad { font-size: 15px; } }
+
+/* ---------- Metin kırpıcı (video.js VD.kirp) — JS kapalıyken yedek: taşma gösterilmez ---------- */
+[data-vd-kirp] { overflow: hidden; }
+[data-vd-kirp="1"] { white-space: nowrap; }
+[data-vd-kirp="2"], [data-vd-kirp="3"] { display: -webkit-box; -webkit-box-orient: vertical; }
+[data-vd-kirp="2"] { -webkit-line-clamp: 2; }
+[data-vd-kirp="3"] { -webkit-line-clamp: 3; }
+
+/* REVİZE 1 madde 7 — reklam yayılım şeridi (ust/alt) sayfa ritmine uysun: şeridin kendi 40px dikey payı --vd-ara olur,
+   ardından gelen kutu/bar ek pay almaz. Yalnız reklamlı görünümde (reklamsız düzen birebir aynı kalır). */
+html.vd-reklamli :is(.vd-hub, .vd-seri-sayfa, .vd-seriler-sayfa) > .vd-reklam .rk-yayilim-bant { padding-block: var(--vd-ara, 24px); }
+html.vd-reklamli :is(.vd-hub, .vd-seri-sayfa, .vd-seriler-sayfa) > .vd-reklam:not([hidden]) + :is(.vd-alan, .vd-suzgec) { margin-top: 0; }
+
+/* ======================================================================================================================
+   V2 (hub ajanı, 5 Kas) — Gastro kanonuna yaklaştırma
+   donör: Gastro ana sayfa render DOM (http://127.0.0.1:8960/): .sec > .sec-head(.eyebrow · h2 · .lead · .sec-tools .see-all .row-nav)
+   + .row-track / .feat-side / .grid-4 / .r-card / .m-types .mt / .vlock-badge / .chef-row — hepsi portal-*.css'te.
+   Burada yalnız: meta satırı tek satır (Beyar 4), yatay kartın video oranı, kartların eşit yüksekliği.
+   ==================================================================================================================== */
+
+/* Beyar madde 4 — kart meta satırı TEK satır: ikinci satıra kaymaz, sığmazsa yatay kayar (çubuk gizli, dokunma/teker ile).
+   kart-standart.css satırı sarar (flex-wrap + ayraç kırpma payı) → video kartlarında sarma kapatılır, ayraç ilk öğede yok. */
+.vd-kart .r-body > .r-facts.vd-meta { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; margin-left: 0; clip-path: none; scrollbar-width: none; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; position: relative; z-index: 2; touch-action: pan-x pan-y; }
+.vd-kart .r-body > .r-facts.vd-meta::-webkit-scrollbar { display: none; }
+.vd-kart .r-body > .r-facts.vd-meta > span:first-child { border-left: 0; padding-left: 0; margin-left: 0; }
+.vd-kart .r-body > .r-facts.vd-meta > span { flex: none; }
+
+/* Gastro .m-types .mt süre rozeti izleme çubuğunun üstünde dursun */
+.vd-kart .r-media:has(.vd-ilerleme) .m-types { bottom: 16px; }
+.vd-kart.is-onizleme .vlock-badge { opacity: 0; }
+.vd-kart .vlock-badge { z-index: 3; }
+
+/* Kart başlığı her düzende iki satır yeri (Gastro .r-body h4 kilidi) → aynı ızgaradaki kartlar eşit boy */
+.vd-kart .r-body > :is(h3, h4) { min-height: 2.44em; }
+.vd-kart__ozet { margin: 0 0 12px; font-size: 13.5px; line-height: 1.5; color: var(--slate-2, #56514a); min-height: 3em; }
+
+
+/* Yatay kart (Gastro .feat-side .r-card): video oranı korunur */
+.feat-side .vd-kart .r-media { aspect-ratio: auto; height: 100%; min-height: 128px; }
+.feat-side .vd-kart .r-body { padding: var(--vd-ic, 24px); justify-content: center; gap: 4px; }
+.feat-side .vd-kart .r-body > :is(h3, h4) { margin: 0; font-size: 16px; }
+.feat-side .vd-kart .r-body > .r-facts.vd-meta { margin: 8px 0 0; }
+.vd-devam-izgara.feat-side { grid-template-rows: none; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--vd-ara, 24px); }
+.vd-bolum-liste.feat-side { grid-template-rows: none; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+.vd-bolum-liste.feat-side .vd-kart .r-media-wrap { width: min(36%, 320px); }
+.vd-bolum-liste .vd-kart .r-media { aspect-ratio: 16 / 9; height: auto; }
+@media (max-width: 1100px) { .vd-devam-izgara.feat-side { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 640px) {
+  .vd-bolum-liste.feat-side .vd-kart { flex-direction: column; }
+  .vd-bolum-liste.feat-side .vd-kart .r-media-wrap { width: 100%; }
+}
+
+/* Izgaralar: Gastro .grid-4 (ana sayfa); arşiv sonsuz kaydırdığı için 390'da yatay şerit yerine tek sütun (Gastro mobilde şerit yapar) */
+.grid-4.vd-tum__izgara { margin-top: 0; }
+.grid-4.vd-izgara-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 0; }
+@media (max-width: 1024px) { .grid-4.vd-izgara-3 { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px) {
+  .grid-4.vd-tum__izgara, .grid-4.vd-izgara-3 { display: grid; grid-template-columns: minmax(0, 1fr); overflow: visible; gap: 20px; padding-bottom: 0; }
+  .grid-4.vd-tum__izgara > *, .grid-4.vd-izgara-3 > * { width: auto; max-width: none; }
+}
+
+/* Panel içindeki Gastro bölümleri: panelin ilk bölümünün üst payı (panel kendi payını verir) */
+.vd-v2 > .sec:first-child, .vd-v2 > .vd-spot:first-child { margin-top: 0; }
+.vd-v2 .sec { padding: 64px 0 0; }
+.vd-v2 > .sec:last-child, .vd-v2 > .vd-reklam:last-child { padding-bottom: 0; }
+@media (max-width: 640px) { .vd-v2 .sec { padding: 48px 0 0; } }
+
+/* eklendi: Gastro'nun takip edilen şef düğmesi görünümü (.sef-follow.on, sefler.css) ana sayfa şef kartında (.chef-follow) da — VD.takip */
+.chef-follow.on, .chef-follow[aria-pressed="true"] { border-color: var(--tomato, #DC3D17); color: var(--tomato, #DC3D17); background: var(--tomato-tint, #FBE6E1); }
