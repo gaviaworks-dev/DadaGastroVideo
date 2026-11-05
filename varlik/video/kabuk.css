@@ -34,7 +34,8 @@
    Donör işaretlemesi (span.soon, Gastro'nun yeşil "yeni" rozeti) değişmez; yalnız Video bağının içindeki .soon boyanır (seçici bağın
    href'iyle sınırlı → öteki .soon rozetleri etkilenmez). Zemin --tomato-dark (#BA3413, Gastro kırmızısının koyu tonu): beyaz metinle
    kontrast 5,8:1 (AA). --tomato (#DC3D17) beyazla 4,45:1 verir, 9,5px metin için AA'nın (4,5) altında kalır. Tüm sayfalarda yüklü. */
-a[href="video-mutfagi.html"] > .soon { background: var(--tomato-dark, #BA3413); color: #fff; }
+/* Reklamlı görünümde (?reklam=1) iç bağlar sorguyu taşır (reklam.js) → bağ "video-mutfagi.html?reklam=1" olur; rozet orada da kırmızı. */
+a[href="video-mutfagi.html"] > .soon, a[href^="video-mutfagi.html?"] > .soon { background: var(--tomato-dark, #BA3413); color: #fff; }
 
 /* ---------- Video alt menüsü (Health .sg-ust kalıbı; REVİZE 1: ev ikonu yok): Keşfet · Seriler · 30 Saniyede Tat · Şefler ---------- */
 .vd-ust { position: sticky; top: var(--vd-ust-bosluk); z-index: 40; background: color-mix(in srgb, var(--bg, #F9F9F9) 94%, transparent); -webkit-backdrop-filter: saturate(1.2) blur(10px); backdrop-filter: saturate(1.2) blur(10px); border-bottom: 1px solid var(--line, #ECECEC); transition: top .28s cubic-bezier(.2, .7, .2, 1); }
