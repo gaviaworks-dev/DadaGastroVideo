@@ -72,8 +72,7 @@
      Reklamlıda native bir hücre aldığı için son organik kart devam kuyruğunun başına geri alınır; reklam kapanınca geri gelir. */
   function dengele() {
     if (!tpl || !kalan() && !geriAlinan.length) return;
-    var acikSuzgec = !!(durum.konsept || durum.sure);
-    if (acikSuzgec) return;
+    if (durum.aktif || (durum.sira && durum.sira !== (szKok && szKok.getAttribute('data-varsayilan-sira')))) return;
     var hedefNative = reklamli() && native ? 1 : 0;
     var org = kartlar().length;
     if (!kalan()) return; // hepsi yüklendi: son kutusu satırı tamamlar
@@ -107,7 +106,7 @@
   if (gozcu && 'IntersectionObserver' in window) {
     gozlemci = new IntersectionObserver(function (g) {
       if (!g.some(function (x) { return x.isIntersecting; })) return;
-      if (yukle(ADIM)) { dengele(); suz(false); }
+      if (yukle(ADIM)) { dengele(); var a = api(); if (a) a.uygula(); }
       if (!kalan()) { gozlemci.disconnect(); }
       else { gozlemci.unobserve(gozcu); gozlemci.observe(gozcu); } // gözcü hâlâ yükleme payındaysa yeni olay gelmez → yeniden gözle (ilk bildirim anlık durumu verir)
       sonDuzen();
@@ -118,7 +117,11 @@
   }
   addEventListener('resize', sonDuzen);
 
-  /* ---------- 1.2 süzgeç ---------- */
+  /* ---------- 1.2 çip barı + "Tüm videolar" süzgeci (V2 · Patron revizesi K1–K3) ----------
+     Süzme, sayım, adres, boş durum ve sıralama ortak süzgeçte (suzgec.js, window.vdSuzgec). Çip barı AYNI durumu sürer:
+     konsept çipi = süzgeçte "konsept" grubunun o tek seçeneği, süre çipi = "sure" grubunun; "Tümü" = süzgeci temizle.
+     Burada yalnız: (a) süzgeç ya da sıralama açılınca arşivin tamamı yüklenir, (b) sonuç kipi (keşif bölümleri çekilir),
+     (c) VD-N1 (K6): süzülmüş ızgarada 3. görünür karttan sonra, sonuç < 3 ise sonda, 0 ise gizli, (d) son kutusu satırı tamamlar. */
   var cipKonsept = Array.prototype.slice.call(hub.querySelectorAll('[data-vd-konsept]'));
   var cipSure = Array.prototype.slice.call(hub.querySelectorAll('[data-vd-sure]'));
   var cipTumu = hub.querySelector('[data-vd-tumu]');
@@ -126,72 +129,62 @@
   var baslik = hub.querySelector('[data-vd-tum-baslik]');
   var alt = hub.querySelector('[data-vd-tum-alt]');
   var bolumTum = hub.querySelector('#tum-videolar');
-  var bar = hub.querySelector('[data-vd-suzgec]');
+  var bar = hub.querySelector('[data-vd-cipbar]');
+  var szKok = hub.querySelector('[data-vd-suzgec]');
   var ilkBaslik = baslik ? baslik.textContent : '';
   var ilkAlt = alt ? alt.textContent : '';
   var toplam = Number(hub.getAttribute('data-vd-toplam')) || 0;
-  var KONSEPT = {}; cipKonsept.forEach(function (c) { KONSEPT[c.getAttribute('data-vd-konsept')] = c.textContent.trim(); });
-  var SURE = {}; cipSure.forEach(function (c) { SURE[c.getAttribute('data-vd-sure')] = c.textContent.trim(); });
-  var durum = { konsept: null, sure: null };
+  var durum = { konsept: null, sure: null, aktif: false, sira: '' };
+  var api = function () { return window.vdSuzgec && szKok ? window.vdSuzgec.al(szKok) : null; };
+  var ilkOlay = true;
 
-  function adrestenOku() {
-    var q = new URLSearchParams(location.search);
-    var k = q.get('konsept'), s = q.get('sure');
-    durum.konsept = k && KONSEPT[k] ? k : null;
-    durum.sure = s && SURE[s] ? s : null;
+  /* VD-N1 yuvası (K6): süzülmüş ızgaradaki yerleştirmesi ve 0 sonuçta gizlenmesi reklam.js'te (reklam ajanı). Burada yalnız
+     süzgeçsiz + varsayılan sırada, sıralamanın kartları kabın sonuna dizmesinden sonra yuvayı 3. kartın ardına geri koyuyoruz;
+     kabın `hidden`ına ve data-vd-suzgec-gizli'ye DOKUNULMAZ. */
+  function nativeYerlestir() {
+    if (!native) return;
+    var capa = kartlar()[2];
+    if (capa && native.previousElementSibling !== capa) izgara.insertBefore(native, capa.nextSibling);
   }
-  function adreseYaz() {
-    var u = new URL(location.href);
-    if (durum.konsept) u.searchParams.set('konsept', durum.konsept); else u.searchParams.delete('konsept');
-    if (durum.sure) u.searchParams.set('sure', durum.sure); else u.searchParams.delete('sure');
-    history.replaceState(history.state, '', u.pathname + (u.searchParams.toString() ? '?' + u.searchParams.toString() : '') + u.hash);
-  }
-  function uyar(k) {
-    if (durum.konsept) {
-      if (durum.konsept === 'fit-tarifler') { if (k.getAttribute('data-fit') !== '1') return false; }
-      else if (k.getAttribute('data-konsept') !== durum.konsept) return false;
-    }
-    if (durum.sure && k.getAttribute('data-sure') !== durum.sure) return false;
-    return true;
-  }
-  function suz(kaydir) {
-    var acik = !!(durum.konsept || durum.sure);
-    if (acik) yukle(Infinity); // süzgeç bütün arşive bakar
-    cipKonsept.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-vd-konsept') === durum.konsept ? 'true' : 'false'); });
-    cipSure.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-vd-sure') === durum.sure ? 'true' : 'false'); });
-    if (cipTumu) cipTumu.setAttribute('aria-pressed', acik ? 'false' : 'true');
-    var n = 0;
-    kartlar().forEach(function (k) { var g = !acik || uyar(k); k.hidden = !g; if (g) n++; });
-    if (native) { if (acik) native.setAttribute('data-vd-suzgec-gizli', ''); else native.removeAttribute('data-vd-suzgec-gizli'); } // reklam: süzgeç sonucunda native kart yok (hidden'ı reklam.js'in)
-    var gercek = acik ? n : toplam;
-    if (sayi) sayi.textContent = String(gercek);
-    if (acik) hub.setAttribute('data-vd-suzuluyor', ''); else hub.removeAttribute('data-vd-suzuluyor');
-    var etiket = [durum.konsept && KONSEPT[durum.konsept], durum.sure && SURE[durum.sure]].filter(Boolean).join(' · ');
-    if (baslik) baslik.textContent = acik ? 'Süzülen videolar' : ilkBaslik;
-    if (alt) alt.textContent = acik ? (n + ' video · ' + etiket) : ilkAlt;
-    if (bos) bos.hidden = !(acik && n === 0);
-    var bosAlt = bos && bos.querySelector('[data-vd-bos-alt]');
-    if (bosAlt && acik && n === 0) bosAlt.textContent = '“' + etiket + '” için video yok. Süreyi genişletmeyi ya da başka bir konsept seçmeyi dene.';
-    hub.querySelectorAll('[data-vd-son-seri]').forEach(function (b) { b.hidden = acik; });
-    hub.querySelectorAll('.vd-son [data-vd-temizle]').forEach(function (b) { b.hidden = !acik; });
+  hub.addEventListener('vd:suzgec', function (e) {
+    var d = e.detail;
+    var varsayilan = szKok.getAttribute('data-varsayilan-sira');
+    var siraliMi = d.sira && d.sira !== varsayilan;
+    // (a) süzgeç/sıralama arşivin tamamına bakar
+    if ((d.aktif || siraliMi) && kalan()) { yukle(Infinity); var a = api(); if (a) { a.uygula(); return; } }
+    var k = d.secim.konsept || [], s = d.secim.sure || [];
+    durum.konsept = k.length === 1 ? k[0] : null; durum.sure = s.length === 1 ? s[0] : null; durum.aktif = d.aktif; durum.sira = d.sira;
+    cipKonsept.forEach(function (c) { c.setAttribute('aria-pressed', k.indexOf(c.getAttribute('data-vd-konsept')) >= 0 ? 'true' : 'false'); });
+    cipSure.forEach(function (c) { c.setAttribute('aria-pressed', s.indexOf(c.getAttribute('data-vd-sure')) >= 0 ? 'true' : 'false'); });
+    if (cipTumu) cipTumu.setAttribute('aria-pressed', d.aktif ? 'false' : 'true');
+    if (sayi) sayi.textContent = String(d.aktif ? d.gorunen : toplam);
+    // (b) sonuç kipi
+    if (d.aktif) hub.setAttribute('data-vd-suzuluyor', ''); else hub.removeAttribute('data-vd-suzuluyor');
+    var etiket = Array.prototype.slice.call(szKok.querySelectorAll('input[data-sz-secenek]:checked')).map(function (i) { return i.parentNode.querySelector('.ft').textContent.trim(); }).join(' · ');
+    if (baslik) baslik.textContent = d.aktif ? 'Süzülen videolar' : ilkBaslik;
+    if (alt) alt.textContent = d.aktif ? (d.gorunen + ' video · ' + etiket) : ilkAlt;
+    var bosAlt = szKok.querySelector('[data-vd-bos-alt]');
+    if (bosAlt && d.aktif && d.gorunen === 0) bosAlt.textContent = '“' + etiket + '” için video yok. Süreyi genişletmeyi ya da başka bir konsept seçmeyi dene.';
+    hub.querySelectorAll('[data-vd-son-seri]').forEach(function (b) { b.hidden = d.aktif; });
+    hub.querySelectorAll('.vd-son [data-vd-temizle]').forEach(function (b) { b.hidden = !d.aktif; });
     var sonAlt = son && son.querySelector('[data-vd-son-alt]');
-    if (sonAlt) sonAlt.textContent = acik ? ('Bu süzgece uyan ' + n + ' videonun hepsi bu.') : 'Yeni bölümler serilerin yayın ritmine göre eklenir.';
+    if (sonAlt) sonAlt.textContent = d.aktif ? ('Bu süzgece uyan ' + d.gorunen + ' videonun hepsi bu.') : 'Yeni bölümler serilerin yayın ritmine göre eklenir.';
+    // (c) VD-N1 yeri · (d) son kutusu
+    if (!d.aktif && !siraliMi) nativeYerlestir();
+    if (!d.aktif && !siraliMi) dengele();
     sonDuzen();
-    if (kaydir && bolumTum) {
+    // kullanıcı çip/süzgeç değiştirdiyse sonuçlar barın altına gelsin (açılıştaki ilk olayda adresten geldiyse de)
+    if (bolumTum && (d.aktif || !ilkOlay)) {
       var hedef = bolumTum.getBoundingClientRect().top;
       var esik = (bar ? bar.getBoundingClientRect().bottom : 0) + 8;
-      if (acik ? Math.abs(hedef - esik) > 4 : hedef < esik) bolumTum.scrollIntoView({ behavior: azHareket ? 'auto' : 'smooth', block: 'start' });
+      if (d.aktif ? Math.abs(hedef - esik) > 4 && !(szKok.querySelector('.lst-side.open')) : hedef < esik) bolumTum.scrollIntoView({ behavior: ilkOlay || azHareket ? 'auto' : 'smooth', block: 'start' });
     }
-  }
-  function degistir(alan, deger) {
-    durum[alan] = durum[alan] === deger ? null : deger;
-    adreseYaz(); suz(true);
-  }
-  cipKonsept.forEach(function (c) { c.addEventListener('click', function () { degistir('konsept', c.getAttribute('data-vd-konsept')); }); });
-  cipSure.forEach(function (c) { c.addEventListener('click', function () { degistir('sure', c.getAttribute('data-vd-sure')); }); });
-  function temizle() { durum.konsept = null; durum.sure = null; adreseYaz(); suz(true); }
-  if (cipTumu) cipTumu.addEventListener('click', temizle);
-  hub.querySelectorAll('[data-vd-temizle]').forEach(function (b) { b.addEventListener('click', temizle); });
+    ilkOlay = false;
+  });
+  cipKonsept.forEach(function (c) { c.addEventListener('click', function () { var a = api(); if (a) a.degistir('konsept', c.getAttribute('data-vd-konsept'), { tek: true }); }); });
+  cipSure.forEach(function (c) { c.addEventListener('click', function () { var a = api(); if (a) a.degistir('sure', c.getAttribute('data-vd-sure'), { tek: true }); }); });
+  if (cipTumu) cipTumu.addEventListener('click', function () { var a = api(); if (a) a.temizle(); });
+  hub.querySelectorAll('.vd-son [data-vd-temizle]').forEach(function (b) { b.addEventListener('click', function () { var a = api(); if (a) a.temizle(); }); });
 
   /* yapışkanlık göstergesi (gölge) */
   if (bar) {
@@ -203,12 +196,6 @@
     golge();
   }
 
-  addEventListener('vd:reklam', function () { dengele(); sonDuzen(); });
-  adrestenOku();
+  addEventListener('vd:reklam', function () { if (!durum.aktif) dengele(); sonDuzen(); });
   dengele();
-  suz(false);
-  // adresten süzgeçle açıldıysa sonuçlar ekranın üstüne gelsin
-  if ((durum.konsept || durum.sure) && bolumTum) {
-    requestAnimationFrame(function () { bolumTum.scrollIntoView({ behavior: 'auto', block: 'start' }); });
-  }
 })();

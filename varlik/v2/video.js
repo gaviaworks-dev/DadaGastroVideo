@@ -206,10 +206,12 @@
     if (!lh) lh = parseFloat(cs.fontSize) * 1.2;
     // ölçüm sırasında CSS yedeğini (line-clamp/max-height) kaldır — sınıfa değil öğenin kendi stiline yazılır ki
     // video.css'i yüklemeyen sayfada (tarif sayfaları) da doğru ölçülsün; ölçümden sonra eski hâline döner
-    var eski = el.getAttribute('style');
-    ['display:block', '-webkit-line-clamp:none', 'max-height:none', 'min-height:0', 'overflow:visible'].forEach(function (d) { var i = d.indexOf(':'); el.style.setProperty(d.slice(0, i), d.slice(i + 1), 'important'); });
+    // metni taşıyan iç öğenin (ör. Gastro liste CSS'indeki `.r-body h4 a` line-clamp'i) kırpması da ölçümde kaldırılır
+    var ic = kirpKaynak(el); var hedefler = ic !== el ? [el, ic] : [el];
+    var eskiler = hedefler.map(function (x) { return x.getAttribute('style'); });
+    hedefler.forEach(function (x, j) { (j ? ['display:inline', '-webkit-line-clamp:none', 'max-height:none', 'overflow:visible'] : ['display:block', '-webkit-line-clamp:none', 'max-height:none', 'min-height:0', 'overflow:visible']).forEach(function (d) { var i = d.indexOf(':'); x.style.setProperty(d.slice(0, i), d.slice(i + 1), 'important'); }); });
     var h = el.getBoundingClientRect().height - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0);
-    if (eski === null) el.removeAttribute('style'); else el.setAttribute('style', eski);
+    hedefler.forEach(function (x, j) { if (eskiler[j] === null) x.removeAttribute('style'); else x.setAttribute('style', eskiler[j]); });
     return Math.round(h / lh);
   }
   function sigar(el, n) {

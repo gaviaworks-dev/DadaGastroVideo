@@ -128,7 +128,7 @@ const kapakImg = (k, o, { sinif, gen = 640, yuk = 360, oncelik = false } = {}) =
 /* ---------- 16:9 video kartı (Gastro .r-card) ----------
    boyut: 'izgara' (seri adı + bölüm) · 'ray' (seri rayında: yalnız bölüm) · 'yatay' (İzlemeye devam et; .feat-side içinde) ·
           'bolum' (seri sayfasının bölüm listesi; .feat-side içinde, özetli) */
-export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGoster = true, ilerleme = true, oncelik = false, gizli = false, ozet = true } = {}) {
+export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGoster = true, ilerleme = true, oncelik = false, gizli = false, ozet = true, sz = '' } = {}) {
   const s = seriBul(v.seri, o);
   const k = kapakBul(v, o);
   const href = videoHref(v, o);
@@ -146,7 +146,7 @@ export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGos
     const yuzde = v.ornek_ilerleme ? Math.round(v.ornek_ilerleme * 100) : 0;
     const kalan = yuzde ? Math.max(1, Math.round((v.sure_sn * (1 - v.ornek_ilerleme)) / 60)) : 0;
     const ust = boyut === 'bolum' ? `Bölüm ${v.bolum}${yuzde ? ` · %${yuzde} izlendi` : ''}` : `Bölüm ${v.bolum}${s ? ` · ${e(o, s.ad)}` : ''}`;
-    return `<article class="r-card vd-kart vd-kart--${boyut}" ${suzgecVerisi(v, o)}>
+    return `<article class="r-card vd-kart vd-kart--${boyut}" ${suzgecVerisi(v, o)}${sz}>
   ${medya}
   <div class="r-body">
    <span class="vd-kart__ust" data-vd-kirp="${boyut === 'bolum' ? 1 : 2}">${ust}</span>
@@ -156,7 +156,7 @@ export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGos
   </div>
  </article>`;
   }
-  return `<article class="r-card vd-kart vd-kart--${boyut}" ${suzgecVerisi(v, o)}${gizli ? ' hidden' : ''}>
+  return `<article class="r-card vd-kart vd-kart--${boyut}" ${suzgecVerisi(v, o)}${sz}${gizli ? ' hidden' : ''}>
   ${medya}
   <div class="r-body">
    <${h} data-vd-kirp="2"><a href="${e(o, href)}">${e(o, v.baslik)}</a></${h}>
@@ -167,11 +167,11 @@ export function videoKarti(v, o, { boyut = 'izgara', baslikSeviye = 'h4', sefGos
 }
 
 /* ---------- 9:16 kısa video kartı (Gastro'da karşılığı yok — V1 bileşeni) ---------- */
-export function kisaKarti(k, o, { oncelik = false } = {}) {
+export function kisaKarti(k, o, { oncelik = false, sz = '' } = {}) {
   const kp = kapakBul(k, o);
   const s = seriBul(k.seri, o);
   const rozet = (k.rozetler || []).slice(0, 2).map((r) => `<span class="vd-rozet">${e(o, r)}</span>`).join('');
-  return `<a class="vd-kisa" href="${e(o, kisaHref(k))}" data-vd-kisa="${e(o, k.slug)}" data-fit="${k.fit ? 1 : 0}" data-sure="15-alti">
+  return `<a class="vd-kisa" href="${e(o, kisaHref(k))}" data-vd-kisa="${e(o, k.slug)}" data-fit="${k.fit ? 1 : 0}" data-sure="${kartSureKodu(k, o)}"${sz}>
   <span class="vd-kisa__medya">${kp ? kapakImg(kp, o, { sinif: 'vd-kisa__kapak', gen: 360, yuk: 640, oncelik }) : afisKapak(k, o, s)}</span>
   <span class="vd-kisa__sure">${ik('fa-bolt')} ${k.sure_sn} sn</span>
   <span class="vd-kisa__oynat" aria-hidden="true">${ik('fa-play')}</span>
@@ -180,8 +180,8 @@ export function kisaKarti(k, o, { oncelik = false } = {}) {
 }
 
 /* ---------- Bölüm kartı (binge): Gastro yatay .r-card; kap .feat-side.vd-bolum-liste ---------- */
-export function bolumKarti(v, o, { baslikSeviye = 'h3', ozet = true } = {}) {
-  return videoKarti(v, o, { boyut: 'bolum', baslikSeviye, ozet });
+export function bolumKarti(v, o, { baslikSeviye = 'h3', ozet = true, sz = '' } = {}) {
+  return videoKarti(v, o, { boyut: 'bolum', baslikSeviye, ozet, sz });
 }
 
 /* ---------- Seri kartı (Gastro .r-card) ---------- */
@@ -190,7 +190,7 @@ export function sureAraligi(s) {
   const [a, b] = s.sure_araligi_sn || [0, 0];
   return a < 60 ? `${a}–${b} sn` : `${Math.round(a / 60)}–${Math.round(b / 60)} dk`;
 }
-export function seriAfisi(s, o, { baslikSeviye = 'h4' } = {}) {
+export function seriAfisi(s, o, { baslikSeviye = 'h4', sz = '' } = {}) {
   const bol = seriBolumleri(s.slug, o);
   const kp = bol.map((v) => kapakBul(v, o)).find(Boolean);
   const sef = o.SEF ? o.SEF[s.sef] : null;
@@ -199,7 +199,7 @@ export function seriAfisi(s, o, { baslikSeviye = 'h4' } = {}) {
   const ust = s.pro
     ? `<span class="vlock-badge">${ik('fa-lock')} Pro · ${formatAd(s)}</span>`
     : `<span class="r-chip">${ik(dikey ? 'fa-mobile-screen' : 'fa-tv')} ${formatAd(s)}</span>`;
-  return `<article class="r-card vd-kart vd-seri-kart${s.pro ? ' vd-seri-kart--pro' : ''}" data-vd-seri="${e(o, s.slug)}">
+  return `<article class="r-card vd-kart vd-seri-kart${s.pro ? ' vd-seri-kart--pro' : ''}" data-vd-seri="${e(o, s.slug)}"${sz}>
   <div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya">
    ${kp ? kapakImg(kp, o, { sinif: 'vd-kart__kapak' }) : afisKapak({}, o, s)}
    ${ust}

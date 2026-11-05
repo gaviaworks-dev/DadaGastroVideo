@@ -99,7 +99,7 @@ for (const w of GENISLIK) {
     await p.evaluate(() => scrollTo(0, document.querySelector('#seriler, .vd-seri-ray').offsetTop + 400));
     await p.waitForTimeout(400);
     const yap = await p.evaluate(() => {
-      const bar = document.querySelector('[data-vd-suzgec]'); const r = bar.getBoundingClientRect();
+      const bar = document.querySelector('[data-vd-cipbar], .vd-suzgec'); const r = bar.getBoundingClientRect();
       const ust = parseFloat(getComputedStyle(bar).top) || 0;
       const t = document.elementFromPoint(r.left + 40, r.top + r.height / 2);
       return { top: r.top, ust, gor: bar.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }), isabet: !!t && bar.contains(t) };

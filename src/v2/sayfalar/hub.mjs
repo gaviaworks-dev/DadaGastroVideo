@@ -9,7 +9,8 @@ import * as K from '../kart.mjs';
 import { oynatici } from '../oynatici.mjs';
 import { kisaGoruntuleyici } from './kisa.mjs'; // izle ajanının tam ekran dikey görüntüleyicisi, hub'da katman (1.3b)
 import { reklamSlotu, sponsorEtiketi } from '../reklam.mjs'; // REVİZE 1 madde 7 (reklam ajanının API'si)
-import { sefRayi } from '../sef-kart.mjs'; // izle ajanı: Gastro ana sayfa "Tarifin ustaları" şef kartı BİREBİR
+import { sefRayi } from '../sef-kart.mjs';
+import { suzgecDuzeni, szVeri, secenekler } from '../suzgec.mjs'; // Patron revizesi K1–K3: "Tüm videolar" Gastro /tarifler süzgeci // izle ajanı: Gastro ana sayfa "Tarifin ustaları" şef kartı BİREBİR
 
 export const KONSEPT_IKON = { '10 Dakikada Pratik': 'fa-stopwatch', 'Şef Teknikleri': 'fa-book-open', 'Restoran Sırları': 'fa-bell-concierge', 'Yöresel Keşifler': 'fa-map-location-dot', 'Fit Tarifler': 'fa-leaf' };
 const { konseptKodu } = K;
@@ -70,7 +71,7 @@ export default async function (o) {
   /* ---------- 1.2 Yapışkan süzgeç barı ---------- */
   const konseptCip = KAT.konseptler.map((k) => `<button class="chip vd-cip" type="button" data-vd-konsept="${konseptKodu(k)}" aria-pressed="false">${ui(KONSEPT_IKON[k] || 'fa-tag')}<span>${esc(k)}</span></button>`).join('');
   const sureCip = KAT.sure_suzgecleri.map((s) => `<button class="chip vd-cip" type="button" data-vd-sure="${esc(s.kod)}" aria-pressed="false">${ui('fa-clock')}<span>${esc(s.ad)}</span></button>`).join('');
-  const suzgec = `<div class="vd-suzgec" data-vd-suzgec>
+  const suzgec = `<div class="vd-suzgec" data-vd-cipbar>
  <div class="vd-suzgec__ic">
   <div class="vd-suzgec__iz" role="toolbar" aria-label="Videoları süz">
    <button class="chip vd-cip" type="button" data-vd-tumu aria-pressed="true">${ui('fa-border-all')}<span>Tümü</span></button>
@@ -128,7 +129,7 @@ export default async function (o) {
   /* ---------- Video şefleri — izle'nin sef-kart.mjs (Gastro .chef-row > .chef-card) ---------- */
   const sefler = [...new Set(seriler.map((s) => s.sef))].filter((k) => o.SEF[k]);
   const sefBolum = `<section class="sec chefs vd-sefler" id="sefler" aria-labelledby="vd-sef-h" data-vd-anasayfa>
-  ${basl({ ikon: 'fa-utensils', ust: 'Şefler &amp; Yazarlar', baslik: 'Videoların ustaları', id: 'vd-sef-h', lead: 'Her seriyi bir Dada Gastro şefi sunar; tarifleri sitede de yayında.' })}
+  ${basl({ ikon: 'fa-utensils', ust: 'Şefler &amp; Yazarlar', baslik: 'Videoların ustaları', id: 'vd-sef-h', lead: 'Her seriyi bir Dada Gastro şefi sunar; tarifleri sitede de yayında.', araclar: `<a class="see-all" href="video-sefler.html">Tamamını Gör ${ui('fa-arrow-right')}</a>` })}
   ${sefRayi(sefler, o)}
 </section>`;
 
@@ -138,29 +139,52 @@ export default async function (o) {
   const kuyruk = uzunSeriler.map((s) => sirali.filter((v) => v.seri === s.slug));
   const karisik = [];
   while (kuyruk.some((q) => q.length)) for (const q of kuyruk) if (q.length) karisik.push(q.shift());
-  const kart = (v) => K.videoKarti(v, o, { baslikSeviye: 'h3' });
-  const tum = `<section class="sec vd-tum" id="tum-videolar" aria-labelledby="vd-tum-h">
-  <div class="sec-head">
-   <div><span class="eyebrow">${ui('fa-film')} Video arşivi</span><h2 id="vd-tum-h" data-vd-tum-baslik>Tüm videolar</h2>
-   <p class="lead" data-vd-tum-alt>Bütün serilerin bölümleri bir arada. Aşağı kaydırdıkça yenileri yüklenir.</p></div>
-  </div>
-  <div class="grid-4 vd-tum__izgara" data-vd-izgara>
-   ${[...karisik.slice(0, 3).map(kart), reklamSlotu('native', o, { sayfa: 'hub' }), ...karisik.slice(3, ILK).map(kart)].join('\n   ')}
-   <div class="vd-son" data-vd-son hidden>
+  // K3 · "Tüm videolar" süzgeci: kategori/konsept (+ Fit Tarifler) · seri · şef · zorluk · süre · sıralama. Doküman 1.2 çip barı
+  // AYNI durumu sürer (çip = bu süzgeçte o seçenek; adres anahtarları konsept · sure). Küratörlü raylar süzgeçsiz.
+  const ZORLUK_SIRA = ['kolay', 'orta', 'ileri'];
+  const SURE_SIRA = KAT.sure_suzgecleri.map((x) => x.kod);
+  const sureAd = Object.fromEntries(KAT.sure_suzgecleri.map((x) => [x.kod, x.ad]));
+  const alanlar = (v) => {
+    const s = seri(v.seri); const t = v.tarif ? o.TARIF[v.tarif] : null;
+    return {
+      konsept: [s && s.konsept ? konseptKodu(s.konsept) : '', v.fit ? 'fit-tarifler' : ''].filter(Boolean),
+      seri: [v.seri], sef: s ? [s.sef] : [], zorluk: t ? [konseptKodu(K.zorlukUc(t.zorluk))] : [], sure: [o.sureKodu(v)],
+    };
+  };
+  const duz = karisik.map(alanlar);
+  const sirasi = (v) => { const t = v.tarif ? o.TARIF[v.tarif] : null; return { hiz: t ? (t.hazirlik_dk || 0) + (t.pisirme_dk || 0) : Math.round(v.sure_sn / 60), sure: v.sure_sn, ad: v.baslik }; };
+  const gruplar = [
+    { kod: 'konsept', ad: 'Kategori', ikon: 'fa-layer-group', secenekler: secenekler(duz, 'konsept', Object.fromEntries(KAT.konseptler.map((k) => [konseptKodu(k), k])), { sira: KAT.konseptler.map(konseptKodu) }) },
+    { kod: 'seri', ad: 'Seri', ikon: 'fa-film', secenekler: secenekler(duz, 'seri', Object.fromEntries(seriler.map((x) => [x.slug, x.ad])), { sira: seriler.map((x) => x.slug) }) },
+    { kod: 'sef', ad: 'Şef', ikon: 'fa-user', secenekler: secenekler(duz, 'sef', Object.fromEntries(seriler.map((x) => [x.sef, o.SEF[x.sef] ? o.SEF[x.sef].ad : x.sef]))) },
+    { kod: 'zorluk', ad: 'Zorluk', ikon: 'fa-gauge-simple', secenekler: secenekler(duz, 'zorluk', { kolay: 'Kolay', orta: 'Orta', ileri: 'İleri' }, { sira: ZORLUK_SIRA, tum: ZORLUK_SIRA }) },
+    { kod: 'sure', ad: 'Süre', ikon: 'fa-clock', secenekler: secenekler(duz, 'sure', sureAd, { sira: SURE_SIRA, tum: SURE_SIRA }) },
+  ];
+  const siralar = [
+    { kod: 'onerilen', ad: 'Önerilen', ikon: 'fa-wand-magic-sparkles' },
+    { kod: 'en-hizli', ad: 'En hızlı', ikon: 'fa-bolt', alan: 'hiz', yon: 'artan' },
+    { kod: 'video-suresi', ad: 'Video süresi', ikon: 'fa-hourglass-half', alan: 'sure', yon: 'artan' },
+    { kod: 'ada-gore', ad: 'Ada göre', ikon: 'fa-arrow-down-a-z', alan: 'ad', tur: 'metin' },
+  ];
+  const kart = (v, i) => K.videoKarti(v, o, { baslikSeviye: 'h3', sz: szVeri(duz[i], sirasi(v), i) });
+  const kartlar = karisik.map(kart);
+  const izgara = `<div class="lst-grid vd-tum__izgara" id="lstGrid" data-vd-izgara data-sz-liste>
+   ${[...kartlar.slice(0, 3), reklamSlotu('native', o, { sayfa: 'hub' }), ...kartlar.slice(3, ILK)].join('\n   ')}
+   <div class="vd-son" data-vd-son data-sz-son hidden>
     <span class="vd-son__ikon">${ui('fa-circle-check')}</span>
     <span class="vd-son__metin"><b>Hepsi bu kadar</b><span data-vd-son-alt>Yeni bölümler serilerin yayın ritmine göre eklenir.</span></span>
     <a class="see-all" href="video-seriler.html" data-vd-son-seri>Serilere göz at ${ui('fa-arrow-right')}</a>
     <button class="see-all" type="button" data-vd-temizle hidden>Süzgeçleri temizle ${ui('fa-xmark')}</button>
    </div>
   </div>
-  <template data-vd-devam>${karisik.slice(ILK).map(kart).join('')}</template>
-  <div class="vd-yukleniyor" data-vd-gozcu role="status"><span class="vd-yukleniyor__nokta" aria-hidden="true"></span>Daha fazla video yükleniyor…</div>
-  <div class="vd-bos" data-vd-bos hidden>
-   <span class="vd-bos__ikon">${ui('fa-film')}</span>
-   <h3>Bu süzgeçlere uyan video yok</h3>
-   <p data-vd-bos-alt>Süreyi genişletmeyi ya da başka bir konsept seçmeyi dene.</p>
-   <button class="btn btn-ghost" type="button" data-vd-temizle>${ui('fa-xmark')} Süzgeçleri temizle</button>
+  <template data-vd-devam data-sz-havuz>${kartlar.slice(ILK).join('')}</template>
+  <div class="vd-yukleniyor" data-vd-gozcu role="status"><span class="vd-yukleniyor__nokta" aria-hidden="true"></span>Daha fazla video yükleniyor…</div>`;
+  const tum = `<section class="sec vd-tum" id="tum-videolar" aria-labelledby="vd-tum-h">
+  <div class="sec-head">
+   <div><span class="eyebrow">${ui('fa-film')} Video arşivi</span><h2 id="vd-tum-h" data-vd-tum-baslik>Tüm videolar</h2>
+   <p class="lead" data-vd-tum-alt>Bütün serilerin bölümleri bir arada. Aşağı kaydırdıkça yenileri yüklenir.</p></div>
   </div>
+  ${suzgecDuzeni({ dosya: 'video-mutfagi.html', birim: 'video', toplam: videolar.length, gruplar, siralar, liste: izgara, bos: { baslik: 'Bu süzgeçlere uyan video yok', metin: 'Süreyi genişletmeyi ya da başka bir konsept seçmeyi dene.', dugme: 'Süzgeçleri temizle' } })}
 </section>`;
 
   const main = `<!-- V2 · hub ajanı · donör: Gastro ana sayfa http://127.0.0.1:8960/ (section.sec > .sec-head · .row-track · .feat-side · .grid-4 · .r-card · .chef-row) — portal-*.css · kart-standart.css; koyu sahne V1'den -->
@@ -191,8 +215,9 @@ ${kisaGoruntuleyici(o, { katman: true })}`;
     },
     aktif: 'kesfet',
     main,
-    css: ['oynatici', 'kisa', 'hub'],
-    js: ['oynatici', 'kisa', 'hub'],
+    css: ['oynatici', 'kisa', 'hub', 'suzgec'],
+    js: ['oynatici', 'kisa', 'suzgec', 'hub'],
+    suzgec: true,
     govdeSinifi: 'vd-govde',
   }];
 }

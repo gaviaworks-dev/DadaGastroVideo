@@ -1,0 +1,28 @@
+/* V2 · Ortak liste süzgeci (hub ajanı). Süzgecin bütün görünümü Gastro'nun /tarifler CSS'inden gelir
+   (tarif-liste.css · revize/p1/tarifler.css · shared/dm-p4-f.css — kabuk, sayfa bayrağı `suzgec`). Burada yalnız:
+   1) eklendi: boş durum `.bos-durum` + `.dugme.ikincil` — donör /tarifler?q=<sonuçsuz> (8960, 5 Kas) computed değerleri birebir.
+      Kaynak kural kanon/bilesenler.css'te; o dosya global sıfırlama taşıdığı için (V2 hub'da 1440'ta 1447 öğe değişiyor, ölçüldü)
+      sayfaya yüklenmez.
+   2) video kartının Gastro liste ızgarasına (.lst-grid) oturması: 390'da Gastro listesi yatay kart yapar; video kartının 16:9 kuralı orada
+      Gastro'nun ölçüsüne bırakılır. */
+
+/* 1 — boş durum (ölçülen: 874×202 · padding 40/24 · h3 15.5px/700 −0.31px · p 13px #717171 · düğme 14.5px/700 14×26 r12 gap10) */
+.vd-liste-suzgec .bos-durum { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 40px 24px; }
+.vd-liste-suzgec .bos-durum[hidden] { display: none; }
+.vd-liste-suzgec .bos-durum h3 { margin: 0 0 4px; font-size: 15.5px; font-weight: 700; line-height: 1.12; letter-spacing: -.31px; color: var(--ink, #211E16); }
+.vd-liste-suzgec .bos-durum p { margin: 0 0 16px; max-width: 38ch; font-size: 13px; line-height: 1.55; color: #717171; }
+.vd-liste-suzgec .bos-durum .dugme { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 14px 26px; border-radius: var(--radius-md, 12px); font-size: 14.5px; font-weight: 700; line-height: 1; color: var(--ink, #211E16); text-decoration: none; cursor: pointer; transition: .25s cubic-bezier(.22, .61, .36, 1); }
+.vd-liste-suzgec .bos-durum .dugme:hover { color: var(--tomato, #DC3D17); }
+
+/* 2 — video kartı Gastro liste ızgarasında */
+.vd-liste-suzgec .lst-grid .vd-kart[hidden] { display: none; }
+@media (max-width: 640px) {
+  .vd-liste-suzgec .lst-grid .vd-kart .r-media { aspect-ratio: auto; height: 100%; min-height: 128px; }
+  .vd-liste-suzgec .lst-grid .vd-kart .r-body { padding: 12px 14px; }
+  .vd-liste-suzgec .lst-grid .vd-kart .r-chip.vd-kart__seri { display: none; }
+}
+/* panel içinde: Gastro .lst-side yapışkan üst payı header'ın altı */
+@media (min-width: 1025px) { .vd-v2 .vd-liste-suzgec .lst-side { top: calc(var(--vd-bar-alt, 112px) + 16px); } } /* yalnız masaüstü yapışkan kenar çubuğu; ≤1024'te Gastro çekmecesi alttan (top:auto) */
+.vd-liste-suzgec [data-sz-liste]:not(.lst-grid) { margin-top: 24px; }
+/* süzgecin gizlediği öğe her kart türünde gizli (ör. .vd-kisa display:block hidden'ı ezer) */
+[data-sz-oge][hidden] { display: none !important; }

@@ -7,6 +7,7 @@
 // donör: Gastro ana sayfa render DOM (http://127.0.0.1:8960/) `.sec-head`, `.feat-side .r-card`, `.row-track`, `.btn` — portal-*.css.
 import * as K from '../kart.mjs';
 import { reklamSlotu, sponsorEtiketi } from '../reklam.mjs';
+import { suzgecDuzeni, szVeri, secenekler } from '../suzgec.mjs'; // Patron revizesi K3: bölüm listesi süzgeci (süre + sıralama)
 
 const PRO = 'https://dadagastro.com/pro';
 
@@ -55,11 +56,28 @@ export default async function (o) {
    <span class="vd-ornek">${ui('fa-flask')} Prototip örneği</span>
   </aside>` : '';
 
-    const liste = dikey
-      ? `<div class="vd-kisa-izgara">${bol.map((k) => K.kisaKarti(k, o)).join('')}
-     <a class="vd-kisa-son" href="${esc(ilkHref)}"><span class="vd-kisa-son__ikon">${ui('fa-bolt')}</span><b>${esc(s.ritim)}</b><span>Tam ekranda yukarı kaydırarak bir videodan ötekine geç.</span><span class="vd-kisa-son__bag">Tam ekranda izle ${ui('fa-arrow-right')}</span></a>
+    // K3 · bölüm listesi süzgeci: süre (bölüm tarifinin hazırlık süresi, hub ile aynı kural) + sıralama.
+    // Sezon: katalogda hiçbir seride ikinci sezon yok → alan veri modeline bağlı, sezon sayısı > 1 ise görünür (şu an gizli).
+    const sezonlar = [...new Set(bol.map((v) => v.sezon || 1))];
+    const SURE_SIRA = ['15-alti', '15-30', '30-ustu'];
+    const sureAd = Object.fromEntries((o.KATALOG.sure_suzgecleri || []).map((x) => [x.kod, x.ad]));
+    const duz = bol.map((v) => ({ sure: [o.sureKodu(v)], ...(sezonlar.length > 1 ? { sezon: [String(v.sezon || 1)] } : {}) }));
+    const gruplar = [
+      ...(sezonlar.length > 1 ? [{ kod: 'sezon', ad: 'Sezon', ikon: 'fa-layer-group', secenekler: secenekler(duz, 'sezon', Object.fromEntries(sezonlar.map((z) => [String(z), `Sezon ${z}`])), { sira: sezonlar.map(String) }) }] : []),
+      { kod: 'sure', ad: 'Süre', ikon: 'fa-clock', secenekler: secenekler(duz, 'sure', sureAd, { sira: SURE_SIRA, tum: SURE_SIRA }) },
+    ];
+    const siralar = [
+      { kod: 'bolum-sirasi', ad: 'Bölüm sırası', ikon: 'fa-list-ol' },
+      { kod: 'kisadan-uzuna', ad: 'Kısadan uzuna', ikon: 'fa-arrow-up-short-wide', alan: 'sure', yon: 'artan' },
+      { kod: 'uzundan-kisaya', ad: 'Uzundan kısaya', ikon: 'fa-arrow-down-wide-short', alan: 'sure', yon: 'azalan' },
+    ];
+    const sz = (v, i) => szVeri(duz[i], { sure: v.sure_sn }, i);
+    const listeIc = dikey
+      ? `<div class="vd-kisa-izgara" data-sz-liste>${bol.map((k, i) => K.kisaKarti(k, o, { sz: sz(k, i) })).join('')}
+     <a class="vd-kisa-son" href="${esc(ilkHref)}" data-sz-son><span class="vd-kisa-son__ikon">${ui('fa-bolt')}</span><b>${esc(s.ritim)}</b><span>Tam ekranda yukarı kaydırarak bir videodan ötekine geç.</span><span class="vd-kisa-son__bag">Tam ekranda izle ${ui('fa-arrow-right')}</span></a>
     </div>`
-      : `<div class="feat-side vd-bolum-liste">${bol.map((v) => K.bolumKarti(v, o, { baslikSeviye: 'h3' })).join('')}</div>`;
+      : `<div class="feat-side vd-bolum-liste" data-sz-liste>${bol.map((v, i) => K.bolumKarti(v, o, { baslikSeviye: 'h3', sz: sz(v, i) })).join('')}</div>`;
+    const liste = suzgecDuzeni({ dosya: `video-seri-${s.slug}.html`, birim: dikey ? 'video' : 'bölüm', toplam: bol.length, gruplar, siralar, liste: listeIc, bos: { baslik: 'Bu süreye uyan bölüm yok', metin: 'Süre seçimini kaldır ya da süzgeçleri temizle.', dugme: 'Süzgeçleri temizle' } });
 
     const digerleri = seriler.filter((x) => x.slug !== s.slug);
     const diger = `<section class="sec vd-ray vd-ray--seri" aria-labelledby="vd-diger-h" data-vd-ray>
@@ -102,8 +120,9 @@ export default async function (o) {
       },
       aktif: dikey ? 'kisa' : 'seriler',
       main,
-      css: ['seri'],
-      js: [],
+      css: ['seri', 'suzgec'],
+      js: ['suzgec'],
+      suzgec: true,
       govdeSinifi: 'vd-govde',
       gorsel: sahne ? sahne.src : '',
     };
