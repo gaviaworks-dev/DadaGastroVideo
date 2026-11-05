@@ -14,15 +14,18 @@
   // <main> kendi yığın bağlamını kuruyor (Gastro altbilgi perdesi); sabit katman başlığın altında kalmasın diye gövdeye taşınır
   if (kok.parentNode !== document.body) document.body.appendChild(kok);
   var akis = kok.querySelector('[data-vd-dikey-akis]');
-  var ogeler = [], segmentler = [];
+  var ogeler = [], videolar = [], segmentler = [];
+  var hedefSlug = null; // ekrandaki (ya da en son ekrandaki) VİDEO; yeniden taramada konum bundan bulunur (reklam öğesi değil)
+  var sessizKadar = 0;  // programla kaydırma sırasında kaydırma-sonu hesabı atlanır
   var segKap = kok.querySelector('.vd-dikey__segmentler');
   var reklamMi = function (o) { return !!o && o.getAttribute('data-vd-dikey-oge') === 'reklam'; };
   /** Öğe listesini DOM'dan yeniden kurar (reklam kabı açılınca/kapanınca); segment sayısı öğe sayısına eşitlenir. */
   function tara() {
     ogeler = Array.prototype.slice.call(kok.querySelectorAll('[data-vd-dikey-oge]')).filter(function (o) { var g = o.closest('[hidden]'); return !g || g === kok; }); // katman kipinde görüntüleyicinin kendisi gizli başlar
-    if (segKap && segKap.children.length !== ogeler.length) {
+    videolar = ogeler.filter(function (o) { return !reklamMi(o); }); // K6: reklam öğesi sayaca ve segmentlere girmez
+    if (segKap && segKap.children.length !== videolar.length) {
       segKap.innerHTML = '';
-      ogeler.forEach(function (_, i) { var d = document.createElement('span'); d.setAttribute('data-vd-dikey-segment', String(i)); d.appendChild(document.createElement('span')); segKap.appendChild(d); });
+      videolar.forEach(function (_, i) { var d = document.createElement('span'); d.setAttribute('data-vd-dikey-segment', String(i)); d.appendChild(document.createElement('span')); segKap.appendChild(d); });
     }
     segmentler = Array.prototype.slice.call(kok.querySelectorAll('[data-vd-dikey-segment] > span'));
     ogeler.forEach(baglaOge);
@@ -38,10 +41,13 @@
   };
   var etkin = -1, sn = 0, oynuyor = false, son = 0, raf = 0, acik = !katman, girisAdresi = null, itildi = false;
 
+  /** Öğe dizinindeki konumun video numarası (1'den): video öğesinde kendi sırası, reklam öğesinde ÖNCEKİ videonun sırası. */
+  function videoNo(i) { var n = 0; for (var j = 0; j <= i && j < ogeler.length; j++) if (!reklamMi(ogeler[j])) n++; return n; }
+  function sayacYaz() { if (siraEl) siraEl.textContent = (videolar.length ? Math.max(1, videoNo(etkin)) : 0) + ' / ' + videolar.length; }
   function segmentBoya() {
-    var vid = reklamMi(ogeler[etkin]) ? ogeler[etkin].querySelector('video') : null;
-    segmentler.forEach(function (s, i) {
-      var o = i < etkin ? 1 : (i > etkin ? 0 : (vid ? (vid.duration ? vid.currentTime / vid.duration : 0) : sn / (Number(ogeler[i].getAttribute('data-sure')) || 1)));
+    var reklamda = reklamMi(ogeler[etkin]), no = videoNo(etkin); // reklamdayken önceki video tamamlanmış sayılır
+    segmentler.forEach(function (s, j) {
+      var o = j < no - 1 ? 1 : (j > no - 1 ? 0 : (reklamda ? 1 : sn / (Number(ogeler[etkin].getAttribute('data-sure')) || 1)));
       s.style.setProperty('--o', Math.max(0, Math.min(1, o)).toFixed(4));
     });
   }
@@ -77,7 +83,8 @@
     if (i === etkin || i < 0 || i >= ogeler.length) return;
     etkin = i; sn = 0;
     ogeler.forEach(function (o, j) { o.classList.toggle('is-etkin', j === i); if (j !== i) o.classList.remove('is-oynuyor', 'is-durdu'); });
-    if (siraEl) siraEl.textContent = (i + 1) + ' / ' + ogeler.length;
+    if (!reklamMi(ogeler[i])) hedefSlug = ogeler[i].getAttribute('data-vd-dikey-oge');
+    sayacYaz();
     if (onceki) onceki.disabled = i === 0;
     if (sonraki) sonraki.disabled = i === ogeler.length - 1;
     var img = ogeler[i].querySelector('img.vd-dikey__poster'), vposter = ogeler[i].querySelector('video[poster]');
@@ -86,7 +93,9 @@
     if (acik) { if (!reklamMi(ogeler[i])) adresYaz(ogeler[i].getAttribute('data-vd-dikey-oge')); oynat(); }
   }
   function git(i, anlik) {
+    if (!ogeler.length) { duraklat(); return; } // süzgeç sonucu boş: gidilecek öğe yok (boş durum görünür)
     i = Math.max(0, Math.min(ogeler.length - 1, i));
+    clearTimeout(kaydirZaman); if (anlik || azHareket) sessizKadar = Date.now() + 250;
     akis.scrollTo({ top: ogeler[i].offsetTop, behavior: anlik || azHareket ? 'auto' : 'smooth' });
     etkinYap(i);
   }
@@ -95,6 +104,7 @@
   var kaydirZaman = 0;
   akis.addEventListener('scroll', function () {
     clearTimeout(kaydirZaman);
+    if (Date.now() < sessizKadar) return;
     kaydirZaman = setTimeout(function () {
       var i = Math.round(akis.scrollTop / Math.max(1, akis.clientHeight));
       etkinYap(i);
@@ -115,6 +125,7 @@
   /* klavye */
   document.addEventListener('keydown', function (e) {
     if (!acik || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (typeof cekmeceAcik === 'function' && cekmeceAcik()) return; // süzgeç çekmecesi açıkken oklar/Esc çekmecenin
     var hedef = e.target;
     if (hedef && /^(INPUT|TEXTAREA|SELECT)$/.test(hedef.tagName)) return;
     if (e.key === 'ArrowDown' || e.key === 'PageDown' || e.key === 'j') { e.preventDefault(); git(etkin + 1); }
@@ -159,19 +170,36 @@
     o.querySelectorAll('[data-vd-dikey-paylas]').forEach(function (d) { d.addEventListener('click', function () { paylasTikla(d); }); });
   }
   tara();
+  hedefSlug = new URLSearchParams(location.pathname.slice(-15) === 'video-kisa.html' ? location.search : '').get('v') || (videolar[0] && videolar[0].getAttribute('data-vd-dikey-oge'));
   /* reklamlı görünüm açılıp kapanınca liste yeniden taranır; ekrandaki öğe yerinde kalır */
-  window.addEventListener('vd:reklam', function () {
-    var simdiki = ogeler[etkin];
+  function yenidenTara() {
     tara();
-    var i = Math.max(0, ogeler.indexOf(simdiki));
+    // hedef: ekrandaki video (slug'dan; reklam öğesi taşınınca dizinler kayar). Süzgeçle gizlendiyse ilk görünür video.
+    var i = -1;
+    for (var j = 0; j < ogeler.length; j++) if (ogeler[j].getAttribute('data-vd-dikey-oge') === hedefSlug) { i = j; break; }
+    if (i < 0) for (var k = 0; k < ogeler.length; k++) if (!reklamMi(ogeler[k])) { i = k; break; }
+    i = Math.max(0, i);
     etkin = -1;
+    if (!ogeler.length) { duraklat(); return; }
     if (acik) git(i, true); else { akis.scrollTop = ogeler[i] ? ogeler[i].offsetTop : 0; etkinYap(i); }
+  }
+  // reklamlı görünüm açılıp kapanınca (vd:reklam) ve reklam.js sponsorlu öğeyi süzülmüş akışta taşıyınca (vd:reklam-yer) yeniden tara
+  window.addEventListener('vd:reklam', yenidenTara);
+  window.addEventListener('vd:reklam-yer', yenidenTara);
+  // akış süzgeci (hub suzgec.js; kök = görüntüleyici): seçim değişince öğe listesi, segmentler ve sayaç n/N yeniden kurulur; 0 sonuçta durur
+  kok.addEventListener('vd:suzgec', function (e) {
+    yenidenTara();
+    if (e.detail && e.detail.gorunen === 0) { duraklat(); if (siraEl) siraEl.textContent = '0 / 0'; }
+    window.dispatchEvent(new CustomEvent('vd:suzgec-kisa', { detail: e.detail })); // reklam.js gözcüsü zaten yakalıyor; bilgi amaçlı
   });
+  var cekmece = kok.querySelector('.lst-side');
+  var cekmeceAcik = function () { return !!(cekmece && cekmece.classList.contains('open')); };
 
   /* ---------- aç / kapat ---------- */
   function slugSirasi(slug) { for (var i = 0; i < ogeler.length; i++) if (ogeler[i].getAttribute('data-vd-dikey-oge') === slug) return i; return -1; }
   function ac(slug) {
     var i = Math.max(0, slugSirasi(slug));
+    hedefSlug = slug;
     if (katman) {
       if (window.vdOynatici) window.vdOynatici.hepsiniDurdur();
       girisAdresi = location.href;

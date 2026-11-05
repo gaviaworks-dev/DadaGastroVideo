@@ -10,6 +10,7 @@ import * as kart from '../kart.mjs';
 import { reklamSlotu } from '../reklam.mjs';
 import { sefTanitimi } from './izle.mjs';
 import { sefKarti as gastroSefKarti } from '../sef-kart.mjs';
+import { suzgecDuzeni, szVeri, secenekler } from '../suzgec.mjs';
 
 const DONOR = '<!-- Video Mutfağı V2 şef kanalı · donör: http://127.0.0.1:8960/bugun-ne-pisirsem (banner + panel + .pf-tabs/.dt) · /sefler (.sef-card) · / (.r-card) -->';
 
@@ -37,7 +38,7 @@ function sayfa(k, o) {
   const kisa = o.KATALOG.kisalar.filter((v) => seriler.some((s) => s.slug === v.seri));
   const tarifler = tarifListesi(sef, o);
   const sekmeler = [
-    uzun.length && { id: 'videolar', ad: 'Videolar', ikon: 'fa-circle-play', sayi: uzun.length, govde: videolarPaneli(uzun, o) },
+    uzun.length && { id: 'videolar', ad: 'Videolar', ikon: 'fa-circle-play', sayi: uzun.length, govde: videolarPaneli(uzun, o, k) },
     { id: 'seriler', ad: 'Seriler', ikon: 'fa-layer-group', sayi: seriler.length, govde: serilerPaneli(seriler, o) },
     kisa.length && { id: 'kisa-videolar', ad: 'Kısa videolar', ikon: 'fa-bolt', sayi: kisa.length, govde: kisaPaneli(kisa, o) },
     { id: 'tarifler', ad: 'Yazılı tarifleri', ikon: 'fa-book-open', sayi: Number(sef.tarif_sayisi || 0).toLocaleString('tr-TR'), govde: tariflerPaneli(sef, tarifler, o) },
@@ -75,11 +76,12 @@ function sayfa(k, o) {
     baslik: `${sef.ad} — şef kanalı | Video Mutfağı — Dada Gastro (prototip)`,
     aciklama: `${sef.ad} (${sef.unvan || 'şef'}) Video Mutfağı kanalı: ${seriler.map((s) => s.ad).join(', ')} serisi, videoları ve Dada Gastro'daki yazılı tarifleri.`,
     main,
-    css: ['sef'],
-    js: ['sef'],
+    css: ['suzgec', 'sef'],
+    js: ['suzgec', 'sef'],
     govdeSinifi: 'pg-video-sef',
+    suzgec: true, // Videolar sekmesi süzgeci (Gastro /tarifler süzgeç CSS'i)
     iskelet: {
-      kirinti: [{ ad: 'Video Mutfağı', href: 'video-mutfagi.html' }, { ad: 'Şefler', href: 'video-mutfagi.html#sefler' }, { ad: sef.ad }],
+      kirinti: [{ ad: 'Video Mutfağı', href: 'video-mutfagi.html' }, { ad: 'Şefler', href: 'video-sefler.html' }, { ad: sef.ad }],
       eyebrow: { ikon: 'fa-video', metin: 'Video Mutfağı şefi' },
       baslik: sef.ad,
       aciklama: `${unvanSatiri ? unvanSatiri + '. ' : ''}Video Mutfağı'nda ${seriler.map((x) => x.ad).join(' ve ')} ${seriler.length > 1 ? 'serilerini' : 'serisini'} sunuyor.`,
@@ -91,12 +93,28 @@ function sayfa(k, o) {
   };
 }
 
-function videolarPaneli(uzun, o) {
-  // V2: her kart aynı yükseklikte (patron madde 4) → V1'in 2×2 öne çıkan kartı kalktı. 5 bölüm: geniş ekranda 5 sütun tek satır,
-  // orta genişlikte yatay kayan iz, telefonda tek sütun; diğer sayılarda yarım satır bırakmayan sütun sayısı.
-  const one = uzun.length === 5;
-  return `<div class="sec-head vd-kanal__panel-bas"><div><h2>Videolar</h2><p class="lead">${uzun.length} bölüm · seri sırasıyla</p></div></div>
-   <div class="${one ? 'vd-izgara vd-kanal__izgara--bes' : izgaraSinifi(uzun.length)}">${uzun.map((v) => kart.videoKarti(v, o, { boyut: 'izgara', baslikSeviye: 'h3', sefGoster: false })).join('')}</div>`;
+function videolarPaneli(uzun, o, k) {
+  // Patron revizesi K3: Videolar sekmesi Gastro /tarifler süzgeciyle (hub suzgec.mjs): seri (yalnız şef birden çok seri sunuyorsa —
+  // tek seçenekli grup yalan yüzey olur; bugün altı şefin her biri tek seri sunuyor → gizli) · süre (tarif süresi; tarifsizde video) ·
+  // sıralama (Seri sırası / Kısadan uzuna / Uzundan kısaya / Ada göre). Liste Gastro .lst-grid (kart boyları eşit).
+  const seriler = [...new Set(uzun.map((v) => v.seri))];
+  const SURE_SIRA = ['15-alti', '15-30', '30-ustu'];
+  const sureAd = Object.fromEntries((o.KATALOG.sure_suzgecleri || []).map((x) => [x.kod, x.ad]));
+  const seriAd = Object.fromEntries(seriler.map((x) => [x, o.SERI[x]?.ad || x]));
+  const duz = uzun.map((v) => ({ sure: [o.sureKodu(v)], ...(seriler.length > 1 ? { seri: [v.seri] } : {}) }));
+  const gruplar = [
+    ...(seriler.length > 1 ? [{ kod: 'seri', ad: 'Seri', ikon: 'fa-film', secenekler: secenekler(duz, 'seri', seriAd, { sira: seriler }) }] : []),
+    { kod: 'sure', ad: 'Süre', ikon: 'fa-clock', secenekler: secenekler(duz, 'sure', sureAd, { sira: SURE_SIRA, tum: SURE_SIRA }) }, // sabit grup: 0 sayılı seçenek de basılır (donör /tarifler gibi)
+  ];
+  const siralar = [
+    { kod: 'seri-sirasi', ad: 'Seri sırası', ikon: 'fa-list-ol' },
+    { kod: 'kisadan-uzuna', ad: 'Kısadan uzuna', ikon: 'fa-arrow-up-short-wide', alan: 'sure', yon: 'artan' },
+    { kod: 'uzundan-kisaya', ad: 'Uzundan kısaya', ikon: 'fa-arrow-down-wide-short', alan: 'sure', yon: 'azalan' },
+    { kod: 'ada-gore', ad: 'Ada göre', ikon: 'fa-arrow-down-a-z', alan: 'ad', tur: 'metin' },
+  ];
+  const liste = `<div class="lst-grid" data-sz-liste>${uzun.map((v, i) => kart.videoKarti(v, o, { boyut: 'izgara', baslikSeviye: 'h3', sefGoster: false, sz: szVeri(duz[i], { sure: v.sure_sn, ad: v.baslik }, i) })).join('')}</div>`;
+  return suzgecDuzeni({ dosya: `${o.sefDosyaAdi(k)}`, birim: 'video', toplam: uzun.length, gruplar, siralar, liste, id: 'sef-videolar',
+    bos: { baslik: 'Bu süreye uyan video yok', metin: 'Süre seçimini kaldır ya da süzgeçleri temizle.', dugme: 'Süzgeçleri temizle' } });
 }
 
 function serilerPaneli(seriler, o) {

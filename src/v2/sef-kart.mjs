@@ -37,16 +37,17 @@ const tarifMetni = (n) => `${Number(n || 0).toLocaleString('tr-TR')} tarif`;
  * Gastro şef kartı.
  * @param {string} k   şef kullanıcı adı (SEF anahtarı)
  * @param {object} o   build ortak nesnesi (SEF, sefAdresi, esc)
- * @param {{tur?: 'dizin'|'usta'}} secenek
+ * @param {{tur?: 'dizin'|'usta', veri?: Object<string,string|number>, sz?: string}} secenek  veri → data-* öznitelikleri; sz → szVeri() (süzgeç)
  */
-export function sefKarti(k, o, { tur = 'dizin' } = {}) {
+export function sefKarti(k, o, { tur = 'dizin', veri = null, sz = '' } = {}) {
   const sef = o.SEF?.[k];
   if (!sef) return '';
+  const da = (veri ? Object.entries(veri).map(([a, d]) => ` data-${a}="${e(o, d)}"`).join('') : '') + (sz || ''); // sz: hub suzgec.mjs szVeri() çıktısı
   const adres = o.sefAdresi ? o.sefAdresi(k) : `video-sef-${String(k).replace(/\./g, '-')}.html`;
   const dogru = dogrulanmisMi(sef);
   if (tur === 'usta') {
     // donör: / "Tarifin ustaları" .chef-card
-    return `<div class="chef-card${dogru ? ' sef-editor' : ''}" onclick="${onclickAdres(adres)}">
+    return `<div class="chef-card${dogru ? ' sef-editor' : ''}"${da} onclick="${onclickAdres(adres)}">
                         <div class="chef-av gastro-sef-avatar${dogru ? ' sef-imza' : ''}">
     ${avatarIc(sef, o)}${dogru ? `    ${dogrulanmisRozet(sef, o)}` : ''}</div>
                         <b>${e(o, sef.ad)}</b>
@@ -61,7 +62,7 @@ export function sefKarti(k, o, { tur = 'dizin' } = {}) {
     ? `<span class="sef-unvan"><i class="fa-solid fa-award" aria-hidden="true"></i> ${e(o, sef.unvan)}</span>`
     : sira ? `<span class="sef-rank${ust ? ' r-high' : ''}"><i class="fa-solid ${ust ? 'fa-trophy' : 'fa-medal'}" aria-hidden="true"></i> ${e(o, sef.unvan)}</span>`
       : sef.unvan ? `<span class="sef-rank">${e(o, sef.unvan)}</span>` : '';
-  return `<article class="sef-card ${dogru ? ' sef-editor' : ''}" onclick="${onclickAdres(adres)}">
+  return `<article class="sef-card ${dogru ? ' sef-editor' : ''}"${da} onclick="${onclickAdres(adres)}">
 <div class="sef-ava${dogru ? ' sef-imza' : ''}">
 ${dogru ? avatarIc(sef, o) : avatarIc(sef, o, { harfYalin: true })}${dogru ? dogrulanmisRozet(sef, o) : ''}
 </div>

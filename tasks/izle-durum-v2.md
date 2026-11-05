@@ -37,3 +37,23 @@ sefRayi([k…], o)       // <div class="chef-row drag-scroll"> + 'usta' kartlar�
   seriAfisi `boyut` seçeneği kaldırıldı. Videolar sekmesi: V1'in 2×2 öne çıkan kartı kalktı (meta-kapisi M2 "kart boyları eşit değil"
   8 kırmızı verdi) → 5 bölümde 5 sütun tek satır, ≤1180 yatay kayan iz, ≤640 tek sütun. meta-kapisi (izle+sef) 0 kırmızı ·
   davranis-izle 27/0 · kirpma 0 · ss taşma/JS/404 0.
+
+## Patron revizesi (5 Kas) — izle tarafı
+- YENİ v2/video-sefler.html (src/v2/sayfalar/sefler.mjs · css/sefler.css · js/sefler.js): bnp banner (sayaçlar: 6 video şefi · 35 video ·
+  836 yazılı tarif — gerçek) + panel: donör /sefler `.sef-sec .sec-head` + `form.sef-search` ("İsme göre ara...") + hub süzgeci
+  (`suzgecDuzeni`: Mutfak = şefin video tariflerinin mutfakları · Uzmanlık = Gastro unvan/kademe · sıralama Ada göre/Video sayısı/Tarif sayısı)
+  + `#sefGrid.sef-grid[data-sz-liste]` (Gastro .sef-card; süzgeçli düzende 3 sütun). Arama süzgeç sonucunun üstüne daraltır, ?q= adreste.
+  Reklam: SF-L1 üst · SF-N2 3. karttan sonra · SF-L1-END son. aktif 'sefler'.
+- Şef detayı: kırıntı Video Mutfağı › Şefler (video-sefler.html) › Ad. Videolar sekmesi süzgeçli (süre + Seri sırası/Kısadan uzuna/
+  Uzundan kısaya/Ada göre; seri grubu yalnız >1 seride — bugün gizli), liste Gastro .lst-grid.
+- Kısa: görüntüleyici kökü `[data-vd-suzgec="kisa"]`; üst satırda "Süzgeç" (`[data-sz-ac][data-vd-dikey-suzgec]`) → Gastro .lst-side çekmecesi
+  (her genişlikte alttan); gruplar `tema` (mikro rozet) + `tarif-sefi` (bağlı tarifin şefi); `[data-sz-sayi]` çekmece başında; boş durum
+  sahnede; kisa.js `vd:suzgec` + `vd:reklam-yer`de yeniden tarar (n/N), 0 sonuçta durur.
+- Şef bağ taraması (kendi sayfalarım): şefle ilgili hiçbir bağ index/hub'a gitmiyor.
+- Kapılar: davranis-izle 30/0 · kirpma 0 · meta 0 · reklam-kapisi-v2 (sefler+sef+kisa+izle) 366/0 · suzgec-kapisi sefler+sef yeşil, kisa'da 4 kırmızı = kapının iki varsayımı (1440'ta
+  çekmece açılmadan tıklama; `v` parametresi "kirli adres") → hub'dan istendi · sef-bag-kapisi 1 kırmızı = reklamın sponsorlu şef kartı
+  (tat.com.tr, rel=sponsored) → kabuk'tan muafiyet istendi.
+- Görüntüler: tasks/ss/izle-v2/sefler-{1440,390}.png · sefler-sidebar-secili-1440.png · sefler-cekmece-acik-390.png ·
+  kisa-suzgec-cekmece-{1440,390}.png · kisa-suzgec-sonuc-{1440,390}.png · video-sef-berkan-gunes-{1440,390}.png
+- 5 Kas ek: şef videoları süre grubu sabit seçeneklerle (secenekler tum: 0 sayılı seçenek basılır, donör gibi) → S3 artık 5 şef sayfasında ölçülüyor (Polat'ta 3 süre seçeneği de dolu → ⚪). suzgec-kapisi (sefler+sef+kisa) 286 yeşil / 0 kırmızı / 8 ölçülmedi (kisa S6 sıralama yok · polat S3).
+- 5 Kas ek (reklam isteği): kisa.js sayaç/segment yalnız video öğelerini sayar (K6; reklam öğesindeyken önceki videonun numarası); yeniden tarama hedefi slug'dan (hedefSlug), programla kaydırmada kaydırma-sonu hesabı 250 ms susar → açılışta reklama atlama 12/12 açılışta yok. davranis-izle 30/0 · suzgec kisa 40/0 · reklam kisa 80/0 · davranis-hub 36/0.

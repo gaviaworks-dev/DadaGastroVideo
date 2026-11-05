@@ -93,3 +93,12 @@
   bölüm x/genişlik · .wrap x/genişlik/üst pay · kırıntı x/y/genişlik · eyebrow x · h1 x · sayaç sağ pay + sol çizgi + sol boşluk (390'da x/genişlik) · .st yüksekliği ·
   panel köşe / binme / üst boşluk / .wrap yatay boşluğu. Varsayılan: her V2 sayfa tipinden bir iskeletli sayfa. 10/10 YEŞİL (1440/390), BOZ kırmızı.
   Sayaç sütununun 1440 genişliği ve .st genişlikleri metne bağlı → yalnız raporlanır (sütun sağa yaslı; sağ kenar ölçülür).
+## V2 · Patron revizesi (kabuk payı)
+- Snapshot: `V2=1 node araclar/snapshot.mjs` → `src/donor/v2/tarifler.html` (+ bnp, sefler). Katı kip: 67 yeni dosya, değişecek 0 (liste ızgarasının tarif görselleri indirilmez).
+- Süzgeç bayrağı: sayfa nesnesinde `suzgec: true` → head'e (donör sırasıyla) tarif-liste.css → dm-p4-f.css → revize/p1/tarifler.css.
+  kanon/bilesenler.css YOK (hub ölçümü: global sıfırlama, 1440'ta 1447 öğe değişiyor; .bos-durum hub'ın suzgec.css'inde "eklendi:").
+  Tanımlar ölçüldü: .lst-layout/.lst-side/.lst-main · .sheet-head/-body/-foot/-overlay/-close · .btn-filter/.fb-count · .sort-dd/-btn/-menu · .lst-bar/-tools/-sum · .lst-empty · .fct* · .cbx · .fcnt · .fil-clear/-top.
+  Gastro'nun süzgeç JS'i (revize/p1/filtre-paneli.js, dm-p4-f.js) yeni dosya olarak duruyor, build eklemez (K1: davranış bizim).
+- Açılır menü + çekmece: "Şefler" → `video-sefler.html`, açıklama "6 video şefi" (seri şefi sayısı). `sefler` modülü → etkin öğe 'sefler'.
+- Şef bağ kapısı: `node araclar/sef-bag-kapisi.mjs` (statik: .sef-card/.chef-card [onclick dahil], şef adı, "Şefler" metni, şef sayfası kırıntısı; tıklama: 1440 menü, 390 çekmece, Şefler kartı, kırıntı, ana sayfa .chef-card). İzinli: video-sef-*.html · video-sefler.html · dadagastro.com/sefler(/<k>).
+- video-sefler.html kapılarda: varlik/bag/kirpma (dizin), iskelet (varsayılan liste), yapiskan (argüman), parite V2 (↔ /sefler), gezinti V2 (menü Şefler → şef kartı; 30 sn adımından önce).

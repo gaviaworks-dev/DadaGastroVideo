@@ -97,3 +97,39 @@ html.vd-dikey-acik .ke-toast, html.vd-dikey-acik .dm-toast-kap { z-index: 2600; 
 .vd-dikey__ust-satir .vd-rk-anahtar { flex: none; min-height: 44px; padding: 0 12px; }
 .vd-dikey__ust-satir .vd-rk-anahtar__metin { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .vd-dikey__kapat, .vd-dikey__seri { white-space: nowrap; }
+
+/* ---------- Patron revizesi K3 · akış süzgeci (Gastro /tarifler çekmecesi; işaretleme hub suzgec.mjs) ----------
+   Görüntüleyici tam ekran olduğu için Gastro'nun ≤1024 alttan çekmece kuralı HER genişlikte uygulanır (değerler tarif-liste.css'in
+   @media(max-width:1024px) bloğundan; geniş ekranda sahne genişliğine yakın 560 px ortalı). eklendi: çekmeceyi açan "Süzgeç" düğmesi. */
+.vd-dikey__suzgec { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 12px; border: 1px solid rgba(255, 255, 255, .22); border-radius: var(--vdk-r); background: rgba(0, 0, 0, .45); color: #fff; font: 700 13.5px/1 var(--vdk-kalin); cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.vd-dikey__suzgec:hover { background: rgba(0, 0, 0, .65); }
+.vd-dikey__suzgec:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.vd-dikey__suzgec .fb-count { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 10px; background: var(--vdk-vurgu); color: #fff; font-size: 11px; }
+.vd-dikey__suzgec .fb-count[hidden] { display: none; }
+.vd-dikey__suzgec-ad { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.vd-dikey .sheet-overlay { z-index: 5; }
+.vd-dikey .lst-side {
+  position: fixed; left: 0; right: 0; bottom: 0; top: auto; z-index: 6; color: var(--ink, #211E16);
+  max-height: 82vh; border-radius: var(--radius-xl, 24px) var(--radius-xl, 24px) 0 0; border: none; background: var(--paper, #fff);
+  box-shadow: 0 -18px 50px rgba(33, 30, 22, .2); padding: 0 20px;
+  transform: translateY(105%); transition: transform .34s var(--ease, ease);
+  display: flex; flex-direction: column; overflow: hidden; visibility: hidden;
+}
+.vd-dikey .lst-side.open { transform: translateY(0); visibility: visible; }
+@media (min-width: 641px) { .vd-dikey .lst-side { left: 50%; right: auto; width: min(560px, 100vw); margin-left: max(-280px, -50vw); } }
+.vd-dikey .lst-side > form { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.vd-dikey .lst-side .fil-top { display: none; }
+.vd-dikey .lst-side .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0 14px; border-bottom: 1px solid var(--line, #ECECEC); flex: none; }
+.vd-dikey .lst-side .sheet-head h3 { display: inline-flex; align-items: center; gap: 10px; margin: 0; font-size: 18px; color: var(--ink, #211E16); }
+.vd-dikey .lst-side .sheet-head h3 i { color: var(--tomato, #DC3D17); font-size: 15px; }
+.vd-dikey .lst-side .sheet-head .sh-right { display: flex; align-items: center; gap: 8px; }
+.vd-dikey .lst-side .sheet-close { display: grid; place-items: center; width: 40px; height: 40px; border-radius: var(--radius-md, 12px); border: 1px solid var(--line, #ECECEC); background: var(--paper, #fff); color: var(--slate, #211E16); font-size: 16px; cursor: pointer; }
+.vd-dikey .lst-side .sheet-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding-bottom: 16px; }
+.vd-dikey .lst-side .sheet-foot { display: none; } /* Gastro ≤1024: ayak gizli, Temizle başlıkta */
+/* boş durum: sahnenin ortasında (hub .bos-durum) */
+.vd-dikey__bos { position: absolute; inset: 0; z-index: 4; display: grid; place-items: center; padding: 24px; pointer-events: none; }
+.vd-dikey__bos .bos-durum { pointer-events: auto; max-width: 420px; }
+.vd-dikey__bos .bos-durum[hidden] { display: none; }
+.vd-dikey .lst-side .vd-dikey__sum { flex: none; margin: 12px 0 0; color: var(--muted, #6F6F6F); font-size: 14px; }
+.vd-dikey .lst-side .vd-dikey__sum b { color: var(--ink, #211E16); }
+@media (min-width: 1025px) { .vd-dikey .lst-side .sheet-foot { display: flex; justify-content: center; padding: 12px 0 16px; border-top: 1px solid var(--line, #ECECEC); } }

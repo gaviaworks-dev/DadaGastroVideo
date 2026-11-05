@@ -42,6 +42,11 @@ for (const w of [1440, 390]) for (const reklam of [false, true]) {
   yol.push(V2 ? await menuGit(p, w, 'video-seriler.html', 'Video menüsü Seriler') : await tikla(p, p.locator('nav.vd-ust a[href^="video-seriler.html"]').filter({ visible: true }), 'alt menü Seriler'));
   yol.push(await tikla(p, p.locator('main a[href^="video-seri-"]').filter({ visible: true }), 'seri kartı'));
   yol.push(await tikla(p, p.locator('main a[href^="video-sef-"]').filter({ visible: true }), 'şef'));
+  // V2 (Patron revizesi K4): header açılır menüsündeki "Şefler" → video-sefler.html → ilk şef kartı (Gastro .sef-card) → şef sayfası (30 sn'den ÖNCE: tam ekran kısa görüntüleyici header'ı örter)
+  if (V2) {
+    yol.push(await menuGit(p, w, 'video-sefler.html', 'Video menüsü Şefler'));
+    yol.push(await tikla(p, p.locator('main .sef-card').filter({ visible: true }), 'Şefler sayfası şef kartı'));
+  }
   yol.push(V2 ? await menuGit(p, w, 'video-kisa.html', 'Video menüsü 30 sn') : await tikla(p, p.locator('nav.vd-ust a[href^="video-kisa.html"], nav.vd-ust a:has-text("30 Saniyede Tat")').filter({ visible: true }), 'alt menü 30 sn'));
   const reklamKaldi = await p.evaluate(() => document.documentElement.classList.contains('vd-reklamli'));
 

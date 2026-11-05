@@ -21,6 +21,8 @@ const TARIF = process.env.PARITE_TARIF || 'kuymak-karadeniz-usulu-misir-unlu-kah
 const V2 = !!process.env.V2;
 const ON = V2 ? 'v2/' : '';
 let CIFTLER = [[ON + 'index.html', '/'], [`${ON}tarif-${TARIF}.html`, `/tarif/${TARIF}`]];
+// V2: Şefler sayfası (Patron revizesi K4) Gastro /sefler donörüyle (üst bant + footer)
+if (V2) CIFTLER.push([ON + 'video-sefler.html', '/sefler']);
 if (BOZ) {
   const h = (await readFile(path.join(KOK, ON + 'index.html'), 'utf8')).replace('</head>', '<link rel="stylesheet" href="data:text/css,header.header%20.brand%7Bmargin-left:20px%7Dfooter.footer%20.wrap%7Bpadding-left:60px%7D">\n</head>');
   await writeFile(path.join(KOK, ON + BOZUK), h);
@@ -88,5 +90,5 @@ await b.close();
 for (const g of geciciler) await rm(path.join(KOK, g), { force: true });
 if (YEREL) console.log('(donör: src/donor kopyası — 8960 kapalı)');
 if (BOZ) { await rm(path.join(KOK, ON + BOZUK), { force: true }); console.log(kirmizi ? `\nBOZ sınaması: ${kirmizi} bölge kırmızı → kapı kırmızı verebiliyor ✓` : '\nBOZ sınaması: KAPI KÖR ✗'); process.exit(kirmizi ? 1 : 3); }
-console.log(kirmizi ? `\nPARİTE KAPISI KIRMIZI (${kirmizi} bölge)` : `\nPARİTE KAPISI YEŞİL: üst bant + header + footer donörle ${TOL}px içinde (1440/390)`);
+console.log(kirmizi ? `\nPARİTE KAPISI KIRMIZI (${kirmizi} bölge)` : `\nPARİTE KAPISI YEŞİL: ${BOLGE.join(" + ")} donörle ${TOL}px içinde (1440/390)`);
 process.exit(kirmizi ? 1 : 0);
