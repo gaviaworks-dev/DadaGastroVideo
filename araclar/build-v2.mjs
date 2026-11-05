@@ -67,10 +67,18 @@ const ALT = () => {
     ['kesfet', 'Keşfet', 'video-mutfagi.html', 'compass', `${uzun} video, haftanın serisi`],
     ['seriler', 'Seriler', 'video-seriler.html', 'layer-group', `${seri} seri, bölüm bölüm`],
     ['kisa', '30 Saniyede Tat', 'video-kisa.html', 'bolt', `${kisa} kısa video`],
-    ['sefler', 'Şefler', 'video-mutfagi.html#sefler', 'user-tie', `${sef} serinin şefleri`],
+    // Patron revizesi K4: Şefler → ayrı sayfa video-sefler.html (önceden hub#sefler — patronun "ana sayfaya atıyor" dediği bağ)
+    ['sefler', 'Şefler', 'video-sefler.html', 'user-tie', `${sef} video şefi`],
   ];
 };
-const MODUL_AKTIF = { hub: 'kesfet', seriler: 'seriler', seri: 'seriler', kisa: 'kisa', sef: 'sefler', izle: '' };
+const MODUL_AKTIF = { hub: 'kesfet', seriler: 'seriler', seri: 'seriler', kisa: 'kisa', sef: 'sefler', sefler: 'sefler', izle: '' };
+// Patron revizesi K1: Gastro tarif listesi süzgeci (`.lst-layout > aside.lst-side` sheet + `.lst-bar` sayı/sıralama + boş durum) CSS'i.
+// Tanımlayan dosyalar ölçüldü (donör 8960 /tarifler <head>, donördeki sırayla): tarif-liste.css (.lst-layout/.lst-side/.sheet-*/.btn-filter/
+// .sort-dd/.lst-sum/.lst-empty/.fct*/.cbx/.sheet-overlay) · dm-p4-f.css (.sheet-body/.sheet-foot/.fil-*, yapışkan panel) · revize/p1/tarifler.css
+// (.fct*/.sheet-*). Sayfa modülü `suzgec: true` verirse head'e eklenir.
+// kanon/bilesenler.css BİLEREK YOK (hub ölçtü, 6 Kas): global sıfırlama taşıyor, V2 hub'da 1440'ta 1447 öğenin kutusunu değiştiriyor;
+// tanımladığı süzgeç sınıfları (.lst-side/.sheet-overlay) tarif-liste.css'te de var. Boş durum (.bos-durum) hub'ın suzgec.css'inde "eklendi:".
+const SUZGEC_CSS = ['varliklar/reference/tarif-liste/tarif-liste.css', 'varliklar/reference/shared/dm-p4-f.css', 'revize/p1/tarifler.css'];
 const HEADER_VIDEO = /<div class="nav-item">\s*<a href="video-mutfagi\.html" class="">Video Mutfağı <span class="soon">VİDEO<\/span><\/a>\s*<\/div>/;
 const CEKMECE_VIDEO = /<div class="d-item"><a class="d-link" href="video-mutfagi\.html"><i class="fa-solid fa-circle-play"><\/i> Video Mutfağı <span class="soon">VİDEO<\/span><\/a><\/div>/;
 function videoMenusu(html, aktif, videoSayfasiMi) {
@@ -117,7 +125,7 @@ function yollariCevir(html) {
     .replace(/(["'(]|&quot;)varlik\\\//g, '$1..\\/varlik\\/');
 }
 
-async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = video, videoJs = videoTaban, reklamTasima = false, iskeletli = false } = {}) {
+async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = video, videoJs = videoTaban, reklamTasima = false, iskeletli = false, suzgec = false } = {}) {
   html = markaYazimi(html);
   if (videoJs) html = kartBaslikKirp(html);
   html = zorunlu(html, MEGA_ESKI, megaOnizleme(), 'mega menü .mf-video');
@@ -128,6 +136,7 @@ async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = 
   if (video) cssEk.push(...['varliklar/reference/sefler/sefler.css', 'gastro/sef-avatar.css', 'gastro/sef-satiri.css', 'gastro/sef-imza.css']
     .filter((f) => !html.includes(`varlik/gastro/${f}"`)).map((f) => `<link rel="stylesheet" href="varlik/gastro/${f}">`));
   // Banner iskeleti: Gastro "Ne Pişirsem?" sayfa CSS'i (bnp-top/bnp-head/bnp-stats/bnp-body tanımları; donörün <head>'indeki dosya)
+  if (suzgec) cssEk.push(...SUZGEC_CSS.filter((f) => !html.includes(`varlik/gastro/${f}"`)).map((f) => `<link rel="stylesheet" href="varlik/gastro/${f}">`));
   if (iskeletli) cssEk.push('<link rel="stylesheet" href="varlik/gastro/varliklar/reference/bugun-ne-pisirsem/bugun-ne-pisirsem.css">', `<link rel="stylesheet" href="varlik/v2/banner.css?v=${SURUM}">`);
   cssEk.push(`<link rel="stylesheet" href="varlik/v2/kabuk.css?v=${SURUM}">`);
   const jsEk = [`<script src="varlik/v2/kabuk.js?v=${SURUM}" defer></script>`];
@@ -183,7 +192,7 @@ async function videoSayfasi(s, modul) {
   const katman = typeof reklam.reklamKatmani === 'function' ? reklam.reklamKatmani(ortak, { sayfa: modul }) : '';
   if (katman) html = zorunlu(html, /<\/body>(?![\s\S]*<\/body>)/, `${katman}\n</body>`, 'reklam katmanı (</body> öncesi)');
   return yorum(`http://127.0.0.1:8960/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik (kabuk: tarif detayı)${isk ? ' + http://127.0.0.1:8960/bugun-ne-pisirsem (banner + panel, src/donor/v2/bnp.html)' : ''}`, `Video sayfası · modül ${modul}`)
-    + await kabukEkle(html, { css: [...css, 'reklam'], js: [...js, 'reklam'], video: true, iskeletli: !!isk });
+    + await kabukEkle(html, { css: [...css, 'reklam'], js: [...js, 'reklam'], video: true, iskeletli: !!isk, suzgec: !!s.suzgec });
 }
 
 /* ---------- index.html ---------- */

@@ -61,7 +61,7 @@ const SERILER = katalogSerileri(KATALOG);
 // Yalnız YENİ dosya eklenir. V1 donörleri (src/donor/*.html) V2 kipinde yazılmaz.
 const V2 = !!process.env.V2;
 const DONOR_DIZIN = V2 ? 'src/donor/v2' : 'src/donor';
-const V2_DONORLER = { bnp: '/bugun-ne-pisirsem', sefler: '/sefler' };
+const V2_DONORLER = { bnp: '/bugun-ne-pisirsem', sefler: '/sefler', tarifler: '/tarifler' };   // tarifler: süzgeç kutusu donörü (Patron revizesi K1)
 const onceden = new Set();   // V2: indirmeden önce diskte olan varlıklar (karşılaştırılır, yazılmaz)
 const degisecek = [];        // V2: içeriği 8960'takinden farklı olan var olan dosyalar
 const yeniEklenen = [];      // V2: yeni eklenen dosyalar
@@ -216,6 +216,12 @@ async function main() {
     const r = htmlYollari(html, yol);
     // V2 · bnp: yalnız kabuk + banner kullanılır; panel içeriğinin (sihirbaz/yemek modu, ~230 tarif görseli) varlıkları İNDİRİLMEZ
     // (donör dosyası tam kaydedilir, ama derleme o bölümü kullanmaz).
+    // V2 · tarifler: yalnız kabuk + süzgeç kutusu kullanılır; liste ızgarasındaki tarif kartlarının görselleri İNDİRİLMEZ.
+    if (V2 && ad === 'tarifler') {
+      const izgarasiz = html.replace(/<div class="lst-grid[\s\S]*?(?=<\/main>)/, '');
+      const kullanilan = htmlYollari(izgarasiz, yol).varliklar;
+      for (const v of [...r.varliklar]) if (!kullanilan.has(v)) r.varliklar.delete(v);
+    }
     if (V2 && ad === 'bnp') {
       const govdesiz = html.replace(/<section class="bnp-body">[\s\S]*?(?=<\/main>)/, '');
       const kullanilan = htmlYollari(govdesiz, yol).varliklar;

@@ -1,0 +1,14 @@
+/* Gastro dizinleri: genel aramanın kanonik bileşeni, komşu liste ritmi. */
+.gastro-dizin-arama{margin-block-end:var(--bosluk-24)}
+.gastro-dizin-arama-etiket{display:block;margin-block-end:var(--bosluk-8);font-size:var(--yazi-14);font-weight:var(--agirlik-kalin);color:var(--murekkep)}
+.gastro-dizin-arama .arama-kutu{max-width:none;min-width:0}
+.gastro-dizin-arama .arama-girdi-kap{min-width:0}
+@media (max-width:640px){
+  .pg-puf-noktalari .pufl-cats{flex-basis:100%}
+  .pg-puf-noktalari .pufl-bar{gap:var(--bosluk-12)}
+}
+
+/* Püf dizini: header tek arama yüzeyi; filtre ve içerik bölüm ritmi. */
+.pg-puf-noktalari .pufl-sec{padding-block:var(--bosluk-48)}
+.pg-puf-noktalari .pufl-bar{margin-block-end:var(--bosluk-48)}
+.pg-puf-noktalari .pufl-head{margin-block-end:var(--bosluk-16)}

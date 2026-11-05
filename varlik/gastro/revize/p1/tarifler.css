@@ -1,0 +1,42 @@
+/* Revize P1 · kulvar dosyası — sahibi: tarif-liste-veri (kulvar C).
+   Yalnız /tarifler ve /tarifler/kategori/{slug} (iki blade de bu dosyayı <head>'de bağlar).
+
+   "N Tarifi Göster" (#sheetApply) kaldırıldı. ≤1024 çekmece kipinde ayak YALNIZ o düğmeyi
+   gösteriyordu: "Tümünü Temizle" bağlantısı orada `dm-p4-f.css` ile gizli (Temizle çekmece
+   başlığında). Düğme gidince ayak içi boş, üst çizgili ve dolgulu bir şerit olarak kalıyordu;
+   boş şerit basılmaz. ≥1025'te ayak "Tümünü Temizle"yi taşımaya devam eder. */
+@media (max-width: 1024px) {
+  .lst-side .sheet-foot { display: none; }
+}
+
+/* J: masaüstü filtreleri sayfayla akar; mobil sheet kendi kaydırmasını korur. */
+@media(min-width:1025px){
+  .lst-side{position:static;inset:auto;max-height:none;overflow:visible}
+  .lst-side .fct-body{max-height:none;overflow:visible}
+  .lst-side>form[data-facet-form]{display:block;flex:none;min-height:auto}
+  .lst-side .sheet-body{flex:none;max-height:none;overflow:visible;overscroll-behavior:auto;padding-right:0;margin-right:0}
+}
+
+/* G89: sekizli gruplar mobilde de kırpılmaz; tek kaydırma çekmece gövdesindedir. */
+.lst-side .fct-body{max-height:none;overflow:visible}
+
+/* G89 acil revizyon: özgün kompakt satır, sayılar panel içinde; yatay ray yok. */
+.lst-side{min-width:0;overflow-x:hidden}
+.lst-side>form[data-facet-form],.lst-side .sheet-body,.lst-side .fct,.lst-side .fct-body{min-width:0;max-width:100%}
+.lst-side .fct{grid-template-columns:minmax(0,1fr)}
+.lst-side .fct-body{width:100%}
+.lst-side .fct-row{min-width:0;max-width:100%}
+.lst-side .fct-row .ft{flex:1;min-width:0}
+.lst-side .fct-row .fcnt{margin-inline-start:auto;flex:none;white-space:nowrap}
+.lst-side .cat-fct .cn-thumb{width:var(--bosluk-28);height:var(--bosluk-28)}
+
+/* Kart künye satırı (Beyar 2 Eki, ikinci tur): süre, zorluk ve kişi HER genişlikte TEK satır; yazı kesilmez, kart uzamaz.
+   Dar kartta (gövde < 300 px: 1440/1280'de üç sütunlu ızgara, 390'da yatay kart) uzun etiket kısasıyla yer değiştirir
+   ("Ustalık Gerektirir" → "Ustalık", "4 kişilik" → "4 kişi"; uzun ad ekran okuyucuda kalır), ayraç boşluğu 8 → 4 px,
+   simge aralığı 5 → 4 px; 1440/1280'de punto 11,5 px (prototipin aynı satır için 390'daki puntosu; önce 12/12,5).
+   Ölçüldü (13 liste sayfası, en dar örnek "100 dk · Ustalık · 16 porsiyon · ₺₺₺"): en az 5,9 px pay kalır.
+   Son emniyet: satır tek satır yüksekliğindedir ve sarılan öğe görünmez — sığmayan aşırı bir değerde (1450 dk +
+   24 porsiyon) en sondaki ₺ düşer, satır ikiye bölünmez, yazı kesilmez. Kart gövdesi ölçü kabıdır (içerik kutusu:
+   1440/1280'de 237 px, 390'da 193 px). Reklam kartının tek cümlelik künyesi kendi üç noktalı kuralında kalır. */
+/* Revize 20 Eki · madde 1/12: yukarıdaki "tek satır, sığmayan öğe düşer" kuralı kart standardına devredildi —
+   bütün tarif kartları `public/kabuk/kart-standart.css`ten (12 px, kesilme yok, kontrollü iki satır). */

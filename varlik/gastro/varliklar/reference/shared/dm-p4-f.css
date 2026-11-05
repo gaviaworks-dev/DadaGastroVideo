@@ -1,0 +1,80 @@
+
+
+
+
+:root{
+  --f-hdr-alt: 113px;      
+  --f-panel-ara: 17px;     
+  --f-panel-dip: 24px;     
+  --f-alt-engel: 0px;      
+}
+
+@media (min-width:1025px){
+
+  
+  .lst-side{
+    top: calc(var(--f-hdr-alt) + var(--f-panel-ara));
+    max-height: calc(100vh - var(--f-hdr-alt) - var(--f-panel-ara) - var(--f-panel-dip) - var(--f-alt-engel));
+    
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  
+  .lst-side > form[data-facet-form]{
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  
+  .lst-side .sheet-body{
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-thumb) transparent;
+    
+    padding-right: 8px;
+    margin-right: -8px;
+  }
+  .lst-side .sheet-body::-webkit-scrollbar{ width: var(--scroll-size,6px); }
+  .lst-side .sheet-body::-webkit-scrollbar-track{ background: transparent; }
+  .lst-side .sheet-body::-webkit-scrollbar-thumb{
+    background: var(--scroll-thumb);
+    border-radius: var(--radius-pill);
+  }
+  .lst-side .sheet-body::-webkit-scrollbar-thumb:hover{ background: var(--scroll-thumb-hover); }
+
+  
+  
+  .lst-side .sheet-foot{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    flex: 0 0 auto;
+    padding: 12px 0 14px;
+    border-top: 1px solid var(--line);
+    background: var(--paper);   
+  }
+  .lst-side .sheet-foot .btn{ width: 100%; white-space: nowrap; }
+  .lst-side .sheet-foot .fil-clear[data-f-ayak]{
+    align-self: center;
+    padding: 2px 4px;
+    white-space: nowrap;
+  }
+
+  
+  .lst-side .fil-top{ justify-content: flex-start; }
+}
+
+
+@media (max-width:1024px){
+  .sheet-foot .fil-clear[data-f-ayak]{ display: none; }
+}
