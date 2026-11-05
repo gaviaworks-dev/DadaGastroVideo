@@ -1,0 +1,123 @@
+/* Revize 7 · madde 89 — yorum bildirme sebebi penceresi.
+   Kutu kanonun giriş kapısı (`.lg-gate` · `.lg-panel` · `.lg-close` ·
+   `.lg-ico` · `.lg-acts`); o kurallar her public sayfada yüklü (ölçüldü:
+   `scripts/olcum/revize-tur7/p-envanter.mjs`, 41 yol). Buradaki kurallar
+   yalnız pencerenin içindeki formu dizer:
+     seçenekler = kanon `.chip`; seçili hâli portalın `.fb-chiprow .chip.active`
+                  değerleri (tomato çizgi/yazı/zemin, 700). `.fb-chiprow`un
+                  kendisi KULLANILMADI: `dm-kabuk.css` aynı seçiciyi `--fit-deep`
+                  ile eziyor; o jeton yalnız kabuk kaplarında (`#fbModal`,
+                  `.fb-modal`, `header` …) tanımlı, bu pencerede tanımsız ve
+                  seçili çip beyaz zeminde beyaz yazı oluyordu (ölçüldü: color
+                  #fff, bg transparent). Seçim `:has(:checked)` ile boyanır —
+                  JS'siz de.
+     açıklama   = Görüş Bildir'in `.fb-field textarea`sı (kanon), metin sola
+     sayaç/hata = `.fb-kvkk` 12.5px/500 · `.fb-uyari` (gorus-ek.css);
+                  `.lg-gate p`nin 13.5px/22px alt payı ezilir
+   eklendi: donörde sebep soran bildirme penceresi yok. */
+.yorum-bildir form { text-align: left; }
+.yorum-bildir .yb-sebepler {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 0 13px;
+}
+.yorum-bildir .yb-sebepler .chip {
+  display: inline-flex; align-items: center; gap: 7px; margin: 0; white-space: nowrap;
+}
+.yorum-bildir .yb-sebepler .chip:has(input:checked) {
+  border-color: var(--tomato, var(--fit)); color: var(--tomato, var(--fit));
+  background: var(--tomato-tint, var(--fit-wash)); font-weight: 700;
+}
+.yorum-bildir .yb-sebepler .chip input { width: 15px; height: 15px; margin: 0; accent-color: currentColor; flex: none; }
+.yorum-bildir .fb-field { margin-bottom: 6px; }
+.yorum-bildir .fb-field textarea { min-height: 88px; }
+.yorum-bildir p.yb-sayac {
+  max-width: none; margin: 0 0 14px; text-align: right;
+  font-size: 12.5px; font-weight: 500; line-height: 1.5; color: var(--muted);
+}
+.yorum-bildir p.fb-uyari { max-width: none; margin: -4px 0 11px; text-align: center; font-size: 12.5px; color: var(--tehlike, #b3261e); }
+.yorum-bildir p.fb-uyari[hidden] { display: none; }
+
+/* ── Revize 7 · madde 87 — giriş kapısının kalıbı: sahipsiz pencereler ─────────
+   Kapının kutusu `.lg-panel` (min(382px,100%) · --radius-lg · --sh-lg · 32/26/26),
+   × `.lg-close` (sağ üst 13/13 · 36×36), ikon `.lg-ico` (62px daire), başlık
+   `.lg-gate h4` (19px + 8px), alt satır `.lg-gate p` (13.5px/500 · --muted ·
+   1.55 · 300px · 22px alt pay). × ve ikon markup'ta kanonun KENDİ sınıflarını
+   taşır (`lg-close` · `lg-ico`); buradaki kurallar yalnız pencerelerin kendi
+   kabuklarını (başlık şeridi, alt çizgi, ayak) o kutuya çeker.
+   Form/liste taşıyan geniş pencereler (`.genis`, `#ftModal`, `#fdModal`,
+   `#rpModal`, `#flwModal`) kendi genişliğini korur — sapma raporda gerekçeli.
+   Saf "Kapat" düğmeleri kalktı; "Vazgeç"/"İptal et" karar düğmesi, kalır. */
+
+/* dm-modal ailesi (JS ile kurulan onay/ad/porsiyon pencereleri · #spPlanModal) */
+.dm-modal.lg-kalip {
+  max-height: calc(100vh - 40px); box-sizing: border-box;
+  border-radius: var(--radius-lg, 16px); box-shadow: var(--sh-lg, 0 18px 50px rgba(33, 30, 22, .16));
+  padding: 32px 26px 26px; text-align: center; overflow-y: auto; overflow-x: hidden;
+}
+.dm-modal.lg-kalip:not(.genis) { width: min(382px, calc(100vw - 40px)); }
+.dm-modal.lg-kalip .dm-modal-bas { display: block; padding: 0; border: 0; background: none; }
+.dm-modal.lg-kalip .dm-modal-bas h2 { margin: 0 0 8px; font-size: 19px; }
+.dm-modal.lg-kalip .dm-modal-bas p {
+  max-width: 300px; margin: 0 auto 22px; font-size: 13.5px; font-weight: 500;
+  color: var(--muted); line-height: 1.55; text-align: center; text-align-last: auto;
+}
+.dm-modal.lg-kalip .dm-modal-bas p:empty { display: none; }
+.dm-modal.lg-kalip .dm-modal-govde { flex: 0 0 auto; overflow: visible; padding: 0; text-align: left; }
+.dm-modal.lg-kalip .dm-modal-ayak { padding: 0; margin-top: 22px; border: 0; background: none; }
+.dm-modal.lg-kalip:not(.genis) .dm-modal-ayak .sag { margin: 0; width: 100%; gap: 10px; }
+.dm-modal.lg-kalip:not(.genis) .dm-modal-ayak .sag > * { flex: 1; justify-content: center; }
+.dm-modal.lg-kalip.genis .dm-modal-ayak { text-align: left; }
+@media (max-width: 640px) {
+  .dm-modal.lg-kalip {
+    left: 50%; top: 50%; height: auto; max-height: calc(100vh - 40px);
+    border-radius: var(--radius-lg, 16px); transform: translate(-50%, -50%);
+  }
+  .dm-modal.lg-kalip.genis { width: calc(100vw - 40px); }
+  .dm-modal.lg-kalip.acik { transform: translate(-50%, -50%); }
+  .dm-modal.lg-kalip :is(.dm-modal-bas, .dm-modal-govde, .dm-modal-ayak) { padding-left: 0; padding-right: 0; }
+}
+
+/* fb-modal ailesi (#ftModal · #fdModal · #tfaModal · #bnpOnay · #odOnay; #tfaModal markup'ı lead birleştirmesinde). Kimlikle kapsamlı:
+   `dm-kabuk.css` `:is(#ftModal, #fdModal, [role="dialog"]) .fb-head` yapışkan
+   başlığı kimlik özgüllüğünde; çıplak `.fb-modal` kuralı yazılmaz (#fotoModal). */
+:is(#ftModal, #fdModal, #tfaModal, #bnpOnay, #odOnay) .fb-panel {
+  position: relative; display: flex; flex-direction: column; overflow: hidden;
+  box-sizing: border-box; padding: 32px 26px 26px;
+}
+:is(#bnpOnay, #odOnay) .fb-panel { width: min(382px, 100%); }
+:is(#ftModal, #fdModal, #tfaModal, #bnpOnay, #odOnay) .fb-panel .fb-head {
+  position: static; flex: none; display: block; padding: 0; border-bottom: 0; background: none; text-align: center;
+}
+:is(#ftModal, #fdModal, #tfaModal, #bnpOnay, #odOnay) .fb-head h3 { font-size: 19px; margin-bottom: 8px; }
+:is(#ftModal, #fdModal, #tfaModal, #bnpOnay, #odOnay) .fb-head p {
+  max-width: 300px; margin: 0 auto 22px; font-size: 13.5px; font-weight: 500;
+  line-height: 1.55; color: var(--muted); text-align-last: auto;
+}
+:is(#ftModal, #fdModal, #tfaModal, #bnpOnay, #odOnay) .fb-head p:empty { display: none; }
+:is(#ftModal, #fdModal, #tfaModal, #bnpOnay, #odOnay) .fb-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 2px; margin: -2px; }
+#bnpOnay .fb-body > p { text-align: center; text-align-last: auto; }
+/* BNP onayı dar ekranda alttan açılan yaprak (Revize 5 · madde 14/18) — yaprak tam genişlik kalır. */
+@media (max-width: 640px) { #bnpOnay .fb-panel { width: 100%; } }
+#odOnay .ft-foot { display: flex; gap: 10px; margin-top: 22px; }
+#odOnay .ft-foot > * { flex: 1; justify-content: center; }
+
+/* Tarif havuzu #rpModal (BNP) — geniş seçici; başlık ve × kapının kalıbında */
+#rpModal .rp-head {
+  position: relative; display: block; padding: 32px 26px 16px; text-align: center;
+  border-bottom: 0; background: none;
+}
+#rpModal .rp-head h2 { font-size: 19px; margin: 0 0 8px; }
+#rpModal .rp-head p { max-width: 300px; margin: 0 auto; font-size: 13.5px; font-weight: 500; line-height: 1.55; text-align-last: auto; }
+
+/* Topluluk #flwModal (şef profili) — liste penceresi; başlık ve × kapının kalıbında */
+#flwModal .flw-panel { position: relative; width: min(382px, calc(100vw - 40px)); }
+#flwModal .flw-head {
+  display: block; padding: 32px 26px 16px; text-align: center; border-bottom: 0; background: none;
+}
+#flwModal .flw-head h3 { font-size: 19px; margin: 0; }
+
+/* Reklam ver › alan/format/paket pencereleri (.rv-dlg) — geniş katalog; başlık ve × kapının kalıbında */
+.rv-dlg .rv-dlg-box > .rv-dlg-head {
+  position: static; display: block; padding: 32px 26px 16px; text-align: center; border-bottom: 0;
+}
+.rv-dlg .rv-dlg-head h3 { font-size: 19px; margin: 0 0 8px; }
+.rv-dlg .rv-dlg-head p { max-width: 300px; margin: 0 auto; font-size: 13.5px; font-weight: 500; line-height: 1.55; text-align-last: auto; }

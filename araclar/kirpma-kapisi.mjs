@@ -13,11 +13,14 @@ import { readdirSync } from 'node:fs';
 import path from 'node:path';
 
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const TABAN = process.env.TABAN || 'http://localhost:8796/DadaGastroVideo/';
+// V2=1 (ya da TABAN …/v2/) → v2/*.html (kabuk ajanı ekledi, V2 sözleşmesi)
+const V2 = !!process.env.V2 || /\/v2\/$/.test(process.env.TABAN || '');
+const DIZIN = V2 ? path.join(KOK, 'v2') : KOK;
+const TABAN = process.env.TABAN || (V2 ? 'http://localhost:8796/DadaGastroVideo/v2/' : 'http://localhost:8796/DadaGastroVideo/');
 const GENISLIK = (process.env.GENISLIK || '1440,390').split(',').map(Number);
 const SUZ = (process.env.SAYFA || '').split(',').filter(Boolean);
 const BOZ = !!process.env.BOZ;
-const SAYFALAR = readdirSync(KOK).filter((f) => f.endsWith('.html')).sort().filter((f) => !SUZ.length || SUZ.some((x) => f.includes(x)));
+const SAYFALAR = readdirSync(DIZIN).filter((f) => f.endsWith('.html')).sort().filter((f) => !SUZ.length || SUZ.some((x) => f.includes(x)));
 
 // Kart kapları ve kart başlığı seçicileri (Gastro kartı + video bileşenleri). Yeni bileşen eklenince buraya yazılır.
 const KART = '.r-card, .vd-kart, .vd-kisa, .vd-bolum, .vd-seri-afis, .vd-sef-kart, [class*="-kart"]:not(html):not(body)';

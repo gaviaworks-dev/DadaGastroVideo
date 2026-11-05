@@ -13,6 +13,43 @@ const SAYFA = process.argv[2] || 'video-mutfagi.html';
 const BOZ = !!process.env.BOZ;
 const b = await chromium.launch();
 let kirmizi = 0;
+// ---------- V2 (V2=1 ya da TABAN …/v2/): alt menü YOK; Gastro header'ı kanonundaki gibi sabit kalır ----------
+// Ölçülen: .vd-ust yok · başta ve aşağı kaydırınca header görünür ve en üstte (checkVisibility + elementFromPoint isabeti) ·
+// --vd-bar-alt = header'ın alt kenarı (±1, sayfa yapışkan barları buna yapışır) · koyu banner'lı sayfada başta header saydam (koyu-hero
+// hâli), kaydırınca header'ın arkası koyu bandın dışına çıkınca Gastro betiği kendi hâline geçirir (yalnız raporlanır).
+// BOZ=1 → header'a translateY(-200px) eklenir; kapı kırmızı vermeli.
+if (process.env.V2 || /\/v2\/$/.test(TABAN)) {
+  const T2 = /\/v2\/$/.test(TABAN) ? TABAN : TABAN + 'v2/';
+  for (const [w, rm] of [[1440, 'no-preference'], [390, 'no-preference'], [1440, 'reduce']]) {
+    const ctx = await b.newContext({ viewport: { width: w, height: w < 500 ? 844 : 900 }, reducedMotion: rm });
+    const p = await ctx.newPage();
+    await p.goto(T2 + SAYFA, { waitUntil: 'load' }); await p.waitForTimeout(700);
+    if (BOZ) await p.addStyleTag({ content: 'header.header{transform:translateY(-200px)!important}' });
+    const durum = () => p.evaluate(() => {
+      const h = document.querySelector('header.header'); const r = h.getBoundingClientRect();
+      const n = document.elementFromPoint(innerWidth / 2, Math.max(1, r.top + r.height / 2));
+      const prob = document.createElement('div'); prob.style.cssText = 'position:fixed;top:var(--vd-bar-alt);height:0'; document.body.appendChild(prob); const alt = prob.getBoundingClientRect().top; prob.remove();
+      return { ust: Math.round(r.top), altKenar: Math.round(r.bottom), gorunur: h.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }) && r.bottom > 1 && !!(n && n.closest('header.header')),
+        vdUst: !!document.querySelector('.vd-ust'), barAlt: Math.round(alt), zemin: getComputedStyle(h).backgroundColor, sinif: h.className };
+    });
+    const d0 = await durum();
+    for (let i = 0; i < 8; i++) { await p.mouse.wheel(0, 250); await p.waitForTimeout(60); }
+    await p.waitForTimeout(600);
+    const d1 = await durum();
+    const sorun = [];
+    if (d0.vdUst) sorun.push('V1 alt menüsü (.vd-ust) V2 sayfasında var');
+    for (const [ad, d] of [['başta', d0], ['aşağıda', d1]]) {
+      if (!d.gorunur) sorun.push(`${ad} header görünmüyor (${d.ust}…${d.altKenar})`);
+      if (Math.abs(d.barAlt - d.altKenar) > 1) sorun.push(`${ad} --vd-bar-alt (${d.barAlt}) ≠ header alt kenarı (${d.altKenar})`);
+    }
+    if (sorun.length) kirmizi++;
+    console.log(`${sorun.length ? '✗' : '✓'} ${w}${rm === 'reduce' ? ' reduced-motion' : ''} v2/${SAYFA}  başta: header ${d0.ust}–${d0.altKenar} zemin ${d0.zemin} · aşağıda: header ${d1.ust}–${d1.altKenar} zemin ${d1.zemin} · --vd-bar-alt ${d1.barAlt}${sorun.length ? '\n    ' + sorun.join('\n    ') : ''}`);
+    await ctx.close();
+  }
+  await b.close();
+  if (BOZ) { console.log(kirmizi ? `BOZ sınaması: ${kirmizi} durum kırmızı → kapı kırmızı verebiliyor ✓` : 'BOZ sınaması: KAPI KÖR ✗'); process.exit(kirmizi ? 1 : 3); }
+  process.exit(kirmizi ? 1 : 0);
+}
 for (const [w, rm] of [[1440, 'no-preference'], [390, 'no-preference'], [1440, 'reduce']]) {
   const ctx = await b.newContext({ viewport: { width: w, height: w < 500 ? 844 : 900 }, reducedMotion: rm });
   const p = await ctx.newPage();

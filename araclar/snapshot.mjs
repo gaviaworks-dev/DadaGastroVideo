@@ -56,8 +56,17 @@ const KATALOG = await katalogOku();
 const TARIFLER = katalogTarifleri(KATALOG);
 const SERILER = katalogSerileri(KATALOG);
 
+// V2=1 → Video prototipi V2 donörleri (src/donor/v2/): Ne Pişirsem? banner + panel iskeleti, şef dizini. KATI KİP: varlik/gastro'da
+// VAR OLAN bir dosyanın içeriği değişecekse yazılmaz, listelenir ve snapshot kırmızı çıkar (V1 dokunulmaz; lead'e bildirilir).
+// Yalnız YENİ dosya eklenir. V1 donörleri (src/donor/*.html) V2 kipinde yazılmaz.
+const V2 = !!process.env.V2;
+const DONOR_DIZIN = V2 ? 'src/donor/v2' : 'src/donor';
+const V2_DONORLER = { bnp: '/bugun-ne-pisirsem', sefler: '/sefler' };
+const onceden = new Set();   // V2: indirmeden önce diskte olan varlıklar (karşılaştırılır, yazılmaz)
+const degisecek = [];        // V2: içeriği 8960'takinden farklı olan var olan dosyalar
+const yeniEklenen = [];      // V2: yeni eklenen dosyalar
 // donör adı → yerel yol
-export const DONORLER = {
+export const DONORLER = V2 ? V2_DONORLER : {
   ana: '/',
   kabuk: '/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik',
   ...Object.fromEntries(TARIFLER.map((s) => [`tarif-${s}`, `/tarif/${s}`])),
@@ -97,8 +106,20 @@ async function indir(yol) {
   if (!temiz || indirilen.has(temiz)) return;
   indirilen.set(temiz, 'bekliyor');
   const hedef = path.join(KOK, VARLIK, decodeURIComponent(temiz));
-  if (await var_(hedef)) { indirilen.set(temiz, 200); if (temiz.endsWith('.css')) kuyrukCss.push(temiz); return; }
+  if (await var_(hedef)) {
+    indirilen.set(temiz, 200);
+    if (V2) { // katı kip: 8960'taki güncel içerikle karşılaştır (CSS cssIsle'de, çevrilmiş hâliyle)
+      onceden.add(temiz);
+      if (!temiz.endsWith('.css')) {
+        const y = await fetch(KAYNAK + '/' + temiz, { headers: { 'User-Agent': UA } }).catch(() => null);
+        if (y && y.ok && !Buffer.from(await y.arrayBuffer()).equals(await readFile(hedef))) degisecek.push(temiz);
+      }
+    }
+    if (temiz.endsWith('.css')) kuyrukCss.push(temiz);
+    return;
+  }
   const yanit = await fetch(KAYNAK + '/' + temiz, { headers: { 'User-Agent': UA } }).catch(() => null);
+  if (V2) yeniEklenen.push(temiz);
   if (yanit && yanit.ok) {
     await mkdir(path.dirname(hedef), { recursive: true });
     await writeFile(hedef, Buffer.from(await yanit.arrayBuffer()));
@@ -116,7 +137,12 @@ async function indir(yol) {
 // CSS içindeki url() ve @import'ları indir; yolları CSS dosyasının konumuna göre göreliye çevir
 async function cssIsle(temiz) {
   const dosya = path.join(KOK, VARLIK, decodeURIComponent(temiz));
-  let css = await readFile(dosya, 'utf8');
+  const diskte = await readFile(dosya, 'utf8');
+  let css = diskte;
+  if (V2 && onceden.has(temiz)) { // var olan CSS: 8960'taki ham hâli çevrilip diskle karşılaştırılır; dosya YAZILMAZ
+    const y = await fetch(KAYNAK + '/' + temiz, { headers: { 'User-Agent': UA } }).catch(() => null);
+    if (y && y.ok) css = await y.text();
+  }
   const tabanYol = '/' + temiz;
   const bulunan = new Set();
   const cevir = (ham) => {
@@ -128,7 +154,8 @@ async function cssIsle(temiz) {
   };
   css = css.replace(/url\(\s*(['"]?)([^'")]+)\1\s*\)/g, (t, q, u) => `url(${q}${cevir(u)}${q})`);
   css = css.replace(/@import\s+(['"])([^'"]+)\1/g, (t, q, u) => `@import ${q}${cevir(u)}${q}`);
-  await writeFile(dosya, css);
+  if (V2 && onceden.has(temiz)) { if (css !== diskte) degisecek.push(temiz); }
+  else if (css !== diskte) await writeFile(dosya, css);
   for (const b of bulunan) await indir(b);
 }
 
@@ -179,7 +206,7 @@ function htmlYollari(html, tabanYol) {
 }
 
 async function main() {
-  await mkdir(path.join(KOK, 'src/donor'), { recursive: true });
+  await mkdir(path.join(KOK, DONOR_DIZIN), { recursive: true });
   if (!KATALOG) console.log('· veri/katalog.json yok → yalnız ana + kabuk donörü (katalog gelince yeniden koş)');
   for (const [ad, yol] of Object.entries(DONORLER)) {
     const yanit = await fetch(KAYNAK + yol, { headers: { 'User-Agent': UA } });
@@ -187,13 +214,20 @@ async function main() {
     const tarif = ad.startsWith('tarif-');
     let html = kabukTemizle(htmlTemizle(await yanit.text()), { tarif });
     const r = htmlYollari(html, yol);
+    // V2 · bnp: yalnız kabuk + banner kullanılır; panel içeriğinin (sihirbaz/yemek modu, ~230 tarif görseli) varlıkları İNDİRİLMEZ
+    // (donör dosyası tam kaydedilir, ama derleme o bölümü kullanmaz).
+    if (V2 && ad === 'bnp') {
+      const govdesiz = html.replace(/<section class="bnp-body">[\s\S]*?(?=<\/main>)/, '');
+      const kullanilan = htmlYollari(govdesiz, yol).varliklar;
+      for (const v of [...r.varliklar]) if (!kullanilan.has(v)) r.varliklar.delete(v);
+    }
     const kalan = tokenTaramasi(r.html, { tarif });
     if (kalan.length) {
       for (const m of [...r.html.matchAll(/.{0,120}(\/\/(127\.0\.0\.1|localhost):89\d\d|name="_token"|eyJpdiI6|kayit\/toggle|takip-et).{0,60}/g)].slice(0, 6)) console.error('   ', m[0].replace(/\s+/g, ' '));
       throw new Error(`${ad}: temizlik sonrası kalan: ${kalan.join(', ')}`);
     }
     const basa = `<!-- donör: ${KAYNAK}${yol} (yerel Gastro, kod = canlı · canlı adresi ${CANLI}${yol}) · alındı: ${new Date().toISOString().slice(0, 10)} · araclar/snapshot.mjs -->\n`;
-    await writeFile(path.join(KOK, 'src/donor', `${ad}.html`), basa + r.html);
+    await writeFile(path.join(KOK, DONOR_DIZIN, `${ad}.html`), basa + r.html);
     console.log('donör', ad.padEnd(40), String(r.varliklar.size).padStart(3), 'varlık');
     for (const v of r.varliklar) await indir(v);
   }
@@ -206,8 +240,13 @@ async function main() {
   const yk = {}; for (const [, d] of yedek) { const k = d.slice(6).replace(/\/(varliklar|storage|tasks)\/.*$/, '/$1/…'); yk[k] = (yk[k] || 0) + 1; }
   for (const [k, n] of Object.entries(yk)) console.log(`   yedek ${String(n).padStart(3)} ← ${k}`);
   hatali.forEach(([y, d]) => console.log('   ✗', d, y));
-  await writeFile(path.join(KOK, 'src/donor/varliklar.json'), JSON.stringify(Object.fromEntries(indirilen), null, 1));
+  await writeFile(path.join(KOK, DONOR_DIZIN, 'varliklar.json'), JSON.stringify(Object.fromEntries(indirilen), null, 1));
   if (hatali.length) process.exitCode = 2;
+  if (V2) {
+    console.log(`V2 katı kip: yeni eklenen ${yeniEklenen.length} · var olup karşılaştırılan ${onceden.size} · içeriği DEĞİŞECEK ${degisecek.length}`);
+    yeniEklenen.forEach((y) => console.log('   + ', y));
+    if (degisecek.length) { degisecek.forEach((y) => console.log('   ✗ değişecek (yazılmadı):', y)); process.exitCode = 4; }
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main().catch((e) => { console.error(e); process.exit(1); });

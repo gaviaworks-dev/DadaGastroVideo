@@ -1,0 +1,24 @@
+/* Revize 5 · madde 14/18 — Bugün Ne Pişirsem onay penceresi (eklendi:).
+ * Kabuk markanın fb-modal › fb-panel kiti (dm-kabuk.css; /hesabim/ayarlar #fotoModal ile aynı),
+ * düğmeler portal .btn .btn-ghost ve tokens paketinin .btn--danger kipi (portalın .btn{border:none}
+ * kuralı sonra yüklendiği için çerçevesi siliniyordu — ölçüldü; burada dolu tehlike rengiyle basılır). Burada YALNIZ kitte
+ * karşılığı olmayanlar var: arka plan örtüsü, dar pencere, eşit yükseklikte düğmeler,
+ * tepsinin "×" düğmesi ve 390'da alt sayfa (bottom sheet). */
+.bnp-onay{background:rgba(33,30,22,.52);z-index:99}
+.bnp-onay .fb-panel{width:min(440px,100%)}
+.bnp-onay .fb-body p{margin:0;font-size:15px;line-height:1.55;color:var(--slate-2);overflow-wrap:anywhere}
+.bnp-onay-ayak{display:flex;gap:12px;margin-top:22px}
+.bnp-onay-ayak .btn{flex:1 1 0;min-height:48px;padding:12px 18px;border-radius:var(--radius-md)}
+.bnp-onay-ayak .btn:focus-visible{outline:3px solid var(--tomato);outline-offset:2px}
+.bnp-onay-ayak .btn--danger{background:var(--danger);color:#fff;border:1px solid var(--danger)}
+.bnp-onay-ayak .btn--danger:hover{background:var(--tomato-deep);border-color:var(--tomato-deep)}
+.scp-iptal{flex:none;width:30px;height:30px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,.24);background:rgba(255,255,255,.1);color:#fff;font-size:12px;cursor:pointer;display:grid;place-items:center;transition:.18s var(--ease)}
+.scp-iptal:hover{background:rgba(255,255,255,.2)}
+.scp-iptal:focus-visible{outline:3px solid #fff;outline-offset:2px}
+@media (max-width:640px){
+  .scp-iptal{margin-left:auto}
+  .bnp-onay{place-items:end stretch;padding:0}
+  .bnp-onay .fb-panel{width:100%;max-height:85vh;border-radius:var(--radius-lg) var(--radius-lg) 0 0;transform:translateY(100%)}
+  .bnp-onay.show .fb-panel{transform:translateY(0)}
+  .bnp-onay .fb-body{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+}

@@ -1,0 +1,37 @@
+/* REVİZE P2 · T1 — `/bugun-ne-pisirsem` menü panelinin YATAY RAYI.
+ *
+ * 🔴 KANONDAN BİLİNÇLİ SAPMA (lead kararı, 2026-09-14). Kanon bozuk;
+ * kullanıcının kuralı gereği düzelterek taşınıyor.
+ *
+ * ── KUSUR, ÖLÇÜLDÜ (390px, gerçek tarayıcı) ─────────────────────────────
+ * `.menu-set` yatay kayan bir ray ve `scroll-snap-type: x mandatory` taşıyor.
+ * Ray içindeki `.menu-card`ların hepsinde `scroll-snap-align: start` var ama
+ * rayın SON çocuğu olan "Kap Ekle" karosunda (`.mc-add`) YOK. Zorunlu snap,
+ * kaydırmanın bir snap noktası DIŞINDA durmasına izin vermez: son snap
+ * noktası son kartın başlangıcıdır ve ray oradan ileri gitmez.
+ *
+ * Ölçülen sayı: `scrollWidth` 746 · `clientWidth` 358 · kuramsal en fazla
+ * kaydırma 388, ama tarayıcı `scrollLeft`i **316**te kilitliyor. Aradaki
+ * **72px** hiçbir kaydırmayla görünür alana gelmiyor ve "Kap Ekle" karosunun
+ * altı kap türü düğmesi tam orada duruyor — yani kullanıcının HİÇBİR ZAMAN
+ * basamayacağı altı düğme. Ölü yüzey.
+ *
+ * ── KONTROLLÜ DENEY (üç ölçüm, aynı sayfa) ──────────────────────────────
+ *   1) olduğu gibi                     → scrollLeft 316 / 388
+ *   2) `scroll-snap-type: none`        → scrollLeft 388 / 388  (ulaşılıyor)
+ *   3) snap AÇIK + `.mc-add`a snap     → scrollLeft 388 / 388  (ulaşılıyor)
+ * Yani kusur snap'in kendisinde değil, son çocuğun snap NOKTASI OLMAMASINDA.
+ * Seçilen çözüm (3): snap davranışı korunur, yalnız eksik nokta eklenir.
+ *
+ * ── NEDEN BU DOSYA, NEDEN `bugun-ne-pisirsem.css` DEĞİL ─────────────────
+ * O dosyanın `.menu-set` ve `.mc-add` kuralları kanonunkiyle BAYT BAYT AYNI
+ * (ölçüldü). Prototip varlığını yerinde değiştirmek, sapmayı bir daha kimsenin
+ * fark edemeyeceği bir yere gömmek olurdu; S10/S12'nin kalıbı: sapma kendi
+ * kulvar dosyasında durur ve greplenebilir.
+ *
+ * KUTUYU DEĞİŞTİRMEZ: `scroll-snap-align` yerleşime girmez, yalnız kaydırmanın
+ * nerede durabileceğini söyler. Parite ölçümü etkilenmez.
+ */
+body.pg-bnp .menu-set > .mc-add {
+    scroll-snap-align: start;
+}

@@ -1,0 +1,102 @@
+/* =====================================================================
+   Dada Gastro Video Mutfağı prototipi V2 — kabuk eklemeleri (kabuk ajanı; tüm sayfalarda yüklü, Gastro kanon CSS'inden SONRA)
+   Gastro kopyası (varlik/gastro/**) değiştirilmez; burada yalnız eklenen parçalar ve Video sayfalarına özgü kabuk ayarları var.
+   Değerler Gastro token'larıyla (tokens-n1Tp8NEY.css :root): --tomato #DC3D17 · --ink · --muted · --line · --radius-md 12px ·
+   --radius-sm 8px · --header-offset 112px (≤1024: 62px) · --ease. Yazı: Gilroy 500 + GilroyBd 700 + GilroyXB 800 (Gastro'nun yüzleri).
+   ===================================================================== */
+:root {
+  --vd-font: var(--font, "Gilroy", system-ui, sans-serif);
+  --vd-font-kalin: GilroyBd, var(--vd-font);
+  --vd-font-ekstra: GilroyXB, var(--vd-font);
+  /* V2: alt menü (V1 nav.vd-ust) YOK. Gastro header'ın alt kenarı --header-offset + 1px (üst bant 40 + header 73 = 113 · ≤1024: 63);
+     header Gastro'da sabit ve gizlenmez. Sayfa yapışkan barları (ör. hub süzgeç barı) BUNA yapışır: top: var(--vd-bar-alt) */
+  --vd-ust-bosluk: calc(var(--header-offset, 112px) + 1px);
+  --vd-bar-h: 0px;
+  --vd-bar-alt: calc(var(--vd-ust-bosluk) + var(--vd-bar-h));
+  /* Ortak ölçü token'ları (REVİZE 1, lead 5 Kas) — hub/izle bunlara bağlı; ADLAR DEĞİŞMEZ */
+  --vd-kart-r: var(--radius-lg, 16px);   /* Gastro .r-card yarıçapı */
+  --vd-ic: 24px;                          /* panel/kart iç boşluğu */
+  --vd-ara: 24px;                         /* panel/kart arası */
+  --vd-bolum-ara: 64px;                   /* bölümler arası dikey */
+  --vd-kenar: 32px;                       /* Gastro .wrap yatay iç boşluğu (portal CSS: padding 0 32px; ≤1024 24px; ≤640 16px — ölçüldü) */
+}
+@media (max-width: 1024px) { :root { --vd-kenar: 24px; } }
+@media (max-width: 767px) { :root { --vd-ic: 16px; --vd-ara: 16px; --vd-bolum-ara: 48px; } }
+@media (max-width: 640px) { :root { --vd-kenar: 16px; } }
+
+/* ---------- Video sayfası zemini: Gastro açık zemini. İskeletsiz sayfa (kısa video) sabit header'ın altından başlar; iskeletli sayfada
+   koyu banner header'ın arkasından başlar (donör /bugun-ne-pisirsem: section.bnp-top padding-top 128px header'ı kendisi karşılar). ---------- */
+.pg-video .vd-sayfa { padding-top: calc(var(--header-offset, 112px) + 1px); background: var(--bg, #F9F9F9); }
+.pg-video .vd-sayfa.vd-v2--iskelet { padding-top: 0; }
+
+/* ---------- V2 iskeleti: Gastro "Ne Pişirsem?" banner'ı (bugun-ne-pisirsem.css + portal CSS; işaretleme src/v2/iskelet.mjs) ----------
+   Donörde arka plan satır içi stilde: `linear-gradient(90deg,rgba(28,25,18,.93),rgba(33,30,22,.72)),url(<görsel>)` (bölüm) ve aynı
+   görsel/degrade px-media/px-veil'de. V2'de satır içi stil yok: `--vd-banner` (görsel) `varlik/v2/banner.css`te `[data-vd-banner]`e göre
+   kurulur (build-v2 üretir); degrade donördeki değerle burada. */
+.vd-v2-banner { background-image: linear-gradient(90deg, rgba(28, 25, 18, .93), rgba(33, 30, 22, .72)), var(--vd-banner, none); background-size: cover; background-position: center; background-color: #211E16; }
+.vd-v2-banner .px-media { background-image: var(--vd-banner, none); }
+.vd-v2-banner .px-veil { background-image: linear-gradient(90deg, rgba(28, 25, 18, .93), rgba(33, 30, 22, .72)); }
+/* "Reklamlı görünüm" aracı yuvası (reklam ajanı doldurur): kırıntı satırının sağı; .bnp-top .wrap position:relative (bnp CSS).
+   Akışa girmez → banner yazısının dikey ortalaması (banner-standart.css `.wrap > nav + .bnp-head`) değişmez. */
+.vd-v2-arac { position: absolute; top: 0; right: var(--vd-kenar, 32px); display: flex; align-items: center; min-height: 20px; }
+.vd-v2-arac:empty { display: none; }
+@media (max-width: 640px) { .vd-v2-arac { top: -4px; } }
+/* Panel: Gastro .bnp-body (krem zemin, 22px üst köşe — portal CSS `.below-header+section`); içerik .wrap'ta */
+
+/* ---------- V1 · V2 geçişi: footer'ın hemen üstü (main'in sonu), küçük ve ortalı; Gastro .muted metni ---------- */
+.vd-v2-surum { padding-top: 24px; padding-bottom: 24px; text-align: center; }
+.vd-v2-surum p { margin: 0; font-size: 13px; line-height: 1.5; }
+.vd-v2-surum a { color: var(--tomato-dark, #BA3413); text-decoration: underline; text-underline-offset: 2px; font-family: var(--vd-font-kalin); font-weight: 700; }
+.vd-v2-surum b { color: var(--ink, #211E16); font-family: var(--vd-font-kalin); font-weight: 700; }
+.pg-video .vd-v2-surum, .pg-video ~ * .vd-v2-surum { background: var(--bg, #F9F9F9); }
+
+/* (REVİZE 1, 5 Kas) Logo yanındaki "video" alt marka rozeti KALDIRILDI: her sayfada donördeki normal Dada Gastro logosu. */
+
+/* ---------- Üst menü ve çekmecede "Video Mutfağı · VİDEO" rozeti KIRMIZI (lead kararı 4 Kas, doküman D.1a "kırmızı rozet") ----------
+   Donör işaretlemesi (span.soon, Gastro'nun yeşil "yeni" rozeti) değişmez; yalnız Video bağının içindeki .soon boyanır (seçici bağın
+   href'iyle sınırlı → öteki .soon rozetleri etkilenmez). Zemin --tomato-dark (#BA3413, Gastro kırmızısının koyu tonu): beyaz metinle
+   kontrast 5,8:1 (AA). --tomato (#DC3D17) beyazla 4,45:1 verir, 9,5px metin için AA'nın (4,5) altında kalır. Tüm sayfalarda yüklü. */
+/* Reklamlı görünümde (?reklam=1) iç bağlar sorguyu taşır (reklam.js) → bağ "video-mutfagi.html?reklam=1" olur; rozet orada da kırmızı. */
+a[href="video-mutfagi.html"] > .soon, a[href^="video-mutfagi.html?"] > .soon { background: var(--tomato-dark, #BA3413); color: #fff; }
+
+/* ---------- Mega menü: haftanın serisi canlı mini önizlemesi (D.1b) — Gastro .mega-find kutusu + 16:9 mini poster ---------- */
+.mega-find.vd-mega { align-items: center; gap: 12px; padding: 10px; }
+.nav a.mega-find.vd-mega { white-space: normal; }
+.vd-mega__poster { position: relative; flex: none; width: 112px; aspect-ratio: 16 / 9; border-radius: var(--radius-sm, 8px); overflow: hidden; background: #1a1712; isolation: isolate; }
+.vd-mega__poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transform-origin: 30% 40%; animation: vd-ken-burns 16s ease-in-out infinite alternate; }
+.vd-mega__poster::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 13, 9, 0) 45%, rgba(15, 13, 9, .55)); }
+.vd-mega__oynat { position: absolute; z-index: 1; left: 50%; top: 50%; width: 28px; height: 28px; margin: -14px 0 0 -14px; display: grid; place-items: center; border-radius: 50%; background: rgba(255, 255, 255, .92); color: var(--tomato, #DC3D17); font-size: 11px; box-shadow: 0 2px 8px rgba(15, 13, 9, .25); }
+.vd-mega__oynat i { margin-left: 2px; }
+.vd-mega__sure { position: absolute; z-index: 1; right: 4px; bottom: 4px; padding: 2px 5px; border-radius: 4px; background: rgba(15, 13, 9, .78); color: #fff; font-size: 10.5px; font-weight: 700; font-family: var(--vd-font-kalin); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.vd-mega__etiket { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; font-size: 10.5px; font-weight: 800; font-family: var(--vd-font-ekstra); letter-spacing: .06em; text-transform: uppercase; color: var(--tomato-dark, #BA3413); line-height: 1.1; }
+.vd-mega__etiket i { font-size: 10px; }
+.nav a.mega-find.vd-mega .mf-body b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nav a.mega-find.vd-mega .mf-body small { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.3; }
+.mega-find.vd-mega:hover .vd-mega__etiket { color: #fff; }
+@keyframes vd-ken-burns { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.14) translate(-4%, -3%); } }
+
+/* ---------- Tarif köprüsü (D.2a): "Bu Tarifin Videosunu İzle (mm:ss)" — Gastro .mega-find satır kartı + 16:9 poster ---------- */
+.rd-head .mega-find.vd-tarif-kopru { margin: 12px 0 16px; max-width: 560px; gap: 14px; padding: 10px 14px 10px 10px; text-decoration: none; }
+.vd-tarif-kopru__poster { position: relative; flex: none; width: 136px; aspect-ratio: 16 / 9; border-radius: var(--radius-sm, 8px); overflow: hidden; background: #1a1712; }
+.vd-tarif-kopru__poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .4s var(--ease, ease); }
+.vd-tarif-kopru__poster::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 13, 9, 0) 40%, rgba(15, 13, 9, .5)); }
+.vd-tarif-kopru__oynat { position: absolute; z-index: 1; left: 50%; top: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px; display: grid; place-items: center; border-radius: 50%; background: var(--tomato, #DC3D17); color: #fff; font-size: 13px; box-shadow: 0 2px 10px rgba(15, 13, 9, .3); }
+.vd-tarif-kopru__oynat i { margin-left: 2px; }
+.vd-tarif-kopru__sure { position: absolute; z-index: 1; right: 5px; bottom: 5px; padding: 2px 6px; border-radius: 4px; background: rgba(15, 13, 9, .78); color: #fff; font-size: 11px; font-weight: 700; font-family: var(--vd-font-kalin); line-height: 1.2; font-variant-numeric: tabular-nums; }
+.vd-tarif-kopru .mf-body b { font-size: 15px; font-family: var(--vd-font-kalin); }
+.vd-tarif-kopru__ad { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 3px; font-size: 14px; font-weight: 700; font-family: var(--vd-font-kalin); line-height: 1.3; color: var(--ink, #211E16); }
+.vd-tarif-kopru .mf-body small { margin-top: 3px; color: var(--slate-2, #56514A); opacity: 1; }
+.mega-find.vd-tarif-kopru:hover .vd-tarif-kopru__ad { color: #fff; }
+.mega-find.vd-tarif-kopru:hover .vd-tarif-kopru__poster img { transform: scale(1.05); }
+.mega-find.vd-tarif-kopru:focus-visible { outline: 3px solid var(--tomato, #DC3D17); outline-offset: 2px; }
+@media (max-width: 640px) {
+  .rd-head .mega-find.vd-tarif-kopru { max-width: none; gap: 12px; padding: 8px 10px 8px 8px; }
+  .vd-tarif-kopru__poster { width: 112px; }
+  .vd-tarif-kopru .mf-body b { font-size: 14px; }
+  .vd-tarif-kopru__ad { font-size: 13.5px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vd-tarif-kopru__poster img { transition: none !important; }
+  .vd-mega__poster img { animation: none !important; transform: none; }
+}

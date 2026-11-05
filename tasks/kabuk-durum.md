@@ -59,3 +59,22 @@
 - Reklamsız geometri önce/sonra (82 ölçüm = video sayfaları × 1440/390): sayfa boyu ve `.vd-sayfa` içindeki her görünür öğe AYNI;
   tek fark 390'da alt menü bağlarının 25px sola kayması (anahtar 44px yer kaplar; menü taşmaz, sw=cw). 1440'ta bağ grubu ortada sabit (kabuk.css ≥1025 kuralı).
 - bag-kapisi: reklam veren hedefleri (src/video/reklam-donor.json'daki tıklama adresleri, yalnız <a href>) ayrı sayılır.
+
+# ═══ V2 (5–6 Kas) — kabuk ═══
+## ✅ BUILD-V2 HAZIR
+- `node araclar/build-v2.mjs [modül…]` → `v2/*.html` (V1'e dokunmaz). Modül: `src/v2/sayfalar/<ad>.mjs` → `[{ dosya, baslik, aciklama, iskelet | null, main, css, js, govdeSinifi?, gorsel?, aktif? }]`.
+  - `iskelet: { kirinti:[{ad,href}], eyebrow:{ikon,metin}, baslik, vurgu?, aciklama, sayaclar:[{deger,etiket}], gorsel? }` → Gastro "Ne Pişirsem?" banner'ı
+    (`section.bnp-top.below-header` > `.wrap` > `nav.rd-crumb` + `.bnp-head` > `.lh-main` + `.bnp-stats`) + beyaz panel (`section.bnp-body > .wrap`) içinde `main`.
+    Kırıntının başına ev ikonu (index.html) build ekler. `vurgu` başlıkta geçiyorsa yerinde `span.accent`. Sayılar `toLocaleString('tr-TR')`.
+    `gorsel` = tarif slug'ı ya da `varlik/video/tarif/<slug>-1600.webp` (banner arka planı; verilmezse haftanın serisi posteri). Satır içi stil yok (`data-vd-banner` + `varlik/v2/banner.css`).
+    Banner'da header donörün koyu-hero hâli (`header.at-top.tepede[data-hero]`, `body.has-dark-hero`), kaydırınca Gastro'nun kendi betiği beyaza çevirir.
+  - `iskelet: null` → yalnız `main` (header beyaz, içerik header'ın altından başlar).
+  - `aktif` (ya da eski `altMenu`; yoksa modül adından: hub→kesfet, seriler/seri→seriler, kisa→kisa, sef→sefler, izle→yok) → açılır menüde `.active` + `aria-current`.
+  - Yüklenen: `varlik/gastro/.../bugun-ne-pisirsem.css` + `varlik/v2/banner.css` (yalnız iskeletli) · `varlik/v2/kabuk.css` · `video.css` · `css/<ad>.css` · `css/reklam.css` / `kabuk.js` · `video.js` · `js/<ad>.js` · `js/reklam.js`.
+  - Kaynakta yollar `varlik/...`; çıktıda `../varlik/...` (nitelik, url(), JSON kaçışlı). Kök göreli kalan `varlik/` yolu derlemeyi durdurur.
+- "Reklamlı görünüm" yuvası: banner'da `.wrap`ın ilk çocuğu `<div class="vd-v2-arac" data-vd-v2-arac>` (mutlak konum, kırıntı satırının sağı). build, `src/v2/reklam.mjs`'te `reklamAnahtari` varsa `reklamAnahtari({ yer: 'banner' })` çıktısını içine koyar.
+- Header: "Video Mutfağı" = Gastro `.nav-item > a + .dropdown` (Keşfet · Seriler · 30 Saniyede Tat · Şefler; ikon + başlık + small, `.nav-div`); çekmecede `.d-item.d-has-sub` + `.d-toggle` + `.d-sub`. VİDEO rozeti kırmızı. `nav.vd-ust` YOK.
+- V1/V2 satırı: `main` sonunda `.wrap.vd-v2-surum > p.muted` ("Prototip sürümü: V1 · V2"; V1 → `../<aynı dosya>`).
+- CSS token'ları aynı (`--vd-kart-r` 16 · `--vd-ic` · `--vd-ara` · `--vd-bolum-ara` · `--vd-kenar`); V2'de `--vd-bar-alt` = header alt kenarı (113 / 63).
+- Snapshot: `V2=1 node araclar/snapshot.mjs` → `src/donor/v2/{bnp,sefler}.html`; KATI kip (var olan varlık değişecekse yazmaz, kırmızı). Eklenen 13 yeni dosya (1,9 MB), değişecek 0.
+- Kapılar (hepsi BOZ=1 kırmızı gösterildi): `node araclar/v1-kapisi.mjs` (V1 derle + git diff) · `V2=1 node araclar/varlik-kapisi.mjs` · `V2=1 node araclar/bag-kapisi.mjs` · `TABAN=…/v2/ node araclar/kirpma-kapisi.mjs` · `V2=1 node araclar/yapiskan-kapisi.mjs <sayfa>`.

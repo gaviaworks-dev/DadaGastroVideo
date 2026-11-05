@@ -6,13 +6,17 @@
 // Kullanım: node araclar/varlik-kapisi.mjs [sayfa.html …]     TABAN=… (vars. http://localhost:8795/DadaGastroVideo/) · GENISLIK=1440,390
 //           BOZ=1 → bilerek bozulmuş sınama sayfası (eksik CSS, kırık görsel, JS hatası, taşan kutu) üretip YALNIZ onu ölçer;
 //                   kapı dört kusurun dördünü de kırmızı göstermelidir (çıkış kodu 1). Sınama dosyası ölçümden sonra silinir.
+//           V2=1 (ya da TABAN …/v2/) → V2 sayfaları: v2/*.html, TABAN vars. http://localhost:8795/DadaGastroVideo/v2/, görüntüler rapor/kapi/v2/
 import { chromium } from 'playwright';
 import { mkdir, writeFile, rm, readFile } from 'node:fs/promises';
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const TABAN = process.env.TABAN || 'http://localhost:8795/DadaGastroVideo/';
+const V2 = !!process.env.V2 || /\/v2\/$/.test(process.env.TABAN || '');
+const DIZIN = V2 ? path.join(KOK, 'v2') : KOK;
+const GORUNTU = V2 ? 'rapor/kapi/v2' : 'rapor/kapi';
+const TABAN = process.env.TABAN || (V2 ? 'http://localhost:8795/DadaGastroVideo/v2/' : 'http://localhost:8795/DadaGastroVideo/');
 const KOKEN = new URL(TABAN).origin;
 const IZINLI_DIS = [/^https:\/\/dadagastro\.com\//, /^https:\/\/gaviaworks-dev\.github\.io\//, /^data:/, /^blob:/];
 const GENISLIK = (process.env.GENISLIK || '1440,390').split(',').map(Number);
@@ -20,20 +24,20 @@ const BOZ = !!process.env.BOZ;
 const BOZUK = '_kapi-bozuk-varlik.html';
 
 let SAYFALAR = process.argv.slice(2).length ? process.argv.slice(2)
-  : readdirSync(KOK).filter((f) => f.endsWith('.html') && !f.startsWith('_')).sort().map((f) => (f === 'video-kisa.html' ? 'video-kisa.html?v=' + kisaIlk() : f));
+  : readdirSync(DIZIN).filter((f) => f.endsWith('.html') && !f.startsWith('_')).sort().map((f) => (f === 'video-kisa.html' ? 'video-kisa.html?v=' + kisaIlk() : f));
 function kisaIlk() { try { return JSON.parse(readFileSync(path.join(KOK, 'veri/katalog.json'), 'utf8')).kisalar[0].slug; } catch { return ''; } }
 
 if (BOZ) {
   // Gerçek bir sayfanın kopyası + dört bilinçli kusur
-  let h = await readFile(path.join(KOK, 'index.html'), 'utf8');
+  let h = await readFile(path.join(DIZIN, 'index.html'), 'utf8');
   h = h.replace('</head>', '<link rel="stylesheet" href="varlik/yok/kapi-bozuk.css">\n</head>')
     .replace('</body>', '<img src="varlik/video/tarif/_bozuk.webp" alt="bozuk" width="40" height="40"><div class="vd-kapi-tasma"></div><script>window.__yok.cagir()</script>\n</body>')
     .replace('</head>', '<link rel="stylesheet" href="data:text/css,.vd-kapi-tasma%7Bwidth:2400px;height:4px%7D">\n</head>');
-  await writeFile(path.join(KOK, BOZUK), h);
+  await writeFile(path.join(DIZIN, BOZUK), h);
   SAYFALAR = [BOZUK];
 }
 
-await mkdir(path.join(KOK, 'rapor/kapi'), { recursive: true });
+await mkdir(path.join(KOK, GORUNTU), { recursive: true });
 const tarayici = await chromium.launch();
 let hata = 0, olcum = 0; const kusurTurleri = new Set();
 for (const w of GENISLIK) {
@@ -69,7 +73,7 @@ for (const w of GENISLIK) {
       return { yatay: Math.max(document.documentElement.scrollWidth - innerWidth, 0), tasan, kirik };
     });
     const ad = s.replace(/\.html.*$/, '').replace(/[^a-z0-9-]/gi, '_');
-    await sayfa.screenshot({ path: path.join(KOK, `rapor/kapi/${ad}-${w}.png`) });
+    await sayfa.screenshot({ path: path.join(KOK, `${GORUNTU}/${ad}-${w}.png`) });
     const sorun = [];
     if (kotu.length) { sorun.push(`404:${kotu.length} (${kotu.slice(0, 3).join(', ')})`); kusurTurleri.add('404'); }
     if (dis.length) { sorun.push(`izinsiz dış istek:${dis.length} (${dis.slice(0, 2).join(', ')})`); kusurTurleri.add('dis'); }
@@ -84,7 +88,7 @@ for (const w of GENISLIK) {
 }
 await tarayici.close();
 if (BOZ) {
-  await rm(path.join(KOK, BOZUK), { force: true });
+  await rm(path.join(DIZIN, BOZUK), { force: true });
   const beklenen = ['404', 'js', 'tasma', 'kirik'];
   const yakalanan = beklenen.filter((k) => kusurTurleri.has(k));
   console.log(`\nBOZ sınaması: ${yakalanan.length}/${beklenen.length} kusur yakalandı (${yakalanan.join(', ')})${yakalanan.length === beklenen.length ? ' → kapı kırmızı verebiliyor ✓' : ' → KAPI KÖR ✗'}`);

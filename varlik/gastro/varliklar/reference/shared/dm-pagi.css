@@ -1,0 +1,16 @@
+
+
+.pagi,.sayfalama{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:40px;flex-wrap:wrap}
+.pg,.sayfa-dugme{min-width:44px;height:44px;padding:0 13px;display:inline-flex;align-items:center;justify-content:center;font-family:inherit;font-size:14px;font-weight:700;color:var(--slate);background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md);cursor:pointer;transition:.2s var(--ease)}
+.pg:hover,.sayfa-dugme:hover:not([disabled]):not(.aktif){border-color:var(--tomato);color:var(--tomato)}
+.pg.active,.sayfa-dugme.aktif{background:var(--tomato);border-color:var(--tomato);color:#fff;cursor:default}
+.pg.arrow i,.sayfa-dugme.arrow i,.sayfa-dugme.ok i{font-size:12px}
+.pg[disabled],.sayfa-dugme[disabled]{opacity:.4;pointer-events:none}
+.pg-dots,.sayfa-nokta{color:var(--muted);font-weight:700;padding:0 2px;font-size:14px}
+.pagi-note,.sayfalama-not{width:100%;text-align:center;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:12px}
+
+
+@media (max-width:640px){
+  .pagi,.sayfalama{gap:6px;margin-top:30px}
+  .pg,.sayfa-dugme{min-width:40px;height:40px;font-size:13px}
+}

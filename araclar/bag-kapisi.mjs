@@ -11,6 +11,9 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+// V2=1 → v2/*.html taranır (iç bağlar v2 içinde ya da ../varlik paylaşımlı varlıklara çözülür), CSS'ler varlik/v2 + varlik/gastro.
+const V2 = !!process.env.V2;
+const DIZIN = V2 ? path.join(KOK, 'v2') : KOK;
 const IZINLI = [/^https:\/\/dadagastro\.com(\/|$)/, /^https:\/\/gaviaworks-dev\.github\.io(\/|$)/];
 // Gastro donörünün kendi dış bağları (yalnız <a href>; kaynak/iframe DEĞİL): resmî sosyal hesaplar, kardeş markalar, uygulama mağazaları,
 // tarif paylaşım uçları ve altbilgi imzası. Donörden aynen gelir; tıklanınca gerçek bir yere gider (boşa düşmez).
@@ -18,12 +21,12 @@ const DONOR_DIS = [/^https:\/\/(www\.)?(instagram\.com|facebook\.com|x\.com|twit
 let donorDis = 0;
 // Reklam veren hedefleri (REVİZE 1 madde 7): full-stack reklam modülünün render edilmiş verisindeki (src/video/reklam-donor.json, panel kaydı)
 // tıklama adresleri. Yalnız <a href> ve yalnız bu listedekiler; ayrı sayılır.
-const REKLAM_HEDEF = await (async () => { try { const h = await readFile(path.join(KOK, 'src/video/reklam-donor.json'), 'utf8'); return new Set([...h.matchAll(/https?:\/\/[^"\\\s]+/g)].map((m) => m[0].replace(/&amp;/g, '&'))); } catch { return new Set(); } })();
+const REKLAM_HEDEF = await (async () => { try { const h = await readFile(path.join(KOK, V2 ? 'src/v2/reklam-donor.json' : 'src/video/reklam-donor.json'), 'utf8'); return new Set([...h.matchAll(/https?:\/\/[^"\\\s]+/g)].map((m) => m[0].replace(/&amp;/g, '&'))); } catch { return new Set(); } })();
 let reklamDis = 0;
 const BILINEN_EKSIK = /varlik\/gastro\/varliklar\/fontawesome\/webfonts\/(fa-[a-z0-9-]+\.ttf|fa-v4compatibility\.(woff2|ttf))$/;
 const BOZ = !!process.env.BOZ;
 const BOZUK = '_kapi-bozuk-bag.html';
-if (BOZ) await writeFile(path.join(KOK, BOZUK), `<!doctype html><html><head><title>bozuk</title></head><body>
+if (BOZ) await writeFile(path.join(DIZIN, BOZUK), `<!doctype html><html><head><title>bozuk</title></head><body>
 <a href="#">boş parça</a> <a href="javascript:void(0)">js bağı</a> <a href="video-yok-boyle-bir-sayfa.html">eksik dosya</a>
 <a href="https://ornek-izinsiz.example.com/x">izinsiz dış</a> <a href="index.html#boyle-bir-id-yok">eksik parça</a></body></html>`);
 
@@ -56,9 +59,9 @@ async function coz(kaynakDosya, ham, nitelik) {
   if (parca && hedef.endsWith('.html') && nitelik !== 'css' && !(await idler(hedef)).has(decodeURIComponent(parca))) kaydet('eksik #parça', kaynakDosya, v);
 }
 
-const htmller = (await readdir(KOK)).filter((f) => f.endsWith('.html') && (BOZ ? f === BOZUK : !f.startsWith('_'))).sort();
+const htmller = (await readdir(DIZIN)).filter((f) => f.endsWith('.html') && (BOZ ? f === BOZUK : !f.startsWith('_'))).sort();
 for (const f of htmller) {
-  const dosya = path.join(KOK, f);
+  const dosya = path.join(DIZIN, f);
   const h = (await readFile(dosya, 'utf8')).replace(/<!--[\s\S]*?-->/g, '');
   const govde = h.replace(/<script\b(?![^>]*\bsrc=)[^>]*>[\s\S]*?<\/script>/gi, ''); // satır içi betik metni bağ değildir
   for (const m of govde.matchAll(/<(?:a|link|script|img|source|video|audio|iframe|form|input|use|image)\b[^>]*>/gi)) {
@@ -75,13 +78,13 @@ for (const f of htmller) {
 // prototip CSS'leri
 if (!BOZ) {
   const cssler = [];
-  for (const k of ['varlik/video', 'varlik/gastro']) for (const f of await readdir(path.join(KOK, k), { recursive: true })) if (f.endsWith('.css')) cssler.push(path.join(KOK, k, f));
+  for (const k of V2 ? ['varlik/v2', 'varlik/gastro'] : ['varlik/video', 'varlik/gastro']) for (const f of await readdir(path.join(KOK, k), { recursive: true })) if (f.endsWith('.css')) cssler.push(path.join(KOK, k, f));
   for (const c of cssler) {
-    const css = await readFile(c, 'utf8');
+    const css = (await readFile(c, 'utf8')).replace(/\/\*[\s\S]*?\*\//g, ''); // yorumdaki url() bağ değildir
     for (const m of css.matchAll(/url\(\s*(['"]?)([^'")]+)\1\s*\)/g)) { if (/^(data:|#|%23)/i.test(m[2])) continue; /* %23 = kaçışlı # (data: SVG içindeki filtre başvurusu) */ await coz(c, m[2], 'css'); }
   }
 }
-if (BOZ) await rm(path.join(KOK, BOZUK), { force: true });
+if (BOZ) await rm(path.join(DIZIN, BOZUK), { force: true });
 
 const grup = {};
 for (const [tur, dosya, deger] of sorunlar) (grup[tur] ||= []).push(`${path.relative(KOK, dosya)} → ${deger}`);
