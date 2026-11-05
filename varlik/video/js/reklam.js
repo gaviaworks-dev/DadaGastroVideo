@@ -101,7 +101,12 @@
     if (ft < w.innerHeight) return ret('footer görünür');
     const hero = d.querySelector('main [data-rk-hero]');
     if (hero) { const hb = hero.getBoundingClientRect().bottom; if (w.scrollY === 0 || hb > ust) return ret('hero header çizgisini geçmedi'); }
-    const top = ust + 24, eskiAlt = ust + (w.innerHeight - ust - 600) / 2 + 600, yuk = Math.round(eskiAlt - top);
+    const top = ust + 24, eskiAlt = ust + (w.innerHeight - ust - 600) / 2 + 600;
+    let yuk = Math.round(eskiAlt - top);
+    // prototip eki (R16): Gastro'nun "Başa dön" düğmesi (#toTop) sağ yan kartın sütununda duruyor; alt bar açıkken modül onu 100 px'e
+    // kaldırıyor ve kart üstüne biniyordu (tıklama karta gidiyordu). Kart düğmenin 12 px üstünde biter; genişlik, kenar ve üst modülün.
+    const yukari = d.getElementById('toTop');
+    if (yukari && getComputedStyle(yukari).display !== 'none') { const r = yukari.getBoundingClientRect(); if (r.right > w.innerWidth - 128 && r.top < top + yuk) yuk = Math.min(yuk, Math.floor(r.top - 12 - top)); }
     if (yuk < 360) return ret('side için dikey alan yok');
     const iki = w.innerWidth > 1366 && cift.querySelectorAll('.rk-std-side').length > 1;
     cift.style.setProperty('--rk-side-inset', '8px'); cift.style.setProperty('--rk-side-top', top + 'px');
