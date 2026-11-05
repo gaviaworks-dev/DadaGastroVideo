@@ -11,6 +11,21 @@
   `reklam-donor.json`la (not ayracı ayrı span değil) — kabuk tam derlemesinden sonra 390 alt barın ikinci satırı "prototip örneği" (başta "·" yok).
 - Commit yok (lead). Sunucum: `PORT=8798 node araclar/sunucu.mjs` (PID scratchpad `reklam/sunucu.pid`).
 
+### Üçüncü tur (5 Kas) — REKLAM SON
+- **Eşlik kartı çakışması (izle notu) giderildi:** dar panelde logo + "Sponsorlu" hapı kırılınca modülün sabit 30/34 px üst satırı ürün adının
+  üstüne biniyordu → yalnız `.vd-reklam` içinde `grid-template-rows: auto auto auto` (kolonlar/alanlar/boşluklar modülün). Ölçüm (izle menemen +
+  airfryer, 1440 kart 306 px · 390 kart 288 px): etiket↔ad, etiket↔sepet, logo↔sepet, logo↔ad çakışması 0; etiket ad'ın 8 px üstünde.
+  Görüntü: scratchpad `reklam/ss/eslik2-*-1440/390.png`.
+- **Kısa video adresi:** izle'nin kisa.js düzeltmesi (`kisaAdresi` sorguyu korur) kapıyla doğrulandı — kısa sayfada öğe değişince `reklam=1`
+  kalır; hub'da kısa kartla katman açılınca `video-kisa.html?reklam=1&v=…`, kapanınca `video-mutfagi.html?reklam=1`.
+- Kapıya eklenen: eşlik kartı üst üste binme (BOZ=eslik → "etiket↔ürün adı" kırmızı) · kısa adres (BOZ=kisaadres → hub "reklam=1 yok",
+  kısa "reklam=1 düştü" kırmızı). hub + kisa + izle: yeşil 278 · kırmızı 0.
+
+### SON KOŞUM (5 Kas, kabuk tam derlemesinden sonra — 72 sayfa)
+- `node araclar/reklam-kapisi.mjs` (6 tip × 1440/390 × reklamsız/reklamlı, gerçek sayfalar): **yeşil 533 · kırmızı 0** (⚪ hub'daki kapalı kısa katmanındaki yuva — kısa sayfasında ölçüldü).
+- `kirpma-kapisi.mjs` aynı 6 sayfa × 1440/390: `[data-vd-kirp]` 292 (kısalan 36) · **0 kırmızı** (reklamsız görünüm; reklamlı görünümde kelime ortası kesme reklam kapısının "CSS kesmesi" denetiminde, 0).
+- Derlenmiş sayfalarda yeni donör var (not ayracı ayrı span). Sunucum 8798 PID'iyle kapatıldı. **REKLAM İŞİ BİTTİ.**
+
 ## Dosyalarım
 | dosya | ne |
 |---|---|

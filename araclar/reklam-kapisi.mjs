@@ -7,7 +7,7 @@
 //   anahtar    : force'suz, isabeti doğrulanmış tıklama → adres ?reklam=1 olur / kalkar; iç bağlar (*.html) parametreyi taşır / bırakır
 // Kullanım: TABAN=http://localhost:8798/DadaGastroVideo/ node araclar/reklam-kapisi.mjs [--sinama] [tip…]
 //   --sinama : reklam ajanının geçici rk-sinama-<tip>.html sayfaları (entegrasyondan önce)
-//   BOZ=gorunur|depo|bag|gorsel|ortu|anahtar|kesme → bilerek bozulmuş düzenek; kapı KIRMIZI vermeli
+//   BOZ=gorunur|depo|bag|gorsel|ortu|anahtar|kesme|eslik|kisaadres → bilerek bozulmuş düzenek; kapı KIRMIZI vermeli
 import { chromium } from 'playwright';
 
 const TABAN = process.env.TABAN || 'http://localhost:8798/DadaGastroVideo/';
@@ -50,9 +50,11 @@ async function sayfaAc(b, t, gen, sorgu) {
       await rt.fulfill({ response: yan, body: js });
     });
   }
+  if (BOZ === 'kisaadres') await p.route('**/varlik/video/js/kisa.js*', async (rt) => { const yan = await rt.fetch(); const js = (await yan.text()).replace(/function kisaAdresi\(slug\) \{/, "function kisaAdresi(slug) { return 'video-kisa.html?v=' + encodeURIComponent(slug);"); await rt.fulfill({ response: yan, body: js }); });
   if (BOZ === 'gorsel') await p.route('**/varlik/video/reklam/*-urun.webp', (rt) => rt.fulfill({ status: 404, body: '' }));
   await p.goto(TABAN + sayfaAdi(t) + sorgu, { waitUntil: 'load' });
   await bekle(p, 900);
+  if (BOZ === 'eslik') await p.addStyleTag({ content: '.vd-reklam .ing-row.rk-malzeme.eslik-kart{grid-template-rows:30px auto auto!important}' });
   if (BOZ === 'ortu') await p.addStyleTag({ content: '.rk-std-altbar{top:40vh!important;bottom:auto!important}' });
   return { p, hata, kotu, reklamYanit };
 }
@@ -93,8 +95,15 @@ async function yuvaDenetle(p, kod) {
       const kotuImg = imgs.filter((i) => !i.naturalWidth).map((i) => i.getAttribute('src'));
       const bg = [...k.querySelectorAll('.eslik-kart-gorsel, .eslik-kart-logo')].map((n) => getComputedStyle(n).backgroundImage);
       const metinGorunur = (re) => { const w = document.createTreeWalker(k, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (re.test(n.textContent) && g(n.parentElement)) return true; return false; };
+      let cakisma = [];
+      if (k.querySelector('.eslik-kart')) { // eşlik kartı: "Sponsorlu" hapı ürün adına / sepete / logoya binmemeli
+        const R = (s2) => { const e = k.querySelector(s2); return e && g(e) ? e.getBoundingClientRect() : null; };
+        const kes = (a, c) => a && c && a.left < c.right - 0.5 && c.left < a.right - 0.5 && a.top < c.bottom - 0.5 && c.top < a.bottom - 0.5;
+        const et = R('.rk-etiket'), ad = R('.eslik-kart-ad'), sep = R('.ing-add'), logo = R('.eslik-kart-logo');
+        if (kes(et, ad)) cakisma.push('etiket↔ürün adı'); if (kes(et, sep)) cakisma.push('etiket↔sepet'); if (kes(logo, sep)) cakisma.push('logo↔sepet'); if (kes(logo, ad)) cakisma.push('logo↔ürün adı');
+      }
       const kutu = hedef.getBoundingClientRect();
-      s.push({ dolu: true, gorunur: g(hedef) && kutu.width > 0 && kutu.height > 0, img: imgs.length, kotuImg, bgYok: bg.filter((x) => x === 'none').length, sponsorlu: metinGorunur(/Sponsorlu/), ornek: metinGorunur(/prototip örneği/i) });
+      s.push({ dolu: true, gorunur: g(hedef) && kutu.width > 0 && kutu.height > 0, img: imgs.length, kotuImg, bgYok: bg.filter((x) => x === 'none').length, sponsorlu: metinGorunur(/Sponsorlu/), ornek: metinGorunur(/prototip örneği/i), cakisma });
     }
     return { s };
   }, kod);
@@ -212,6 +221,7 @@ for (const t of SECIM) {
           sonuc(x.kotuImg.length === 0 && x.bgYok === 0, `${e} kırık görsel ${x.kotuImg.join(', ')}${x.bgYok ? ` · zemin görseli yok ${x.bgYok}` : ''}`);
           sonuc(x.sponsorlu, `${e} "Sponsorlu" görünmüyor`);
           sonuc(x.ornek, `${e} "prototip örneği" görünmüyor`);
+          sonuc(!x.cakisma || x.cakisma.length === 0, `${e} üst üste binme: ${(x.cakisma || []).join(', ')}`);
         });
       }
       if (BEKLENEN[t].includes('STD')) {
@@ -227,6 +237,28 @@ for (const t of SECIM) {
       }
       const ib = await p.evaluate(() => { const ic = [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')).filter((h) => !/^(?:[a-z]+:|\/\/|#)/i.test(h) && /^[^?#]*\.html(?:[?#]|$)/.test(h)); return [ic.filter((h) => /[?&]reklam=1(?:&|#|$)/.test(h)).length, ic.length]; });
       sonuc(ib[1] > 0 && ib[0] === ib[1], `${et}: iç bağlar parametre taşımıyor (${ib[0]}/${ib[1]})`);
+      // kısa video adresleri reklam=1'i korur: kısa sayfada öğe değişince (replaceState) · hub'da katman açılınca (pushState) ve kapanınca
+      if (t === 'kisa') {
+        const once = new URL(p.url()).searchParams.get('v');
+        await p.keyboard.press('ArrowDown'); await bekle(p, 900);
+        const u = new URL(p.url());
+        sonuc(u.searchParams.get('reklam') === '1' && u.searchParams.get('v') && u.searchParams.get('v') !== once, `${et}: öğe değişince adres ${u.search} (reklam=1 düştü ya da v değişmedi)`);
+      }
+      if (t === 'hub') {
+        const bag = p.locator('a[data-vd-kisa]').first();
+        await bag.evaluate((n) => n.scrollIntoView({ block: 'center', behavior: 'instant' })); await bekle(p, 300);
+        const isabet = await bag.evaluate((n) => { const r = n.getBoundingClientRect(); const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && (e === n || n.contains(e)); });
+        if (!isabet) sonuc(false, `${et}: kısa kart tıklaması isabet etmedi`);
+        else {
+          await bag.click(); await bekle(p, 900);
+          const u1 = new URL(p.url());
+          sonuc(/video-kisa\.html$/.test(u1.pathname) && u1.searchParams.get('v') && u1.searchParams.get('reklam') === '1', `${et}: kısa katman açılınca adres ${u1.pathname.split('/').pop()}${u1.search} (reklam=1 yok)`);
+          const kapat = p.locator('[data-vd-dikey][data-katman] [data-vd-dikey-kapat]').first();
+          await kapat.click(); await bekle(p, 900);
+          const u2 = new URL(p.url());
+          sonuc(/video-mutfagi\.html$/.test(u2.pathname) && u2.searchParams.get('reklam') === '1' && !u2.searchParams.get('v'), `${et}: katman kapanınca adres ${u2.pathname.split('/').pop()}${u2.search}`);
+        }
+      }
       // kelime ortasından kesme yok: reklam yuvalarında CSS'in (ellipsis / line-clamp) metin sakladığı görünür öğe kalmamalı
       const kesik = await p.evaluate(async () => {
         const out = [];

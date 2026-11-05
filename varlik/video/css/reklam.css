@@ -45,6 +45,9 @@ html.vd-reklamli body { padding-bottom: var(--vd-rk-alt-bosluk, 0px); }
 /* Eşlik kartı izleme sayfasının malzeme panelinde (tarif sayfasının sağ kolonundan dar, 390'da ~300 px): logo + "Sponsorlu" hapı sepet
    düğmesinin altına girmesin diye satır kırılabilir (karar R8). */
 .vd-reklam .eslik-kart-ust { flex-wrap: wrap; row-gap: 4px; }
+/* …ve kırılınca etiket kendi satırında kalsın: modül üst satırı sabit 30/34 px tanımlıyor (geniş tarif kolonu için); dar kapta satır
+   içeriği kadar uzar, ürün adının üstüne binmez (izle notu, 5 Kas). Kolonlar, alanlar ve boşluklar modülün. */
+.vd-reklam .ing-row.rk-malzeme.eslik-kart { grid-template-rows: auto auto auto; }
 
 /* Seri sponsor hapı başlık/eyebrow çevresinde durur; başlığın harf aralığını ve satır yüksekliğini devralmasın */
 html.vd-reklamli .vd-reklam--etiket:not([hidden]) { display: flex !important; margin: 4px 0 8px; justify-content: flex-start; } /* modülün "sağ" hizası satır içi kalıp içindir; prototipte başlığın altında sola (karar R9) */
