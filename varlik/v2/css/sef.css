@@ -1,0 +1,72 @@
+/* =====================================================================
+   VIDEO MUTFAĞI V2 · ŞEF KANALI (izle ajanı) — v2/video-sef-<kullanıcı>.html
+   donör: bnp banner + panel (iskelet, kabuk) · Gastro .sef-card (sefler.css) · .bnp-tabwrap/.pf-tabs/.dt (tokens/portal) ·
+   .sec-head/.eyebrow/.lead/.see-all, .btn, .r-card; hub kartları (video.css). Takipçi/izlenme sayısı YOK.
+   ===================================================================== */
+.vd-kanal { --vdc-r: var(--radius-md, 12px); --vdc-r-k: var(--radius-sm, 8px); --vdc-vurgu: var(--tomato, #DC3D17); --vdc-vurgu-k: var(--tomato-dark, #BA3413);
+  --vdc-murekkep: var(--ink, #211E16); --vdc-ikincil: var(--muted, #6F6F6F); --vdc-cizgi: var(--line, #ECECEC);
+  --vdc-kalin: GilroyBd, var(--font, "Gilroy", system-ui, sans-serif); --vdc-ekstra: GilroyXB, var(--font, "Gilroy", system-ui, sans-serif); color: var(--vdc-murekkep); }
+.vd-kanal [hidden] { display: none !important; }
+
+/* 1 · V1'in kanal başlığı V2'de banner'a taşındı (iskelet.mjs, bnp donörü); burada yalnız panel içi */
+.vd-kanal__tanitim { max-width: 64ch; margin: 0; color: #4A453D; font-size: 15.5px; line-height: 1.6; }
+.vd-kanal__tanitim .vd-ornek { margin-right: 8px; }
+.vd-kanal__aksiyon { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.vd-kanal__aksiyon .btn { min-height: 48px; padding: 0 24px; }
+
+/* 2 · V2 üst satır: Gastro şef kartı (.sef-card, sefler.css) + tanıtım; sekmeler Gastro .bnp-tabwrap > .pf-tabs > .dt (tokens/portal) */
+.vd-kanal__ust { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; align-items: center; margin-bottom: 48px; }
+.vd-kanal__kart .sef-card { margin: 0; }
+.vd-kanal__metin { min-width: 0; }
+.vd-kanal__metin .eyebrow { margin-bottom: 12px; }
+.vd-kanal__govde { padding-bottom: 0; }
+.vd-kanal__sekmeler { margin-bottom: 24px; }
+.vd-kanal__panel { outline: none; }
+.vd-kanal__panel:focus-visible { outline: 3px solid var(--vdc-vurgu); outline-offset: 8px; border-radius: var(--vd-kart-r, 16px); }
+.vd-kanal__panel-bas.sec-head { margin-bottom: 24px; }
+.vd-kanal__panel-bas h2 { font-size: 28px; }
+
+/* Videolar (V2): 5 bölüm eşit kart — 5 sütun tek satır; ≤1180 yatay kayan iz; ≤640 tek sütun (yarım satır yok, kart boyları eşit) */
+.vd-kanal__izgara--bes { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 24px 16px; }
+.vd-kanal__izgara--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.vd-kanal .vd-kart .r-body h3 { margin: 0 0 8px; font-size: 16.5px; line-height: 1.22; }
+.vd-kanal .vd-kart .r-body h3 a { color: inherit; }
+
+/* Seriler: afiş + bölüm listesi */
+.vd-kanal__seri { display: grid; grid-template-columns: 380px minmax(0, 1fr); gap: 32px; align-items: start; }
+.vd-kanal__seri + .vd-kanal__seri { margin-top: 48px; }
+.vd-kanal__seri-liste { display: grid; gap: 12px; min-width: 0; }
+.vd-kanal__seri-bas { margin: 0 0 4px; color: var(--vdc-ikincil); font: 700 14px/1.2 var(--vdc-kalin); letter-spacing: .04em; text-transform: uppercase; }
+.vd-kanal__kisa-liste { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.vd-kanal__kisa-liste a { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; padding: 8px 12px; border-radius: var(--vd-kart-r, 16px); background: var(--paper, #fff); border: 1px solid var(--vdc-cizgi); color: var(--vdc-murekkep); text-decoration: none; }
+.vd-kanal__kisa-liste a:hover { border-color: var(--vdc-vurgu); }
+.vd-kanal__kisa-liste span { color: var(--vdc-ikincil); font: 800 14px/1 var(--vdc-ekstra); font-variant-numeric: tabular-nums; }
+.vd-kanal__kisa-liste b { font: 700 15px/1.3 var(--vdc-kalin); }
+.vd-kanal__kisa-liste small { color: var(--vdc-ikincil); font-size: 13px; }
+
+/* Yazılı tarifler: Gastro .r-card, görsel <img> ile */
+.vd-kanal__tarif .r-media { height: auto; aspect-ratio: 3 / 2; overflow: hidden; background: var(--cream, #EFE5D3); }
+.vd-kanal__tarif .r-body h3 { margin: 0 0 8px; font-size: 16.5px; line-height: 1.25; }
+.vd-kanal__tarif .r-body h3 a { color: inherit; }
+.vd-kanal__tarif .r-body h3 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+.vd-kanal__tarif { position: relative; }
+.vd-kanal__bos { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 48px 24px; border: 1px dashed var(--vdc-cizgi); border-radius: var(--vd-kart-r, 16px); background: var(--paper, #fff); text-align: center; }
+.vd-kanal__bos i { color: var(--vdc-vurgu); font-size: 28px; }
+.vd-kanal__bos p { max-width: 48ch; margin: 0; color: #4A453D; font-size: 16px; line-height: 1.5; }
+
+@media (max-width: 1180px) {
+  .vd-kanal__izgara--bes { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  .vd-kanal__izgara--bes > * { flex: 0 0 calc((100% - 32px) / 2.4); scroll-snap-align: start; }
+}
+@media (max-width: 860px) {
+  .vd-kanal__seri { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+}
+@media (max-width: 640px) {
+  .vd-kanal__ust { grid-template-columns: minmax(0, 1fr); gap: 24px; margin-bottom: 32px; }
+  .vd-kanal__kart { width: 100%; max-width: 280px; margin-inline: auto; }
+  .vd-kanal__aksiyon .btn { flex: 1 1 100%; }
+  .vd-kanal__sekmeler { margin-bottom: 24px; }
+  .vd-kanal__panel-bas h2 { font-size: 24px; }
+  .vd-kanal__izgara--bes { display: grid; overflow: visible; grid-template-columns: minmax(0, 1fr); }
+  .vd-kanal__izgara--2 { grid-template-columns: minmax(0, 1fr); }
+}

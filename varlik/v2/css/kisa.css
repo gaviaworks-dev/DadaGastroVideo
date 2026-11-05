@@ -1,0 +1,99 @@
+/* =====================================================================
+   VIDEO MUTFAĞI · KISA VİDEO GÖRÜNTÜLEYİCİ (1.3) — izle ajanı · vd-dikey
+   Tam ekran dikey akış (Reels mantığı): her video bir ekran, scroll-snap; 1440'ta ortada 9:16 sahne + iki yanda karartılmış
+   bulanık zemin + yukarı/aşağı düğmeleri. Gastro'da karşılığı yok (yeni bileşen). Köşe 12px · rozet 8px · vurgu Gastro kırmızısı.
+   ===================================================================== */
+html.vd-dikey-acik, html.vd-dikey-acik body { overflow: hidden; overscroll-behavior: none; }
+/* bildirimler (Gastro .ke-toast / .dm-toast-kap) katmanın üstünde görünsün */
+html.vd-dikey-acik .ke-toast, html.vd-dikey-acik .dm-toast-kap { z-index: 2600; top: 76px; bottom: auto; }
+.vd-dikey { --vdk-vurgu: var(--tomato, #DC3D17); --vdk-vurgu-k: var(--tomato-dark, #BA3413); --vdk-r: var(--radius-md, 12px); --vdk-r-k: var(--radius-sm, 8px);
+  --vdk-kalin: GilroyBd, var(--font, "Gilroy", system-ui, sans-serif); --vdk-ekstra: GilroyXB, var(--font, "Gilroy", system-ui, sans-serif);
+  --vdk-ust: 72px; --vdk-yuk: calc(100dvh - var(--vdk-ust) - 24px); --vdk-gen: min(calc(var(--vdk-yuk) * 9 / 16), 100vw);
+  position: fixed; inset: 0; z-index: 2500; background: #0d0b09; color: #fff; font-family: var(--font, "Gilroy", system-ui, sans-serif); }
+.vd-dikey[hidden] { display: none !important; }
+.vd-dikey [hidden] { display: none !important; }
+
+/* bulanık, karartılmış zemin (etkin videonun posteri) */
+.vd-dikey__zemin { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.vd-dikey__zemin img { width: 100%; height: 100%; object-fit: cover; filter: blur(48px) saturate(1.1) brightness(.32); transform: scale(1.2); transition: opacity .4s ease; }
+
+/* üst: segment ilerleme + kapat · seri · sıra */
+.vd-dikey__ust { position: absolute; left: 0; right: 0; top: 0; z-index: 3; display: flex; flex-direction: column; gap: 12px; width: var(--vdk-gen); margin: 0 auto; padding: 12px 0 0; pointer-events: none; }
+.vd-dikey__segmentler { display: flex; gap: 4px; }
+.vd-dikey__segmentler > span { flex: 1 1 0; height: 3px; border-radius: 2px; background: rgba(255, 255, 255, .28); overflow: hidden; }
+.vd-dikey__segmentler > span > span { display: block; height: 100%; width: 100%; transform-origin: 0 50%; transform: scaleX(var(--o, 0)); background: #fff; }
+.vd-dikey__ust-satir { display: flex; align-items: center; gap: 12px; min-height: 44px; pointer-events: auto; }
+.vd-dikey__kapat { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px 0 12px; border: 1px solid rgba(255, 255, 255, .22); border-radius: var(--vdk-r); background: rgba(0, 0, 0, .45); color: #fff !important; font: 700 14px/1 var(--vdk-kalin); text-decoration: none; cursor: pointer; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.vd-dikey__kapat:hover { background: rgba(0, 0, 0, .65); }
+.vd-dikey__seri { flex: 1 1 auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font: 700 14px/1.2 var(--vdk-kalin); text-shadow: 0 1px 6px rgba(0, 0, 0, .5); }
+.vd-dikey__seri i { color: #FFB59E; }
+.vd-dikey__sira { min-width: 56px; padding: 8px 8px; border-radius: var(--vdk-r-k); background: rgba(0, 0, 0, .45); font: 700 13px/1 var(--vdk-kalin); text-align: center; font-variant-numeric: tabular-nums; }
+
+/* akış: her öğe bir ekran, dikey snap */
+.vd-dikey__akis { position: absolute; inset: 0; z-index: 1; overflow-y: auto; overscroll-behavior: contain; scroll-snap-type: y mandatory; scrollbar-width: none; outline: none; }
+.vd-dikey__akis::-webkit-scrollbar { display: none; }
+.vd-dikey__oge { height: 100dvh; scroll-snap-align: start; scroll-snap-stop: always; display: flex; align-items: flex-end; justify-content: center; padding: 0 0 12px; box-sizing: border-box; }
+.vd-dikey__sahne { position: relative; width: var(--vdk-gen); height: var(--vdk-yuk); overflow: hidden; border-radius: var(--vdk-r); background: #1b1612; box-shadow: 0 30px 80px -30px rgba(0, 0, 0, .9); cursor: pointer; }
+.vd-dikey__poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); }
+.vd-dikey__oge.is-oynuyor .vd-dikey__poster, .vd-dikey__oge.is-durdu .vd-dikey__poster { animation: vdk-kb 18s ease-in-out infinite alternate; }
+.vd-dikey__oge.is-durdu .vd-dikey__poster { animation-play-state: paused; }
+@keyframes vdk-kb { from { transform: scale(1.04) translateY(0); } to { transform: scale(1.18) translateY(-2%); } }
+@media (prefers-reduced-motion: reduce) { .vd-dikey__poster { animation: none !important; } }
+.vd-dikey__poster--yazi { display: grid; place-items: center; background: radial-gradient(120% 80% at 50% 25%, #3a281c, #120f0c 70%); color: var(--vdk-vurgu); font-size: 64px; }
+.vd-dikey__perde { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0, 0, 0, .45) 0%, rgba(0, 0, 0, 0) 22%, rgba(0, 0, 0, 0) 48%, rgba(0, 0, 0, .82) 100%); }
+.vd-dikey__temsili { position: absolute; left: 12px; top: 12px; padding: 4px 8px; border-radius: var(--vdk-r-k); background: rgba(0, 0, 0, .5); color: rgba(255, 255, 255, .86); font-size: 11px; font-weight: 500; pointer-events: none; }
+.vd-dikey__durum { position: absolute; left: 50%; top: 45%; display: grid; place-items: center; width: 72px; height: 72px; margin: 0; translate: -50% -50%; border-radius: 50%; background: rgba(0, 0, 0, .5); font-size: 26px; opacity: 0; transform: scale(.85); transition: opacity .2s ease, transform .2s ease; pointer-events: none; }
+.vd-dikey__durum i { margin-left: 4px; }
+.vd-dikey__oge.is-durdu .vd-dikey__durum { opacity: 1; transform: none; }
+
+.vd-dikey__bilgi { position: absolute; left: 0; right: 76px; bottom: 0; padding: 16px; pointer-events: none; }
+.vd-dikey__bilgi a { pointer-events: auto; }
+.vd-dikey__rozetler { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.vd-dikey__rozet { padding: 4px 8px; border-radius: var(--vdk-r-k); background: var(--vdk-vurgu); color: #fff; font: 700 12px/1.2 var(--vdk-kalin); }
+.vd-dikey__baslik { margin: 0; color: #fff !important; font: 800 21px/1.18 var(--vdk-ekstra) !important; letter-spacing: -.01em; text-shadow: 0 1px 8px rgba(0, 0, 0, .45); }
+.vd-dikey__ozet { margin: 8px 0 0; color: rgba(255, 255, 255, .88); font-size: 14px; line-height: 1.45; }
+.vd-dikey__mz { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; }
+.vd-dikey__mz li { padding: 4px 8px; border-radius: var(--vdk-r-k); background: rgba(255, 255, 255, .16); font-size: 12.5px; }
+.vd-dikey__kim { display: flex; align-items: center; gap: 8px; margin: 12px 0 0; color: rgba(255, 255, 255, .8); font-size: 13px; }
+.vd-dikey__kim img, .vd-dikey__kim > span[aria-hidden] { flex: none; width: 24px; height: 24px; border-radius: 50%; object-fit: cover; }
+.vd-dikey__kim > span[aria-hidden] { display: grid; place-items: center; background: #fff; color: var(--vdk-vurgu-k); font: 700 9.5px/1 var(--vdk-kalin); }
+.vd-dikey__kim a { color: #fff !important; font-weight: 700; text-decoration: none; }
+.vd-dikey__kim a:hover { text-decoration: underline; }
+
+/* sağ kolon eylemleri */
+.vd-dikey__eylemler { position: absolute; right: 8px; bottom: 16px; display: flex; flex-direction: column; gap: 12px; }
+.vd-dikey__eylem { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; padding: 0; border: 0; background: transparent; color: #fff !important; font: 700 11.5px/1.2 var(--vdk-kalin); text-align: center; text-decoration: none; cursor: pointer; text-shadow: 0 1px 6px rgba(0, 0, 0, .5); }
+.vd-dikey__eylem-ikon { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; background: rgba(0, 0, 0, .45); font-size: 19px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: background .15s ease, transform .15s ease; }
+.vd-dikey__eylem:hover .vd-dikey__eylem-ikon { background: rgba(0, 0, 0, .7); transform: scale(1.05); }
+.vd-dikey__eylem[aria-pressed="true"] .vd-dikey__eylem-ikon { background: var(--vdk-vurgu); }
+.vd-dikey__eylem[aria-pressed="true"] .vd-dikey__kapali, .vd-dikey__eylem:not([aria-pressed="true"]) .vd-dikey__acik { display: none; }
+.vd-dikey__eylem:focus-visible, .vd-dikey__kapat:focus-visible, .vd-dikey__git:focus-visible { outline: 3px solid #fff; outline-offset: 2px; border-radius: var(--vdk-r); }
+
+/* yukarı/aşağı düğmeleri (geniş ekran) */
+.vd-dikey__gezinti { position: absolute; z-index: 3; top: 50%; left: calc(50% + var(--vdk-gen) / 2 + 32px); display: flex; flex-direction: column; gap: 12px; transform: translateY(-50%); }
+.vd-dikey__git { display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid rgba(255, 255, 255, .22); border-radius: 50%; background: rgba(255, 255, 255, .1); color: #fff; font-size: 18px; cursor: pointer; transition: background .15s ease; }
+.vd-dikey__git:hover:not(:disabled) { background: rgba(255, 255, 255, .22); }
+.vd-dikey__git:disabled { opacity: .3; cursor: default; }
+.vd-dikey__ipucu { position: absolute; z-index: 3; left: calc(50% + var(--vdk-gen) / 2 + 32px); bottom: 32px; display: flex; align-items: center; gap: 8px; margin: 0; color: rgba(255, 255, 255, .55); font-size: 13px; }
+
+/* dar ekran (telefon): sahne tam ekran, köşesiz; üst satır sahnenin üstünde */
+@media (max-width: 640px), (max-aspect-ratio: 3/4) {
+  .vd-dikey { --vdk-ust: 0px; --vdk-yuk: 100dvh; --vdk-gen: 100vw; }
+  .vd-dikey__oge { padding: 0; }
+  .vd-dikey__sahne { border-radius: 0; box-shadow: none; }
+  .vd-dikey__ust { padding: 8px 12px 0; width: 100%; box-sizing: border-box; }
+  .vd-dikey__temsili { top: 72px; }
+  .vd-dikey__kapat span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .vd-dikey__kapat { width: 44px; padding: 0; justify-content: center; }
+  .vd-dikey__gezinti, .vd-dikey__ipucu { display: none; }
+  .vd-dikey__bilgi { right: 72px; padding: 16px 16px calc(24px + env(safe-area-inset-bottom)); }
+  .vd-dikey__eylemler { right: 6px; bottom: calc(20px + env(safe-area-inset-bottom)); }
+  .vd-dikey__baslik { font-size: 19px !important; }
+}
+
+/* Reklamlı görünümde sponsorlu öğenin kabı akışta kutu kurmaz (öğe doğrudan scroll-snap alanı olur) */
+.vd-dikey__akis > .vd-reklam--kisa:not([hidden]) { display: contents; }
+/* Reklamlı görünüm anahtarı tam ekran görüntüleyicinin üst satırında (Gastro .chip): dar sahnede yalnız simge, ad ekran okuyucuda */
+.vd-dikey__ust-satir .vd-rk-anahtar { flex: none; min-height: 44px; padding: 0 12px; }
+.vd-dikey__ust-satir .vd-rk-anahtar__metin { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.vd-dikey__kapat, .vd-dikey__seri { white-space: nowrap; }

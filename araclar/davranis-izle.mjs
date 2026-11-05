@@ -29,6 +29,7 @@ const BOZMALAR = {
   kisa: [/js\/kisa\.js/, "try { history.replaceState(history.state, '', kisaAdresi(slug)); } catch (_) { /* file:// vb. */ }", 'void slug;'],
   katman: [/js\/kisa\.js/, "var g = o.closest('[hidden]'); return !g || g === kok;", "return !o.closest('[hidden]');"],
   sekme: [/js\/sef\.js/, 'if (p) p.hidden = !on;', 'void p;'],
+  takip: [/video\.js/, "VD.takip(b.getAttribute('data-vd-takip'), b.getAttribute('data-ad'));", 'void 0;'],
   jsonld: [/video-izle-tek-tavada-klasik-menemen\.html/, '"@type":"Clip"', '"@type":"Clip","_":1}],"x":[{'],
 };
 if (BOZ === 'liste') { console.log(Object.keys(BOZMALAR).join(' ')); process.exit(0); }
@@ -188,6 +189,27 @@ for (const bas of ['video-mutfagi.html', 'video-mutfagi.html?reklam=1']) {
   const rk = bas.includes('reklam=1');
   kayit(`hub kısa video katmanı açılır/kapanır${rk ? ' (reklamlı)' : ''}`, indi && acik && u1.pathname.endsWith('video-kisa.html') && !!u1.searchParams.get('v') && (u1.searchParams.get('reklam') === '1') === rk && /^1 \/ (9|10)$/.test(sira) && u2.pathname.endsWith('video-mutfagi.html') && (u2.searchParams.get('reklam') === '1') === rk && !(await gorunur(p, '.vd-dikey--katman')), `açık ${acik}, adres ${u1.pathname.split('/').pop()}${u1.search}, sayaç "${sira}", Esc sonrası ${u2.pathname.split('/').pop()}${u2.search}`);
   kayit(`JS hatası 0 (hub katmanı${rk ? ', reklamlı' : ''})`, p.__hatalar.length === 0, p.__hatalar.join(' | '));
+  await p.context().close();
+}
+
+/* ---------- 3c · Takip Et (Gastro şef kartı düğmesi, data-vd-takip): gerçek tıklama → aynı şefin bütün düğmeleri birlikte çevrilir,
+   kart tıklaması (onclick yönlendirme) tetiklenmez, adres değişmez ---------- */
+for (const [sayfa, gen, yuk, mobil] of [[IZLE, 1440, 900, false], ['video-sef-berkan-gunes.html', 390, 844, true], ['video-mutfagi.html', 1440, 900, false]]) {
+  const p = await sayfaAc(sayfa, { gen, yuk, mobil });
+  const once = p.url();
+  const k = await p.locator('[data-vd-takip]').first().getAttribute('data-vd-takip').catch(() => null);
+  if (!k) { kayit(`takip ${sayfa} @${gen}`, false, 'sayfada [data-vd-takip] yok'); await p.context().close(); continue; }
+  const sec = `[data-vd-takip="${k}"]`;
+  const n = await p.locator(sec).count();
+  const indi = await tikla(p, sec);
+  await p.waitForTimeout(400);
+  const durum = await p.$$eval(sec, (l) => l.map((b) => [b.getAttribute('aria-pressed'), b.textContent.trim()]));
+  const bildirim = await bildirimVar(p, 'takip ediliyor');
+  const sonra = p.url();
+  const indi2 = await tikla(p, sec);
+  await p.waitForTimeout(300);
+  const geri = await p.$$eval(sec, (l) => l.every((b) => b.getAttribute('aria-pressed') === 'false'));
+  kayit(`takip: ${sayfa} @${gen}`, indi && indi2 && durum.every(([a]) => a === 'true') && bildirim && sonra === once && geri, `${k} düğmesi ${n} adet → ${JSON.stringify(durum)}; bildirim ${bildirim}; adres ${sonra === once ? 'aynı' : 'DEĞİŞTİ ' + sonra}; ikinci tıklama geri ${geri}`);
   await p.context().close();
 }
 
