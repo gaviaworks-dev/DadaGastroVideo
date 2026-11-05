@@ -9,7 +9,7 @@
 //   anahtar    : force'suz, isabeti doğrulanmış tıklama → adres ?reklam=1 olur / kalkar; iç bağlar (*.html) parametreyi taşır / bırakır
 // Kullanım: TABAN=http://localhost:8798/DadaGastroVideo/v2/ node araclar/reklam-kapisi-v2.mjs [--sinama] [tip…]
 //   --sinama : reklam ajanının geçici rk-sinama-<tip>.html sayfaları (entegrasyondan önce)
-//   BOZ=gorunur|depo|bag|gorsel|ortu|anahtar|kesme|eslik|kisaadres|hero|kirinti|yanust → bilerek bozulmuş düzenek; kapı KIRMIZI vermeli
+//   BOZ=gorunur|depo|bag|gorsel|ortu|anahtar|kesme|eslik|kisaadres|hero|kirinti|yanust|wrap → bilerek bozulmuş düzenek; kapı KIRMIZI vermeli
 import { chromium } from 'playwright';
 
 const TABAN = process.env.TABAN || 'http://localhost:8798/DadaGastroVideo/v2/';
@@ -19,6 +19,7 @@ const SINAMA = arg.includes('--sinama');
 const GERCEK = {
   hub: 'video-mutfagi.html', seriler: 'video-seriler.html', seri: 'video-seri-akilli-ekipman-test.html',
   izle: 'video-izle-airfryer-kullanirken-yapilan-5-kritik-hata.html', sef: 'video-sef-polat-abadan.html', kisa: 'video-kisa.html',
+  sefler: 'video-sefler.html',
 };
 // sayfa tipi → tanımlı yuvalar (tasks/reklam-durum.md yerleşim planı)
 const BEKLENEN = {
@@ -28,6 +29,7 @@ const BEKLENEN = {
   izle: ['VD-S1', 'VD-S1-END', 'TD-ESLIK', 'SERI-SPONSOR', 'STD'],
   sef: ['SF-P1', 'SF-P1-END', 'STD'],
   kisa: ['VD-N1'],
+  sefler: ['SF-L1', 'SF-N2', 'SF-L1-END', 'STD'], // modülün şef dizini planı (sef-liste)
 };
 const tipler = arg.filter((a) => !a.startsWith('--'));
 const SECIM = (tipler.length ? tipler : Object.keys(BEKLENEN));
@@ -57,6 +59,7 @@ async function sayfaAc(b, t, gen, sorgu) {
   if (BOZ === 'gorsel') await p.route('**/varlik/video/reklam/*-urun.webp', (rt) => rt.fulfill({ status: 404, body: '' }));
   await p.goto(TABAN + sayfaAdi(t) + sorgu, { waitUntil: 'load' });
   await bekle(p, 900);
+  if (BOZ === 'wrap') await p.addStyleTag({ content: '.wrap .vd-reklam > .rk-yayilim-alan.wrap{padding-inline:32px!important}' });
   if (BOZ === 'kirinti') await p.addStyleTag({ content: '.rd-crumb{padding-right:0!important}' });
   if (BOZ === 'yanust') await p.addStyleTag({ content: '[data-rk-side-pair] .rk-std-side{top:60px!important}' });
   if (BOZ === 'eslik') await p.addStyleTag({ content: '.vd-reklam .ing-row.rk-malzeme.eslik-kart{grid-template-rows:30px auto auto!important}' });
@@ -174,7 +177,7 @@ async function anahtarDenetle(p) {
     if (BOZ === 'anahtar') await p.evaluate(() => { const b = document.querySelector('[data-vd-reklam-anahtari]'); b.replaceWith(b.cloneNode(true)); document.querySelector('[data-vd-reklam-anahtari]').addEventListener('click', (e) => e.stopImmediatePropagation(), true); });
     await b.click(); await bekle(p, 900); return true;
   };
-  const baglar = () => p.evaluate(() => { const ic = [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')).filter((h) => !/^(?:[a-z]+:|\/\/|#)/i.test(h) && /^[^?#]*\.html(?:[?#]|$)/.test(h)); return { n: ic.length, param: ic.filter((h) => /[?&]reklam=1(?:&|#|$)/.test(h)).length }; });
+  const baglar = () => p.evaluate(() => { const ic = [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')).concat([...document.querySelectorAll('[onclick*="location.href="]')].flatMap((n) => [...n.getAttribute('onclick').matchAll(/location\.href=['"]([^'"]+)['"]/g)].map((m) => m[1]))).filter((h) => !/^(?:[a-z]+:|\/\/|#)/i.test(h) && /^[^?#]*\.html(?:[?#]|$)/.test(h)); return { n: ic.length, param: ic.filter((h) => /[?&]reklam=1(?:&|#|$)/.test(h)).length }; });
   const r = {};
   r.anahtarVar = await p.locator('[data-vd-reklam-anahtari]').count();
   if (!r.anahtarVar) return r;
@@ -184,6 +187,84 @@ async function anahtarDenetle(p) {
   r.isabet2 = await tikla(); r.adres2 = new URL(p.url()).searchParams.get('reklam'); r.bag2 = await baglar();
   r.kap2 = await p.evaluate(() => [...document.querySelectorAll('[data-vd-reklam]')].filter((k) => !k.hidden).length);
   return r;
+}
+
+
+// ---------- K6 süzgeç senaryoları (hub'ın Gastro süzgeci: [data-vd-suzgec] · input[data-sz-secenek] · .fct-row .ft · [data-sz-temizle] · [data-sz-ac]/[data-sz-kapat]) ----------
+// Akış içi yuva (VD-N1 · SF-N2 · kısa akış öğesi): görünür organik ([data-sz-oge]) ≥ 3 → 3.'nün ardı · 1–2 → sonuncunun ardı · 0 → gizli.
+// Tıklamalar force'suz, scrollIntoView + elementFromPoint isabetiyle (kısayol yok: seçenek kullanıcının tıkladığı etiketten seçilir).
+async function isabetliTikla(p, loc) {
+  let ok = false; // çekmece kayarak açılır (geçiş): isabet 3 denemeye kadar beklenir
+  for (let i = 0; i < 3 && !ok; i++) {
+    await loc.evaluate((n) => n.scrollIntoView({ block: 'center', behavior: 'instant' })); await bekle(p, 250);
+    ok = await loc.evaluate((n) => { const r = n.getBoundingClientRect(); if (!r.width) return false; const e = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2); return !!e && (e === n || n.contains(e) || e.contains(n) || !!e.closest('label')?.contains(n)); });
+  }
+  if (!ok) return false; await loc.click(); await bekle(p, 450); return true;
+}
+async function secenekTikla(p, ad, deger) {
+  const ft = p.locator(`input[data-sz-secenek][name="${ad}"][value="${deger}"]`).locator('xpath=ancestor::label[1]').locator('.ft').first();
+  if (await isabetliTikla(p, ft)) return true;
+  // 390: kapalı çekmece ekran dışında ama "görünür" sayılır — isabet yoksa çekmeceyi aç (kullanıcının düğmesiyle), gerekirse akordeon grubunu
+  const ac = p.locator('[data-sz-ac]').filter({ visible: true }).first(); if (await ac.count()) await isabetliTikla(p, ac);
+  await bekle(p, 300);
+  if (await isabetliTikla(p, ft)) return true;
+  const ak = p.locator(`input[data-sz-secenek][name="${ad}"]`).first().locator('xpath=ancestor::*[contains(concat(" ",normalize-space(@class)," ")," fct ")][1]').locator('[data-sz-akordeon]').first();
+  if (await ak.count()) await isabetliTikla(p, ak);
+  return isabetliTikla(p, ft);
+}
+async function temizle(p) { const t = p.locator('[data-sz-temizle]').filter({ visible: true }).first(); if (await t.count()) return isabetliTikla(p, t); return false; }
+async function cekmeceKapat(p) { const k = p.locator('[data-sz-kapat]').filter({ visible: true }).first(); if (await k.count()) await isabetliTikla(p, k); }
+const yuvaYeri = (p, kod) => p.evaluate((kod) => { const k = [...document.querySelectorAll(`[data-vd-reklam="${kod}"]`)].find((x) => !x.closest('[data-katman][hidden]')); if (!k) return null;
+  const org = [...k.parentElement.querySelectorAll(':scope > [data-sz-oge]')].filter((n) => !n.hidden && n.getClientRects().length);
+  const ic = k.querySelector(':scope > :not(template)'); const ilk = ic && (getComputedStyle(k).display === 'contents' ? ic : k);
+  // ekrandaki sayılar: "N … bulundu" (Gastro .lst-sum) · kısa görüntüleyici sayacı "n / N" — reklam öğesi sayılmamalı
+  const sum = document.querySelector('[data-vd-suzgec] .lst-sum, #lstSum'); const sayac = k.closest('[data-vd-dikey]')?.querySelector('[data-vd-dikey-sira]'); // yalnız yuva kısa akıştaysa (hub'daki kapalı katmanın sayacı değil)
+  const sayi = sum && sum.checkVisibility() ? parseInt((sum.textContent.match(/\d+/) || [])[0], 10) : null;
+  const n = sayac ? parseInt((sayac.textContent.split('/')[1] || '').trim(), 10) : null;
+  return { sira: org.filter((n) => n.compareDocumentPosition(k) & Node.DOCUMENT_POSITION_FOLLOWING).length, gorunen: org.length, gizli: !ilk || !ilk.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true }), sayi, n }; }, kod);
+async function suzgecDenetle(p, t, gen, et) {
+  const kod = t === 'sefler' ? 'SF-N2' : 'VD-N1';
+  if (!(await p.locator('[data-vd-suzgec] input[data-sz-secenek]').count())) { console.log(`  ⚪ ${et}: süzgeç yok — senaryo ÖLÇÜLMEDİ`); return; }
+  const secenekler = await p.$$eval('[data-vd-suzgec] input[data-sz-secenek]', (l) => l.map((i) => [i.name, i.value]));
+  const dogru = (y) => y && (y.gorunen === 0 ? y.gizli : !y.gizli && y.sira === Math.min(3, y.gorunen));
+  const goruldu = new Set();
+  for (const [ad, deger] of secenekler) { // tek seçenek: ≥3 ve 1–2 durumlarını bul
+    if (goruldu.has('cok') && goruldu.has('az')) break;
+    if (!(await secenekTikla(p, ad, deger))) { sonuc(false, `${et}: süzgeç seçeneği ${ad}=${deger} tıklaması isabet etmedi`); return; }
+    const y = await yuvaYeri(p, kod); const durum = y.gorunen >= 3 ? 'cok' : y.gorunen > 0 ? 'az' : 'sifir';
+    if (y.sayi !== null && !Number.isNaN(y.sayi)) sonuc(y.sayi === y.gorunen, `${et}: süzgeç ${ad}=${deger} → "bulundu" sayısı ${y.sayi}, görünür kart ${y.gorunen} (reklam sayılmamalı)`);
+    if (y.n !== null && !Number.isNaN(y.n) && y.gorunen > 0) sonuc(y.n === y.gorunen, `${et}: süzgeç ${ad}=${deger} → kısa sayacı N=${y.n}, görünür öğe ${y.gorunen} (reklam sayılmamalı)`);
+    if (!goruldu.has(durum)) { goruldu.add(durum); sonuc(dogru(y), `${et}: süzgeç ${ad}=${deger} → görünür ${y.gorunen}, ${kod} ${y.gizli ? 'gizli' : `${y.sira}. öğeden sonra`} (beklenen ${y.gorunen ? `${Math.min(3, y.gorunen)}.'den sonra` : 'gizli'})`); }
+    if (!new URL(p.url()).search.includes(`${ad}=`)) sonuc(false, `${et}: süzgeç adresi yazmadı (${ad})`);
+    await temizle(p); await cekmeceKapat(p);
+  }
+  if (!goruldu.has('sifir')) { // 0 sonuç: farklı gruplardan iki seçenek (gruplar arası VE)
+    const gruplar = [...new Set(secenekler.map(([a]) => a))];
+    let deneme = 0;
+    dis: for (const [a1, d1] of secenekler) for (const [a2, d2] of secenekler) {
+      if (a1 >= a2 || !gruplar.includes(a2)) continue;
+      if (++deneme > 14) break dis;
+      await secenekTikla(p, a1, d1); await secenekTikla(p, a2, d2);
+      const y = await yuvaYeri(p, kod);
+      if (y.gorunen === 0) { goruldu.add('sifir'); sonuc(dogru(y), `${et}: süzgeç ${a1}=${d1}+${a2}=${d2} → 0 sonuç, ${kod} ${y.gizli ? 'gizli' : 'GÖRÜNÜR'}`); await temizle(p); await cekmeceKapat(p); break dis; }
+      await temizle(p); await cekmeceKapat(p);
+    }
+  }
+  for (const d of ['cok', 'az', 'sifir']) if (!goruldu.has(d)) console.log(`  ⚪ ${et}: süzgeçte "${{ cok: '≥3 sonuç', az: '1–2 sonuç', sifir: '0 sonuç' }[d]}" durumu bulunamadı — ÖLÇÜLMEDİ`);
+  const son = await yuvaYeri(p, kod); sonuc(dogru(son) && son.sira === Math.min(3, son.gorunen), `${et}: temizleyince ${kod} ${son.sira}. öğeden sonra (görünür ${son.gorunen})`);
+  if (son.n !== null && !Number.isNaN(son.n)) sonuc(son.n === son.gorunen, `${et}: süzgeçsiz kısa sayacı N=${son.n}, öğe ${son.gorunen} (reklam sayılmamalı)`);
+  // 390 çekmecesi açıkken sabit reklam yok, kapanınca geri
+  if (gen < 600 && t !== 'kisa') {
+    await p.evaluate(() => { const g = document.querySelector('[data-vd-suzgec]'); window.scrollTo({ top: g.getBoundingClientRect().top + scrollY - 120, behavior: 'instant' }); }); await bekle(p, 700);
+    const sabit = () => p.evaluate(() => [...document.querySelectorAll('[data-vd-reklam="STD"] .rk-std-side, [data-vd-reklam="STD"] .rk-std-altbar')].filter((n) => n.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })).length);
+    const once = await sabit();
+    const ac = p.locator('[data-sz-ac]').filter({ visible: true }).first();
+    if (once === 0 || !(await ac.count())) { console.log(`  ⚪ ${et}: çekmece öncesi alt bar görünmüyor (${once}) — çekmece senaryosu ÖLÇÜLMEDİ`); return; }
+    await isabetliTikla(p, ac); await bekle(p, 400);
+    const acik = await sabit(); sonuc(acik === 0, `${et}: süzgeç çekmecesi açıkken ${acik} sabit reklam öğesi görünür`);
+    await cekmeceKapat(p); await bekle(p, 600);
+    const kapali = await sabit(); sonuc(kapali > 0, `${et}: çekmece kapanınca alt bar geri gelmedi`);
+  }
 }
 
 const b = await chromium.launch();
@@ -234,6 +315,18 @@ for (const t of SECIM) {
       const { p, hata, kotu, reklamYanit } = await sayfaAc(b, t, gen, '?reklam=1');
       const et = `${t} ${gen} reklamlı`;
       await bekle(p, 600);
+      // R18: şerit panelin içerik kolonuyla aynı kenarlarda (iç içe .wrap çift boşluğu yok)
+      const hiza = await p.evaluate(() => [...document.querySelectorAll('[data-vd-reklam] > .rk-yayilim-alan')].map((a) => { const ic = a.parentElement.closest('.wrap'); if (!ic) return null;
+        const s = a.querySelector('.rk-slot, .rk-video-slot').getBoundingClientRect(), r = ic.getBoundingClientRect(), cs = getComputedStyle(ic);
+        return [Math.round(s.left - (r.left + parseFloat(cs.paddingLeft))), Math.round(r.right - parseFloat(cs.paddingRight) - s.right)]; }).filter(Boolean));
+      sonuc(hiza.every(([l, rr]) => Math.abs(l) <= 1 && Math.abs(rr) <= 1), `${et}: şerit içerik kolonundan sapıyor (sol/sağ ${hiza.map((x) => x.join('/')).join(' · ')})`);
+      // akış içi yuva süzgeçsiz listede 3. organik öğenin ardında (modül kuralı)
+      for (const kod of ['VD-N1', 'SF-N2']) if (BEKLENEN[t].includes(kod)) {
+        const yer = await p.evaluate((kod) => { const k = [...document.querySelectorAll(`[data-vd-reklam="${kod}"]`)].find((x) => !x.closest('[data-katman][hidden]')); if (!k) return null;
+          const org = [...k.parentElement.children].filter((n) => !n.matches('[data-vd-reklam], template, script') && !n.hidden && n.getClientRects().length);
+          return { sira: org.filter((n) => n.compareDocumentPosition(k) & Node.DOCUMENT_POSITION_FOLLOWING).length, toplam: org.length, gizli: k.hasAttribute('data-vd-suzgec-gizli') }; }, kod);
+        if (yer) sonuc(!yer.gizli && yer.sira === Math.min(3, yer.toplam), `${et}: ${kod} ${yer.sira}. öğeden sonra (beklenen ${Math.min(3, yer.toplam)}; görünür ${yer.toplam}${yer.gizli ? ', gizli' : ''})`);
+      }
       if (BEKLENEN[t].includes('STD')) { // R15 V2: açılışta (banner + spotlight/sahne görünürken) yan kart ve alt bar yok
         const acilis = await p.evaluate(async () => { window.scrollTo({ top: 0, behavior: 'instant' }); await new Promise((r) => setTimeout(r, 500));
           return [...document.querySelectorAll('[data-vd-reklam="STD"] .rk-std-side, [data-vd-reklam="STD"] .rk-std-altbar')].filter((n) => n.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })).length; });
@@ -272,7 +365,7 @@ for (const t of SECIM) {
         const s = await p.evaluate(() => [...document.querySelectorAll('.rk-std')].filter((n) => n.checkVisibility()).length);
         sonuc(s === 0, `${et}: tam ekran sayfada standart katman görünür (${s})`);
       }
-      const ib = await p.evaluate(() => { const ic = [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')).filter((h) => !/^(?:[a-z]+:|\/\/|#)/i.test(h) && /^[^?#]*\.html(?:[?#]|$)/.test(h)); return [ic.filter((h) => /[?&]reklam=1(?:&|#|$)/.test(h)).length, ic.length]; });
+      const ib = await p.evaluate(() => { const ic = [...document.querySelectorAll('a[href]')].map((a) => a.getAttribute('href')).concat([...document.querySelectorAll('[onclick*="location.href="]')].flatMap((n) => [...n.getAttribute('onclick').matchAll(/location\.href=['"]([^'"]+)['"]/g)].map((m) => m[1]))).filter((h) => !/^(?:[a-z]+:|\/\/|#)/i.test(h) && /^[^?#]*\.html(?:[?#]|$)/.test(h)); return [ic.filter((h) => /[?&]reklam=1(?:&|#|$)/.test(h)).length, ic.length]; });
       sonuc(ib[1] > 0 && ib[0] === ib[1], `${et}: iç bağlar parametre taşımıyor (${ib[0]}/${ib[1]})`);
       // kısa video adresleri reklam=1'i korur: kısa sayfada öğe değişince (replaceState) · hub'da katman açılınca (pushState) ve kapanınca
       if (t === 'kisa') {
@@ -296,6 +389,7 @@ for (const t of SECIM) {
           sonuc(/video-mutfagi\.html$/.test(u2.pathname) && u2.searchParams.get('reklam') === '1' && !u2.searchParams.get('v'), `${et}: katman kapanınca adres ${u2.pathname.split('/').pop()}${u2.search}`);
         }
       }
+      if (['hub', 'sefler', 'kisa'].includes(t)) await suzgecDenetle(p, t, gen, et);
       // kelime ortasından kesme yok: reklam yuvalarında CSS'in (ellipsis / line-clamp) metin sakladığı görünür öğe kalmamalı
       const kesik = await p.evaluate(async () => {
         const out = [];

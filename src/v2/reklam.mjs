@@ -24,6 +24,10 @@ export const YAYILIM = {
   izle: { sayfa: 'video-seri', ust: 'VD-S1', alt: 'VD-S1-END', eslik: true },
   sef: { sayfa: 'sef-profil', ust: 'SF-P1', alt: 'SF-P1-END' },
   kisa: { sayfa: 'video-liste', native: 'VD-N1', standart: false },
+  // V2 · patron revizesi (K6): video şefler dizini (video-sefler.html) = modülün şef dizini planı `sef-liste` (reklam-yayilim.php:19;
+  // full-stack /sefler: sefler.blade.php:210 üst, :250 dizinde 3. karttan sonra sponsorlu şef kartı, :302 son). Kreatifler canlı demo:
+  // SF-L1 Karaca 89 · SF-N2 Tat 108 · SF-L1-END Pınar 128. Standart katman: /sefler StandartReklamlar::uygunYol içinde.
+  sefler: { sayfa: 'sef-liste', ust: 'SF-L1', alt: 'SF-L1-END', native: 'SF-N2' },
 };
 /** Seri sponsoru (VideoServisi::seriSponsoru → "Sponsorlu · <veren>"; yalnız etkin sponsor). Prototip örneği: Modül B "Akıllı Ekipman & Test"
  *  B2B sponsorluğa hazır yapı → canlı demodaki Tefal (Ingenio tencere/tava kreatifleri; airfryer, döküm/yapışmaz tava, düdüklü bölümleri). */
@@ -56,6 +60,7 @@ export function reklamSlotu(yer, o, { sayfa } = {}) {
   if (yer === 'native') {
     if (!plan.native) throw new Error(`reklamSlotu: ${sayfa} planında native yuva yok`);
     if (sayfa === 'kisa') return kap('VD-N1', kisaReklamOgesi(), { tur: 'kisa', sayfa });
+    if (sayfa === 'sefler') return kap('SF-N2', P['sef-SF-N2'], { tur: 'kart', sayfa }); // Gastro .sef-card'ın sponsor dalı (partials/kart/sef)
     return kap('VD-N1', P['kart-VD-N1'], { tur: 'kart', sayfa });
   }
   if (yer === 'eslik') {

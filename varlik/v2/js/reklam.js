@@ -18,20 +18,32 @@
   // V2: sayfalar v2/ altında, varlıklar kökteki varlik/'te (paylaşılan). Modül CSS'inin adresi bu betiğin kendi adresinden çözülür
   // (…/varlik/v2/js/reklam.js → …/varlik/), sayfanın derinliğinden bağımsız.
   const VARLIK = new URL('../../', (d.currentScript && d.currentScript.src) || d.querySelector('script[src*="v2/js/reklam.js"]').src).href;
-  const MODUL_CSS = ['gastro/reklam/reklam.css', 'gastro/reklam/standart.css', 'gastro/reklam/yayilim.css', 'video/reklam/kreatif.css'].map((y) => VARLIK + y);
+  const MODUL_CSS = ['gastro/reklam/reklam.css', 'gastro/reklam/standart.css', 'gastro/reklam/yayilim.css', 'video/reklam/kreatif.css', 'v2/reklam/kreatif-v2.css'].map((y) => VARLIK + y);
   const PARAM = 'reklam';
   let acik = false, iptal = null, gozcu = null, cssSozu = null;
 
   /* ---------- adres ---------- */
   const icBagMi = (href) => !!href && !/^(?:[a-z][a-z0-9+.-]*:|\/\/|#)/i.test(href) && /^[^?#]*\.html(?:[?#]|$)/i.test(href);
-  function bagCevir(a, ac) {
-    const ham = a.getAttribute('href'); if (!icBagMi(ham)) return;
+  function adresCevir(ham, ac) {
     const [onu, hash = ''] = ham.split('#'); const [yol, sorgu = ''] = onu.split('?');
     const q = new URLSearchParams(sorgu); if (ac) q.set(PARAM, '1'); else q.delete(PARAM);
-    const s = q.toString(); const yeni = yol + (s ? '?' + s : '') + (hash ? '#' + hash : '');
-    if (yeni !== ham) a.setAttribute('href', yeni);
+    const s = q.toString(); return yol + (s ? '?' + s : '') + (hash ? '#' + hash : '');
   }
-  const baglariCevir = (kapsam, ac) => kapsam.querySelectorAll?.('a[href], area[href]').forEach((a) => bagCevir(a, ac));
+  // Bağ: <a href> · ve Gastro'nun tıklanır kart kabı (kanon .sef-card / .chef-card: `onclick="location.href='…'"`, bağ değil — kabuk'un
+  // gezinti kapısı buldu, 5 Kas). Yalnız iç *.html adresleri; dış adresler (dadagastro.com/…) dokunulmaz.
+  function bagCevir(a, ac) {
+    if (a.hasAttribute('href')) {
+      const ham = a.getAttribute('href');
+      if (icBagMi(ham)) { const yeni = adresCevir(ham, ac); if (yeni !== ham) a.setAttribute('href', yeni); }
+    }
+    const tik = a.getAttribute('onclick');
+    if (tik && tik.includes('location.href=')) {
+      const yeni = tik.replace(/location\.href=(['"])([^'"]+)\1/g, (t, q, u) => (icBagMi(u) ? `location.href=${q}${adresCevir(u, ac)}${q}` : t));
+      if (yeni !== tik) a.setAttribute('onclick', yeni);
+    }
+  }
+  const BAG = 'a[href], area[href], [onclick*="location.href="]';
+  const baglariCevir = (kapsam, ac) => kapsam.querySelectorAll?.(BAG).forEach((a) => bagCevir(a, ac));
   function adresYaz(ac) {
     const u = new URL(w.location.href); if (ac) u.searchParams.set(PARAM, '1'); else u.searchParams.delete(PARAM);
     w.history.replaceState(w.history.state, '', u.pathname + u.search + u.hash);
@@ -54,6 +66,35 @@
     if (t && !k.querySelector(':scope > :not(template)')) k.appendChild(t.content.cloneNode(true));
     baglariCevir(k, true);
     k.hidden = false;
+  }
+  /* ---------- K6: süzülmüş listede akış içi yuva (VD-N1 · SF-N2 · kısa akış öğesi) ----------
+     Modül kuralı (video-mutfagi.blade.php:536, sefler.blade.php:250): native, listenin 3. kartından SONRA. Süzgeç kartları gizleyince
+     kural görünür kartlara uygulanır: görünür organik ≥ 3 → 3.'nün ardında; 1–2 → sonuncunun ardında (ızgaranın sonu); 0 → gizli
+     (data-vd-suzgec-gizli). Süzgeci yöneten sayfa JS'i (hub suzgec.js, kisa.js) kartların görünürlüğünü değiştirir; bu yalnız reklam kabını
+     yerleştirir ve `vd:reklam-yer` olayı yayar (kisa.js akışı yeniden tarar). */
+  const AKIS = '[data-vd-reklam="VD-N1"], [data-vd-reklam="SF-N2"]';
+  const gorunurOge = (n) => n.nodeType === 1 && !n.matches('[data-vd-reklam], template, script') && !n.hidden && n.getClientRects().length > 0;
+  function akisYerlestir() {
+    if (!acik) return;
+    d.querySelectorAll(AKIS).forEach((k) => {
+      const kap = k.parentElement; if (!kap || k.closest('[data-katman][hidden]')) return;
+      // süzgeç öğeleri işaretliyse ([data-sz-oge], hub'ın süzgeci) yalnız onlar sayılır — "Hepsi bu kadar" / boş durum kutusu kart değildir
+      const isaretli = kap.querySelector(':scope > [data-sz-oge]');
+      const organik = [...kap.children].filter((n) => gorunurOge(n) && (!isaretli || n.matches('[data-sz-oge]')));
+      const hedef = organik.length >= 3 ? organik[2] : organik[organik.length - 1];
+      if (!hedef) { if (!k.hasAttribute('data-vd-suzgec-gizli')) { k.setAttribute('data-vd-suzgec-gizli', ''); w.dispatchEvent(new CustomEvent('vd:reklam-yer', { detail: { kod: k.dataset.vdReklam, gizli: true } })); } return; }
+      const gizliyde = k.hasAttribute('data-vd-suzgec-gizli'); k.removeAttribute('data-vd-suzgec-gizli');
+      if (hedef.nextElementSibling !== k) { hedef.after(k); w.dispatchEvent(new CustomEvent('vd:reklam-yer', { detail: { kod: k.dataset.vdReklam, gizli: false } })); }
+      else if (gizliyde) w.dispatchEvent(new CustomEvent('vd:reklam-yer', { detail: { kod: k.dataset.vdReklam, gizli: false } }));
+    });
+  }
+  function akisKur(sinyal) {
+    let z = 0; const plan = () => { cancelAnimationFrame(z); z = requestAnimationFrame(akisYerlestir); };
+    const g = new MutationObserver((ml) => { if (ml.every((m) => m.type === 'childList' && [...m.addedNodes, ...m.removedNodes].every((n) => n.nodeType === 1 && n.matches?.('[data-vd-reklam]')))) return; plan(); });
+    d.querySelectorAll(AKIS).forEach((k) => { if (k.parentElement) g.observe(k.parentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden', 'class', 'style'] }); });
+    w.addEventListener('vd:suzgec', plan, { signal: sinyal }); // süzgeç bileşeni yayarsa hemen (yayınlamasa da gözcü yakalar)
+    sinyal.addEventListener('abort', () => { g.disconnect(); d.querySelectorAll(AKIS).forEach((k) => k.removeAttribute('data-vd-suzgec-gizli')); });
+    plan();
   }
   function bosalt(k) {
     if (k.querySelector(':scope > template')) k.querySelectorAll(':scope > :not(template)').forEach((n) => n.remove());
@@ -81,7 +122,13 @@
   const kapatilan = new Set();
   function tamEkranAcik() {
     return [...d.querySelectorAll('#cookmode, #vdPisirme, .vd-pisirme, .vd-dikey--katman, .vd-oyn--tam')].some((n) => !n.hidden && gorunur(n) && n.getBoundingClientRect().height > w.innerHeight * 0.6)
-      || !!d.fullscreenElement;
+      || !!d.fullscreenElement || cekmeceAcik();
+  }
+  // K6 (patron revizesi): 390'da Gastro süzgeç çekmecesi (.sheet, alttan, position: fixed) açıkken yan kart ve alt bar çekmeceyi örtmez —
+  // tam ekran katman kuralıyla gizlenir. Masaüstünde aynı .sheet panelin içinde durağan kutu → etkisiz.
+  function cekmeceAcik() {
+    // hub'ın süzgeci: çekmece Gastro .lst-side.open (position: fixed), örtü .sheet-overlay.open
+    return [...d.querySelectorAll('.sheet, .lst-side.open, .sheet-overlay.open, [data-vd-suzgec-cekmece]')].some((n) => { if (n.hidden || !gorunur(n) || getComputedStyle(n).position !== 'fixed') return false; const r = n.getBoundingClientRect(); return r.height > 0 && r.top < w.innerHeight && r.bottom > 0; });
   }
   // V2: sayfada birden çok hero olabilir (koyu banner + hub spotlight / izleme sahnesi): kapı en alttakinin alt kenarına bakar
   const heroAlti = () => { const h = [...d.querySelectorAll('main [data-rk-hero]')].filter((n) => n.getClientRects().length); return h.length ? Math.max(...h.map((n) => n.getBoundingClientRect().bottom)) : null; };
@@ -207,7 +254,9 @@
     d.addEventListener('visibilitychange', plan, { signal: sinyal }); d.addEventListener('fullscreenchange', plan, { signal: sinyal });
     d.addEventListener('transitionend', plan, { signal: sinyal }); // .bottom-nav ve başlık kaydırmada kayarak gizlenip açılır (modül: transitionend)
     const izle = new MutationObserver(plan); // tam ekran katmanlar (pişirme modu, kısa video, oynatıcı) hidden/class değiştirir
-    d.querySelectorAll('#cookmode, #vdPisirme, .vd-pisirme, .vd-dikey--katman, .vd-oyn').forEach((n) => izle.observe(n, { attributes: true, attributeFilter: ['hidden', 'class', 'style'] }));
+    d.querySelectorAll('#cookmode, #vdPisirme, .vd-pisirme, .vd-dikey--katman, .vd-oyn, .sheet, .lst-side, .sheet-overlay, [data-vd-suzgec-cekmece]').forEach((n) => izle.observe(n, { attributes: true, attributeFilter: ['hidden', 'class', 'style', 'aria-hidden'] }));
+    izle.observe(d.body, { attributes: true, attributeFilter: ['class', 'style'] }); // çekmece açılınca gövdeye sınıf/kaydırma kilidi
+    akisKur(sinyal);
     sinyal.addEventListener('abort', () => izle.disconnect());
     // altbilgi / hero geçişleri için (modül: observeSideVisibility)
     if (w.IntersectionObserver) { const io = new IntersectionObserver(plan); [...d.querySelectorAll('main [data-rk-hero]'), d.querySelector('footer.footer, body > footer')].filter(Boolean).forEach((n) => io.observe(n)); sinyal.addEventListener('abort', () => io.disconnect()); }
@@ -222,7 +271,7 @@
     kaplar().forEach(doldur);
     baglariCevir(d, true);
     requestAnimationFrame(() => kirpAyarla()); (d.fonts?.ready || Promise.resolve()).then(() => kirpAyarla());
-    gozcu = new MutationObserver((ml) => { for (const m of ml) for (const n of m.addedNodes) if (n.nodeType === 1) { if (n.matches('a[href]')) bagCevir(n, true); baglariCevir(n, true); } });
+    gozcu = new MutationObserver((ml) => { for (const m of ml) for (const n of m.addedNodes) if (n.nodeType === 1) { if (n.matches(BAG)) bagCevir(n, true); baglariCevir(n, true); } });
     gozcu.observe(d.body, { childList: true, subtree: true });
     iptal = new AbortController(); kapatilan.clear(); etkilesimKur(iptal.signal);
     anahtarYaz(); w.dispatchEvent(new CustomEvent('vd:reklam', { detail: { acik: true } }));
@@ -251,7 +300,7 @@
     if (tasimaKipi()) {
       if (!istek) return;
       baglariCevir(d, true);
-      new MutationObserver((ml) => { for (const m of ml) for (const n of m.addedNodes) if (n.nodeType === 1) { if (n.matches('a[href]')) bagCevir(n, true); baglariCevir(n, true); } }).observe(d.body, { childList: true, subtree: true });
+      new MutationObserver((ml) => { for (const m of ml) for (const n of m.addedNodes) if (n.nodeType === 1) { if (n.matches(BAG)) bagCevir(n, true); baglariCevir(n, true); } }).observe(d.body, { childList: true, subtree: true });
       return;
     }
     kaplar().forEach((k) => { k.hidden = true; }); if (istek) ac(); else anahtarYaz();

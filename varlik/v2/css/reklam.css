@@ -79,3 +79,11 @@ html.vd-reklamli .vd-reklam--etiket:not([hidden]) { display: flex !important; ma
    anahtar genişliği + 12 px kadar sağdan boşluk bırakır; uzun kırıntı (izle: seri adı + bölüm) altına değil yeni satıra kırılır. */
 .wrap:has(> .vd-v2-arac:not(:empty)) > .rd-crumb { padding-right: 240px; }
 @media (max-width: 600px) { .wrap:has(> .vd-v2-arac:not(:empty)) > .rd-crumb { padding-right: 100px; } }
+
+/* V2 (R18): içerik iskeletin beyaz panelinde (.bnp-body > .wrap) duruyor; modülün yayılım şeridi kendi .wrap'ını taşır (full-stack'te bölüm
+   düzeyinde). İç içe .wrap şeridi iki kat iç boşlukla panelin içerik kolonundan 32/16 px daralttı → panelin içindeyken şeridin kendi yan
+   boşluğu ve genişlik sınırı kalkar, şerit içerik kolonuyla aynı kenarlara oturur (dikey bant boşluğu modülün). */
+.wrap .vd-reklam > .rk-yayilim-alan.wrap { padding-inline: 0; max-width: none; width: auto; margin-inline: 0; }
+/* K6: süzgeç sonucu 0 → akış içi yuva gizli. Kart kabının "display: contents !important" kuralından (0,3,1) özgül olmalı; yoksa gizleme ezilir
+   (kapı yakaladı: 0 sonuçta SF-N2 / VD-N1 görünür kalıyordu). */
+html.vd-reklamli .vd-reklam[data-vd-suzgec-gizli]:not([hidden]), html .vd-reklam[data-vd-suzgec-gizli] { display: none !important; }

@@ -1,3 +1,28 @@
+# ▶ V2 · PATRON REVİZESİ (5 Kas, K6) — reklam ajanı
+**Durum:** reklam tarafı hazır; hub "SUZGEC HAZIR" ve izle "SEFLER HAZIR" bekleniyor → sonra süzgeç senaryoları kapıya + ölçüm. V1'e dokunulmadı.
+**1) video-sefler.html — karar (modülden):** full-stack'te şef DİZİNİ için tanımlı plan VAR: `sef-liste` (config/reklam-yayilim.php:19) —
+`SF-L1` üst şerit (native_strip 120/96 px, reklam-slotlari.php:88; sefler.blade.php:210), `SF-N2` dizinde 3. karttan sonra sponsorlu şef kartı
+(native_module "organik kartla aynı", slotlari:102; sefler.blade.php:250 → partials/kart/sef sponsor dalı), `SF-L1-END` alt şerit (slotlari:124; :302),
++ standart katman (/sefler `StandartReklamlar::uygunYol`'da). Şef profili kuralı (SF-P1) profil sayfası içindir; dizin için modülün kendi planı var →
+o kullanıldı. Kreatifler canlı demo: SF-L1 **Karaca** 89 (sahne; profil kapısı LK2) · SF-N2 **Tat** 108 (profil kapısı) · SF-L1-END **Pınar** 128.
+İşaretleme yine render: `araclar/reklam-render.php v2` → `node araclar/reklam-varlik.mjs --v2` → `src/v2/reklam-donor.json` (+3 parça; eski 14 parça bayt bayt aynı).
+V1 dokunulmadı: yeni görseller `varlik/v2/reklam/`, yeni renkler `varlik/v2/reklam/kreatif-v2.css` (reklam.js yükler), marka simgeleri
+`varlik/gastro/reklam/secki/{karaca,tat}/` YENİ dosya (modül varlığı, aynı alt yol); `git status -- varlik/video src/video` önce/sonra aynı; DB sayımı aynı.
+**R17** Marka profili / seçki kapısı bağları (`/markalar/<m>`, MarkaSayfalari) prototipte sayfa olmadığı için kreatifin `hedef_url`'si (karaca.com, tat.com.tr) — R13'ün uzantısı.
+**2) Süzgeç hâlleri (reklam.js'te, varlik/v2/js/reklam.js):**
+- Akış içi yuva (VD-N1 hub ızgarası · SF-N2 şefler ızgarası · kısa akış öğesi): görünür organik ≥ 3 → 3.'nün ardı; 1–2 → sonuncunun ardı; 0 → `data-vd-suzgec-gizli`.
+  Kartların görünürlüğünü süzgeç (sayfa JS'i) değiştirir; reklam.js gözcüyle (ve `vd:suzgec` olayıyla) kabı yerleştirir, `vd:reklam-yer` yayar.
+  Elle sınama (hub, kartlar JS ile gizlendi): başlangıç 3/11 · 2 görünür → 2/2 · 0 → gizli · 6 görünür → 3/6 · hepsi → 3/12.
+- 390 süzgeç çekmecesi (Gastro `.sheet`, position:fixed) açıkken yan kart + alt bar gizli (tam ekran katman kuralı; `cekmeceAcik()`).
+- hub'a: VD-N1'e artık `data-vd-suzgec-gizli` YAZMASIN (V1 entegrasyonu), reklam kartı sayılara girmesin. izle'ye: kisa.js `vd:reklam-yer`'de akışı yeniden tarasın; video-sefler yuva satırları.
+**R18** V2'de içerik panelin `.bnp-body > .wrap`ı içinde; modülün şeridi kendi `.wrap`ını taşıdığı için iç içe çift boşlukla içerik kolonundan 32 px (390: 16 px) daralıyordu (izle'nin notu; ölçüldü: şerit 164–1276, kolon 132–1308) → panel içindeyken şeridin yan boşluğu/genişlik sınırı kalkar (varlik/v2/css/reklam.css); şimdi 132–1308 / 16–374, sapma 0. Kapı denetimi + BOZ=wrap kırmızı.
+**izle:** video-sefler yuvaları yerinde (üst: section.sef-sec'ten önce · SF-N2 #sefGrid 3. .sef-card'ın ardı · alt sonda), kisa.js `vd:reklam-yer`de yeniden tarıyor.
+**Kabuk'un bulgusu (gezinti kapısı):** Gastro'nun kanon şef kartı (`.sef-card` / `.chef-card`) bağ değil `onclick="location.href='…'"` kabı → reklam=1 düşüyordu (video-sefler → video-sef-sahnur-sezek.html). reklam.js (V2) artık iç `*.html` adresli `onclick` kaplarını da çeviriyor (açık/kapalı/taşıma kipi; dış dadagastro.com adresleri dokunulmaz). Gezinti kapısı (8798) kırmızı 0; reklam kapısının iç bağ denetimi onclick adreslerini de sayıyor (sefler 26/26), BOZ=bag kırmızı.
+**Ara ölçüm (8798, süzgeçsiz, sefler dahil 7 tip × 1440/390 × reklamsız/reklamlı):** reklam-kapisi-v2 **yeşil 700 · kırmızı 0**.
+**3) Kapı:** reklam-kapisi-v2'ye `sefler` tipi (SF-L1 · SF-N2 · SF-L1-END · STD) + akış içi yuva konumu (süzgeçsiz: 3. öğeden sonra). Süzgeç senaryoları (seç → yuva yeri/gizli, çekmece açıkken sabit reklam 0) hub'ın seçicileri gelince.
+
+---
+
 # ▶ V2 (5 Kas) — reklam ajanı
 **Durum:** reklam tarafı hazır, `build-v2.mjs` (kabuk) bekleniyor. V1'e dokunulmadı (V1 dosyalarım `src/video/reklam*`, `varlik/video/{css,js}/reklam.*`, `araclar/reklam-kapisi.mjs` aynı).
 **V2 dosyalarım:** `src/v2/reklam.mjs`, `src/v2/reklam-donor.json` (V1 kopyası; görsel yolları kök göreli `varlik/video/reklam/…`, paylaşılan), `varlik/v2/css/reklam.css`, `varlik/v2/js/reklam.js`, `araclar/reklam-kapisi-v2.mjs`.

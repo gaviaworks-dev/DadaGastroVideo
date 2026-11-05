@@ -11,12 +11,27 @@
   "serit-SF-P1": 90,
   "serit-SF-P1-END": 129,
   "kart-VD-N1": 109,
+  "serit-SF-L1": 89,
+  "serit-SF-L1-END": 128,
+  "sef-SF-N2": 108,
   "video-STD-VIDEO": 101,
   "side-STD-SIDE-LEFT": 137,
   "side-STD-SIDE": 98,
   "altbar-STD-ALTBAR": 100
  },
  "kayit": {
+  "89": {
+   "marka": "Karaca",
+   "baslik": "Sofrana Karaca dokunuşu",
+   "hedef_url": "https://www.karaca.com/",
+   "gorsel": "reklam/canli-20260923-v2/92c079a4756723566915.webp",
+   "mobil": null,
+   "logo": "reklam/canli-20260923-v2/78fca8e3e7a06e6cacbc.svg",
+   "video": null,
+   "renk": "#ead9bc",
+   "gw": 2400,
+   "gh": 1600
+  },
   "90": {
    "marka": "Söke",
    "baslik": "Söke Geleneksel Un 1 kg",
@@ -101,6 +116,18 @@
    "gw": 600,
    "gh": 600
   },
+  "108": {
+   "marka": "Tat",
+   "baslik": "Tat",
+   "hedef_url": "https://www.tat.com.tr/",
+   "gorsel": "reklam/canli-20260923-v2/aa60a8297091de9d00ef.webp",
+   "mobil": null,
+   "logo": "reklam/canli-20260923-v2/023f336171a012cb48cb.png",
+   "video": null,
+   "renk": "#c91c2f",
+   "gw": 600,
+   "gh": 600
+  },
   "109": {
    "marka": "KRUPS",
    "baslik": "Kahve hazırlama teknikleri — KRUPS",
@@ -112,6 +139,18 @@
    "renk": "#36332e",
    "gw": 600,
    "gh": 600
+  },
+  "128": {
+   "marka": "Pınar",
+   "baslik": "Pınar Süt 1 L",
+   "hedef_url": "https://www.pinar.com.tr/",
+   "gorsel": "reklam/canli-20260923-v2/db44b054679947e3a345.webp",
+   "mobil": null,
+   "logo": "reklam/canli-20260923-v2/32778ae0bb188959974f.png",
+   "video": null,
+   "renk": "#006c3c",
+   "gw": 2400,
+   "gh": 2400
   },
   "129": {
    "marka": "Pınar",
@@ -218,6 +257,9 @@
   "serit-SF-P1": "<aside class=\"rk-slot rk-serit rk-ince-banner rk-renk-00824e rk-gorsel-urun rk-sahneli\" data-rk-slot=\"SF-P1\" data-rk-kod=\"SF-P1\" aria-label=\"Sponsorlu içerik · Söke\">\n    <span class=\"rk-etiket\">Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span>\n    <a class=\"rk-serit-bag\" href=\"https://soke.com.tr/urun/soke-geleneksel-un\" target=\"_blank\" rel=\"sponsored nofollow noopener\" data-rk-bag>\n        <img class=\"rk-serit-urun\" src=\"varlik/video/reklam/f51c099e880cc22d2d5d-urun.webp\" alt=\"Söke: Söke Geleneksel Un 1 kg\" width=\"2400\" height=\"2400\" loading=\"lazy\">        <img class=\"rk-sahne-zemin\" src=\"varlik/gastro/reklam/sahne/soke/sahne.jpg\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span class=\"rk-zemin-perde\" aria-hidden=\"true\"></span><span class=\"rk-serit-kimlik\"><img class=\"rk-logo\" src=\"varlik/video/reklam/fb023eeff4b54b123239.svg\" alt=\"Söke\" loading=\"lazy\" decoding=\"async\"></span>\n        <span class=\"rk-serit-metin\"><b>Söke Geleneksel Un 1 kg</b><span>Söke ile mutfağında kendi lezzetini hazırla.</span></span>\n        <span class=\"rk-serit-cta\">İncele <i class=\"fa-solid fa-arrow-right\" aria-hidden=\"true\"></i></span>    </a>\n</aside>",
   "serit-SF-P1-END": "<aside class=\"rk-slot rk-serit rk-ince-banner rk-renk-006c3c rk-gorsel-urun rk-sahneli\" data-rk-slot=\"SF-P1-END\" data-rk-kod=\"SF-P1-END\" aria-label=\"Sponsorlu içerik · Pınar\">\n    <span class=\"rk-etiket\">Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span>\n    <a class=\"rk-serit-bag\" href=\"https://www.pinar.com.tr/\" target=\"_blank\" rel=\"sponsored nofollow noopener\" data-rk-bag>\n        <img class=\"rk-serit-urun\" src=\"varlik/video/reklam/db44b054679947e3a345-urun.webp\" alt=\"Pınar: Pınar Süt 1 L\" width=\"2400\" height=\"2400\" loading=\"lazy\">        <img class=\"rk-sahne-zemin\" src=\"varlik/gastro/reklam/sahne/pinar/sahne.jpg\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span class=\"rk-zemin-perde\" aria-hidden=\"true\"></span><span class=\"rk-serit-kimlik\"><img class=\"rk-logo\" src=\"varlik/video/reklam/32778ae0bb188959974f-logo.webp\" alt=\"Pınar\" loading=\"lazy\" decoding=\"async\"></span>\n        <span class=\"rk-serit-metin\"><b>Pınar Süt 1 L</b><span>Günlük tariflerine Pınar Süt eşlik etsin.</span></span>\n        <span class=\"rk-serit-cta\">İncele <i class=\"fa-solid fa-arrow-right\" aria-hidden=\"true\"></i></span>    </a>\n</aside>",
   "kart-VD-N1": "<article class=\"r-card rk-slot rk-kart rk-native-kilitli rk-renk-36332e\" data-rk-slot=\"VD-N1\" data-rk-kod=\"VD-N1\" aria-label=\"Sponsorlu içerik · KRUPS\">\n    <div class=\"r-media-wrap\"><div class=\"r-media rk-kart-medya\">\n                <picture>\n                        <img src=\"varlik/video/reklam/10b974c9ce72ee811494-kart.webp\" alt=\"KRUPS Coffee Crush resmi tanıtım filmi\" width=\"600\" height=\"600\" loading=\"lazy\" decoding=\"async\">\n        </picture>\n                <span class=\"r-chip rk-native-recipe-chip\">Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span>\n    </div></div>\n    <span class=\"r-save rk-kart-logo\"><img class=\"rk-logo\" src=\"varlik/video/reklam/9e2ece1499e0021bb5a7-logo.webp\" alt=\"KRUPS\" loading=\"lazy\" decoding=\"async\"></span>\n        <div class=\"r-body\">\n        <h4><a href=\"https://www.tefal.com.tr/coffee-crush\" target=\"_blank\" rel=\"sponsored nofollow noopener\" data-rk-bag>Kahve hazırlama teknikleri — KRUPS</a></h4>\n        <div class=\"r-facts\"><span class=\"rk-kart-metin\">Kahve hazırlama adımlarını yakından izle.</span></div>\n        <div class=\"r-foot\">\n            <span class=\"rk-native-kimlik\"><span class=\"rk-native-wordmark\"><img class=\"rk-logo\" src=\"varlik/video/reklam/9e2ece1499e0021bb5a7-logo.webp\" alt=\"KRUPS\" loading=\"lazy\" decoding=\"async\"></span><span class=\"rk-native-kesfet\"><span class=\"rk-native-prefix\">Sponsorlu · </span>İncele <span class=\"rk-native-ok\" aria-hidden=\"true\">→</span></span></span>\n        </div>\n    </div>\n</article>",
+  "serit-SF-L1": "<aside class=\"rk-slot rk-serit rk-ince-banner rk-renk-ead9bc rk-gorsel-sahne\" data-rk-slot=\"SF-L1\" data-rk-kod=\"SF-L1\" aria-label=\"Sponsorlu içerik · Karaca\">\n    <span class=\"rk-etiket\">Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span>\n    <a class=\"rk-serit-bag\" href=\"https://www.karaca.com/\" target=\"_blank\" rel=\"sponsored nofollow noopener\" data-rk-bag>\n        <img class=\"rk-serit-urun\" src=\"varlik/v2/reklam/92c079a4756723566915-serit.webp\" alt=\"Karaca: Sofrana Karaca dokunuşu\" width=\"2400\" height=\"1600\" loading=\"lazy\">        <span class=\"rk-zemin-perde\" aria-hidden=\"true\"></span><span class=\"rk-serit-kimlik\"><span class=\"rk-ml rk-ml-karaca\"><img class=\"rk-logo\" src=\"varlik/v2/reklam/78fca8e3e7a06e6cacbc.svg\" alt=\"Karaca\" loading=\"lazy\" decoding=\"async\"><img class=\"rk-simge\" src=\"varlik/gastro/reklam/secki/karaca/karaca-simge.svg\" alt=\"Karaca\" loading=\"lazy\" decoding=\"async\"></span></span>\n        <span class=\"rk-serit-metin\"><b>Sofrana Karaca dokunuşu</b><span>Birlikte kurulan sofralara ilham.</span></span>\n        <span class=\"rk-serit-cta\">Keşfet <i class=\"fa-solid fa-arrow-right\" aria-hidden=\"true\"></i></span>    </a>\n</aside>",
+  "serit-SF-L1-END": "<aside class=\"rk-slot rk-serit rk-ince-banner rk-renk-006c3c rk-gorsel-urun rk-sahneli\" data-rk-slot=\"SF-L1-END\" data-rk-kod=\"SF-L1-END\" aria-label=\"Sponsorlu içerik · Pınar\">\n    <span class=\"rk-etiket\">Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span>\n    <a class=\"rk-serit-bag\" href=\"https://www.pinar.com.tr/\" target=\"_blank\" rel=\"sponsored nofollow noopener\" data-rk-bag>\n        <img class=\"rk-serit-urun\" src=\"varlik/video/reklam/db44b054679947e3a345-urun.webp\" alt=\"Pınar: Pınar Süt 1 L\" width=\"2400\" height=\"2400\" loading=\"lazy\">        <img class=\"rk-sahne-zemin\" src=\"varlik/gastro/reklam/sahne/pinar/sahne.jpg\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span class=\"rk-zemin-perde\" aria-hidden=\"true\"></span><span class=\"rk-serit-kimlik\"><img class=\"rk-logo\" src=\"varlik/video/reklam/32778ae0bb188959974f-logo.webp\" alt=\"Pınar\" loading=\"lazy\" decoding=\"async\"></span>\n        <span class=\"rk-serit-metin\"><b>Pınar Süt 1 L</b><span>Günlük tariflerine Pınar Süt eşlik etsin.</span></span>\n        <span class=\"rk-serit-cta\">İncele <i class=\"fa-solid fa-arrow-right\" aria-hidden=\"true\"></i></span>    </a>\n</aside>",
+  "sef-SF-N2": "<article class=\"sef-card rk-renk-c91c2f\" data-rk-slot=\"SF-N2\" data-rk-kod=\"SF-N2\" data-native-sponsor>\n<div class=\"sef-ava\">\n<span class=\"rk-ml rk-ml-tat\"><img class=\"rk-logo\" src=\"varlik/v2/reklam/023f336171a012cb48cb-logo.webp\" alt=\"\" loading=\"lazy\" decoding=\"async\"><img class=\"rk-simge\" src=\"varlik/gastro/reklam/secki/tat/tat-simge.png\" alt=\"\" loading=\"lazy\" decoding=\"async\"></span></div>\n                        <div class=\"sef-name\">\n                            Tat\n                                                    </div>\n<span class=\"sef-rank\">Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span>\n                        <div class=\"sef-foot\">\n<a class=\"sef-follow rk-sef-cta\" href=\"https://www.tat.com.tr/\" rel=\"sponsored nofollow noopener\" data-rk-bag>İncele</a>\n                        </div>\n</article>",
   "video-STD-VIDEO": "<aside class=\"rk-std rk-std-video rk-renk-36332e\" data-rk-bicim=\"video\" data-rk-popup-varyant=\"video\" data-rk-popup-sira=\"video,gorsel\" data-rk-popup-aralik=\"4\" data-rk-popup-gun=\"0\" data-rk-kampanya=\"42\" data-rk-oturum=\"1\" data-rk-gun=\"1\" data-rk-kapatma=\"24\" data-rk-slot=\"STD-VIDEO\" data-rk-kod=\"STD-VIDEO\"  aria-label=\"Sponsorlu · KRUPS\">\n  <div class=\"rk-std-kart\" >\n                <div class=\"rk-std-video-medya\" data-rk-video>\n      <video poster=\"varlik/video/reklam/10b974c9ce72ee811494-kart.webp\" preload=\"none\" playsinline muted loop data-rk-src=\"varlik/video/reklam/560ade6d65dc0c4e74a9.mp4\" aria-label=\"KRUPS Coffee Crush resmi tanıtım filmi\"></video>\n      <button type=\"button\" class=\"rk-video-baslat\" aria-label=\"Videoyu başlat\" hidden><i class=\"fa-solid fa-play\" aria-hidden=\"true\"></i></button>\n      <button type=\"button\" class=\"rk-std-oynat\" aria-label=\"Videoyu oynat\"><i class=\"fa-solid fa-play\" aria-hidden=\"true\"></i></button>\n      <button type=\"button\" class=\"rk-std-ses\" aria-label=\"Sesi aç\" aria-pressed=\"false\"><i class=\"fa-solid fa-volume-xmark\" aria-hidden=\"true\"></i></button>\n    </div>\n        <div class=\"rk-std-mesaj\">\n      <span class=\"rk-std-logo\"><img class=\"rk-logo\" src=\"varlik/video/reklam/9e2ece1499e0021bb5a7-logo.webp\" alt=\"KRUPS\" loading=\"lazy\" decoding=\"async\"></span>\n            <div class=\"rk-std-yazi\"><span class=\"rk-std-etiket\"> Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span><b>KRUPS Coffee Crush</b><p>Kahve deneyimini keşfet.</p></div>\n      <a class=\"rk-std-cta\" href=\"https://www.tefal.com.tr/coffee-crush\" target=\"_blank\" rel=\"sponsored nofollow noopener\">İncele <span aria-hidden=\"true\">→</span></a>\n    </div>\n  </div>\n</aside>",
   "side-STD-SIDE-LEFT": "<aside class=\"rk-std rk-std-side rk-renk-f17600\" data-rk-bicim=\"side\" data-rk-popup-varyant=\"gorsel\" data-rk-popup-sira=\"video,gorsel\" data-rk-popup-aralik=\"4\" data-rk-popup-gun=\"0\" data-rk-kampanya=\"43\" data-rk-oturum=\"1\" data-rk-gun=\"1\" data-rk-kapatma=\"24\" data-rk-slot=\"STD-SIDE-LEFT\" data-rk-kod=\"STD-SIDE-LEFT\"  hidden  aria-label=\"Sponsorlu · Migros\">\n  <div class=\"rk-std-kart\" >\n    <button type=\"button\" class=\"rk-std-kapat\" aria-label=\"Reklamı kapat\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></button>        <div class=\"rk-std-medya rk-std-sahne\"><span class=\"rk-side-image\"><img src=\"varlik/video/reklam/5702be2ddf6e00ed2411-side.webp\" alt=\"Migros market alışverişi\" loading=\"lazy\" width=\"640\" height=\"480\"></span></div>\n            <div class=\"rk-std-mesaj\">\n      <span class=\"rk-std-logo\"><img class=\"rk-logo\" src=\"varlik/video/reklam/27875d1ea1424dacfce9.svg\" alt=\"Migros\" loading=\"lazy\" decoding=\"async\"></span>\n            <div class=\"rk-std-yazi\"><span class=\"rk-std-etiket\"> Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span><b>Migros Market</b><p>Taze seçimler</p></div>\n      <a class=\"rk-std-cta\" href=\"https://www.migros.com.tr/\" target=\"_blank\" rel=\"sponsored nofollow noopener\">Keşfet <span aria-hidden=\"true\">→</span></a>\n    </div>\n  </div>\n</aside>",
   "side-STD-SIDE": "<aside class=\"rk-std rk-std-side rk-renk-142328\" data-rk-bicim=\"side\" data-rk-popup-varyant=\"gorsel\" data-rk-popup-sira=\"video,gorsel\" data-rk-popup-aralik=\"4\" data-rk-popup-gun=\"0\" data-rk-kampanya=\"39\" data-rk-oturum=\"1\" data-rk-gun=\"1\" data-rk-kapatma=\"24\" data-rk-slot=\"STD-SIDE\" data-rk-kod=\"STD-SIDE\"  hidden  aria-label=\"Sponsorlu · Uber Eats\">\n  <div class=\"rk-std-kart\" >\n    <button type=\"button\" class=\"rk-std-kapat\" aria-label=\"Reklamı kapat\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" aria-hidden=\"true\"><path d=\"M4 4l8 8M12 4l-8 8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/></svg></button>        <div class=\"rk-std-medya rk-std-sahne\"><span class=\"rk-side-image\"><img src=\"varlik/video/reklam/50dbd07194f5d79d9430-side.webp\" alt=\"Uber Eats market alışverişi\" loading=\"lazy\" width=\"640\" height=\"480\"></span></div>\n            <div class=\"rk-std-mesaj\">\n      <span class=\"rk-std-logo\"><img class=\"rk-logo\" src=\"varlik/video/reklam/a880a57348b61656d327.svg\" alt=\"Uber Eats\" loading=\"lazy\" decoding=\"async\"></span>\n            <div class=\"rk-std-yazi\"><span class=\"rk-std-etiket\"> Sponsorlu<span class=\"vd-rk-not\"><span class=\"vd-rk-not__ayrac\"> · </span>prototip örneği</span></span><b>Uber Eats</b><p>Kapına gelsin</p></div>\n      <a class=\"rk-std-cta\" href=\"https://trendyolgo.com/\" target=\"_blank\" rel=\"sponsored nofollow noopener\">Keşfet <span aria-hidden=\"true\">→</span></a>\n    </div>\n  </div>\n</aside>",

@@ -48,6 +48,17 @@ foreach ($slotlar as [$ad, $kod, $bicim, $id]) {
   $cikti['parcalar'][$ad] = Blade::render('<x-reklam.slot :kod="$kod" :bicim="$bicim" :reklamlar="$r" />', ['kod' => $kod, 'bicim' => $bicim, 'r' => [$kod => $sunum($kod, $k)]]);
   $cikti['kreatifler'][$ad] = $id;
 }
+// V2 (patron revizesi 5 Kas, K6): video şefler dizini = modülün `sef-liste` planı (reklam-yayilim.php:19) — SF-L1 üst şerit (Karaca 89),
+// SF-N2 dizinde 3. karttan sonra sponsorlu şef kartı (partials/kart/sef sponsor dalı; Tat 108), SF-L1-END alt şerit (Pınar 128).
+if (in_array('v2', $argv, true)) {
+  foreach ([['serit-SF-L1', 'SF-L1', 89], ['serit-SF-L1-END', 'SF-L1-END', 128]] as [$ad, $kod, $id]) {
+    $istek->attributes->set('rk.preview.video', true);
+    $cikti['parcalar'][$ad] = Blade::render('<x-reklam.slot :kod="$kod" bicim="serit" :reklamlar="$r" />', ['kod' => $kod, 'r' => [$kod => $sunum($kod, $kreatif($id))]]);
+    $cikti['kreatifler'][$ad] = $id;
+  }
+  $cikti['parcalar']['sef-SF-N2'] = view('partials.kart.sef', ['sponsor' => $sunum('SF-N2', $kreatif(108)), 'kart' => null, 'sef' => null])->render();
+  $cikti['kreatifler']['sef-SF-N2'] = 108;
+}
 // Videolu banner (STD-VIDEO, karar 151): ilk yayılım yuvasının yerine — yuvanın kendi kreatifi data-rk-review-static hidden içinde kalır.
 $istek->attributes->set('rk.preview.video', false);
 $video = $kreatif(101);
