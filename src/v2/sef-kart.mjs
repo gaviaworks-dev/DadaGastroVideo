@@ -31,7 +31,12 @@ function avatarIc(sef, o, { harfYalin = false } = {}) {
 const dogrulanmisRozet = (sef, o) => `<em class="hub-chef-card__verified" role="img" aria-label="${e(o, sef.unvan)}" title="${e(o, sef.unvan)}">${SEF_TIK}</em>`;
 /** Takip düğmesi: donörün formu (onclick stopPropagation, kart tıklaması yönlendirmesin) — POST yok, durum bellekte. */
 const takipFormu = (sinif, k, sef, o) => `<form onclick="event.stopPropagation()"><button class="${sinif}" aria-pressed="false" type="button" data-vd-takip="${e(o, k)}" data-ad="${e(o, sef.ad)}" data-etiket-acik="Takip Ediliyor" data-etiket-kapali="+ Takip Et">+ Takip Et</button></form>`;
-const tarifMetni = (n) => `${Number(n || 0).toLocaleString('tr-TR')} tarif`;
+/** Patron revizesi (5 Kas): kartta tarif yerine video ve seri sayısı — şefin sunduğu serilerin videoları (uzun + kısa), gerçek katalog. */
+function videoSeriMetni(k, o) {
+  const seriler = Object.values(o.SERI || {}).filter((s) => s.sef === k).map((s) => s.slug);
+  const video = Object.values(o.VIDEO || {}).filter((v) => seriler.includes(v.seri)).length;
+  return `${video.toLocaleString('tr-TR')} video · ${seriler.length} seri`;
+}
 
 /**
  * Gastro şef kartı.
@@ -51,7 +56,7 @@ export function sefKarti(k, o, { tur = 'dizin', veri = null, sz = '' } = {}) {
                         <div class="chef-av gastro-sef-avatar${dogru ? ' sef-imza' : ''}">
     ${avatarIc(sef, o)}${dogru ? `    ${dogrulanmisRozet(sef, o)}` : ''}</div>
                         <b>${e(o, sef.ad)}</b>
-                        <span>${tarifMetni(sef.tarif_sayisi)}</span>
+                        <span>${videoSeriMetni(k, o)}</span>
                         ${takipFormu('chef-follow', k, sef, o)}
                     </div>`;
   }
@@ -71,7 +76,7 @@ ${dogru ? avatarIc(sef, o) : avatarIc(sef, o, { harfYalin: true })}${dogru ? dog
                         </div>
 ${unvan}
 <div class="sef-meta">
-                            <span class="it"><i class="fa-solid fa-book-open" aria-hidden="true"></i> ${tarifMetni(sef.tarif_sayisi)}</span>
+                            <span class="it"><i class="fa-solid fa-circle-play" aria-hidden="true"></i> ${videoSeriMetni(k, o)}</span>
 </div>
                         <div class="sef-foot">
                             ${takipFormu('sef-follow', k, sef, o)}
