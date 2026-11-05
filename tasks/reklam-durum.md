@@ -1,3 +1,24 @@
+# ▶ V2 (5 Kas) — reklam ajanı
+**Durum:** reklam tarafı hazır, `build-v2.mjs` (kabuk) bekleniyor. V1'e dokunulmadı (V1 dosyalarım `src/video/reklam*`, `varlik/video/{css,js}/reklam.*`, `araclar/reklam-kapisi.mjs` aynı).
+**V2 dosyalarım:** `src/v2/reklam.mjs`, `src/v2/reklam-donor.json` (V1 kopyası; görsel yolları kök göreli `varlik/video/reklam/…`, paylaşılan), `varlik/v2/css/reklam.css`, `varlik/v2/js/reklam.js`, `araclar/reklam-kapisi-v2.mjs`.
+**Değişenler (V1 kopyasına göre):**
+- `reklam.js`: modül CSS'i + `kreatif.css` adresi betiğin kendi `src`'sinden (`…/varlik/v2/js/reklam.js` → `…/varlik/`) — v2/ derinliğinden bağımsız. Hero kapısı birden çok hero'yu okur (banner + spotlight/sahne): yan kart ve alt bar EN ALTTAKİ hero başlık çizgisini geçince (R15). Taşıma kipi ve R16 aynen.
+- `reklam.mjs`: `reklamAnahtari({ yer: 'banner' })` → koyu banner chip'i + "Prototip" ibaresi (kısa video görüntüleyicide `reklamAnahtari()` V1 gibi).
+- `reklam.css`: banner chip'i = Gastro koyu zemin chip değerleri (portal `.hero-v .chip` / `:hover`); açıkken domates zemin; 390'da ikon + "Prototip" görünür.
+- `reklam-kapisi-v2.mjs` (TABAN …/v2/): V1 denetimlerinin hepsi + anahtar koyu banner'da kırıntı satırının sağında ve "Prototip" görünür · açılışta (hero'lar görünürken) yan kart / alt bar 0 · yan kartın üstü başlık altından 24 px.
+**▶ V2 SON KOŞUM (hub + izle hero'ları geri geldikten sonra, 8798):** reklam-kapisi-v2 **yeşil 582 · kırmızı 0** (⚪ hub'daki kapalı kısa katmanındaki yuva — kisa'da ölçüldü) · yukari 46/0 · gezinti 0 kırmızı · kirpma 6 sayfa × 2 = 282 kırp (39 kısalan), 0 kırmızı. Sunucu 8798 PID 30476 ile kapatıldı. **V2 REKLAM BİTTİ.**
+Bu turda kapı düzeltmesi: standart katman sabit %42 kaydırmada ölçülüyordu; kısa şef sayfasında (2426 px) o nokta perde altbilgiye düşüyor ve modül kuralıyla yan kart/alt bar doğru biçimde gizleniyordu → "görünür değil" yanlış kırmızısı. Ölçüm konumu artık "en alttaki hero başlık çizgisini 60 px geçmiş"; o noktada altbilgi görünürse ⚪ ölçülmedi (bu koşumda yok). BOZ=yanust ve BOZ=hero hâlâ kırmızı.
+Anahtar konumu kırmızıları (izle'nin raporu): kusur iki yerdeydi — kapı kırıntının kutusunu ölçüyordu (blok, satır boyu) → çocukların en sağı; 390 izle'de gerçek çakışma → kırıntıya sağ boşluk (benim CSS'im). Kabuk CSS'ine istek yok.
+
+**Ölçüm (build-v2, 8798, 6 tip × 1440/390 × reklamsız/reklamlı):** reklam-kapisi-v2 yeşil 578 / 0 → oynatıcı denetimi eklenince hub 1440/390 + izle 1440/390 **4 kırmızı**: V2 hub spotlight'ı (`section.vd-spot`, hub.mjs:60) ve izleme sahnesi (`section.vd-izle__sinema`, izle.mjs:35) `data-rk-hero`yu kaybetti → banner geçilince yan kart/alt bar oynatıcı ekrandayken açılıyor (hub 1440: 3 öğe). hub ve izle'ye yazıldı (dosyalar onların).
+Kabuk kapıları 8798'de: rozet 0 kırmızı · yukari 50/0 · gezinti 0 kırmızı (reklamlı kaldı) · kirpma 6 sayfa × 2 = 282 kırp, 0 kırmızı.
+Düzeltme (benim CSS'im): anahtar mutlak konumda olduğu için 390 izle'de uzun kırıntının ("Akıllı Ekipman & Test > Bölüm 1") üstüne biniyordu → kırıntıya anahtar genişliği kadar sağ boşluk (240 / 390'da 100 px), kırıntı yeni satıra kırılır.
+BOZ kırmızıları (V2 denetimleri): hero (alt bar açılışta → "açılışta hero görünürken 1 öğe" + oynatıcı örtme) · kirinti (boşluk kaldırıldı → "sağında değil") · yanust (top 60 px → "-53 px").
+Görüntüler: scratchpad `reklam/v2/<tip>-<gen>-reklam{siz,li}-ilk.png`, `-reklamli-yuva.png`.
+**kabuk'tan istenen (build-v2 / iskelet) — HEPSİ YAPILDI:** banner kırıntı satırının sağına `reklamAnahtari({ yer: 'banner' })` · `section.bnp-top`'a `data-rk-hero=""` · video sayfalarına css/js `reklam`, index/tarif'e yalnız js (taşıma kipi) · `</body>` öncesi `reklamKatmani(ortak, { sayfa: modul })` · `varlik/` → `../varlik/` çevirisi `<template>` içinde de (`src`, `poster`, `data-rk-src`, `data-vd-rk-src`) · rozet/yukarı/gezinti kapılarına TABAN …/v2/.
+
+---
+
 # reklam ajanı — durum (REVİZE 1 · madde 7)
 
 ## ▶ ŞU AN (5 Kas, ikinci tur — R14 düzeltmesi)
