@@ -53,12 +53,16 @@
 <link rel="stylesheet" href="../varlik/gastro/gastro/sef-avatar.css">
 <link rel="stylesheet" href="../varlik/gastro/gastro/sef-satiri.css">
 <link rel="stylesheet" href="../varlik/gastro/gastro/sef-imza.css">
+<link rel="stylesheet" href="../varlik/gastro/varliklar/reference/tarif-liste/tarif-liste.css">
+<link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/dm-p4-f.css">
+<link rel="stylesheet" href="../varlik/gastro/revize/p1/tarifler.css">
 <link rel="stylesheet" href="../varlik/gastro/varliklar/reference/bugun-ne-pisirsem/bugun-ne-pisirsem.css">
-<link rel="stylesheet" href="../varlik/v2/banner.css?v=mw3f4g2e">
-<link rel="stylesheet" href="../varlik/v2/kabuk.css?v=mw3f4g2e">
-<link rel="stylesheet" href="../varlik/v2/video.css?v=mw3f4g2e">
-<link rel="stylesheet" href="../varlik/v2/css/sef.css?v=mw3f4g2e">
-<link rel="stylesheet" href="../varlik/v2/css/reklam.css?v=mw3f4g2e">
+<link rel="stylesheet" href="../varlik/v2/banner.css?v=mw3l89bu">
+<link rel="stylesheet" href="../varlik/v2/kabuk.css?v=mw3l89bu">
+<link rel="stylesheet" href="../varlik/v2/video.css?v=mw3l89bu">
+<link rel="stylesheet" href="../varlik/v2/css/suzgec.css?v=mw3l89bu">
+<link rel="stylesheet" href="../varlik/v2/css/sef.css?v=mw3l89bu">
+<link rel="stylesheet" href="../varlik/v2/css/reklam.css?v=mw3l89bu">
 </head>
 
 <body data-fit-hero-kind="liste" class="pg-video pg-video-v2 pg-video-sef has-dark-hero">
@@ -171,7 +175,7 @@
                                                                         <div class="nav-div"></div>
                                                                 <a href="video-kisa.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i> <span>30 Saniyede Tat<small>9 kısa video</small></span></a>
                                                                         <div class="nav-div"></div>
-                                                                <a href="video-mutfagi.html#sefler" class="active" aria-current="page"><i class="fa-solid fa-user-tie" aria-hidden="true"></i> <span>Şefler<small>6 serinin şefleri</small></span></a>
+                                                                <a href="video-sefler.html" class="active" aria-current="page"><i class="fa-solid fa-user-tie" aria-hidden="true"></i> <span>Şefler<small>6 video şefi</small></span></a>
                                                                                                     </div>
                                         </div>
                                                                             <div class="nav-item">
@@ -246,7 +250,7 @@
         <a href="video-mutfagi.html"><i class="fa-solid fa-compass" aria-hidden="true"></i> <span>Keşfet</span></a>
         <a href="video-seriler.html"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Seriler</span></a>
         <a href="video-kisa.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i> <span>30 Saniyede Tat</span></a>
-        <a href="video-mutfagi.html#sefler" class="active" aria-current="page"><i class="fa-solid fa-user-tie" aria-hidden="true"></i> <span>Şefler</span></a>
+        <a href="video-sefler.html" class="active" aria-current="page"><i class="fa-solid fa-user-tie" aria-hidden="true"></i> <span>Şefler</span></a>
       </div>
     </div>
     <div class="d-item d-has-sub">
@@ -295,7 +299,7 @@
                 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
                 <a href="video-mutfagi.html">Video Mutfağı</a>
                 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
-                <a href="video-mutfagi.html#sefler">Şefler</a>
+                <a href="video-sefler.html">Şefler</a>
                 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
                 <b>Canan Yücel</b>
             </nav>
@@ -359,8 +363,46 @@
     <button class="dt" type="button" role="tab" id="sekme-tarifler" aria-controls="panel-tarifler" aria-selected="false" tabindex="-1" data-vd-sekme="tarifler"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Yazılı tarifleri <span class="cnt">145</span></button>
    </div>
   </div>
-  <section class="vd-kanal__panel" role="tabpanel" id="panel-videolar" aria-labelledby="sekme-videolar" tabindex="0"><div class="sec-head vd-kanal__panel-bas"><div><h2>Videolar</h2><p class="lead">5 bölüm · seri sırasıyla</p></div></div>
-   <div class="vd-izgara vd-kanal__izgara--bes"><article class="r-card vd-kart vd-kart--izgara" data-vd-video="muhurleme-sanati-dokum-tavada-dogru-et-pisirme" data-konsept="sef-teknikleri" data-sure="30-ustu" data-fit="0">
+  <section class="vd-kanal__panel" role="tabpanel" id="panel-videolar" aria-labelledby="sekme-videolar" tabindex="0"><div class="lst-layout vd-liste-suzgec" data-vd-suzgec="sef-videolar" data-birim="video" data-varsayilan-sira="seri-sirasi">
+    <aside class="lst-side" id="lstSide" aria-label="Filtreler">
+      <div class="sheet-head">
+        <h3><i class="fa-solid fa-sliders" aria-hidden="true"></i> Filtrele</h3>
+        <div class="sh-right">
+          <a class="fil-clear" href="video-sef-canan-yucel.html" data-sz-temizle>Temizle</a>
+          <button class="sheet-close" id="sheetClose" type="button" aria-label="Filtre panelini kapat" data-sz-kapat><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <form data-sz-form action="video-sef-canan-yucel.html" method="get">
+        <div class="sheet-body">
+          <div class="fil-top"><h3><i class="fa-solid fa-sliders" aria-hidden="true"></i> Filtreler</h3></div>
+          <div class="fct open" data-group="sure" data-sz-grup="sure">
+        <button class="fct-head" type="button" aria-expanded="true" data-sz-akordeon> <i class="fa-solid fa-clock fct-head-ico" aria-hidden="true"></i> Süre <span class="fct-dot" data-sz-nokta>0</span><i class="fa-solid fa-chevron-down fct-car" aria-hidden="true"></i></button>
+        <div class="fct-body">
+          <label class="fct-row"> <input type="checkbox" name="sure" value="15-alti" data-sz-secenek> <span class="cbx"></span> <span class="ft">&lt; 15 Dk</span> <span class="fcnt">0</span> </label>
+          <label class="fct-row"> <input type="checkbox" name="sure" value="15-30" data-sz-secenek> <span class="cbx"></span> <span class="ft">15–30 Dk</span> <span class="fcnt">3</span> </label>
+          <label class="fct-row"> <input type="checkbox" name="sure" value="30-ustu" data-sz-secenek> <span class="cbx"></span> <span class="ft">30+ Dk</span> <span class="fcnt">2</span> </label>
+          
+        </div>
+      </div>
+        </div>
+        <div class="sheet-foot"><a class="fil-clear" data-f-ayak href="video-sef-canan-yucel.html" data-sz-temizle>Tümünü Temizle</a></div>
+      </form>
+    </aside>
+    <div class="sheet-overlay" id="sheetOverlay" data-sz-ortu></div>
+    <div class="lst-main">
+      
+      <div class="lst-bar">
+        <p class="lst-sum" id="lstSum" aria-live="polite"><b data-sz-sayi>5 video</b> bulundu</p>
+        <div class="lst-tools">
+          <button class="btn-filter" id="btnFilter" type="button" aria-controls="lstSide" aria-expanded="false" data-sz-ac><i class="fa-solid fa-sliders" aria-hidden="true"></i> Filtrele <span class="fb-count" id="filCount" data-sz-secim hidden>0</span></button>
+          <div class="sort-dd" id="sortDd" data-sz-sira-kok>
+            <button class="sort-btn" id="sortBtn" type="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-arrow-down-wide-short" aria-hidden="true"></i><span class="sb-lbl">Sıralama:</span> <span id="sortCur" data-sz-sira-ad>Seri sırası</span><i class="fa-solid fa-chevron-down sb-car" aria-hidden="true"></i></button>
+            <div class="sort-menu" role="menu"><button type="button" role="menuitem" class="active" data-sz-sira="seri-sirasi"><i class="fa-solid fa-list-ol" aria-hidden="true"></i> Seri sırası</button><button type="button" role="menuitem" class="" data-sz-sira="kisadan-uzuna" data-alan="sure" data-yon="artan" data-tur="sayi"><i class="fa-solid fa-arrow-up-short-wide" aria-hidden="true"></i> Kısadan uzuna</button><button type="button" role="menuitem" class="" data-sz-sira="uzundan-kisaya" data-alan="sure" data-yon="azalan" data-tur="sayi"><i class="fa-solid fa-arrow-down-wide-short" aria-hidden="true"></i> Uzundan kısaya</button><button type="button" role="menuitem" class="" data-sz-sira="ada-gore" data-alan="ad" data-yon="artan" data-tur="metin"><i class="fa-solid fa-arrow-down-a-z" aria-hidden="true"></i> Ada göre</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="bos-durum" data-sz-bos data-vd-bos hidden><h3>Bu süreye uyan video yok</h3><p data-vd-bos-alt>Süre seçimini kaldır ya da süzgeçleri temizle.</p><a class="dugme ikincil" href="video-sef-canan-yucel.html" data-sz-temizle data-vd-temizle>Süzgeçleri temizle</a></div>
+      <div class="lst-grid" data-sz-liste><article class="r-card vd-kart vd-kart--izgara" data-vd-video="muhurleme-sanati-dokum-tavada-dogru-et-pisirme" data-konsept="sef-teknikleri" data-sure="30-ustu" data-fit="0" data-sz-oge data-sz-dizin="0" data-sz-sure="30-ustu" data-sz-sira-sure="412" data-sz-sira-ad="Mühürleme Sanatı: Döküm Tavada Doğru Et Pişirme">
   <div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya">
    <img class="vd-kart__kapak" src="../varlik/video/tarif/dana-biftek-soganli-tava-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
    <span class="r-chip vd-kart__seri"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span class="vd-kart__seri-ad" data-vd-kirp="1">Şefin El Kitabı</span><span class="vd-kart__seri-ayrac" aria-hidden="true">·</span><span class="vd-kart__seri-no">Bölüm 1</span></span>
@@ -374,7 +416,7 @@
    <div class="r-facts vd-meta"> <span title="Hazırlık süresi (hazırlık + pişirme)"><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">Hazırlık 35 dk</span></span> <span title="Zorluk: Kolay" data-vd-zorluk="Kolay"><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Kolay</span></span> </div>
    
   </div>
- </article><article class="r-card vd-kart vd-kart--izgara" data-vd-video="asla-kesilmeyen-besamel-rehberi" data-konsept="sef-teknikleri" data-sure="15-30" data-fit="0">
+ </article><article class="r-card vd-kart vd-kart--izgara" data-vd-video="asla-kesilmeyen-besamel-rehberi" data-konsept="sef-teknikleri" data-sure="15-30" data-fit="0" data-sz-oge data-sz-dizin="1" data-sz-sure="15-30" data-sz-sira-sure="368" data-sz-sira-ad="Asla Kesilmeyen Beşamel ve Hollandez Rehberi · Bölüm 1: Beşamel">
   <div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya">
    <img class="vd-kart__kapak" src="../varlik/video/tarif/besamel-sos-kivamli-ev-yapimi-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
    <span class="r-chip vd-kart__seri"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span class="vd-kart__seri-ad" data-vd-kirp="1">Şefin El Kitabı</span><span class="vd-kart__seri-ayrac" aria-hidden="true">·</span><span class="vd-kart__seri-no">Bölüm 2</span></span>
@@ -388,7 +430,7 @@
    <div class="r-facts vd-meta"> <span title="Hazırlık süresi (hazırlık + pişirme)"><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">Hazırlık 17 dk</span></span> <span title="Zorluk: Kolay" data-vd-zorluk="Kolay"><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Kolay</span></span> <span title="Porsiyon başına kalori"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i> <span class="rf-txt">130 kcal/porsiyon</span></span> </div>
    
   </div>
- </article><article class="r-card vd-kart vd-kart--izgara" data-vd-video="hollandez-emulsiyonu-kurtarmanin-yolu" data-konsept="sef-teknikleri" data-sure="15-30" data-fit="0">
+ </article><article class="r-card vd-kart vd-kart--izgara" data-vd-video="hollandez-emulsiyonu-kurtarmanin-yolu" data-konsept="sef-teknikleri" data-sure="15-30" data-fit="0" data-sz-oge data-sz-dizin="2" data-sz-sure="15-30" data-sz-sira-sure="334" data-sz-sira-ad="Asla Kesilmeyen Beşamel ve Hollandez Rehberi · Bölüm 2: Hollandez">
   <div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya">
    <img class="vd-kart__kapak" src="../varlik/video/tarif/hollandez-sos-fransiz-usulu-tereyagli-sos-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
    <span class="r-chip vd-kart__seri"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span class="vd-kart__seri-ad" data-vd-kirp="1">Şefin El Kitabı</span><span class="vd-kart__seri-ayrac" aria-hidden="true">·</span><span class="vd-kart__seri-no">Bölüm 3</span></span>
@@ -402,7 +444,7 @@
    <div class="r-facts vd-meta"> <span title="Hazırlık süresi (hazırlık + pişirme)"><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">Hazırlık 25 dk</span></span> <span title="Zorluk: Orta" data-vd-zorluk="Orta"><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Orta</span></span> </div>
    
   </div>
- </article><article class="r-card vd-kart vd-kart--izgara" data-vd-video="risotto-kivami-nisastayi-konusturmak" data-konsept="sef-teknikleri" data-sure="30-ustu" data-fit="0">
+ </article><article class="r-card vd-kart vd-kart--izgara" data-vd-video="risotto-kivami-nisastayi-konusturmak" data-konsept="sef-teknikleri" data-sure="30-ustu" data-fit="0" data-sz-oge data-sz-dizin="3" data-sz-sure="30-ustu" data-sz-sira-sure="455" data-sz-sira-ad="Risotto Kıvamı: Nişastayı Konuşturmak">
   <div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya">
    <img class="vd-kart__kapak" src="../varlik/video/tarif/risotto-ai-funghi-italyan-usulu-mantarli-kremamsi-pirinc-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
    <span class="r-chip vd-kart__seri"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span class="vd-kart__seri-ad" data-vd-kirp="1">Şefin El Kitabı</span><span class="vd-kart__seri-ayrac" aria-hidden="true">·</span><span class="vd-kart__seri-no">Bölüm 4</span></span>
@@ -416,7 +458,7 @@
    <div class="r-facts vd-meta"> <span title="Hazırlık süresi (hazırlık + pişirme)"><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">Hazırlık 45 dk</span></span> <span title="Zorluk: Orta" data-vd-zorluk="Orta"><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Orta</span></span> <span title="Porsiyon başına kalori"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i> <span class="rf-txt">420 kcal/porsiyon</span></span> </div>
    
   </div>
- </article><article class="r-card vd-kart vd-kart--izgara" data-vd-video="tamagoyaki-rulo-omlet-teknigi" data-konsept="sef-teknikleri" data-sure="15-30" data-fit="0">
+ </article><article class="r-card vd-kart vd-kart--izgara" data-vd-video="tamagoyaki-rulo-omlet-teknigi" data-konsept="sef-teknikleri" data-sure="15-30" data-fit="0" data-sz-oge data-sz-dizin="4" data-sz-sure="15-30" data-sz-sira-sure="297" data-sz-sira-ad="Tamagoyaki: Rulo Omlet Tekniği">
   <div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya">
    <img class="vd-kart__kapak" src="../varlik/video/tarif/tamagoyaki-japon-usulu-rulo-omlet-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
    <span class="r-chip vd-kart__seri"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span class="vd-kart__seri-ad" data-vd-kirp="1">Şefin El Kitabı</span><span class="vd-kart__seri-ayrac" aria-hidden="true">·</span><span class="vd-kart__seri-no">Bölüm 5</span></span>
@@ -430,7 +472,9 @@
    <div class="r-facts vd-meta"> <span title="Hazırlık süresi (hazırlık + pişirme)"><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">Hazırlık 20 dk</span></span> <span title="Zorluk: Orta" data-vd-zorluk="Orta"><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Orta</span></span> </div>
    
   </div>
- </article></div></section>
+ </article></div>
+    </div>
+  </div></section>
   <section class="vd-kanal__panel" role="tabpanel" id="panel-seriler" aria-labelledby="sekme-seriler" tabindex="0" hidden><div class="sec-head vd-kanal__panel-bas"><div><h2>Seriler</h2><p class="lead">Şefin Video Mutfağı'nda sunduğu seri</p></div></div>
    <div class="vd-kanal__seri">
       <div class="vd-kanal__seri-afis"><article class="r-card vd-kart vd-seri-kart" data-vd-seri="sefin-el-kitabi">
@@ -771,8 +815,9 @@
   </div>
 </aside>
 </div></template></div>
-<script src="../varlik/v2/kabuk.js?v=mw3f4g2e" defer></script>
-<script src="../varlik/v2/video.js?v=mw3f4g2e" defer></script>
-<script src="../varlik/v2/js/sef.js?v=mw3f4g2e" defer></script>
-<script src="../varlik/v2/js/reklam.js?v=mw3f4g2e" defer></script>
+<script src="../varlik/v2/kabuk.js?v=mw3l89bu" defer></script>
+<script src="../varlik/v2/video.js?v=mw3l89bu" defer></script>
+<script src="../varlik/v2/js/suzgec.js?v=mw3l89bu" defer></script>
+<script src="../varlik/v2/js/sef.js?v=mw3l89bu" defer></script>
+<script src="../varlik/v2/js/reklam.js?v=mw3l89bu" defer></script>
 </body></html>
