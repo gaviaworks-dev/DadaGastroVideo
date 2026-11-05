@@ -1,0 +1,681 @@
+<!-- Dada Gastro Video Mutfağı prototipi V2 · Video sayfası · modül sef · donör: http://127.0.0.1:8960/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik (kabuk: tarif detayı) + http://127.0.0.1:8960/bugun-ne-pisirsem (banner + panel, src/donor/v2/bnp.html) (yerel Gastro http://127.0.0.1:8960, sunucu HTML'i; src/donor/) · araclar/build-v2.mjs ile üretildi, elle düzenlenmez -->
+<!-- donör: http://127.0.0.1:8960/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik (yerel Gastro, kod = canlı · canlı adresi https://dadagastro.com/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik) · alındı: 2026-11-04 · araclar/snapshot.mjs -->
+<!DOCTYPE html>
+<html lang="tr"><head>
+<link rel="preload" href="../varlik/gastro/varliklar/fonts/gilroy/Gilroy-Medium.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../varlik/gastro/varliklar/fonts/gilroy/Gilroy-ExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../varlik/gastro/varliklar/fontawesome/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+<meta name="robots" content="noindex, nofollow"><meta name="dada-dil-adresleri" content="{&quot;tr&quot;:&quot;/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik&quot;,&quot;en&quot;:&quot;/en/recipes/kuymak-black-sea-cornmeal-and-cheese-breakfast&quot;,&quot;de&quot;:&quot;/de/rezepte/kuymak-tuerkisches-maismehl-kaesegericht-fruehstueck-nach-schwarzmeer-art&quot;,&quot;ru&quot;:&quot;/ru/retsepty/kuymak-blyudo-k-zavtraku-po-chernomorski-s-kukuruznoy-mukoy&quot;}"><link rel="stylesheet" href="../varlik/gastro/kabuk/kabuk-kimlik.css"><link rel="stylesheet" href="../varlik/gastro/kabuk/zil-sayaci.css"><link rel="stylesheet" href="../varlik/gastro/kabuk/baslik-zemin.css"><link rel="stylesheet" href="../varlik/gastro/kabuk/kart-standart.css"><link rel="stylesheet" href="../varlik/gastro/kabuk/baslik-revize.css"><link rel="stylesheet" href="../varlik/gastro/kabuk/banner-standart.css"><link rel="stylesheet" href="../varlik/gastro/kabuk/magaza-rozeti.css"><link rel="stylesheet" href="../varlik/gastro/kabuk/altbilgi-marka.css"><script src="../varlik/gastro/kabuk/avatar-yedek.js"></script><script src="../varlik/gastro/kabuk/yer-tutucu.js" defer></script><link rel="stylesheet" href="../varlik/gastro/kabuk/ust-serit-inert.css"><script src="../varlik/gastro/kabuk/dada-kabuk.js"></script><link rel="stylesheet" href="../varlik/gastro/kabuk/gorus-ek.css"><link rel="stylesheet" href="../varlik/gastro/kabuk/basari-bildirimi.css"><script src="../varlik/gastro/kabuk/cekmece-alt-menu.js" defer></script><link rel="stylesheet" href="../varlik/gastro/kabuk/cekmece-alt-menu.css"><script src="../varlik/gastro/gastro/gorsel-hazirla.js" data-azami-bayt="10485760" data-azami-piksel="16000000" data-azami-kenar="8000" defer></script><link rel="stylesheet" href="../varlik/gastro/f6/tarif-bildirim.css"><script src="../varlik/gastro/kabuk/px-kaydirma.js" defer></script><script src="../varlik/gastro/kabuk/baslik-zemin.js"></script><meta name="dada-sayi-kurallari" content="{&quot;birimler&quot;:[[1000000,&quot;Mn&quot;],[1000,&quot;B&quot;]],&quot;ondalik_sinir&quot;:10,&quot;ondalik_ayrac&quot;:&quot;,&quot;,&quot;binlik_ayrac&quot;:&quot;.&quot;,&quot;ara&quot;:&quot; &quot;}"><script src="../varlik/gastro/gastro/sayi-kisaltma.js" defer></script><link rel="stylesheet" href="../varlik/gastro/f4/gastro-belge.css"><script src="../varlik/gastro/f4/gastro-belge.js" defer></script><link rel="stylesheet" href="../varlik/gastro/kabuk/cerez-bandi.css">
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Ece Özdenak — şef kanalı | Video Mutfağı — Dada Gastro (prototip)</title>
+<meta name="description" content="Ece Özdenak (Aşçı) Video Mutfağı kanalı: 30 Saniyede Tat serisi, videoları ve Dada Gastro'daki yazılı tarifleri.">
+<link rel="canonical" href="https://gaviaworks-dev.github.io/Dada GastroVideo/v2/video-sef-ece-ozdenak.html">
+<meta property="og:site_name" content="Dada Gastro Video Mutfağı (prototip V2)">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gaviaworks-dev.github.io/Dada GastroVideo/v2/video-sef-ece-ozdenak.html">
+<meta property="og:title" content="Ece Özdenak — şef kanalı | Video Mutfağı — Dada Gastro (prototip)">
+<meta property="og:description" content="Ece Özdenak (Aşçı) Video Mutfağı kanalı: 30 Saniyede Tat serisi, videoları ve Dada Gastro'daki yazılı tarifleri.">
+<meta name="twitter:card" content="summary_large_image">
+
+    <link rel="shortcut icon" type="image/x-icon" href="../varlik/gastro/varliklar/favicon.ico">
+    <link rel="stylesheet" href="../varlik/gastro/varliklar/fontawesome/css/all.min.css">
+            
+        <link rel="preload" as="style" href="../varlik/gastro/varliklar/build/assets/tokens-n1Tp8NEY.css"><link rel="preload" as="style" href="../varlik/gastro/varliklar/build/assets/portal-DQfW7by7.css"><link rel="preload" as="style" href="../varlik/gastro/varliklar/build/assets/kart-fMfp465y.css"><link rel="preload" as="style" href="../varlik/gastro/varliklar/build/assets/parallax-S2t5vFDm.css"><link rel="modulepreload" as="script" href="../varlik/gastro/varliklar/build/assets/app-Dsop9IcY.js"><link rel="modulepreload" as="script" href="../varlik/gastro/varliklar/build/assets/portal-Co4op6F_.js"><link rel="modulepreload" as="script" href="../varlik/gastro/varliklar/build/assets/parallax-DWpYIxig.js"><link rel="stylesheet" href="../varlik/gastro/varliklar/build/assets/tokens-n1Tp8NEY.css"><link rel="stylesheet" href="../varlik/gastro/varliklar/build/assets/portal-DQfW7by7.css"><link rel="stylesheet" href="../varlik/gastro/varliklar/build/assets/kart-fMfp465y.css"><link rel="stylesheet" href="../varlik/gastro/varliklar/build/assets/parallax-S2t5vFDm.css"><script type="module" src="../varlik/gastro/varliklar/build/assets/app-Dsop9IcY.js"></script><script type="module" src="../varlik/gastro/varliklar/build/assets/portal-Co4op6F_.js"></script><script type="module" src="../varlik/gastro/varliklar/build/assets/parallax-DWpYIxig.js"></script>        
+            <link rel="icon" type="image/png" sizes="192x192" href="../varlik/gastro/android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../varlik/gastro/apple-touch-icon.png">
+<link rel="stylesheet" href="../varlik/gastro/varliklar/reference/tarif-detay/tarif-detay.css">
+            <link rel="stylesheet" href="../varlik/gastro/f6/icerik-bloklari.css">
+    
+<link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/dm-kabuk.css">
+  <link rel="stylesheet" href="../varlik/gastro/kanon/alt-cubuk.css">
+  <link rel="stylesheet" href="../varlik/gastro/kanon/hero.css">
+  <link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/dm-hero.css">
+  <link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/dm-p3.css">
+  <link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/dm-p4.css">
+  <link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/dm-p4-m.css">
+  <link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/dm-p5.css">
+  <link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/dm-p5-l.css">
+  <link rel="stylesheet" href="../varlik/gastro/revize/p1/tarif-malzeme.css">
+  <link rel="stylesheet" href="../varlik/gastro/revize/alisveris/tarif-liste.css">
+  <link rel="stylesheet" href="../varlik/gastro/revize/p1/tarif-pisirme.css">
+  <link rel="stylesheet" href="../varlik/gastro/gastro/alt-eylem-cubugu.css">
+  <link rel="stylesheet" href="../varlik/gastro/revize/p1/tarif-liste-veri.css">
+  <link rel="stylesheet" href="../varlik/gastro/revize/tur5/tarif-tek-h1.css">
+  <link rel="stylesheet" href="../varlik/gastro/revize/tur5/metin-yasla.css">
+  <link rel="stylesheet" href="../varlik/gastro/revize/tur7/t-adim-metin.css">
+  <link rel="stylesheet" href="../varlik/gastro/revize/tur9/r-tarif-detay.css">
+<link rel="stylesheet" href="../varlik/gastro/gastro/altbilgi-perde.css">
+<link rel="stylesheet" href="../varlik/gastro/gastro/video/tarif-kopru.css">
+<link rel="stylesheet" href="../varlik/gastro/varliklar/reference/sefler/sefler.css">
+<link rel="stylesheet" href="../varlik/gastro/gastro/sef-avatar.css">
+<link rel="stylesheet" href="../varlik/gastro/gastro/sef-satiri.css">
+<link rel="stylesheet" href="../varlik/gastro/gastro/sef-imza.css">
+<link rel="stylesheet" href="../varlik/gastro/varliklar/reference/bugun-ne-pisirsem/bugun-ne-pisirsem.css">
+<link rel="stylesheet" href="../varlik/v2/banner.css?v=mw3f4g2e">
+<link rel="stylesheet" href="../varlik/v2/kabuk.css?v=mw3f4g2e">
+<link rel="stylesheet" href="../varlik/v2/video.css?v=mw3f4g2e">
+<link rel="stylesheet" href="../varlik/v2/css/sef.css?v=mw3f4g2e">
+<link rel="stylesheet" href="../varlik/v2/css/reklam.css?v=mw3f4g2e">
+</head>
+
+<body data-fit-hero-kind="liste" class="pg-video pg-video-v2 pg-video-sef has-dark-hero">
+    <div class="topbar ust-bant">
+  <div class="wrap kap">
+    <div class="tb-left">
+      <a href="https://dadagastro.com/tarifler"><i class="fa-solid fa-utensils" style="color:var(--marka)"></i> 6.352 denenmiş tarif</a>
+      <span class="tb-div"></span>
+      <div class="tb-soc">
+        <a href="https://www.instagram.com/dada.gastro/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.facebook.com/dadagastrocom" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="https://x.com/dadagastrocom" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="tb-right">
+      <nav class="brand-switch" aria-label="Dada dünyaları">
+        <a class="bs-item bs-gastro is-active" href="index.html" aria-current="page"><i class="fa-solid fa-utensils"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">gastro</span></span></a>
+                <a class="bs-item bs-fit" href="https://dadafit.com.tr" title="DadaFit" data-eco="fit" target="_blank" rel="noopener"><i class="fa-solid fa-dumbbell"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">fit</span></span></a>
+                <a class="bs-item bs-diet" href="https://dadadiet.com" title="DadaDiet" data-eco="diet" target="_blank" rel="noopener"><i class="fa-solid fa-heart-pulse"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">diet</span></span></a>
+                <a class="bs-item bs-gourmet" href="https://dadagourmet.com" title="DadaGourmet" data-eco="gourmet" target="_blank" rel="noopener"><i class="fa-solid fa-map-location-dot"></i><span class="bs-name"><span class="bd">dada</span><span class="sf">gourmet</span></span></a>
+      </nav>
+      <div class="tb-lang" id="tbLang">
+        <button class="tb-lang-btn" id="tbLangBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Dil menüsü — site Türkçe">
+          <i class="fa-solid fa-globe" aria-hidden="true"></i><span lang="en">EN</span>
+        </button>
+        <div class="tb-lang-menu" id="tbLangMenu" role="menu">
+          <button type="button" role="menuitemradio" aria-checked="true" class="active" data-lang="tr">TR <span>Türkçe</span></button>
+          <button type="button" role="menuitemradio" aria-checked="false" data-lang="en">EN <span>English</span></button>
+          <button type="button" role="menuitemradio" aria-checked="false" data-lang="de">DE <span>Deutsch</span></button>
+          <button type="button" role="menuitemradio" aria-checked="false" data-lang="ru">RU <span>Русский</span></button>
+          <template data-dil-yok="en"><p class="tb-lang-note is-vurgu" role="status" data-dil-yok-not="en"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Bu sayfa henüz İngilizce yayımlanmadı.</span></p></template>
+          <template data-dil-yok="de"><p class="tb-lang-note is-vurgu" role="status" data-dil-yok-not="de"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Bu sayfa henüz Almanca yayımlanmadı.</span></p></template>
+          <template data-dil-yok="ru"><p class="tb-lang-note is-vurgu" role="status" data-dil-yok-not="ru"><i class="fa-solid fa-circle-info" aria-hidden="true"></i><span>Bu sayfa henüz Rusça yayımlanmadı.</span></p></template>
+        </div>
+      </div>
+<script src="../varlik/gastro/f7/dil-menusu.js" data-acik-diller="tr,en,de,ru" defer></script>
+    </div>
+  </div>
+</div>
+    <header class="header kabuk-basi at-top tepede" data-hero="1">
+  <div class="h-top">
+    <div class="wrap kap">
+      <a class="brand" href="index.html" aria-label="Dada Gastro ana sayfa">
+                <span class="brand-word"><svg class="gastro-word-mark" viewBox="921.855 214.449 1721.825 348.042" role="img" aria-label="Dada Gastro" xmlns="http://www.w3.org/2000/svg"><title>Dada Gastro</title><path fill="currentColor" fill-rule="nonzero" d="M 1668.214844 361.792969 C 1690.148438 361.792969 1704.765625 378.71875 1704.765625 399.109375 C 1704.765625 419.113281 1690.148438 436.042969 1668.214844 436.042969 C 1646.289062 436.042969 1631.671875 419.113281 1631.671875 399.109375 C 1631.671875 378.71875 1646.289062 361.792969 1668.214844 361.792969 M 1656.675781 501.054688 C 1678.988281 501.054688 1696.304688 493.746094 1708.613281 481.050781 L 1708.613281 495.285156 L 1774.011719 495.285156 L 1774.011719 398.722656 C 1774.011719 339.863281 1729.769531 296.777344 1668.214844 296.777344 C 1608.207031 296.777344 1562.425781 342.941406 1562.425781 398.722656 C 1562.425781 454.890625 1600.507812 501.054688 1656.675781 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1454.691406 362.179688 C 1476.625 362.179688 1491.242188 379.105469 1491.242188 399.109375 C 1491.242188 419.5 1476.625 436.039062 1454.691406 436.039062 C 1432.765625 436.039062 1418.148438 419.5 1418.148438 399.109375 C 1418.148438 379.105469 1432.765625 362.179688 1454.691406 362.179688 M 1454.691406 501.054688 C 1516.246094 501.054688 1560.488281 458.351562 1560.488281 399.492188 L 1560.488281 214.449219 L 1491.242188 214.449219 L 1491.242188 307.933594 C 1479.3125 301.394531 1465.082031 297.164062 1450.847656 297.164062 C 1389.679688 297.164062 1348.902344 337.941406 1348.902344 399.492188 C 1348.902344 455.273438 1394.683594 501.054688 1454.691406 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1241.167969 361.792969 C 1263.101562 361.792969 1277.71875 378.71875 1277.71875 399.109375 C 1277.71875 419.113281 1263.101562 436.042969 1241.167969 436.042969 C 1219.242188 436.042969 1204.625 419.113281 1204.625 399.109375 C 1204.625 378.71875 1219.242188 361.792969 1241.167969 361.792969 M 1229.628906 501.054688 C 1251.945312 501.054688 1269.257812 493.746094 1281.566406 481.050781 L 1281.566406 495.285156 L 1346.96875 495.285156 L 1346.96875 398.722656 C 1346.96875 339.863281 1302.722656 296.777344 1241.167969 296.777344 C 1181.160156 296.777344 1135.378906 342.941406 1135.378906 398.722656 C 1135.378906 454.890625 1173.464844 501.054688 1229.628906 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1027.648438 362.179688 C 1049.578125 362.179688 1064.199219 379.105469 1064.199219 399.109375 C 1064.199219 419.5 1049.578125 436.039062 1027.648438 436.039062 C 1005.722656 436.039062 991.101562 419.5 991.101562 399.109375 C 991.101562 379.105469 1005.722656 362.179688 1027.648438 362.179688 M 1027.648438 501.054688 C 1089.203125 501.054688 1133.445312 458.351562 1133.445312 399.492188 L 1133.445312 214.449219 L 1064.199219 214.449219 L 1064.199219 307.933594 C 1052.265625 301.394531 1038.039062 297.164062 1023.800781 297.164062 C 962.636719 297.164062 921.855469 337.941406 921.855469 399.492188 C 921.855469 455.273438 967.636719 501.054688 1027.648438 501.054688 "></path><g transform="translate(1804.507685,495.506687)"><path fill="currentColor" d="M 157.984375 -127.015625 C 143.453125 -150.078125 122.28125 -161.78125 94.15625 -161.78125 C 71.71875 -161.78125 52.453125 -153.875 36.34375 -137.765625 C 20.53125 -121.640625 12.640625 -102.0625 12.640625 -79 C 12.640625 -55.921875 20.53125 -36.34375 36.34375 -20.21875 C 52.453125 -4.109375 71.71875 3.796875 94.15625 3.796875 C 122.28125 3.796875 143.453125 -7.90625 157.984375 -30.96875 L 157.984375 -6.3125 C 157.984375 26.21875 135.859375 46.765625 99.53125 46.765625 C 71.40625 46.765625 52.453125 37.28125 42.96875 18.015625 L 24.640625 28.4375 C 37.59375 54.03125 62.5625 66.984375 99.53125 66.984375 C 121.328125 66.984375 139.96875 60.34375 155.453125 47.390625 C 170.9375 34.4375 178.84375 16.4375 178.84375 -6.3125 L 178.84375 -157.984375 L 157.984375 -157.984375 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><g transform="translate(1988.081594,495.506687)"><path fill="currentColor" d="M 157.984375 -127.015625 C 143.453125 -150.078125 122.28125 -161.78125 94.15625 -161.78125 C 71.71875 -161.78125 52.453125 -153.875 36.34375 -137.765625 C 20.53125 -121.640625 12.640625 -102.0625 12.640625 -79 C 12.640625 -55.921875 20.53125 -36.34375 36.34375 -20.21875 C 52.453125 -4.109375 71.71875 3.796875 94.15625 3.796875 C 122.28125 3.796875 143.453125 -7.90625 157.984375 -30.96875 L 157.984375 0 L 178.84375 0 L 178.84375 -157.984375 L 157.984375 -157.984375 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><g transform="translate(2171.655502,495.506687)"><path fill="currentColor" d="M 38.546875 -116.59375 C 38.546875 -132.703125 53.71875 -141.546875 71.71875 -141.546875 C 91 -141.546875 103.640625 -134.28125 109.640625 -119.4375 L 127.015625 -129.546875 C 117.859375 -149.453125 97.3125 -161.78125 71.71875 -161.78125 C 56.25 -161.78125 43.28125 -157.359375 32.859375 -148.828125 C 22.75 -140.296875 17.6875 -129.546875 17.6875 -116.59375 C 17.6875 -82.46875 50.875 -75.203125 77.40625 -68.5625 C 95.421875 -63.828125 109.953125 -55.921875 109.953125 -41.703125 C 109.953125 -24.328125 94.15625 -16.4375 73.625 -16.4375 C 52.453125 -16.4375 36.34375 -26.546875 30.328125 -42.96875 L 12.640625 -32.546875 C 21.171875 -11.0625 43.28125 3.796875 73.625 3.796875 C 90.359375 3.796875 104.265625 -0.3125 114.703125 -8.84375 C 125.4375 -17.375 130.8125 -28.125 130.8125 -41.703125 C 130.8125 -75.828125 97.640625 -83.09375 71.09375 -89.734375 C 53.078125 -94.46875 38.546875 -102.375 38.546875 -116.59375 Z M 38.546875 -116.59375 "></path></g><g transform="translate(2291.405091,495.506687)"><path fill="currentColor" d="M 105.84375 -157.984375 L 60.34375 -157.984375 L 60.34375 -202.21875 L 39.5 -195.90625 L 39.5 -157.984375 L 6.3125 -157.984375 L 6.3125 -137.765625 L 39.5 -137.765625 L 39.5 -42.03125 C 39.5 -5.375 61.609375 6.640625 105.84375 0 L 105.84375 -18.328125 C 75.515625 -17.0625 60.34375 -14.84375 60.34375 -42.03125 L 60.34375 -137.765625 L 105.84375 -137.765625 Z M 105.84375 -157.984375 "></path></g><g transform="translate(2392.512923,495.506687)"><path fill="currentColor" d="M 42.96875 -157.984375 L 22.125 -157.984375 L 22.125 0 L 42.96875 0 L 42.96875 -87.84375 C 42.96875 -124.171875 64.140625 -140.296875 92.890625 -140.296875 L 92.890625 -160.515625 C 69.203125 -160.515625 52.765625 -151.03125 42.96875 -131.765625 Z M 42.96875 -157.984375 "></path></g><g transform="translate(2464.836619,495.506687)"><path fill="currentColor" d="M 154.515625 -19.90625 C 170.625 -36.015625 178.84375 -55.609375 178.84375 -79 C 178.84375 -102.375 170.625 -121.96875 154.515625 -137.765625 C 138.390625 -153.875 118.796875 -161.78125 95.734375 -161.78125 C 72.671875 -161.78125 52.765625 -153.875 36.65625 -137.765625 C 20.53125 -121.96875 12.640625 -102.375 12.640625 -79 C 12.640625 -55.609375 20.53125 -36.015625 36.65625 -19.90625 C 52.765625 -4.109375 72.671875 3.796875 95.734375 3.796875 C 118.796875 3.796875 138.390625 -4.109375 154.515625 -19.90625 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g></svg></span></a>
+      <nav class="nav ana-menu" aria-label="Dada Gastro ana menü">
+<div class="nav-item has-mega">
+            <a href="https://dadagastro.com/tarifler" class="">Tarifler <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></a>
+            <div class="mega rk-ortak-mega">
+                <div class="wrap">
+                    <div class="mega-grid">
+                        <div class="mega-cats">
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/sebze" data-slug="/sebze" title="Sebze"><i class="fa-solid fa-carrot" aria-hidden="true"></i> <span>Sebze<small>358 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/kirmizi-et" data-slug="/kirmizi-et" title="Kırmızı Et"><i class="fa-solid fa-cow" aria-hidden="true"></i> <span>Kırmızı Et<small>345 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/meze" data-slug="/meze" title="Meze"><i class="fa-solid fa-shrimp" aria-hidden="true"></i> <span>Meze<small>273 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/atistirmalik" data-slug="/atistirmalik" title="Atıştırmalık"><i class="fa-solid fa-cheese" aria-hidden="true"></i> <span>Atıştırmalık<small>247 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/kahvaltilik" data-slug="/kahvaltilik" title="Kahvaltılık"><i class="fa-solid fa-egg" aria-hidden="true"></i> <span>Kahvaltılık<small>249 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/balik-ve-deniz-urunleri" data-slug="/balik-ve-deniz-urunleri" title="Balık ve Deniz Ürünleri"><i class="fa-solid fa-fish" aria-hidden="true"></i> <span>Balık ve Deniz Ürünleri<small>268 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/corba" data-slug="/corba" title="Çorba"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i> <span>Çorba<small>281 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/tavuk-ve-hindi" data-slug="/tavuk-ve-hindi" title="Tavuk ve Hindi"><i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i> <span>Tavuk ve Hindi<small>250 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/pilav" data-slug="/pilav" title="Pilav"><i class="fa-solid fa-bowl-rice" aria-hidden="true"></i> <span>Pilav<small>235 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/tatli" data-slug="/tatli" title="Tatlı"><i class="fa-solid fa-ice-cream" aria-hidden="true"></i> <span>Tatlı<small>290 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/sandvic-burger-ve-durum" data-slug="/sandvic-burger-ve-durum" title="Sandviç, Burger ve Dürüm"><i class="fa-solid fa-burger" aria-hidden="true"></i> <span>Sandviç, Burger ve Dürüm<small>192 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/meyve-tarifleri" data-slug="/meyve-tarifleri" title="Meyve Tarifleri"><i class="fa-solid fa-apple-whole" aria-hidden="true"></i> <span>Meyve Tarifleri<small>209 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/icecek" data-slug="/icecek" title="İçecek"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>İçecek<small>209 tarif</small></span></a>
+                                                                                <a href="https://dadagastro.com/tarifler/kategori/kofte-ve-kebap" data-slug="/kofte-ve-kebap" title="Köfte ve Kebap"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i> <span>Köfte ve Kebap<small>252 tarif</small></span></a>
+<a class="mega-cat-all" href="https://dadagastro.com/tarifler"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span>Tüm Tarifler<small>6.352 tarif</small></span><i class="fa-solid fa-arrow-right mca-arrow" aria-hidden="true"></i></a>
+                        </div>
+                        <link rel="stylesheet" href="../varlik/gastro/alan/mega-serit.css">
+<script src="../varlik/gastro/alan/mega-serit.js" defer=""></script>
+<div class="sg-mega-yuva" data-sg-dongu="">
+<div class="sg-mega-serit sg-dongu-aktif" role="group" aria-label="Dada Gastro Health" data-sg-dongu-oge="saglik">
+<svg class="sg-logo-svg sg-mega-serit__logo" viewBox="921.855 214.449 2426.145 348.042" role="img" aria-label="Dada Gastro Health" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" fill-rule="nonzero" d="M 1668.214844 361.792969 C 1690.148438 361.792969 1704.765625 378.71875 1704.765625 399.109375 C 1704.765625 419.113281 1690.148438 436.042969 1668.214844 436.042969 C 1646.289062 436.042969 1631.671875 419.113281 1631.671875 399.109375 C 1631.671875 378.71875 1646.289062 361.792969 1668.214844 361.792969 M 1656.675781 501.054688 C 1678.988281 501.054688 1696.304688 493.746094 1708.613281 481.050781 L 1708.613281 495.285156 L 1774.011719 495.285156 L 1774.011719 398.722656 C 1774.011719 339.863281 1729.769531 296.777344 1668.214844 296.777344 C 1608.207031 296.777344 1562.425781 342.941406 1562.425781 398.722656 C 1562.425781 454.890625 1600.507812 501.054688 1656.675781 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1454.691406 362.179688 C 1476.625 362.179688 1491.242188 379.105469 1491.242188 399.109375 C 1491.242188 419.5 1476.625 436.039062 1454.691406 436.039062 C 1432.765625 436.039062 1418.148438 419.5 1418.148438 399.109375 C 1418.148438 379.105469 1432.765625 362.179688 1454.691406 362.179688 M 1454.691406 501.054688 C 1516.246094 501.054688 1560.488281 458.351562 1560.488281 399.492188 L 1560.488281 214.449219 L 1491.242188 214.449219 L 1491.242188 307.933594 C 1479.3125 301.394531 1465.082031 297.164062 1450.847656 297.164062 C 1389.679688 297.164062 1348.902344 337.941406 1348.902344 399.492188 C 1348.902344 455.273438 1394.683594 501.054688 1454.691406 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1241.167969 361.792969 C 1263.101562 361.792969 1277.71875 378.71875 1277.71875 399.109375 C 1277.71875 419.113281 1263.101562 436.042969 1241.167969 436.042969 C 1219.242188 436.042969 1204.625 419.113281 1204.625 399.109375 C 1204.625 378.71875 1219.242188 361.792969 1241.167969 361.792969 M 1229.628906 501.054688 C 1251.945312 501.054688 1269.257812 493.746094 1281.566406 481.050781 L 1281.566406 495.285156 L 1346.96875 495.285156 L 1346.96875 398.722656 C 1346.96875 339.863281 1302.722656 296.777344 1241.167969 296.777344 C 1181.160156 296.777344 1135.378906 342.941406 1135.378906 398.722656 C 1135.378906 454.890625 1173.464844 501.054688 1229.628906 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1027.648438 362.179688 C 1049.578125 362.179688 1064.199219 379.105469 1064.199219 399.109375 C 1064.199219 419.5 1049.578125 436.039062 1027.648438 436.039062 C 1005.722656 436.039062 991.101562 419.5 991.101562 399.109375 C 991.101562 379.105469 1005.722656 362.179688 1027.648438 362.179688 M 1027.648438 501.054688 C 1089.203125 501.054688 1133.445312 458.351562 1133.445312 399.492188 L 1133.445312 214.449219 L 1064.199219 214.449219 L 1064.199219 307.933594 C 1052.265625 301.394531 1038.039062 297.164062 1023.800781 297.164062 C 962.636719 297.164062 921.855469 337.941406 921.855469 399.492188 C 921.855469 455.273438 967.636719 501.054688 1027.648438 501.054688 "></path><g transform="translate(1804.507685,495.506687)"><path fill="currentColor" d="M 157.984375 -127.015625 C 143.453125 -150.078125 122.28125 -161.78125 94.15625 -161.78125 C 71.71875 -161.78125 52.453125 -153.875 36.34375 -137.765625 C 20.53125 -121.640625 12.640625 -102.0625 12.640625 -79 C 12.640625 -55.921875 20.53125 -36.34375 36.34375 -20.21875 C 52.453125 -4.109375 71.71875 3.796875 94.15625 3.796875 C 122.28125 3.796875 143.453125 -7.90625 157.984375 -30.96875 L 157.984375 -6.3125 C 157.984375 26.21875 135.859375 46.765625 99.53125 46.765625 C 71.40625 46.765625 52.453125 37.28125 42.96875 18.015625 L 24.640625 28.4375 C 37.59375 54.03125 62.5625 66.984375 99.53125 66.984375 C 121.328125 66.984375 139.96875 60.34375 155.453125 47.390625 C 170.9375 34.4375 178.84375 16.4375 178.84375 -6.3125 L 178.84375 -157.984375 L 157.984375 -157.984375 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><g transform="translate(1988.081594,495.506687)"><path fill="currentColor" d="M 157.984375 -127.015625 C 143.453125 -150.078125 122.28125 -161.78125 94.15625 -161.78125 C 71.71875 -161.78125 52.453125 -153.875 36.34375 -137.765625 C 20.53125 -121.640625 12.640625 -102.0625 12.640625 -79 C 12.640625 -55.921875 20.53125 -36.34375 36.34375 -20.21875 C 52.453125 -4.109375 71.71875 3.796875 94.15625 3.796875 C 122.28125 3.796875 143.453125 -7.90625 157.984375 -30.96875 L 157.984375 0 L 178.84375 0 L 178.84375 -157.984375 L 157.984375 -157.984375 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><g transform="translate(2171.655502,495.506687)"><path fill="currentColor" d="M 38.546875 -116.59375 C 38.546875 -132.703125 53.71875 -141.546875 71.71875 -141.546875 C 91 -141.546875 103.640625 -134.28125 109.640625 -119.4375 L 127.015625 -129.546875 C 117.859375 -149.453125 97.3125 -161.78125 71.71875 -161.78125 C 56.25 -161.78125 43.28125 -157.359375 32.859375 -148.828125 C 22.75 -140.296875 17.6875 -129.546875 17.6875 -116.59375 C 17.6875 -82.46875 50.875 -75.203125 77.40625 -68.5625 C 95.421875 -63.828125 109.953125 -55.921875 109.953125 -41.703125 C 109.953125 -24.328125 94.15625 -16.4375 73.625 -16.4375 C 52.453125 -16.4375 36.34375 -26.546875 30.328125 -42.96875 L 12.640625 -32.546875 C 21.171875 -11.0625 43.28125 3.796875 73.625 3.796875 C 90.359375 3.796875 104.265625 -0.3125 114.703125 -8.84375 C 125.4375 -17.375 130.8125 -28.125 130.8125 -41.703125 C 130.8125 -75.828125 97.640625 -83.09375 71.09375 -89.734375 C 53.078125 -94.46875 38.546875 -102.375 38.546875 -116.59375 Z M 38.546875 -116.59375 "></path></g><g transform="translate(2291.405091,495.506687)"><path fill="currentColor" d="M 105.84375 -157.984375 L 60.34375 -157.984375 L 60.34375 -202.21875 L 39.5 -195.90625 L 39.5 -157.984375 L 6.3125 -157.984375 L 6.3125 -137.765625 L 39.5 -137.765625 L 39.5 -42.03125 C 39.5 -5.375 61.609375 6.640625 105.84375 0 L 105.84375 -18.328125 C 75.515625 -17.0625 60.34375 -14.84375 60.34375 -42.03125 L 60.34375 -137.765625 L 105.84375 -137.765625 Z M 105.84375 -157.984375 "></path></g><g transform="translate(2392.512923,495.506687)"><path fill="currentColor" d="M 42.96875 -157.984375 L 22.125 -157.984375 L 22.125 0 L 42.96875 0 L 42.96875 -87.84375 C 42.96875 -124.171875 64.140625 -140.296875 92.890625 -140.296875 L 92.890625 -160.515625 C 69.203125 -160.515625 52.765625 -151.03125 42.96875 -131.765625 Z M 42.96875 -157.984375 "></path></g><g transform="translate(2464.836619,495.506687)"><path fill="currentColor" d="M 154.515625 -19.90625 C 170.625 -36.015625 178.84375 -55.609375 178.84375 -79 C 178.84375 -102.375 170.625 -121.96875 154.515625 -137.765625 C 138.390625 -153.875 118.796875 -161.78125 95.734375 -161.78125 C 72.671875 -161.78125 52.765625 -153.875 36.65625 -137.765625 C 20.53125 -121.96875 12.640625 -102.375 12.640625 -79 C 12.640625 -55.609375 20.53125 -36.015625 36.65625 -19.90625 C 52.765625 -4.109375 72.671875 3.796875 95.734375 3.796875 C 118.796875 3.796875 138.390625 -4.109375 154.515625 -19.90625 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><text class="sg-logo-rozet" aria-hidden="true" x="2700" y="496" font-family="GilroyXB, Gilroy, sans-serif" font-weight="800" font-size="250" textLength="640" lengthAdjust="spacingAndGlyphs"><tspan fill="#2E7D5B">health</tspan></text></svg>
+<span class="sg-mega-serit__metin">Yaşam modlarına göre tarifler</span><span class="sg-mega-serit__chipler"></span><a class="sg-mega-serit__kesfet" href="https://dadagastro.com/health" aria-label="Dada Gastro Health&#039;i keşfet">Keşfet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+</div>
+</div>
+                        <div class="mega-feat">
+                <a class="mf-fig" href="tarif-cacik-salatalikli-yogurt-mezesi.html"  style="background-image:url('../varlik/gastro/varliklar/media/2881.webp')" >
+                                    <span class="r-chip"><i class="fa-solid fa-star" aria-hidden="true"></i> Haftanın Tarifi</span>
+                                    <h4>Cacık | Salatalıklı Yoğurt Mezesi</h4>
+                                </a>                                                                            <a class="mega-find" href="https://dadagastro.com/dolapta-ne-var"><span class="mf-ico"><i class="fa-solid fa-basket-shopping" aria-hidden="true"></i></span><span class="mf-body"><b>Dolapta Ne Var?</b><small>Dolabındakilerle ne pişersin?</small></span><i class="fa-solid fa-arrow-right mf-arr" aria-hidden="true"></i></a>
+<link rel="stylesheet" href="../varlik/gastro/gastro/video/menu.css">
+<a class="mega-find mf-video vd-mega" href="video-izle-karadeniz-yaylalarindan-hakiki-kuymak.html" aria-label="Haftanın serisi: Kazan Kaynayan Topraklar, Bölüm 1: Karadeniz Yaylalarından Hakiki Kuymak (10:42) — izle"><span class="vd-mega__poster" aria-hidden="true"><img src="../varlik/video/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async"><span class="vd-mega__oynat"><i class="fa-solid fa-play" aria-hidden="true"></i></span><span class="vd-mega__sure">10:42</span></span><span class="mf-body vd-mega__govde"><span class="vd-mega__etiket"><i class="fa-solid fa-fire" aria-hidden="true"></i> Haftanın serisi</span><b>Kazan Kaynayan Topraklar</b><small>Bölüm 1 · Karadeniz Yaylalarından Hakiki Kuymak</small></span></a>
+<a class="mf-video-tumu" href="video-mutfagi.html" aria-label="Video Mutfağı · tüm videolar">Tüm videolar <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                                                                            <div class="nav-item">
+            <a href="https://dadagastro.com/bugun-ne-pisirsem" class="">Ne Pişirsem?
+                                                </a>
+                                        </div>
+                                                                            <div class="nav-item">
+            <a href="https://dadagastro.com/dolapta-ne-var" class="">Dolapta Ne Var?
+                                                </a>
+                                        </div>
+                                                                            <div class="nav-item">
+            <a href="https://dadagastro.com/puf-noktalari" class="">Püf Noktaları
+                                                </a>
+                                        </div>
+<link rel="stylesheet" href="../varlik/gastro/gastro/video/menu-baslik.css">
+                                                                            <div class="nav-item">
+            <a href="video-mutfagi.html" class="active">Video Mutfağı <span class="soon">VİDEO</span>
+                                                        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                                </a>
+                                                <div class="dropdown">
+                                                                <a href="video-mutfagi.html"><i class="fa-solid fa-compass" aria-hidden="true"></i> <span>Keşfet<small>26 video, haftanın serisi</small></span></a>
+                                                                        <div class="nav-div"></div>
+                                                                <a href="video-seriler.html"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Seriler<small>6 seri, bölüm bölüm</small></span></a>
+                                                                        <div class="nav-div"></div>
+                                                                <a href="video-kisa.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i> <span>30 Saniyede Tat<small>9 kısa video</small></span></a>
+                                                                        <div class="nav-div"></div>
+                                                                <a href="video-mutfagi.html#sefler" class="active" aria-current="page"><i class="fa-solid fa-user-tie" aria-hidden="true"></i> <span>Şefler<small>6 serinin şefleri</small></span></a>
+                                                                                                    </div>
+                                        </div>
+                                                                            <div class="nav-item">
+            <a href="https://dadagastro.com/mutfak-sirlari" class="">Mutfak Sırları
+                                                        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                                </a>
+                                                <div class="dropdown">
+                                                                <a href="https://dadagastro.com/mutfaga-giris"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> <span>Mutfağa Giriş<small>Sıfırdan temel teknikler</small></span></a>
+                                                                        <div class="nav-div"></div>
+                                                                                                            <a href="https://dadagastro.com/mutfak-ansiklopedisi"><i class="fa-solid fa-seedling" aria-hidden="true"></i> <span>Mutfak Ansiklopedisi<small>Malzemeleri tanı: faydası, kullanımı</small></span></a>
+                                                                        <div class="nav-div"></div>
+                                                                                                            <a href="https://dadagastro.com/mutfak-sozlugu"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span>Sözlük<small>Mutfak terimleri</small></span></a>
+                                                                        <div class="nav-div"></div>
+                                                                                                            <a href="https://dadagastro.com/olcu-birimleri"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> <span>Ölçü Birimleri<small>Bardak, kaşık, gram</small></span></a>
+                                                                        <div class="nav-div"></div>
+                                                                                                            <a href="https://dadagastro.com/sofra-duzeni"><i class="fa-solid fa-utensils" aria-hidden="true"></i> <span>Sofra Düzeni<small>Günlük &amp; davet sofra kurulumu</small></span></a>
+                                                                                                    </div>
+                                        </div>
+      </nav>
+      <div class="head-actions">
+        <button class="icon-btn ikon-dugme" aria-label="Ara" onclick="location.href='https://dadagastro.com/ara'"><i class="fa-solid fa-magnifying-glass"></i></button>
+        
+        <button class="btn-login" onclick="location.href='https://dadagastro.com/giris'"><i class="fa-solid fa-user"></i> Giriş Yap</button>
+        
+        <button class="icon-btn ikon-dugme hamburger" id="hamburger" aria-label="Menü"><i class="fa-solid fa-bars"></i></button>
+      </div>
+    </div>
+  </div>
+</header>
+    
+
+<div class="drawer-overlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer" aria-label="Mobil menü" data-revize="d10">
+  <div class="drawer-head">
+    <a class="drawer-brand" href="index.html" aria-label="Dada Gastro ana sayfa"><svg class="gastro-word-mark" viewBox="921.855 214.449 1721.825 348.042" role="img" aria-label="Dada Gastro" xmlns="http://www.w3.org/2000/svg"><title>Dada Gastro</title><path fill="currentColor" fill-rule="nonzero" d="M 1668.214844 361.792969 C 1690.148438 361.792969 1704.765625 378.71875 1704.765625 399.109375 C 1704.765625 419.113281 1690.148438 436.042969 1668.214844 436.042969 C 1646.289062 436.042969 1631.671875 419.113281 1631.671875 399.109375 C 1631.671875 378.71875 1646.289062 361.792969 1668.214844 361.792969 M 1656.675781 501.054688 C 1678.988281 501.054688 1696.304688 493.746094 1708.613281 481.050781 L 1708.613281 495.285156 L 1774.011719 495.285156 L 1774.011719 398.722656 C 1774.011719 339.863281 1729.769531 296.777344 1668.214844 296.777344 C 1608.207031 296.777344 1562.425781 342.941406 1562.425781 398.722656 C 1562.425781 454.890625 1600.507812 501.054688 1656.675781 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1454.691406 362.179688 C 1476.625 362.179688 1491.242188 379.105469 1491.242188 399.109375 C 1491.242188 419.5 1476.625 436.039062 1454.691406 436.039062 C 1432.765625 436.039062 1418.148438 419.5 1418.148438 399.109375 C 1418.148438 379.105469 1432.765625 362.179688 1454.691406 362.179688 M 1454.691406 501.054688 C 1516.246094 501.054688 1560.488281 458.351562 1560.488281 399.492188 L 1560.488281 214.449219 L 1491.242188 214.449219 L 1491.242188 307.933594 C 1479.3125 301.394531 1465.082031 297.164062 1450.847656 297.164062 C 1389.679688 297.164062 1348.902344 337.941406 1348.902344 399.492188 C 1348.902344 455.273438 1394.683594 501.054688 1454.691406 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1241.167969 361.792969 C 1263.101562 361.792969 1277.71875 378.71875 1277.71875 399.109375 C 1277.71875 419.113281 1263.101562 436.042969 1241.167969 436.042969 C 1219.242188 436.042969 1204.625 419.113281 1204.625 399.109375 C 1204.625 378.71875 1219.242188 361.792969 1241.167969 361.792969 M 1229.628906 501.054688 C 1251.945312 501.054688 1269.257812 493.746094 1281.566406 481.050781 L 1281.566406 495.285156 L 1346.96875 495.285156 L 1346.96875 398.722656 C 1346.96875 339.863281 1302.722656 296.777344 1241.167969 296.777344 C 1181.160156 296.777344 1135.378906 342.941406 1135.378906 398.722656 C 1135.378906 454.890625 1173.464844 501.054688 1229.628906 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1027.648438 362.179688 C 1049.578125 362.179688 1064.199219 379.105469 1064.199219 399.109375 C 1064.199219 419.5 1049.578125 436.039062 1027.648438 436.039062 C 1005.722656 436.039062 991.101562 419.5 991.101562 399.109375 C 991.101562 379.105469 1005.722656 362.179688 1027.648438 362.179688 M 1027.648438 501.054688 C 1089.203125 501.054688 1133.445312 458.351562 1133.445312 399.492188 L 1133.445312 214.449219 L 1064.199219 214.449219 L 1064.199219 307.933594 C 1052.265625 301.394531 1038.039062 297.164062 1023.800781 297.164062 C 962.636719 297.164062 921.855469 337.941406 921.855469 399.492188 C 921.855469 455.273438 967.636719 501.054688 1027.648438 501.054688 "></path><g transform="translate(1804.507685,495.506687)"><path fill="currentColor" d="M 157.984375 -127.015625 C 143.453125 -150.078125 122.28125 -161.78125 94.15625 -161.78125 C 71.71875 -161.78125 52.453125 -153.875 36.34375 -137.765625 C 20.53125 -121.640625 12.640625 -102.0625 12.640625 -79 C 12.640625 -55.921875 20.53125 -36.34375 36.34375 -20.21875 C 52.453125 -4.109375 71.71875 3.796875 94.15625 3.796875 C 122.28125 3.796875 143.453125 -7.90625 157.984375 -30.96875 L 157.984375 -6.3125 C 157.984375 26.21875 135.859375 46.765625 99.53125 46.765625 C 71.40625 46.765625 52.453125 37.28125 42.96875 18.015625 L 24.640625 28.4375 C 37.59375 54.03125 62.5625 66.984375 99.53125 66.984375 C 121.328125 66.984375 139.96875 60.34375 155.453125 47.390625 C 170.9375 34.4375 178.84375 16.4375 178.84375 -6.3125 L 178.84375 -157.984375 L 157.984375 -157.984375 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><g transform="translate(1988.081594,495.506687)"><path fill="currentColor" d="M 157.984375 -127.015625 C 143.453125 -150.078125 122.28125 -161.78125 94.15625 -161.78125 C 71.71875 -161.78125 52.453125 -153.875 36.34375 -137.765625 C 20.53125 -121.640625 12.640625 -102.0625 12.640625 -79 C 12.640625 -55.921875 20.53125 -36.34375 36.34375 -20.21875 C 52.453125 -4.109375 71.71875 3.796875 94.15625 3.796875 C 122.28125 3.796875 143.453125 -7.90625 157.984375 -30.96875 L 157.984375 0 L 178.84375 0 L 178.84375 -157.984375 L 157.984375 -157.984375 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><g transform="translate(2171.655502,495.506687)"><path fill="currentColor" d="M 38.546875 -116.59375 C 38.546875 -132.703125 53.71875 -141.546875 71.71875 -141.546875 C 91 -141.546875 103.640625 -134.28125 109.640625 -119.4375 L 127.015625 -129.546875 C 117.859375 -149.453125 97.3125 -161.78125 71.71875 -161.78125 C 56.25 -161.78125 43.28125 -157.359375 32.859375 -148.828125 C 22.75 -140.296875 17.6875 -129.546875 17.6875 -116.59375 C 17.6875 -82.46875 50.875 -75.203125 77.40625 -68.5625 C 95.421875 -63.828125 109.953125 -55.921875 109.953125 -41.703125 C 109.953125 -24.328125 94.15625 -16.4375 73.625 -16.4375 C 52.453125 -16.4375 36.34375 -26.546875 30.328125 -42.96875 L 12.640625 -32.546875 C 21.171875 -11.0625 43.28125 3.796875 73.625 3.796875 C 90.359375 3.796875 104.265625 -0.3125 114.703125 -8.84375 C 125.4375 -17.375 130.8125 -28.125 130.8125 -41.703125 C 130.8125 -75.828125 97.640625 -83.09375 71.09375 -89.734375 C 53.078125 -94.46875 38.546875 -102.375 38.546875 -116.59375 Z M 38.546875 -116.59375 "></path></g><g transform="translate(2291.405091,495.506687)"><path fill="currentColor" d="M 105.84375 -157.984375 L 60.34375 -157.984375 L 60.34375 -202.21875 L 39.5 -195.90625 L 39.5 -157.984375 L 6.3125 -157.984375 L 6.3125 -137.765625 L 39.5 -137.765625 L 39.5 -42.03125 C 39.5 -5.375 61.609375 6.640625 105.84375 0 L 105.84375 -18.328125 C 75.515625 -17.0625 60.34375 -14.84375 60.34375 -42.03125 L 60.34375 -137.765625 L 105.84375 -137.765625 Z M 105.84375 -157.984375 "></path></g><g transform="translate(2392.512923,495.506687)"><path fill="currentColor" d="M 42.96875 -157.984375 L 22.125 -157.984375 L 22.125 0 L 42.96875 0 L 42.96875 -87.84375 C 42.96875 -124.171875 64.140625 -140.296875 92.890625 -140.296875 L 92.890625 -160.515625 C 69.203125 -160.515625 52.765625 -151.03125 42.96875 -131.765625 Z M 42.96875 -157.984375 "></path></g><g transform="translate(2464.836619,495.506687)"><path fill="currentColor" d="M 154.515625 -19.90625 C 170.625 -36.015625 178.84375 -55.609375 178.84375 -79 C 178.84375 -102.375 170.625 -121.96875 154.515625 -137.765625 C 138.390625 -153.875 118.796875 -161.78125 95.734375 -161.78125 C 72.671875 -161.78125 52.765625 -153.875 36.65625 -137.765625 C 20.53125 -121.96875 12.640625 -102.375 12.640625 -79 C 12.640625 -55.609375 20.53125 -36.015625 36.65625 -19.90625 C 52.765625 -4.109375 72.671875 3.796875 95.734375 3.796875 C 118.796875 3.796875 138.390625 -4.109375 154.515625 -19.90625 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g></svg></a>
+    <button class="drawer-close" id="drawerClose" aria-label="Menüyü kapat"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <nav class="drawer-nav">
+    <div class="d-item d-has-sub">
+      <div class="d-row">
+        <a class="d-link" href="https://dadagastro.com/tarifler"><i class="fa-solid fa-book-open"></i> Tarifler</a>
+        <button class="d-toggle" type="button" aria-expanded="false" aria-label="Tarifler alt menüsü"><i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="d-sub">
+
+        <a href="https://dadagastro.com/tarifler"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span>Tüm Tarifler</span></a>
+ <a href="https://dadagastro.com/health"><i class="fa-solid fa-heart-pulse" aria-hidden="true"></i> <span>Dada Gastro Health · Yaşam modları</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/sebze"><i class="fa-solid fa-carrot" aria-hidden="true"></i> <span>Sebze</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/kirmizi-et"><i class="fa-solid fa-cow" aria-hidden="true"></i> <span>Kırmızı Et</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/meze"><i class="fa-solid fa-shrimp" aria-hidden="true"></i> <span>Meze</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/atistirmalik"><i class="fa-solid fa-cheese" aria-hidden="true"></i> <span>Atıştırmalık</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/kahvaltilik"><i class="fa-solid fa-egg" aria-hidden="true"></i> <span>Kahvaltılık</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/balik-ve-deniz-urunleri"><i class="fa-solid fa-fish" aria-hidden="true"></i> <span>Balık ve Deniz Ürünleri</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/corba"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i> <span>Çorba</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/tavuk-ve-hindi"><i class="fa-solid fa-drumstick-bite" aria-hidden="true"></i> <span>Tavuk ve Hindi</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/pilav"><i class="fa-solid fa-bowl-rice" aria-hidden="true"></i> <span>Pilav</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/tatli"><i class="fa-solid fa-ice-cream" aria-hidden="true"></i> <span>Tatlı</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/sandvic-burger-ve-durum"><i class="fa-solid fa-burger" aria-hidden="true"></i> <span>Sandviç, Burger ve Dürüm</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/meyve-tarifleri"><i class="fa-solid fa-apple-whole" aria-hidden="true"></i> <span>Meyve Tarifleri</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/icecek"><i class="fa-solid fa-mug-hot" aria-hidden="true"></i> <span>İçecek</span></a>
+        <a href="https://dadagastro.com/tarifler/kategori/kofte-ve-kebap"><i class="fa-solid fa-fire-flame-curved" aria-hidden="true"></i> <span>Köfte ve Kebap</span></a>      <span data-rk-week-mobil hidden></span></div>
+    </div>
+    <div class="d-item"><a class="d-link" href="https://dadagastro.com/bugun-ne-pisirsem"><i class="fa-solid fa-utensils"></i> Ne Pişirsem?</a></div>
+    <div class="d-item"><a class="d-link" href="https://dadagastro.com/dolapta-ne-var"><i class="fa-solid fa-basket-shopping"></i> Dolapta Ne Var?</a></div>
+    <div class="d-item"><a class="d-link" href="https://dadagastro.com/puf-noktalari"><i class="fa-solid fa-lightbulb"></i> Püf Noktaları</a></div>
+<div class="d-item d-has-sub">
+      <div class="d-row">
+        <a class="d-link" href="video-mutfagi.html"><i class="fa-solid fa-circle-play"></i> Video Mutfağı <span class="soon">VİDEO</span></a>
+        <button class="d-toggle" type="button" aria-expanded="false" aria-label="Video Mutfağı alt menüsü"><i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="d-sub">
+        <a href="video-mutfagi.html"><i class="fa-solid fa-compass" aria-hidden="true"></i> <span>Keşfet</span></a>
+        <a href="video-seriler.html"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> <span>Seriler</span></a>
+        <a href="video-kisa.html"><i class="fa-solid fa-bolt" aria-hidden="true"></i> <span>30 Saniyede Tat</span></a>
+        <a href="video-mutfagi.html#sefler" class="active" aria-current="page"><i class="fa-solid fa-user-tie" aria-hidden="true"></i> <span>Şefler</span></a>
+      </div>
+    </div>
+    <div class="d-item d-has-sub">
+      <div class="d-row">
+        <a class="d-link" href="https://dadagastro.com/mutfak-sirlari"><i class="fa-solid fa-mortar-pestle"></i> Mutfak Sırları</a>
+        <button class="d-toggle" type="button" aria-expanded="false" aria-label="Mutfak Sırları alt menüsü"><i class="fa-solid fa-chevron-down"></i></button>
+      </div>
+      <div class="d-sub">
+        <a href="https://dadagastro.com/mutfaga-giris"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> <span>Mutfağa Giriş</span></a>
+        <a href="https://dadagastro.com/mutfak-ansiklopedisi"><i class="fa-solid fa-seedling" aria-hidden="true"></i> <span>Mutfak Ansiklopedisi</span></a>
+        <a href="https://dadagastro.com/mutfak-sozlugu"><i class="fa-solid fa-book-open" aria-hidden="true"></i> <span>Sözlük</span></a>
+        <a href="https://dadagastro.com/olcu-birimleri"><i class="fa-solid fa-scale-balanced" aria-hidden="true"></i> <span>Ölçü Birimleri</span></a>
+        <a href="https://dadagastro.com/sofra-duzeni"><i class="fa-solid fa-utensils" aria-hidden="true"></i> <span>Sofra Düzeni</span></a>
+      </div>
+    </div>
+    
+  </nav>
+  <div class="drawer-foot">
+    <button class="btn btn-primary drawer-login" style="width:100%" onclick="location.href='https://dadagastro.com/giris'"><i class="fa-solid fa-user"></i> Giriş Yap</button>
+    
+    <div class="drawer-lang" id="drawerLang">
+      <button class="drawer-lang-toggle" type="button" aria-haspopup="true" aria-expanded="false">
+        <span class="drawer-lang-label"><i class="fa-solid fa-globe"></i> Dil</span>
+        <span class="drawer-lang-cur"><span lang="en">EN</span> <i class="fa-solid fa-chevron-down"></i></span>
+      </button>
+      <div class="drawer-lang-list" role="menu">
+        <button type="button" role="menuitemradio" aria-checked="true" class="active" data-lang="tr"><b>TR</b> Türkçe</button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-lang="en"><b>EN</b> English</button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-lang="de"><b>DE</b> Deutsch</button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-lang="ru"><b>RU</b> Русский</button>
+      </div>
+    </div>
+  </div>
+</aside>
+
+    
+                    
+
+    <main class="page-main" id="pageMain" style="margin-bottom: 518px;">
+<div class="vd-sayfa vd-v2 vd-v2--iskelet">
+<section class="bnp-top below-header px-band vd-v2-banner" data-vd-banner="acili-ezme-gavurdagi-usulu-cevizli" data-px-band="1" data-hero-band="" data-rk-hero=""><div class="px-clip"><div class="px-media"></div><div class="px-veil"></div></div>
+        <div class="wrap">
+            <div class="vd-v2-arac" data-vd-v2-arac><button class="chip vd-rk-anahtar vd-rk-anahtar--banner" type="button" aria-pressed="false" data-vd-reklam-anahtari title="Reklam yerleşimlerini göster / gizle (prototip aracı)"><i class="fa-solid fa-rectangle-ad" aria-hidden="true"></i><span class="vd-rk-anahtar__metin">Reklamlı görünüm</span><span class="vd-rk-anahtar__ek">Prototip</span></button></div>
+            <nav class="rd-crumb" aria-label="Sayfa yolu">
+                <a href="index.html" aria-label="Dada Gastro ana sayfa"><i class="fa-solid fa-house" aria-hidden="true"></i></a>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                <a href="video-mutfagi.html">Video Mutfağı</a>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                <a href="video-mutfagi.html#sefler">Şefler</a>
+                <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+                <b>Ece Özdenak</b>
+            </nav>
+            <div class="bnp-head">
+                <div class="lh-main">
+                    <span class="eyebrow"><i class="fa-solid fa-video" aria-hidden="true"></i> Video Mutfağı şefi</span>
+                    <h1>Ece Özdenak</h1>
+                    <p class="lead">Aşçı · Türk Mutfağı. Video Mutfağı'nda 30 Saniyede Tat serisini sunuyor.</p>
+                </div>
+                <div class="bnp-stats">
+                    <div class="st"><b>9</b><span>Video</span></div>
+                    <div class="st"><b>1</b><span>Seri</span></div>
+                    <div class="st"><b>104</b><span>Yazılı tarif</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bnp-body vd-v2-panel">
+        <div class="wrap">
+<!-- Video Mutfağı V2 şef kanalı · donör: http://127.0.0.1:8960/bugun-ne-pisirsem (banner + panel + .pf-tabs/.dt) · /sefler (.sef-card) · / (.r-card) -->
+<div class="vd-kanal" data-vd-kanal>
+ <div class="vd-kanal__ust">
+  <div class="vd-kanal__kart"><article class="sef-card " onclick="location.href='video-sef-ece-ozdenak.html'">
+<div class="sef-ava">
+<span>E</span>
+</div>
+                        <div class="sef-name">
+                            Ece Özdenak
+                        </div>
+<span class="sef-rank r-high"><i class="fa-solid fa-trophy" aria-hidden="true"></i> Aşçı</span>
+<div class="sef-meta">
+                            <span class="it"><i class="fa-solid fa-book-open" aria-hidden="true"></i> 104 tarif</span>
+</div>
+                        <div class="sef-foot">
+                            <form onclick="event.stopPropagation()"><button class="sef-follow" aria-pressed="false" type="button" data-vd-takip="ece.ozdenak" data-ad="Ece Özdenak" data-etiket-acik="Takip Ediliyor" data-etiket-kapali="+ Takip Et">+ Takip Et</button></form>
+                        </div>
+</article></div>
+  <div class="vd-kanal__metin">
+   <span class="eyebrow"><i class="fa-solid fa-user-tie" aria-hidden="true"></i> Şef hakkında</span>
+   <p class="vd-kanal__tanitim"><span class="vd-ornek"><i class="fa-solid fa-flask" aria-hidden="true"></i> Prototip örneği</span> Ece Özdenak, Dada Gastro'da aşçı olarak tarif yazıyor; sitede 104 yazılı tarifi var. Tariflerinin çoğu Türk Mutfağı tarifleri. Video Mutfağı'nda 30 Saniyede Tat serisini sunuyor.</p>
+   <div class="vd-kanal__aksiyon">
+    <a class="btn btn-ghost vd-kanal__profil" href="https://dadagastro.com/sefler/ece.ozdenak">Dada Gastro profili <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+   </div>
+  </div>
+ </div>
+ <!-- reklam · donör: full-stack reklam modülü render çıktısı (gastro-video fda37161c5; araclar/reklam-render.php) · örnek markalar canlı demo kayıtlarından · prototip örneği -->
+<div class="vd-reklam vd-reklam--yerlesim" data-vd-reklam="SF-P1" data-vd-reklam-sayfa="sef" hidden><template><div class="rk-yayilim-alan wrap rk-yayilim-bant" data-rk-yayilim="sef-profil" data-rk-konum="ust" aria-label="Sponsorlu içerik">
+<aside class="rk-slot rk-serit rk-ince-banner rk-renk-00824e rk-gorsel-urun rk-sahneli" data-rk-slot="SF-P1" data-rk-kod="SF-P1" aria-label="Sponsorlu içerik · Söke">
+    <span class="rk-etiket">Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span>
+    <a class="rk-serit-bag" href="https://soke.com.tr/urun/soke-geleneksel-un" target="_blank" rel="sponsored nofollow noopener" data-rk-bag>
+        <img class="rk-serit-urun" src="../varlik/video/reklam/f51c099e880cc22d2d5d-urun.webp" alt="Söke: Söke Geleneksel Un 1 kg" width="2400" height="2400" loading="lazy">        <img class="rk-sahne-zemin" src="../varlik/gastro/reklam/sahne/soke/sahne.jpg" alt="" loading="lazy" decoding="async"><span class="rk-zemin-perde" aria-hidden="true"></span><span class="rk-serit-kimlik"><img class="rk-logo" src="../varlik/video/reklam/fb023eeff4b54b123239.svg" alt="Söke" loading="lazy" decoding="async"></span>
+        <span class="rk-serit-metin"><b>Söke Geleneksel Un 1 kg</b><span>Söke ile mutfağında kendi lezzetini hazırla.</span></span>
+        <span class="rk-serit-cta">İncele <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>    </a>
+</aside>
+</div></template></div>
+ <div class="vd-kanal__govde">
+  <div class="bnp-tabwrap vd-kanal__sekmeler">
+   <div class="pf-tabs" role="tablist" aria-label="Ece Özdenak kanalı">
+    <button class="dt active" type="button" role="tab" id="sekme-seriler" aria-controls="panel-seriler" aria-selected="true" tabindex="0" data-vd-sekme="seriler"><i class="fa-solid fa-layer-group" aria-hidden="true"></i> Seriler <span class="cnt">1</span></button>
+    <button class="dt" type="button" role="tab" id="sekme-kisa-videolar" aria-controls="panel-kisa-videolar" aria-selected="false" tabindex="-1" data-vd-sekme="kisa-videolar"><i class="fa-solid fa-bolt" aria-hidden="true"></i> Kısa videolar <span class="cnt">9</span></button>
+    <button class="dt" type="button" role="tab" id="sekme-tarifler" aria-controls="panel-tarifler" aria-selected="false" tabindex="-1" data-vd-sekme="tarifler"><i class="fa-solid fa-book-open" aria-hidden="true"></i> Yazılı tarifleri <span class="cnt">104</span></button>
+   </div>
+  </div>
+  <section class="vd-kanal__panel" role="tabpanel" id="panel-seriler" aria-labelledby="sekme-seriler" tabindex="0"><div class="sec-head vd-kanal__panel-bas"><div><h2>Seriler</h2><p class="lead">Şefin Video Mutfağı'nda sunduğu seri</p></div></div>
+   <div class="vd-kanal__seri">
+      <div class="vd-kanal__seri-afis"><article class="r-card vd-kart vd-seri-kart" data-vd-seri="30-saniyede-tat">
+  <div class="r-media-wrap vd-kart__kap"><div class="r-media vd-kart__medya">
+   <img class="vd-kart__kapak" src="../varlik/video/tarif/arancini-italyan-usulu-kizarmis-risotto-topu-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
+   <span class="r-chip"><i class="fa-solid fa-mobile-screen" aria-hidden="true"></i> Dikey 9:16</span>
+   <div class="m-types"><span class="mt"><i class="fa-solid fa-film" aria-hidden="true"></i> 9 video</span></div>
+  </div></div>
+  <div class="r-body">
+   <h3 data-vd-kirp="2"><a href="video-seri-30-saniyede-tat.html">30 Saniyede Tat</a></h3>
+   <p class="vd-kart__ozet" data-vd-kirp="2">ASMR sesleri, mikro kesmeler, hızlı montaj ve anında uygulanabilir pratik püf noktaları.</p>
+   <div class="r-facts vd-meta"> <span title="Bölüm süresi"><i class="fa-solid fa-hourglass-half" aria-hidden="true"></i> <span class="rf-txt">15–45 sn</span></span> <span title="Yayın ritmi"><i class="fa-solid fa-calendar-days" aria-hidden="true"></i> <span class="rf-txt">Her gün yeni kısa video</span></span> </div>
+   <div class="r-foot"> <a class="r-author vd-kart__sef" href="video-sef-ece-ozdenak.html" title="Ece Özdenak — seriyi sunan şef"><div class="av"><span aria-hidden="true">EÖ</span></div> <span><b>Ece Özdenak</b></span></a> </div>
+  </div>
+ </article></div>
+      <div class="vd-kanal__seri-liste">
+       <h3 class="vd-kanal__seri-bas">9 kısa video</h3>
+       <ol class="vd-kanal__kisa-liste"><li><a href="video-kisa.html?v=kalan-pilavdan-30-saniyede-citir-arancini"><span>01</span><b>Kalan Pilavdan 30 Saniyede Çıtır Arancini</b><small>30 sn</small></a></li><li><a href="video-kisa.html?v=3-malzemeli-acil-durum-suflesi"><span>02</span><b>3 Malzemeli Acil Durum Suflesi</b><small>28 sn</small></a></li><li><a href="video-kisa.html?v=tavada-citir-kasarli-tost"><span>03</span><b>Tavada Çıtır Kaşarlı Tost</b><small>22 sn</small></a></li><li><a href="video-kisa.html?v=30-saniyede-cacik"><span>04</span><b>30 Saniyede Cacık</b><small>19 sn</small></a></li><li><a href="video-kisa.html?v=cilekli-muzlu-smoothie"><span>05</span><b>Çilekli Muzlu Smoothie</b><small>24 sn</small></a></li><li><a href="video-kisa.html?v=mihlamada-peynirin-uzama-ani"><span>06</span><b>Mıhlamada Peynirin Uzama Anı</b><small>35 sn</small></a></li><li><a href="video-kisa.html?v=airfryerda-misir-usulu-patlican-salatasi"><span>07</span><b>Airfryer'da Mısır Usulü Patlıcan Salatası</b><small>41 sn</small></a></li><li><a href="video-kisa.html?v=cilbirda-pose-yumurta-girdabi"><span>08</span><b>Çılbırda Poşe Yumurta Girdabı</b><small>33 sn</small></a></li><li><a href="video-kisa.html?v=gavurdagi-usulu-acili-ezme"><span>09</span><b>Gavurdağı Usulü Acılı Ezme</b><small>27 sn</small></a></li></ol>
+      </div>
+     </div></section>
+  <section class="vd-kanal__panel" role="tabpanel" id="panel-kisa-videolar" aria-labelledby="sekme-kisa-videolar" tabindex="0" hidden><div class="vd-ray vd-ray--kisa" data-vd-ray>
+    <div class="sec-head vd-kanal__panel-bas"><div><h2>Kısa videolar</h2><p class="lead">15–45 saniyelik dikey videolar; açınca yukarı kaydırarak sıradakine geç.</p></div>
+     <div class="sec-tools"><a class="see-all" href="video-kisa.html?v=kalan-pilavdan-30-saniyede-citir-arancini">Tam ekran izle <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a><div class="row-nav"><button type="button" data-vd-ray-onceki aria-label="Önceki kısa videolar"><i class="fa-solid fa-chevron-left" aria-hidden="true"></i></button><button type="button" data-vd-ray-sonraki aria-label="Sonraki kısa videolar"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button></div></div>
+    </div>
+    <div class="row-track" data-vd-ray-iz><a class="vd-kisa" href="video-kisa.html?v=kalan-pilavdan-30-saniyede-citir-arancini" data-vd-kisa="kalan-pilavdan-30-saniyede-citir-arancini" data-fit="0" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/arancini-italyan-usulu-kizarmis-risotto-topu-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 30 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">Kalan Pilavla</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">Kalan Pilavdan 30 Saniyede Çıtır Arancini</span></span>
+ </a><a class="vd-kisa" href="video-kisa.html?v=3-malzemeli-acil-durum-suflesi" data-vd-kisa="3-malzemeli-acil-durum-suflesi" data-fit="0" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/peynirli-sufle-firinda-kabarik-yumurta-yemegi-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 28 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">3 Malzemeli</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">3 Malzemeli Acil Durum Suflesi</span></span>
+ </a><a class="vd-kisa" href="video-kisa.html?v=tavada-citir-kasarli-tost" data-vd-kisa="tavada-citir-kasarli-tost" data-fit="0" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/kasarli-tost-klasik-ev-yapimi-peynirli-tost-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 22 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">3 Malzemeli</span><span class="vd-rozet">Tek Tava</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">Tavada Çıtır Kaşarlı Tost</span></span>
+ </a><a class="vd-kisa" href="video-kisa.html?v=30-saniyede-cacik" data-vd-kisa="30-saniyede-cacik" data-fit="1" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/cacik-salatalikli-yogurt-mezesi-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 19 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">Pişirmeden</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">30 Saniyede Cacık</span></span>
+ </a><a class="vd-kisa" href="video-kisa.html?v=cilekli-muzlu-smoothie" data-vd-kisa="cilekli-muzlu-smoothie" data-fit="1" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/cilekli-smoothie-muzlu-yogurtlu-cilek-smoothie-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 24 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">Pişirmeden</span><span class="vd-rozet">5 Dakika</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">Çilekli Muzlu Smoothie</span></span>
+ </a><a class="vd-kisa" href="video-kisa.html?v=mihlamada-peynirin-uzama-ani" data-vd-kisa="mihlamada-peynirin-uzama-ani" data-fit="0" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/mihlama-trabzon-usulu-misir-unlu-peynirli-muhlama-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 35 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">Tek Tava</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">Mıhlamada Peynirin Uzama Anı</span></span>
+ </a><a class="vd-kisa" href="video-kisa.html?v=airfryerda-misir-usulu-patlican-salatasi" data-vd-kisa="airfryerda-misir-usulu-patlican-salatasi" data-fit="1" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/misir-usulu-patlican-salatasi-airfryer-baharatli-tarif-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 41 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">Airfryer</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">Airfryer'da Mısır Usulü Patlıcan Salatası</span></span>
+ </a><a class="vd-kisa" href="video-kisa.html?v=cilbirda-pose-yumurta-girdabi" data-vd-kisa="cilbirda-pose-yumurta-girdabi" data-fit="1" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/cilbir-yogurtlu-pose-yumurta-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 33 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">Tek Tencere</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">Çılbırda Poşe Yumurta Girdabı</span></span>
+ </a><a class="vd-kisa" href="video-kisa.html?v=gavurdagi-usulu-acili-ezme" data-vd-kisa="gavurdagi-usulu-acili-ezme" data-fit="1" data-sure="15-alti">
+  <span class="vd-kisa__medya"><img class="vd-kisa__kapak" src="../varlik/video/tarif/acili-ezme-gavurdagi-usulu-cevizli-640.webp" alt="" width="360" height="640" loading="lazy" decoding="async"></span>
+  <span class="vd-kisa__sure"><i class="fa-solid fa-bolt" aria-hidden="true"></i> 27 sn</span>
+  <span class="vd-kisa__oynat" aria-hidden="true"><i class="fa-solid fa-play" aria-hidden="true"></i></span>
+  <span class="vd-kisa__alt"><span class="vd-kisa__rozetler"><span class="vd-rozet">Pişirmeden</span></span><span class="vd-kisa__baslik" data-vd-kirp="3">Gavurdağı Usulü Acılı Ezme</span></span>
+ </a></div>
+   </div></section>
+  <section class="vd-kanal__panel" role="tabpanel" id="panel-tarifler" aria-labelledby="sekme-tarifler" tabindex="0" hidden><div class="sec-head vd-kanal__panel-bas"><div><h2>Yazılı tarifleri</h2><p class="lead">Ece Özdenak'ın Dada Gastro'daki 104 yazılı tarifinden örnekler.</p></div>
+    <div class="sec-tools"><a class="see-all" href="https://dadagastro.com/sefler/ece.ozdenak">Tümünü Dada Gastro'da gör <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div></div>
+   <div class="vd-izgara vd-izgara--3"><article class="r-card vd-kanal__tarif">
+     <div class="r-media-wrap"><div class="r-media">
+      <img class="vd-kart__kapak" src="../varlik/video/tarif/yuvalama-gaziantep-usulu-yogurtlu-kofteli-corba-640.webp" alt="" width="640" height="427" loading="lazy" decoding="async">
+      <span class="r-chip">Türk Mutfağı</span>
+     </div></div>
+     <div class="r-body">
+      <h3 data-vd-kirp="2"><a href="tarif-yuvalama-gaziantep-usulu-yogurtlu-kofteli-corba.html" aria-label="Yuvalama | Gaziantep Usulü Yoğurtlu Köfteli Çorba">Yuvalama | Gaziantep Usulü Yoğurtlu Köfteli Çorba</a></h3>
+      <div class="r-facts"><span><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">65 dk</span></span> <span><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">İleri</span></span></div>
+     </div>
+    </article><article class="r-card vd-kanal__tarif">
+     <div class="r-media-wrap"><div class="r-media">
+      <img class="vd-kart__kapak" src="../varlik/video/tarif/suriye-usulu-izgara-halumi-nane-yaprakli-zeytinyagli-atistirmalik-640.webp" alt="" width="640" height="427" loading="lazy" decoding="async">
+      
+     </div></div>
+     <div class="r-body">
+      <h3 data-vd-kirp="2"><a href="https://dadagastro.com/tarif/suriye-usulu-izgara-halumi-nane-yaprakli-zeytinyagli-atistirmalik" aria-label="Suriye Usulü Izgara Halumi | Nane Yapraklı Zeytinyağlı Atıştırmalık">Suriye Usulü Izgara Halumi | Nane Yapraklı Zeytinyağlı Atıştırmalık</a></h3>
+      <div class="r-facts"><span><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">65 dk</span></span> <span><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Orta</span></span></div>
+     </div>
+    </article><article class="r-card vd-kanal__tarif">
+     <div class="r-media-wrap"><div class="r-media">
+      <img class="vd-kart__kapak" src="../varlik/video/tarif/molohiya-misir-usulu-tavuklu-ebegumeci-corbasi-640.webp" alt="" width="640" height="427" loading="lazy" decoding="async">
+      
+     </div></div>
+     <div class="r-body">
+      <h3 data-vd-kirp="2"><a href="https://dadagastro.com/tarif/molohiya-misir-usulu-tavuklu-ebegumeci-corbasi" aria-label="Molohiya | Mısır Usulü Tavuklu Ebegümeci Çorbası">Molohiya | Mısır Usulü Tavuklu Ebegümeci Çorbası</a></h3>
+      <div class="r-facts"><span><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">60 dk</span></span> <span><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Orta</span></span></div>
+     </div>
+    </article><article class="r-card vd-kanal__tarif">
+     <div class="r-media-wrap"><div class="r-media">
+      <img class="vd-kart__kapak" src="../varlik/video/tarif/fume-somon-ezmesi-irlanda-usulu-baharatli-parti-mezesi-640.webp" alt="" width="640" height="427" loading="lazy" decoding="async">
+      
+     </div></div>
+     <div class="r-body">
+      <h3 data-vd-kirp="2"><a href="https://dadagastro.com/tarif/fume-somon-ezmesi-irlanda-usulu-baharatli-parti-mezesi" aria-label="Füme Somon Ezmesi | İrlanda Usulü Baharatlı Parti Mezesi">Füme Somon Ezmesi | İrlanda Usulü Baharatlı Parti Mezesi</a></h3>
+      <div class="r-facts"><span><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">15 dk</span></span> <span><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Kolay</span></span></div>
+     </div>
+    </article><article class="r-card vd-kanal__tarif">
+     <div class="r-media-wrap"><div class="r-media">
+      <img class="vd-kart__kapak" src="../varlik/video/tarif/acili-peynirli-kroket-turk-usulu-kizartma-atistirmalik-640.webp" alt="" width="640" height="427" loading="lazy" decoding="async">
+      
+     </div></div>
+     <div class="r-body">
+      <h3 data-vd-kirp="2"><a href="https://dadagastro.com/tarif/acili-peynirli-kroket-turk-usulu-kizartma-atistirmalik" aria-label="Acılı Peynirli Kroket | Türk Usulü Kızartma Atıştırmalık">Acılı Peynirli Kroket | Türk Usulü Kızartma Atıştırmalık</a></h3>
+      <div class="r-facts"><span><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">45 dk</span></span> <span><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Orta</span></span></div>
+     </div>
+    </article><article class="r-card vd-kanal__tarif">
+     <div class="r-media-wrap"><div class="r-media">
+      <img class="vd-kart__kapak" src="../varlik/video/tarif/duduklude-misir-kocani-ukrayna-usulu-piknik-atistirmaligi-640.webp" alt="" width="640" height="427" loading="lazy" decoding="async">
+      
+     </div></div>
+     <div class="r-body">
+      <h3 data-vd-kirp="2"><a href="https://dadagastro.com/tarif/duduklude-misir-kocani-ukrayna-usulu-piknik-atistirmaligi" aria-label="Düdüklüde Mısır Koçanı | Ukrayna Usulü Piknik Atıştırmalığı">Düdüklüde Mısır Koçanı | Ukrayna Usulü Piknik Atıştırmalığı</a></h3>
+      <div class="r-facts"><span><i class="fa-solid fa-clock" aria-hidden="true"></i> <span class="rf-txt">35 dk</span></span> <span><i class="fa-solid fa-signal" aria-hidden="true"></i> <span class="rf-txt">Orta</span></span></div>
+     </div>
+    </article></div></section>
+ </div>
+ <!-- reklam · donör: full-stack reklam modülü render çıktısı (gastro-video fda37161c5; araclar/reklam-render.php) · örnek markalar canlı demo kayıtlarından · prototip örneği -->
+<div class="vd-reklam vd-reklam--yerlesim" data-vd-reklam="SF-P1-END" data-vd-reklam-sayfa="sef" hidden><template><div class="rk-yayilim-alan wrap rk-yayilim-bant" data-rk-yayilim="sef-profil" data-rk-konum="alt" aria-label="Sponsorlu içerik">
+<aside class="rk-slot rk-serit rk-ince-banner rk-renk-006c3c rk-gorsel-urun rk-sahneli" data-rk-slot="SF-P1-END" data-rk-kod="SF-P1-END" aria-label="Sponsorlu içerik · Pınar">
+    <span class="rk-etiket">Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span>
+    <a class="rk-serit-bag" href="https://www.pinar.com.tr/" target="_blank" rel="sponsored nofollow noopener" data-rk-bag>
+        <img class="rk-serit-urun" src="../varlik/video/reklam/db44b054679947e3a345-urun.webp" alt="Pınar: Pınar Süt 1 L" width="2400" height="2400" loading="lazy">        <img class="rk-sahne-zemin" src="../varlik/gastro/reklam/sahne/pinar/sahne.jpg" alt="" loading="lazy" decoding="async"><span class="rk-zemin-perde" aria-hidden="true"></span><span class="rk-serit-kimlik"><img class="rk-logo" src="../varlik/video/reklam/32778ae0bb188959974f-logo.webp" alt="Pınar" loading="lazy" decoding="async"></span>
+        <span class="rk-serit-metin"><b>Pınar Süt 1 L</b><span>Günlük tariflerine Pınar Süt eşlik etsin.</span></span>
+        <span class="rk-serit-cta">İncele <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>    </a>
+</aside>
+</div></template></div>
+</div>
+        </div>
+    </section>
+</div>
+<div class="wrap vd-v2-surum"><p class="muted">Prototip sürümü: <a href="../video-sef-ece-ozdenak.html">V1</a> · <b aria-current="page">V2</b></p></div>
+</main>
+
+    
+
+    
+<link rel="stylesheet" href="../varlik/gastro/gastro/video/pisirme.css">
+        
+    <script src="../varlik/gastro/gastro/video/pisirme.js" defer></script>
+
+    <footer class="footer orange">
+    <div class="wrap">
+        <div class="foot-grid">
+            <div class="foot-brand">
+                <div class="foot-lockup">
+                    <span class="fl-word"><svg class="gastro-word-mark" viewBox="921.855 214.449 1721.825 348.042" role="img" aria-label="Dada Gastro" xmlns="http://www.w3.org/2000/svg"><title>Dada Gastro</title><path fill="currentColor" fill-rule="nonzero" d="M 1668.214844 361.792969 C 1690.148438 361.792969 1704.765625 378.71875 1704.765625 399.109375 C 1704.765625 419.113281 1690.148438 436.042969 1668.214844 436.042969 C 1646.289062 436.042969 1631.671875 419.113281 1631.671875 399.109375 C 1631.671875 378.71875 1646.289062 361.792969 1668.214844 361.792969 M 1656.675781 501.054688 C 1678.988281 501.054688 1696.304688 493.746094 1708.613281 481.050781 L 1708.613281 495.285156 L 1774.011719 495.285156 L 1774.011719 398.722656 C 1774.011719 339.863281 1729.769531 296.777344 1668.214844 296.777344 C 1608.207031 296.777344 1562.425781 342.941406 1562.425781 398.722656 C 1562.425781 454.890625 1600.507812 501.054688 1656.675781 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1454.691406 362.179688 C 1476.625 362.179688 1491.242188 379.105469 1491.242188 399.109375 C 1491.242188 419.5 1476.625 436.039062 1454.691406 436.039062 C 1432.765625 436.039062 1418.148438 419.5 1418.148438 399.109375 C 1418.148438 379.105469 1432.765625 362.179688 1454.691406 362.179688 M 1454.691406 501.054688 C 1516.246094 501.054688 1560.488281 458.351562 1560.488281 399.492188 L 1560.488281 214.449219 L 1491.242188 214.449219 L 1491.242188 307.933594 C 1479.3125 301.394531 1465.082031 297.164062 1450.847656 297.164062 C 1389.679688 297.164062 1348.902344 337.941406 1348.902344 399.492188 C 1348.902344 455.273438 1394.683594 501.054688 1454.691406 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1241.167969 361.792969 C 1263.101562 361.792969 1277.71875 378.71875 1277.71875 399.109375 C 1277.71875 419.113281 1263.101562 436.042969 1241.167969 436.042969 C 1219.242188 436.042969 1204.625 419.113281 1204.625 399.109375 C 1204.625 378.71875 1219.242188 361.792969 1241.167969 361.792969 M 1229.628906 501.054688 C 1251.945312 501.054688 1269.257812 493.746094 1281.566406 481.050781 L 1281.566406 495.285156 L 1346.96875 495.285156 L 1346.96875 398.722656 C 1346.96875 339.863281 1302.722656 296.777344 1241.167969 296.777344 C 1181.160156 296.777344 1135.378906 342.941406 1135.378906 398.722656 C 1135.378906 454.890625 1173.464844 501.054688 1229.628906 501.054688 "></path><path fill="currentColor" fill-rule="nonzero" d="M 1027.648438 362.179688 C 1049.578125 362.179688 1064.199219 379.105469 1064.199219 399.109375 C 1064.199219 419.5 1049.578125 436.039062 1027.648438 436.039062 C 1005.722656 436.039062 991.101562 419.5 991.101562 399.109375 C 991.101562 379.105469 1005.722656 362.179688 1027.648438 362.179688 M 1027.648438 501.054688 C 1089.203125 501.054688 1133.445312 458.351562 1133.445312 399.492188 L 1133.445312 214.449219 L 1064.199219 214.449219 L 1064.199219 307.933594 C 1052.265625 301.394531 1038.039062 297.164062 1023.800781 297.164062 C 962.636719 297.164062 921.855469 337.941406 921.855469 399.492188 C 921.855469 455.273438 967.636719 501.054688 1027.648438 501.054688 "></path><g transform="translate(1804.507685,495.506687)"><path fill="currentColor" d="M 157.984375 -127.015625 C 143.453125 -150.078125 122.28125 -161.78125 94.15625 -161.78125 C 71.71875 -161.78125 52.453125 -153.875 36.34375 -137.765625 C 20.53125 -121.640625 12.640625 -102.0625 12.640625 -79 C 12.640625 -55.921875 20.53125 -36.34375 36.34375 -20.21875 C 52.453125 -4.109375 71.71875 3.796875 94.15625 3.796875 C 122.28125 3.796875 143.453125 -7.90625 157.984375 -30.96875 L 157.984375 -6.3125 C 157.984375 26.21875 135.859375 46.765625 99.53125 46.765625 C 71.40625 46.765625 52.453125 37.28125 42.96875 18.015625 L 24.640625 28.4375 C 37.59375 54.03125 62.5625 66.984375 99.53125 66.984375 C 121.328125 66.984375 139.96875 60.34375 155.453125 47.390625 C 170.9375 34.4375 178.84375 16.4375 178.84375 -6.3125 L 178.84375 -157.984375 L 157.984375 -157.984375 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><g transform="translate(1988.081594,495.506687)"><path fill="currentColor" d="M 157.984375 -127.015625 C 143.453125 -150.078125 122.28125 -161.78125 94.15625 -161.78125 C 71.71875 -161.78125 52.453125 -153.875 36.34375 -137.765625 C 20.53125 -121.640625 12.640625 -102.0625 12.640625 -79 C 12.640625 -55.921875 20.53125 -36.34375 36.34375 -20.21875 C 52.453125 -4.109375 71.71875 3.796875 94.15625 3.796875 C 122.28125 3.796875 143.453125 -7.90625 157.984375 -30.96875 L 157.984375 0 L 178.84375 0 L 178.84375 -157.984375 L 157.984375 -157.984375 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g><g transform="translate(2171.655502,495.506687)"><path fill="currentColor" d="M 38.546875 -116.59375 C 38.546875 -132.703125 53.71875 -141.546875 71.71875 -141.546875 C 91 -141.546875 103.640625 -134.28125 109.640625 -119.4375 L 127.015625 -129.546875 C 117.859375 -149.453125 97.3125 -161.78125 71.71875 -161.78125 C 56.25 -161.78125 43.28125 -157.359375 32.859375 -148.828125 C 22.75 -140.296875 17.6875 -129.546875 17.6875 -116.59375 C 17.6875 -82.46875 50.875 -75.203125 77.40625 -68.5625 C 95.421875 -63.828125 109.953125 -55.921875 109.953125 -41.703125 C 109.953125 -24.328125 94.15625 -16.4375 73.625 -16.4375 C 52.453125 -16.4375 36.34375 -26.546875 30.328125 -42.96875 L 12.640625 -32.546875 C 21.171875 -11.0625 43.28125 3.796875 73.625 3.796875 C 90.359375 3.796875 104.265625 -0.3125 114.703125 -8.84375 C 125.4375 -17.375 130.8125 -28.125 130.8125 -41.703125 C 130.8125 -75.828125 97.640625 -83.09375 71.09375 -89.734375 C 53.078125 -94.46875 38.546875 -102.375 38.546875 -116.59375 Z M 38.546875 -116.59375 "></path></g><g transform="translate(2291.405091,495.506687)"><path fill="currentColor" d="M 105.84375 -157.984375 L 60.34375 -157.984375 L 60.34375 -202.21875 L 39.5 -195.90625 L 39.5 -157.984375 L 6.3125 -157.984375 L 6.3125 -137.765625 L 39.5 -137.765625 L 39.5 -42.03125 C 39.5 -5.375 61.609375 6.640625 105.84375 0 L 105.84375 -18.328125 C 75.515625 -17.0625 60.34375 -14.84375 60.34375 -42.03125 L 60.34375 -137.765625 L 105.84375 -137.765625 Z M 105.84375 -157.984375 "></path></g><g transform="translate(2392.512923,495.506687)"><path fill="currentColor" d="M 42.96875 -157.984375 L 22.125 -157.984375 L 22.125 0 L 42.96875 0 L 42.96875 -87.84375 C 42.96875 -124.171875 64.140625 -140.296875 92.890625 -140.296875 L 92.890625 -160.515625 C 69.203125 -160.515625 52.765625 -151.03125 42.96875 -131.765625 Z M 42.96875 -157.984375 "></path></g><g transform="translate(2464.836619,495.506687)"><path fill="currentColor" d="M 154.515625 -19.90625 C 170.625 -36.015625 178.84375 -55.609375 178.84375 -79 C 178.84375 -102.375 170.625 -121.96875 154.515625 -137.765625 C 138.390625 -153.875 118.796875 -161.78125 95.734375 -161.78125 C 72.671875 -161.78125 52.765625 -153.875 36.65625 -137.765625 C 20.53125 -121.96875 12.640625 -102.375 12.640625 -79 C 12.640625 -55.609375 20.53125 -36.015625 36.65625 -19.90625 C 52.765625 -4.109375 72.671875 3.796875 95.734375 3.796875 C 118.796875 3.796875 138.390625 -4.109375 154.515625 -19.90625 Z M 51.5 -34.4375 C 39.5 -46.765625 33.5 -61.609375 33.5 -79 C 33.5 -96.375 39.5 -111.21875 51.5 -123.234375 C 63.515625 -135.546875 78.359375 -141.546875 95.734375 -141.546875 C 113.109375 -141.546875 127.96875 -135.546875 139.96875 -123.234375 C 151.984375 -111.21875 157.984375 -96.375 157.984375 -79 C 157.984375 -61.609375 151.984375 -46.765625 139.96875 -34.4375 C 127.96875 -22.4375 113.109375 -16.4375 95.734375 -16.4375 C 78.359375 -16.4375 63.515625 -22.4375 51.5 -34.4375 Z M 51.5 -34.4375 "></path></g></svg></span>
+                </div>
+                
+                <p class="foot-tag">Tarifleri, mutfak bilgisini ve insanları aynı sofrada buluşturan gastronomi topluluğu.</p>
+                
+                                <div class="foot-soc">
+                                                                                                <a class="fs-soc" href="https://www.instagram.com/dada.gastro/" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+                                                                                                <a class="fs-soc" href="https://www.facebook.com/dadagastrocom" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a>
+                                                                                                <a class="fs-soc" href="https://x.com/dadagastrocom" target="_blank" rel="noopener" aria-label="X"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a>
+                                                            </div>
+            </div>
+            
+            <div class="foot-col">
+                <h5>Keşfet ve Pişir</h5>
+                <a href="https://dadagastro.com/tarifler">Tüm Tarifler</a>
+                <a href="https://dadagastro.com/bugun-ne-pisirsem">Bugün Ne Pişirsem?</a>
+                <a href="https://dadagastro.com/dolapta-ne-var">Dolapta Ne Var?</a>
+                <a href="https://dadagastro.com/puf-noktalari">Püf Noktaları</a>
+                <a href="video-mutfagi.html">Video Mutfağı</a>
+            </div>
+            
+            <div class="foot-col">
+                <h5>Öğren ve Geliş</h5>
+                                    <a href="https://dadagastro.com/mutfaga-giris">Mutfağa Giriş</a>
+                                <a href="https://dadagastro.com/mutfak-ansiklopedisi">Mutfak Ansiklopedisi</a>
+                <a href="https://dadagastro.com/mutfak-sozlugu">Mutfak Sözlüğü</a>
+                <a href="https://dadagastro.com/olcu-birimleri">Ölçü Birimleri</a>
+                <a href="https://dadagastro.com/sofra-duzeni">Sofra Düzeni</a>
+            </div>
+            
+            <div class="foot-col">
+                <h5>Topluluk ve Paylaş</h5>
+                <a href="https://dadagastro.com/sefler">Şefler</a>
+                <a href="https://dadagastro.com/kayit">Şef Ol</a>
+                <a href="https://dadagastro.com/tarif-ekle">Tarifini Paylaş</a>
+                <a href="https://dadagastro.com/puf-noktasi-ekle">Püf Noktası Paylaş</a>
+                <a href="https://dadagastro.com/onur-listesi">Onur Listesi</a>
+            </div>
+            
+            <div class="foot-app">
+                <h5>Dada Gastro'yu İndir</h5>
+                <p class="foot-app-lead">Tariflerini mutfakta yanında taşı. Adım adım pişirme, zamanlayıcı ve alışveriş listesi tek uygulamada.</p>
+                <div class="foot-app-btns">
+                                                                <a class="app-btn" href="https://apps.apple.com/tr/app/dada-gastro-digital-kitchen/id6824484742" target="_blank" rel="noopener"><i class="fa-brands fa-apple" aria-hidden="true"></i><span class="ab-tx"><span class="ab-pre">İndir</span><span class="ab-store">App Store</span></span></a>
+                                                                <a class="app-btn" href="https://play.google.com/store/apps/details?id=com.dadagastro.app&amp;hl=tr" target="_blank" rel="noopener"><i class="fa-brands fa-google-play" aria-hidden="true"></i><span class="ab-tx"><span class="ab-pre">İndir</span><span class="ab-store">Google Play</span></span></a>
+                                    </div>
+            </div>
+        </div>
+
+        
+        <nav class="foot-corp" aria-label="Kurumsal">
+            <a href="https://dadagastro.com/hakkimizda">Hakkımızda</a>
+            <span class="sep"></span>
+            <a href="https://dadagastro.com/kunye">Künye</a>
+            <span class="sep"></span>
+            <a href="https://dadagastro.com/iletisim">İletişim</a>
+            <span class="sep"></span>
+            <a href="https://dadagastro.com/hesabim/cozum-merkezi">Çözüm Merkezi</a>
+            <span class="sep"></span>
+            <a href="https://dadagastro.com/iletisim#iletisim-formu">Öneri ve Şikâyet</a>
+            <span class="sep"></span>
+            <a href="https://dadagastro.com/marka-is-birlikleri">Marka ve Sponsorluk İş Birlikleri</a>
+        </nav>
+
+        
+        <nav class="foot-legal" aria-label="Yasal">
+                                        <a href="https://dadagastro.com/yasal/kullanim-kosullari">Kullanım Koşulları</a>
+                <span class="sep"></span>
+                            <a href="https://dadagastro.com/yasal/topluluk-kurallari">Topluluk Kuralları</a>
+                <span class="sep"></span>
+                            <a href="https://dadagastro.com/yasal/icerik-telif">İçerik ve Telif Politikası</a>
+                <span class="sep"></span>
+                            <a href="https://dadagastro.com/yasal/gizlilik">Gizlilik Politikası</a>
+                <span class="sep"></span>
+                            <a href="https://dadagastro.com/yasal/cerez">Çerez Politikası</a>
+                <span class="sep"></span>
+                            <a href="https://dadagastro.com/yasal/kvkk">KVKK Aydınlatma Metni</a>
+                <span class="sep"></span>
+                            <a href="https://dadagastro.com/yasal/sorumluluk-reddi">Sorumluluk Reddi</a>
+                <span class="sep"></span>
+                        <a href="https://dadagastro.com/yasal">Tüm Yasal Metinler →</a>
+        </nav>
+
+        <div class="foot-bottom">
+            <span class="fb-left">© 2026 <b><span class="bd">Dada</span><span class="sf">Gastro</span></b> · Dada İst Ajans Hizmetleri Ticaret Limited Şirketi · Tüm hakları saklıdır.</span>
+            <a class="foot-sign" href="https://gaviaworks.com" target="_blank" rel="noopener"><span class="gw-code">&lt;/&gt;</span> GaviaWorks</a>
+        </div>
+    </div>
+</footer>
+    <nav class="bottom-nav alt-cubuk" aria-label="Mobil alt navigasyon" data-revize="d11r">
+  <a href="index.html" class="bn-item ac-kalem"><i class="fa-solid fa-house" aria-hidden="true"></i><span>Ana Sayfa</span></a>
+  <a href="https://dadagastro.com/tarifler" class="bn-item ac-kalem active" aria-current="page"><i class="fa-solid fa-bowl-food" aria-hidden="true"></i><span>Tarifler</span></a>
+  <a href="https://dadagastro.com/bugun-ne-pisirsem" class="bn-item ac-kalem bn-center ac-orta"><span class="bn-fab ac-fab"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></span><span>Ne Pişirsem</span></a>
+  <a href="https://dadagastro.com/hesabim/mutfak-defterim" class="bn-item ac-kalem"><i class="fa-solid fa-bookmark" aria-hidden="true"></i><span>Kaydettiklerim</span></a>
+  <a href="https://dadagastro.com/hesabim/ayarlar" id="bnAccount" class="bn-item ac-kalem"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Profil</span></a>
+</nav>
+    
+
+
+
+
+
+
+
+
+
+
+<button class="to-top" id="toTop" type="button" aria-label="Başa dön" data-bc-bar="" data-bc-clear="" style="--bc-lift: 0px;"><i class="fa-solid fa-arrow-up" aria-hidden="true"></i></button>
+
+
+
+
+
+
+
+    
+    
+
+
+<link rel="stylesheet" href="../varlik/gastro/varliklar/reference/shared/bottom-clearance.css">
+<script src="../varlik/gastro/varliklar/reference/shared/bottom-clearance.js" defer=""></script>
+<script src="../varlik/gastro/gastro/altbilgi-perde.js" defer></script>
+    
+    
+
+
+<script src="../varlik/gastro/varliklar/reference/shared/dm-kabuk.js"></script>
+<!-- reklam · donör: full-stack reklam modülü render çıktısı (gastro-video fda37161c5; araclar/reklam-render.php) · örnek markalar canlı demo kayıtlarından · prototip örneği -->
+<div class="vd-reklam vd-reklam--katman" data-vd-reklam="STD" data-vd-reklam-sayfa="sef" hidden><template><div data-rk-standart data-rk-kilitli="0" data-rk-sayfa="0" data-rk-popup-izin="0" data-rk-popup-sayac="0">
+<div data-rk-side-pair><aside class="rk-std rk-std-side rk-renk-f17600" data-rk-bicim="side" data-rk-popup-varyant="gorsel" data-rk-popup-sira="video,gorsel" data-rk-popup-aralik="4" data-rk-popup-gun="0" data-rk-kampanya="43" data-rk-oturum="1" data-rk-gun="1" data-rk-kapatma="24" data-rk-slot="STD-SIDE-LEFT" data-rk-kod="STD-SIDE-LEFT"  hidden  aria-label="Sponsorlu · Migros">
+  <div class="rk-std-kart" >
+    <button type="button" class="rk-std-kapat" aria-label="Reklamı kapat"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>        <div class="rk-std-medya rk-std-sahne"><span class="rk-side-image"><img src="../varlik/video/reklam/5702be2ddf6e00ed2411-side.webp" alt="Migros market alışverişi" loading="lazy" width="640" height="480"></span></div>
+            <div class="rk-std-mesaj">
+      <span class="rk-std-logo"><img class="rk-logo" src="../varlik/video/reklam/27875d1ea1424dacfce9.svg" alt="Migros" loading="lazy" decoding="async"></span>
+            <div class="rk-std-yazi"><span class="rk-std-etiket"> Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span><b>Migros Market</b><p>Taze seçimler</p></div>
+      <a class="rk-std-cta" href="https://www.migros.com.tr/" target="_blank" rel="sponsored nofollow noopener">Keşfet <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</aside><aside class="rk-std rk-std-side rk-renk-142328" data-rk-bicim="side" data-rk-popup-varyant="gorsel" data-rk-popup-sira="video,gorsel" data-rk-popup-aralik="4" data-rk-popup-gun="0" data-rk-kampanya="39" data-rk-oturum="1" data-rk-gun="1" data-rk-kapatma="24" data-rk-slot="STD-SIDE" data-rk-kod="STD-SIDE"  hidden  aria-label="Sponsorlu · Uber Eats">
+  <div class="rk-std-kart" >
+    <button type="button" class="rk-std-kapat" aria-label="Reklamı kapat"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>        <div class="rk-std-medya rk-std-sahne"><span class="rk-side-image"><img src="../varlik/video/reklam/50dbd07194f5d79d9430-side.webp" alt="Uber Eats market alışverişi" loading="lazy" width="640" height="480"></span></div>
+            <div class="rk-std-mesaj">
+      <span class="rk-std-logo"><img class="rk-logo" src="../varlik/video/reklam/a880a57348b61656d327.svg" alt="Uber Eats" loading="lazy" decoding="async"></span>
+            <div class="rk-std-yazi"><span class="rk-std-etiket"> Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span><b>Uber Eats</b><p>Kapına gelsin</p></div>
+      <a class="rk-std-cta" href="https://trendyolgo.com/" target="_blank" rel="sponsored nofollow noopener">Keşfet <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</aside></div>
+<aside class="rk-std rk-std-altbar rk-renk-b61c2b" data-rk-bicim="altbar" data-rk-popup-varyant="gorsel" data-rk-popup-sira="video,gorsel" data-rk-popup-aralik="4" data-rk-popup-gun="0" data-rk-kampanya="41" data-rk-oturum="1" data-rk-gun="1" data-rk-kapatma="24" data-rk-slot="STD-ALTBAR" data-rk-kod="STD-ALTBAR"  hidden  aria-label="Sponsorlu · Namet">
+  <div class="rk-std-kart" >
+    <button type="button" class="rk-std-kapat" aria-label="Reklamı kapat"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>            <div class="rk-std-mesaj">
+      <span class="rk-std-logo"><img class="rk-logo" src="../varlik/video/reklam/f941da9670bc8a900c13.svg" alt="Namet" loading="lazy" decoding="async"></span>
+      <span class="rk-altbar-urun"><img src="../varlik/video/reklam/e29ecab74193596542c4-altbar.webp" alt="" width="40" height="40" loading="lazy" decoding="async"></span>      <div class="rk-std-yazi"><span class="rk-std-etiket"><strong>Namet</strong> ·  Sponsorlu<span class="vd-rk-not"><span class="vd-rk-not__ayrac"> · </span>prototip örneği</span></span><b>Namet Antrikot</b><p>Sofrana uygun et seçeneklerini incele.</p></div>
+      <a class="rk-std-cta" href="https://namet.com.tr/dana-antrikot-tarifi" target="_blank" rel="sponsored nofollow noopener">İncele <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</aside>
+</div></template></div>
+<script src="../varlik/v2/kabuk.js?v=mw3f4g2e" defer></script>
+<script src="../varlik/v2/video.js?v=mw3f4g2e" defer></script>
+<script src="../varlik/v2/js/sef.js?v=mw3f4g2e" defer></script>
+<script src="../varlik/v2/js/reklam.js?v=mw3f4g2e" defer></script>
+</body></html>
