@@ -14,7 +14,7 @@ import path from 'node:path';
 import * as ortak0 from '../src/video/ortak.mjs';
 import { kabukTemizle, tokenTaramasi } from './temizle.mjs';
 // REVİZE 1 madde 7 (reklam ajanı, tasks/reklam-durum.md §4): yalnız Video sayfalarında reklam anahtarı + reklam katmanı + reklam css/js.
-// index.html ve tarif-*.html'e EKLENMEZ (Video sayfası değiller).
+// index.html ve tarif-*.html'e yuva/anahtar/CSS EKLENMEZ (Video sayfası değiller); yalnız reklam.js taşıma kipinde (bağlar reklam=1 taşır).
 import { reklamKatmani, reklamAnahtari } from '../src/video/reklam.mjs';
 
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
@@ -61,7 +61,7 @@ function kartBaslikKirp(html) {
   html = html.replace(/(<div class="r-body">\s*<h4)(?![^>]*data-vd-kirp)/g, (t, a) => { n++; return `${a} data-vd-kirp="2"`; });
   return html;
 }
-async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = video, videoJs = videoTaban } = {}) {
+async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = video, videoJs = videoTaban, reklamTasima = false } = {}) {
   html = markaYazimi(html);
   if (videoJs) html = kartBaslikKirp(html);
   html = zorunlu(html, MEGA_ESKI, megaOnizleme(), 'mega menü .mf-video');
@@ -77,6 +77,8 @@ async function kabukEkle(html, { css = [], js = [], video = false, videoTaban = 
     for (const c of css) { const y = `varlik/video/css/${c}.css`; if (!(await varMi(y))) { uyar(`css yok (atlandı): ${y}`); continue; } cssEk.push(`<link rel="stylesheet" href="${y}?v=${SURUM}">`); }
     for (const j of js) { const y = `varlik/video/js/${j}.js`; if (!(await varMi(y))) { uyar(`js yok (atlandı): ${y}`); continue; } jsEk.push(`<script src="${y}?v=${SURUM}" defer></script>`); }
   }
+  // index ve tarif-*: reklam.js yalnız "taşıma kipi"nde (reklamlı görünümle gelindiyse iç bağlar reklam=1 taşır; yuva/CSS yok)
+  if (reklamTasima) jsEk.push(`<script src="varlik/video/js/reklam.js?v=${SURUM}" defer></script>`);
   html = zorunlu(html, '</head>', `${cssEk.join('\n')}\n</head>`, 'head');
   html = zorunlu(html, /<\/body>(?![\s\S]*<\/body>)/, `${jsEk.join('\n')}\n</body>`, 'body');
   // Titreme önleme (Health): Gilroy + FA dosyaları <head> başında preload (Gastro tokens CSS'teki aynı dosyalar)
@@ -128,7 +130,7 @@ async function indexSayfasi() {
   let html = kabukTemizle(await oku('src/donor/ana.html'));
   html = await anaSayfaVideoBolumu(html);
   html = basliklar(html, 'Dada Gastro ana sayfası · Video Mutfağı (prototip)', 'Dada Gastro ana sayfasının prototip kopyası: üst menüde Video Mutfağı, Tarifler mega menüsünde haftanın serisi önizlemesi ve ana sayfa video bölümü.', { dosya: 'index.html', site: 'Dada Gastro (prototip)' });
-  return yorum('http://127.0.0.1:8960/', 'ana sayfa: mega menü video önizlemesi + video bölümü kartları') + await kabukEkle(html, { videoTaban: true });
+  return yorum('http://127.0.0.1:8960/', 'ana sayfa: mega menü video önizlemesi + video bölümü kartları') + await kabukEkle(html, { videoTaban: true, reklamTasima: true });
 }
 // Ana sayfa "İzle & Pişir · En lezzetli videolar" bölümü (donör: section.sec.vids-sec): başlık, açıklama, "Tamamını Gör" bağı
 // (→ video-mutfagi.html) ve Gastro'nun .row-nav ok düğmeleri (data-track="vidTrack", portal JS) AYNEN kalır; yalnız #vidTrack izindeki
@@ -195,7 +197,7 @@ async function tarifSayfasi(slug) {
   }
   const t = TARIF[slug];
   html = basliklar(html, `${t.baslik} · Dada Gastro (prototip)`, `${t.baslik} tarifinin prototip kopyası; "Bu Tarifin Videosunu İzle" kartıyla Video Mutfağı'na bağlanır.`, { dosya: `tarif-${slug}.html`, gorsel: t.kapak1600, site: 'Dada Gastro (prototip)' });
-  return yorum(`http://127.0.0.1:8960/tarif/${slug}`, 'yalnız "Bu Tarifin Videosunu İzle" kartı eklendi (D.2a)') + await kabukEkle(html, { videoJs: !!kart });
+  return yorum(`http://127.0.0.1:8960/tarif/${slug}`, 'yalnız "Bu Tarifin Videosunu İzle" kartı eklendi (D.2a)') + await kabukEkle(html, { videoJs: !!kart, reklamTasima: true });
 }
 
 /* ---------- Derle ---------- */

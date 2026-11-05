@@ -238,6 +238,18 @@
   });
 
   w.vdReklam = { acik: () => acik, guncelle: () => { if (acik) { standartGuncelle(); kirpAyarla(); } } };
-  const basla = () => { kaplar().forEach((k) => { k.hidden = true; }); if (new URLSearchParams(w.location.search).get(PARAM) === '1') ac(); else anahtarYaz(); };
+  // Taşıma kipi (lead, 5 Kas): ana sayfa ve yazılı tarif sayfalarında reklam yuvası da anahtar da yok; reklamlı görünümle gelinmişse
+  // yalnız iç bağlar reklam=1 taşır — videoya geri dönünce görünüm düşmesin. Modül CSS'i yüklenmez, sayfa hiç değişmez.
+  const tasimaKipi = () => !d.querySelector('[data-vd-reklam], [data-vd-reklam-anahtari]');
+  const basla = () => {
+    const istek = new URLSearchParams(w.location.search).get(PARAM) === '1';
+    if (tasimaKipi()) {
+      if (!istek) return;
+      baglariCevir(d, true);
+      new MutationObserver((ml) => { for (const m of ml) for (const n of m.addedNodes) if (n.nodeType === 1) { if (n.matches('a[href]')) bagCevir(n, true); baglariCevir(n, true); } }).observe(d.body, { childList: true, subtree: true });
+      return;
+    }
+    kaplar().forEach((k) => { k.hidden = true; }); if (istek) ac(); else anahtarYaz();
+  };
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', basla); else basla();
 })();
