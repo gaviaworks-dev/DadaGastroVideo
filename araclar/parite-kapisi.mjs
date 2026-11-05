@@ -17,11 +17,14 @@ const TOL = 4;
 const BOZ = !!process.env.BOZ;
 const BOZUK = '_kapi-bozuk-parite.html';
 const TARIF = process.env.PARITE_TARIF || 'kuymak-karadeniz-usulu-misir-unlu-kahvaltilik';
-let CIFTLER = [['index.html', '/'], [`tarif-${TARIF}.html`, `/tarif/${TARIF}`]];
+// V2=1 → v2/index.html + v2/tarif-… ↔ aynı donörler; header HARİÇ (V2'de "Video Mutfağı" bilerek açılır menü): üst bant + footer.
+const V2 = !!process.env.V2;
+const ON = V2 ? 'v2/' : '';
+let CIFTLER = [[ON + 'index.html', '/'], [`${ON}tarif-${TARIF}.html`, `/tarif/${TARIF}`]];
 if (BOZ) {
-  const h = (await readFile(path.join(KOK, 'index.html'), 'utf8')).replace('</head>', '<link rel="stylesheet" href="data:text/css,header.header%20.brand%7Bmargin-left:20px%7Dfooter.footer%20h4%7Bletter-spacing:3px%7D">\n</head>');
-  await writeFile(path.join(KOK, BOZUK), h);
-  CIFTLER = [[BOZUK, '/']];
+  const h = (await readFile(path.join(KOK, ON + 'index.html'), 'utf8')).replace('</head>', '<link rel="stylesheet" href="data:text/css,header.header%20.brand%7Bmargin-left:20px%7Dfooter.footer%20.wrap%7Bpadding-left:60px%7D">\n</head>');
+  await writeFile(path.join(KOK, ON + BOZUK), h);
+  CIFTLER = [[ON + BOZUK, '/']];
 }
 // DONOR=yerel → 8960 kapalıyken: src/donor/<ad>.html (8960'ın snapshot anındaki sunucu HTML'i, yollar göreli) köke geçici kopyalanır ve
 // prototip sunucusundan açılır. Kanıt değeri daha düşüktür (donörün kendisi değil, kaydedilmiş kopyası); raporda belirtilir.
@@ -34,7 +37,7 @@ if (YEREL) {
     return [yerel, g];
   }));
 }
-const BOLGE = ['.topbar', 'header.header', 'footer.footer'];
+const BOLGE = V2 ? ['.topbar', 'footer.footer'] : ['.topbar', 'header.header', 'footer.footer'];
 
 async function olc(ctx, url) {
   const p = await ctx.newPage();
@@ -84,6 +87,6 @@ for (const w of [1440, 390]) {
 await b.close();
 for (const g of geciciler) await rm(path.join(KOK, g), { force: true });
 if (YEREL) console.log('(donör: src/donor kopyası — 8960 kapalı)');
-if (BOZ) { await rm(path.join(KOK, BOZUK), { force: true }); console.log(kirmizi ? `\nBOZ sınaması: ${kirmizi} bölge kırmızı → kapı kırmızı verebiliyor ✓` : '\nBOZ sınaması: KAPI KÖR ✗'); process.exit(kirmizi ? 1 : 3); }
+if (BOZ) { await rm(path.join(KOK, ON + BOZUK), { force: true }); console.log(kirmizi ? `\nBOZ sınaması: ${kirmizi} bölge kırmızı → kapı kırmızı verebiliyor ✓` : '\nBOZ sınaması: KAPI KÖR ✗'); process.exit(kirmizi ? 1 : 3); }
 console.log(kirmizi ? `\nPARİTE KAPISI KIRMIZI (${kirmizi} bölge)` : `\nPARİTE KAPISI YEŞİL: üst bant + header + footer donörle ${TOL}px içinde (1440/390)`);
 process.exit(kirmizi ? 1 : 0);

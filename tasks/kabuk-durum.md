@@ -78,3 +78,18 @@
 - CSS token'ları aynı (`--vd-kart-r` 16 · `--vd-ic` · `--vd-ara` · `--vd-bolum-ara` · `--vd-kenar`); V2'de `--vd-bar-alt` = header alt kenarı (113 / 63).
 - Snapshot: `V2=1 node araclar/snapshot.mjs` → `src/donor/v2/{bnp,sefler}.html`; KATI kip (var olan varlık değişecekse yazmaz, kırmızı). Eklenen 13 yeni dosya (1,9 MB), değişecek 0.
 - Kapılar (hepsi BOZ=1 kırmızı gösterildi): `node araclar/v1-kapisi.mjs` (V1 derle + git diff) · `V2=1 node araclar/varlik-kapisi.mjs` · `V2=1 node araclar/bag-kapisi.mjs` · `TABAN=…/v2/ node araclar/kirpma-kapisi.mjs` · `V2=1 node araclar/yapiskan-kapisi.mjs <sayfa>`.
+## V2 ek (6 Kas) — reklam / izle / hub istekleri
+- Banner `section.bnp-top` artık `data-rk-hero=""` taşır (reklam R15).
+- Reklam anahtarı yuvası: `.vd-v2-arac[data-vd-v2-arac]` — banner `.wrap`ın İLK çocuğu, `position:absolute; top:0; right:var(--vd-kenar)` (kırıntı satırının sağı).
+  Sarmalayıcı YOK (bilerek): `.wrap > nav + .bnp-head` sırası Gastro banner-standart.css'in dikey ortalama kuralının koşulu.
+- Şef kartı CSS'i (option b): her V2 video sayfasının head'inde `sefler.css → sef-avatar.css → sef-satiri.css → sef-imza.css` (4'ü de 8960 ile birebir; sefler.css yeni eklenen dosya).
+- `iskelet.vurgu`: başlıkta geçiyorsa ilk geçtiği yer `span.accent` (A); geçmiyorsa başlığın sonuna eklenir. `main` → `section.bnp-body > .wrap` içine.
+- `iskelet.gorsel`: banner arka planı = tarif slug'ı ya da `varlik/video/tarif/<slug>-1600.webp` (yalnız tarif kapakları; banner.css her tarif için kural üretir).
+- Kapılar V2: `TABAN=…/v2/ node araclar/{rozet,yukari,gezinti}-kapisi.mjs` (gezinti V2'de Seriler/30 sn/hub'a header açılır menüsünden; 390'da çekmeceden).
+  Not: Gastro kanonunda açılır menünün ÜST bağı gezmez, menüyü açar (donörde "Mutfak Sırları" da öyle, ölçüldü) → hub'a "Keşfet"ten gidilir.
+## V2 parite kapıları (6 Kas)
+- `V2=1 node araclar/parite-kapisi.mjs` — header HARİÇ: üst bant + footer, v2/index + v2/tarif-kuymak ↔ canlı 8960; 8/8 YEŞİL, BOZ kırmızı.
+- `node araclar/iskelet-kapisi.mjs [v2 sayfası…]` — banner + panel ↔ 8960 /bugun-ne-pisirsem (yükseklik/mutlak y yok; boyut + ebeveyne göre konum, 4px):
+  bölüm x/genişlik · .wrap x/genişlik/üst pay · kırıntı x/y/genişlik · eyebrow x · h1 x · sayaç sağ pay + sol çizgi + sol boşluk (390'da x/genişlik) · .st yüksekliği ·
+  panel köşe / binme / üst boşluk / .wrap yatay boşluğu. Varsayılan: her V2 sayfa tipinden bir iskeletli sayfa. 10/10 YEŞİL (1440/390), BOZ kırmızı.
+  Sayaç sütununun 1440 genişliği ve .st genişlikleri metne bağlı → yalnız raporlanır (sütun sağa yaslı; sağ kenar ölçülür).
