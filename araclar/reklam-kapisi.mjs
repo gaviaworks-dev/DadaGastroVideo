@@ -275,7 +275,9 @@ for (const t of SECIM) {
       const o = await ortmeDenetle(p);
       sonuc(o.length === 0, `${et}: örtme → ${o.slice(0, 3).join(' | ')}`);
       sonuc((await p.evaluate(OLC.tasma)) <= 0, `${et}: yatay taşma ${await p.evaluate(OLC.tasma)}`);
-      sonuc(reklamYanit.length > 0 && reklamYanit.every(([s]) => s === 200), `${et}: reklam varlığı 200 değil ${reklamYanit.filter(([s]) => s !== 200).slice(0, 3).map((x) => x.join(' ')).join(' | ')}`);
+      // 206: tarayıcı videoyu parça parça (Range) ister; GitHub Pages buna 206 Partial Content döner (başarı). Yerel sunucu Range bilmez → 200.
+      const tamam = ([s, u]) => s === 200 || (s === 206 && /\.(mp4|webm)(\?|$)/.test(u));
+      sonuc(reklamYanit.length > 0 && reklamYanit.every(tamam), `${et}: reklam varlığı 200/206 değil ${reklamYanit.filter((x) => !tamam(x)).slice(0, 3).map((x) => x.join(' ')).join(' | ')}`);
       sonuc((await p.evaluate(OLC.depo)) === 0, `${et}: tarayıcı deposu boş değil`);
       sonuc(hata.length === 0, `${et}: JS hatası ${hata.slice(0, 2).join(' | ')}`);
       sonuc(kotu.length === 0, `${et}: 4xx/5xx ${kotu.slice(0, 3).join(' | ')}`);
