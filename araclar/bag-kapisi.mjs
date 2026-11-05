@@ -16,6 +16,10 @@ const IZINLI = [/^https:\/\/dadagastro\.com(\/|$)/, /^https:\/\/gaviaworks-dev\.
 // tarif paylaşım uçları ve altbilgi imzası. Donörden aynen gelir; tıklanınca gerçek bir yere gider (boşa düşmez).
 const DONOR_DIS = [/^https:\/\/(www\.)?(instagram\.com|facebook\.com|x\.com|twitter\.com|pinterest\.com|wa\.me|t\.me)\//, /^https:\/\/(dadafit\.com\.tr|dadadiet\.com|dadagourmet\.com|gaviaworks\.com)(\/|$)/, /^https:\/\/apps\.apple\.com\//, /^https:\/\/play\.google\.com\//];
 let donorDis = 0;
+// Reklam veren hedefleri (REVİZE 1 madde 7): full-stack reklam modülünün render edilmiş verisindeki (src/video/reklam-donor.json, panel kaydı)
+// tıklama adresleri. Yalnız <a href> ve yalnız bu listedekiler; ayrı sayılır.
+const REKLAM_HEDEF = await (async () => { try { const h = await readFile(path.join(KOK, 'src/video/reklam-donor.json'), 'utf8'); return new Set([...h.matchAll(/https?:\/\/[^"\\\s]+/g)].map((m) => m[0].replace(/&amp;/g, '&'))); } catch { return new Set(); } })();
+let reklamDis = 0;
 const BILINEN_EKSIK = /varlik\/gastro\/varliklar\/fontawesome\/webfonts\/(fa-[a-z0-9-]+\.ttf|fa-v4compatibility\.(woff2|ttf))$/;
 const BOZ = !!process.env.BOZ;
 const BOZUK = '_kapi-bozuk-bag.html';
@@ -41,6 +45,7 @@ async function coz(kaynakDosya, ham, nitelik) {
   if (/^(https?:)?\/\//i.test(v)) {
     if (IZINLI.some((re) => re.test(v))) return;
     if (nitelik === 'a-href' && DONOR_DIS.some((re) => re.test(v))) { donorDis++; return; }
+    if (nitelik === 'a-href' && REKLAM_HEDEF.has(v)) { reklamDis++; return; }
     return kaydet('izinsiz dış bağ/kaynak', kaynakDosya, v.slice(0, 100));
   }
   if (v.startsWith('/')) return kaydet('kök-mutlak yol (Pages alt yolunda kırılır)', kaynakDosya, v);
@@ -81,7 +86,7 @@ if (BOZ) await rm(path.join(KOK, BOZUK), { force: true });
 const grup = {};
 for (const [tur, dosya, deger] of sorunlar) (grup[tur] ||= []).push(`${path.relative(KOK, dosya)} → ${deger}`);
 for (const [tur, l] of Object.entries(grup)) { console.log(`✗ ${tur}: ${l.length}`); for (const x of l.slice(0, 8)) console.log('    ' + x); if (l.length > 8) console.log(`    … +${l.length - 8}`); }
-console.log(`\n${htmller.length} HTML · ${bag} bağ/kaynak · sorun ${sorunlar.length} · bilinen eksik font biçimi ${bilinen} · Gastro donörünün kendi dış bağı ${donorDis}`);
+console.log(`\n${htmller.length} HTML · ${bag} bağ/kaynak · sorun ${sorunlar.length} · bilinen eksik font biçimi ${bilinen} · Gastro donörünün kendi dış bağı ${donorDis} · reklam veren hedefi ${reklamDis}`);
 if (BOZ) {
   const beklenen = ['boş # bağı', 'javascript: bağı', 'eksik dosya', 'izinsiz dış bağ/kaynak', 'eksik #parça'];
   const y = beklenen.filter((t) => turler.has(t));

@@ -13,6 +13,9 @@ import { readFile, writeFile, readdir, access } from 'node:fs/promises';
 import path from 'node:path';
 import * as ortak0 from '../src/video/ortak.mjs';
 import { kabukTemizle, tokenTaramasi } from './temizle.mjs';
+// REVİZE 1 madde 7 (reklam ajanı, tasks/reklam-durum.md §4): yalnız Video sayfalarında reklam anahtarı + reklam katmanı + reklam css/js.
+// index.html ve tarif-*.html'e EKLENMEZ (Video sayfası değiller).
+import { reklamKatmani, reklamAnahtari } from '../src/video/reklam.mjs';
 
 const KOK = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
 const oku = (p) => readFile(path.join(KOK, p), 'utf8');
@@ -101,6 +104,7 @@ export function altMenu(aktif) {
   return `<nav class="vd-ust" aria-label="Video Mutfağı menüsü"><div class="wrap">`
     + `<a class="vd-ust__marka" href="video-mutfagi.html" tabindex="-1" aria-hidden="true">Video Mutfağı</a>`
     + `<div class="vd-ust__menu">${bag}</div>`
+    + reklamAnahtari()   // reklam anahtarı: .wrap flex'inde sağa yaslanır (CSS reklam.css)
     + `</div></nav>`;
 }
 
@@ -114,7 +118,9 @@ async function videoSayfasi({ dosya, baslik, aciklama, main, css = [], js = [], 
   html = zorunlu(html, /<body([^>]*) class="([^"]*)"/, (t, n, s) => `<body${n} class="pg-video ${govdeSinifi} ${s.replace('pg-tarif-detay', '')}"`.replace(/\s+"/, '"').replace(/class="\s+/, 'class="').replace(/ {2,}/g, ' '), 'body class');
   // REVİZE 1 (5 Kas): logo ve bağı donördeki gibi (index.html); alt marka rozeti yok
   html = basliklar(html, baslik, aciklama, { dosya, gorsel, tur: /^video-izle-/.test(dosya) ? 'video.other' : 'website' });
-  return yorum('http://127.0.0.1:8960/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik (kabuk: tarif detayı)', `Video sayfası · modül ${modul}`) + await kabukEkle(html, { css, js, video: true });
+  const katman = reklamKatmani(ortak, { sayfa: modul }); // kisa için '' döner
+  if (katman) html = zorunlu(html, /<\/body>(?![\s\S]*<\/body>)/, `${katman}\n</body>`, 'reklam katmanı (</body> öncesi)');
+  return yorum('http://127.0.0.1:8960/tarif/kuymak-karadeniz-usulu-misir-unlu-kahvaltilik (kabuk: tarif detayı)', `Video sayfası · modül ${modul}`) + await kabukEkle(html, { css: [...css, 'reklam'], js: [...js, 'reklam'], video: true });
 }
 
 /* ---------- index.html ---------- */

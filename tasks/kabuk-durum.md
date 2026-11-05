@@ -52,3 +52,10 @@
 - Ortak token'lar (kabuk.css :root, ADLAR SABİT): `--vd-kart-r` = var(--radius-lg) 16px (Gastro .r-card ölçüldü: 16px) · `--vd-ic` 24/16 · `--vd-ara` 24/16 · `--vd-bolum-ara` 64/48 (≤767) · `--vd-kenar` 32 / 24 (≤1024) / 16 (≤640) = Gastro içerik .wrap padding-inline (ölçüldü 1440/1024/390; header .wrap'ı kendi kuralıyla hep 32).
 - video.js tarif-*.html'e de yüklenir (köprü kartı başlığı `data-vd-kirp="2"`); index zaten yüklüyordu.
 - parite-kapisi: `DONOR=yerel` seçeneği (8960 kapalıyken src/donor kopyasıyla ölçer).
+
+## REVİZE 1 madde 7 — reklam entegrasyonu (build.mjs) — yapıldı
+- `import { reklamKatmani, reklamAnahtari } from '../src/video/reklam.mjs'`; alt menüde `reklamAnahtari()` menünün ardında; video sayfalarına css/js `reklam` + `</body>` öncesi `reklamKatmani(ortak, { sayfa: <modül> })`. index/tarif-*'e eklenmez (ölçüldü: reklam.css/js 0).
+- Kök dizindeki `rk-sinama-*.html` (6, takipsiz sınama artığı) mutlak yol + realpath ile silindi.
+- Reklamsız geometri önce/sonra (82 ölçüm = video sayfaları × 1440/390): sayfa boyu ve `.vd-sayfa` içindeki her görünür öğe AYNI;
+  tek fark 390'da alt menü bağlarının 25px sola kayması (anahtar 44px yer kaplar; menü taşmaz, sw=cw). 1440'ta bağ grubu ortada sabit (kabuk.css ≥1025 kuralı).
+- bag-kapisi: reklam veren hedefleri (src/video/reklam-donor.json'daki tıklama adresleri, yalnız <a href>) ayrı sayılır.
