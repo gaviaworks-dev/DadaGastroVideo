@@ -26,7 +26,8 @@ const BOZMALAR = {
   eksik: [/js\/oynatici\.js/, 'var eksikler = function () { return kutular.filter(function (k) { return !k.checked; }); };', 'var eksikler = function () { return kutular; };'],
   wake: [/js\/pisirme\.js/, "navigator.wakeLock.request('screen')", "Promise.reject(new Error('boz'))"],
   adim: [/js\/pisirme\.js/, "goster(i + 1);\n  });", "void 0;\n  });"],
-  kisa: [/js\/kisa\.js/, "try { history.replaceState(history.state, '', u); } catch (_) { /* file:// vb. */ }", 'void u;'],
+  kisa: [/js\/kisa\.js/, "try { history.replaceState(history.state, '', kisaAdresi(slug)); } catch (_) { /* file:// vb. */ }", 'void slug;'],
+  katman: [/js\/kisa\.js/, "var g = o.closest('[hidden]'); return !g || g === kok;", "return !o.closest('[hidden]');"],
   sekme: [/js\/sef\.js/, 'if (p) p.hidden = !on;', 'void p;'],
   jsonld: [/video-izle-tek-tavada-klasik-menemen\.html/, '"@type":"Clip"', '"@type":"Clip","_":1}],"x":[{'],
 };
@@ -170,6 +171,23 @@ for (const [gen, yuk, mobil] of [[1440, 900, false], [390, 844, true]]) {
   const ust = await p.evaluate(() => { const e = document.querySelector('.vd-dikey__oge.is-etkin'); const r = e.getBoundingClientRect(); return Math.round(r.top); });
   kayit(`kısa video: kaydırma sonrakine geçer + adres güncellenir @${gen}`, s0 === '1 / 9' && u1 === KISA_IKI && s1 === '2 / 9' && u2 === KISA_UC && Math.abs(ust) <= 2, `${s0} → tekerlek ${s1} (?v=${u1}) → ↓ ?v=${u2}; etkin öğe üstü ${ust}px`);
   kayit(`JS hatası 0 (kısa) @${gen}`, p.__hatalar.length === 0, p.__hatalar.join(' | '));
+  await p.context().close();
+}
+
+/* ---------- 3b · Hub'daki kısa video katmanı (kisaGoruntuleyici katman kipi) + reklamlı görünümde adres ---------- */
+for (const bas of ['video-mutfagi.html', 'video-mutfagi.html?reklam=1']) {
+  const p = await sayfaAc(bas);
+  const indi = await tikla(p, 'a[data-vd-kisa]');
+  await p.waitForTimeout(700);
+  const acik = await gorunur(p, '.vd-dikey--katman');
+  const u1 = new URL(p.url());
+  const sira = await metin(p, '.vd-dikey--katman [data-vd-dikey-sira]');
+  await p.keyboard.press('Escape');
+  await p.waitForTimeout(700);
+  const u2 = new URL(p.url());
+  const rk = bas.includes('reklam=1');
+  kayit(`hub kısa video katmanı açılır/kapanır${rk ? ' (reklamlı)' : ''}`, indi && acik && u1.pathname.endsWith('video-kisa.html') && !!u1.searchParams.get('v') && (u1.searchParams.get('reklam') === '1') === rk && /^1 \/ (9|10)$/.test(sira) && u2.pathname.endsWith('video-mutfagi.html') && (u2.searchParams.get('reklam') === '1') === rk && !(await gorunur(p, '.vd-dikey--katman')), `açık ${acik}, adres ${u1.pathname.split('/').pop()}${u1.search}, sayaç "${sira}", Esc sonrası ${u2.pathname.split('/').pop()}${u2.search}`);
+  kayit(`JS hatası 0 (hub katmanı${rk ? ', reklamlı' : ''})`, p.__hatalar.length === 0, p.__hatalar.join(' | '));
   await p.context().close();
 }
 

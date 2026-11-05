@@ -51,3 +51,6 @@
   ilerleme parçası o öğenin <video>'sundan; adres yazarken diğer parametreler korunur (reklam=1 düşmüyordu → reklam kapısı yakaladı, düzeltildi).
 - Kapılar (5 Kas): reklam-kapisi izle+sef+kisa yeşil 220 / 0 · davranis-izle 23 / 0 · kirpma-kapisi (33 sayfa) 0 kırmızı · ss taşma/JS/404 0.
 - Görüntüler: tasks/ss/izle/izle-reklamli-{1440,390}.png, izle-reklamli-eslik-{1440,390}.png, kisa-reklamli-1440.png, kisa-reklam-ogesi-1440.png
+- 5 Kas ek: kisa.js katman kipinde (hub) öğe taraması görüntüleyicinin kendi `hidden`ını sayıp listeyi boşaltıyordu → hub'da kart tıklaması
+  JS hatası veriyordu (reklam entegrasyonuyla gelen gerileme). Düzeltildi; katman kapanınca hub adresi o anki reklam durumuna uyar
+  (reklam=1 açıksa kalır, kapalıysa düşer). davranis-izle'ye hub katmanı ölçümü eklendi (27 ölçüm; BOZ=katman → 4 kırmızı).
