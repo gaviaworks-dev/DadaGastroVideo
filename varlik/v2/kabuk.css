@@ -45,7 +45,6 @@
 /* Panel: Gastro .bnp-body (22px üst köşe — portal CSS `.below-header+section`); içerik .wrap'ta. 6 Kas: zemin beyaz (zebra beyaz/açık turuncu),
    alt boşluğu bölümler taşır. Vitrinli sayfada (hub) panel banner yerine vitrine, aynı ölçülerle biner. */
 .bnp-body.vd-v2-panel { background: var(--paper, #fff); padding-bottom: 0; }
-.vd-spot + .bnp-body { position: relative; z-index: 2; margin-top: -22px; border-radius: 22px 22px 0 0; box-shadow: 0 -12px 32px #14100a2e; }
 
 /* ---------- V1 · V2 geçişi: footer'ın hemen üstü (main'in sonu), küçük ve ortalı; Gastro .muted metni ---------- */
 .vd-v2-surum { padding-top: 24px; padding-bottom: 24px; text-align: center; }
@@ -62,6 +61,8 @@
    kontrast 5,8:1 (AA). --tomato (#DC3D17) beyazla 4,45:1 verir, 9,5px metin için AA'nın (4,5) altında kalır. Tüm sayfalarda yüklü. */
 /* Reklamlı görünümde (?reklam=1) iç bağlar sorguyu taşır (reklam.js) → bağ "video-mutfagi.html?reklam=1" olur; rozet orada da kırmızı. */
 a[href="video-mutfagi.html"] > .soon, a[href^="video-mutfagi.html?"] > .soon { background: var(--tomato-dark, #BA3413); color: #fff; }
+/* Üst menüde "Video Mutfağı" ikonu: DadaGourmet header'ındaki ikonlu öğe kalıbı (metnin solunda, metin rengi, 6px). */
+.nav .nav-item > a > .vd-nav-ikon { margin: 0 6px 0 0; color: inherit; font-size: 13px; opacity: 1; }
 
 /* ---------- Mega menü: haftanın serisi canlı mini önizlemesi (D.1b) — Gastro .mega-find kutusu + 16:9 mini poster ---------- */
 .mega-find.vd-mega { align-items: center; gap: 12px; padding: 10px; }

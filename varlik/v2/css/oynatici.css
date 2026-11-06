@@ -152,12 +152,12 @@ html.vd-oyn-tam-acik, html.vd-oyn-tam-acik body { overflow: hidden; }
 
 /* 3 · Spotlight aksiyonları (1.1c) — kartın altında iki düğme */
 .vd-oyn-blok__aksiyon { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 12px; }
-.vd-aksiyon { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 24px; border: 1px solid rgba(255, 255, 255, .24); border-radius: var(--vdo-r); background: transparent; color: #fff !important; font: 700 14.5px/1.2 var(--vdo-kalin); text-decoration: none; cursor: pointer; transition: background .15s ease, border-color .15s ease; }
-.vd-aksiyon:hover { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .45); }
-.vd-aksiyon--birincil { border-color: var(--vdo-vurgu-k); background: var(--vdo-vurgu-k); }
+.vd-aksiyon { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 0 24px; border: 1px solid var(--line, #ECECEC); border-radius: var(--vdo-r); background: var(--paper, #fff); color: var(--slate, #211E16) !important; font: 700 14.5px/1.2 var(--vdo-kalin); text-decoration: none; cursor: pointer; transition: background .15s ease, border-color .15s ease; }
+.vd-aksiyon:hover { background: var(--vd-zemin-sicak, #FFF3EC); border-color: var(--tomato, #DC3D17); }
+.vd-aksiyon--birincil { border-color: var(--vdo-vurgu-k); background: var(--vdo-vurgu-k); color: #fff !important; }
 .vd-aksiyon--birincil:hover { background: var(--tomato-deep, #9C2B10); border-color: var(--tomato-deep, #9C2B10); }
-.vd-aksiyon[aria-pressed="true"] { border-color: #2E8B5E; background: #2E8B5E; }
-.vd-aksiyon:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+.vd-aksiyon[aria-pressed="true"] { border-color: #2E8B5E; background: #2E8B5E; color: #fff !important; }
+.vd-aksiyon:focus-visible { outline: 3px solid var(--tomato, #DC3D17); outline-offset: 2px; }
 
 /* 4 · Dar ekran: panel oynatıcının altında, liste kendi içinde kayar */
 @media (max-width: 960px) {

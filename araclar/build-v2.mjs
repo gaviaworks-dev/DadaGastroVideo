@@ -84,7 +84,7 @@ const CEKMECE_VIDEO = /<div class="d-item"><a class="d-link" href="video-mutfagi
 function videoMenusu(html, aktif, videoSayfasiMi) {
   const cur = (k) => (k === aktif ? ' class="active" aria-current="page"' : '');
   const ust = `<div class="nav-item">
-            <a href="video-mutfagi.html" class="${videoSayfasiMi ? 'active' : ''}">Video Mutfağı <span class="soon">VİDEO</span>
+            <a href="video-mutfagi.html" class="${videoSayfasiMi ? 'active' : ''}"><i class="fa-solid fa-circle-play vd-nav-ikon" aria-hidden="true"></i>Video Mutfağı <span class="soon">VİDEO</span>
                                                         <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                                                 </a>
                                                 <div class="dropdown">

@@ -12,10 +12,8 @@
   var ADIM = 12;
 
   /* ---------- 1.1 vitrin sekmeleri ---------- */
-  var sekmeler = Array.prototype.slice.call(document.querySelectorAll('[data-vd-sekme]')); // vitrin panelin üstünde, hub kabının dışında
-  var zeminler = Array.prototype.slice.call(document.querySelectorAll('[data-vd-zemin]'));
+  var sekmeler = Array.prototype.slice.call(hub.querySelectorAll('[data-vd-sekme]'));
   function sekmeSec(i, odakla) {
-    zeminler.forEach(function (z) { z.classList.toggle('is-acik', z.getAttribute('data-vd-zemin') === String(i)); });
     sekmeler.forEach(function (s, j) {
       var acik = i === j;
       s.setAttribute('aria-selected', acik ? 'true' : 'false');

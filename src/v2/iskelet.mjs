@@ -10,8 +10,6 @@
 // gelen öğe yok: "Reklamlı görünüm" aracı yuvası (`[data-vd-v2-arac]`, reklam ajanı doldurur) `.wrap`ın İLK çocuğu, mutlak konumlu
 // (kırıntı satırının sağı; kabuk.css).
 // `data-rk-hero` (reklam ajanı isteği): reklam.js yan kart/alt barı en alttaki hero'nun başlık çizgisini geçince açar (R15).
-// `iskelet.ust` (6 Kas patron revizesi): banner ile panel arasına giren tam genişlik bölüm (hub vitrini). Banner kuralıyla (`.below-header+section`)
-// banner'a biner; beyaz panel de aynı ölçüyle onun üstüne biner (kabuk.css `.vd-spot + .bnp-body`).
 // Arka plan: donörde satır içi `background-image` (degrade + görsel). V2'de satır içi stil YOK: görsel `data-vd-banner="<tarif slug>"`
 // ile seçilir, kural `varlik/v2/banner.css`te (build-v2 her tarif kapağı için üretir; url stil dosyasına göre çözülür — satır içi
 // `--x:url()` değişkeni tarayıcılar arasında farklı tabana göre çözüldüğü için kullanılmaz). Degrade donördeki değerle kabuk.css'te.
@@ -25,7 +23,7 @@ export const bannerAnahtari = (g) => String(g || '').replace(/^.*\/tarif\//, '')
 
 /**
  * @param {{ kirinti?: {ad:string, href?:string}[], eyebrow?: {ikon?:string, metin:string}, baslik: string, vurgu?: string,
- *           aciklama?: string, sayaclar?: {deger:(string|number), etiket:string}[], gorsel?: string, ust?: string }} k
+ *           aciklama?: string, sayaclar?: {deger:(string|number), etiket:string}[], gorsel?: string }} k
  * @param {string} main  beyaz panelin içine girecek HTML
  */
 export function iskelet(k, main) {
@@ -59,7 +57,7 @@ export function iskelet(k, main) {
                 </div>` : ''}
             </div>
         </div>
-    </section>${k.ust ? `\n    ${k.ust}` : ''}
+    </section>
     <section class="bnp-body vd-v2-panel">
         <div class="wrap">
 ${main}
