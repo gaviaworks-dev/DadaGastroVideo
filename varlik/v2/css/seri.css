@@ -59,7 +59,7 @@
 @media (max-width: 640px) { .vd-kisa-son { padding: 16px; font-size: 13px; } .vd-kisa-son b { font-size: 15px; } }
 
 /* ===== V2 (hub ajanı) — seri özeti panelin ilk bloğu (V1 hero'sunun künye/eylem kısmı; açık zeminde) ===== */
-.vd-seri-ozet { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; padding-bottom: 24px; border-bottom: 1px solid var(--line, #ececec); }
+.vd-seri-ozet { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 24px; padding-bottom: 34px; }
 .vd-seri-ozet__sol { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; min-width: 0; }
 .vd-seri-ozet__kunye { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
 .vd-seri-ozet__kunye li { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px; border-radius: var(--radius-sm, 8px); background: var(--bg, #f9f9f9); border: 1px solid var(--line, #ececec); font-size: 13px; font-weight: 600; color: var(--slate-2, #56514a); line-height: 1.6; }

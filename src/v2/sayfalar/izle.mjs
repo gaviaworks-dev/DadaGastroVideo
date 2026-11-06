@@ -36,7 +36,7 @@ function sayfa(v, o, uzunlar) {
    <div class="vd-izle__sahne">${oynatici(v, o, { kip: 'izle', kilitli, alt: damgalar(v, o, bolumler, kilitli), eslik: t ? reklamSlotu('eslik', o, { sayfa: 'izle' }) : '' })}</div>
  </section>
 
- <div class="vd-izle__govde">
+ <div class="vd-izle__govde vd-zebra-sicak vd-bant">
   <div class="vd-izle__bas">
    ${sponsorEtiketi(s.slug)}${kilitli ? '<span class="vd-pro vd-izle__pro"><i class="fa-solid fa-lock" aria-hidden="true"></i> Pro</span>' : ''}
    <div class="vd-izle__meta">

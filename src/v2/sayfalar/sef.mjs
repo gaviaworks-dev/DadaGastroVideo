@@ -60,7 +60,7 @@ function sayfa(k, o) {
   </div>
  </div>
  ${reklamSlotu('ust', o, { sayfa: 'sef' })}
- <div class="vd-kanal__govde">
+ <div class="vd-kanal__govde vd-zebra-sicak vd-bant">
   <div class="bnp-tabwrap vd-kanal__sekmeler">
    <div class="pf-tabs" role="tablist" aria-label="${esc(sef.ad)} kanalı">
     ${sekmeler.map((s, i) => `<button class="dt${i === 0 ? ' active' : ''}" type="button" role="tab" id="sekme-${s.id}" aria-controls="panel-${s.id}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}" data-vd-sekme="${s.id}"><i class="fa-solid ${s.ikon}" aria-hidden="true"></i> ${esc(s.ad)}${s.sayi !== undefined ? ` <span class="cnt">${s.sayi}</span>` : ''}</button>`).join('\n    ')}

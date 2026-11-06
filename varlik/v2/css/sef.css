@@ -19,7 +19,6 @@
 .vd-kanal__kart .sef-card { margin: 0; }
 .vd-kanal__metin { min-width: 0; }
 .vd-kanal__metin .eyebrow { margin-bottom: 12px; }
-.vd-kanal__govde { padding-bottom: 0; }
 .vd-kanal__sekmeler { margin-bottom: 24px; }
 .vd-kanal__panel { outline: none; }
 .vd-kanal__panel:focus-visible { outline: 3px solid var(--vdc-vurgu); outline-offset: 8px; border-radius: var(--vd-kart-r, 16px); }

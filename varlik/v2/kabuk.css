@@ -19,6 +19,7 @@
   --vd-ara: 24px;                         /* panel/kart arası */
   --vd-bolum-ara: 64px;                   /* bölümler arası dikey */
   --vd-kenar: 32px;                       /* Gastro .wrap yatay iç boşluğu (portal CSS: padding 0 32px; ≤1024 24px; ≤640 16px — ölçüldü) */
+  --vd-zemin-sicak: #FFF3EC;              /* zebra bandı: Gastro turuncusunun (--tomato) çok açık, sıcak tonu */
 }
 @media (max-width: 1024px) { :root { --vd-kenar: 24px; } }
 @media (max-width: 767px) { :root { --vd-ic: 16px; --vd-ara: 16px; --vd-bolum-ara: 48px; } }
@@ -41,14 +42,17 @@
 .vd-v2-arac { position: absolute; top: 0; right: var(--vd-kenar, 32px); display: flex; align-items: center; min-height: 20px; }
 .vd-v2-arac:empty { display: none; }
 @media (max-width: 640px) { .vd-v2-arac { top: -4px; } }
-/* Panel: Gastro .bnp-body (krem zemin, 22px üst köşe — portal CSS `.below-header+section`); içerik .wrap'ta */
+/* Panel: Gastro .bnp-body (22px üst köşe — portal CSS `.below-header+section`); içerik .wrap'ta. 6 Kas: zemin beyaz (zebra beyaz/açık turuncu),
+   alt boşluğu bölümler taşır. Vitrinli sayfada (hub) panel banner yerine vitrine, aynı ölçülerle biner. */
+.bnp-body.vd-v2-panel { background: var(--paper, #fff); padding-bottom: 0; }
+.vd-spot + .bnp-body { position: relative; z-index: 2; margin-top: -22px; border-radius: 22px 22px 0 0; box-shadow: 0 -12px 32px #14100a2e; }
 
 /* ---------- V1 · V2 geçişi: footer'ın hemen üstü (main'in sonu), küçük ve ortalı; Gastro .muted metni ---------- */
 .vd-v2-surum { padding-top: 24px; padding-bottom: 24px; text-align: center; }
 .vd-v2-surum p { margin: 0; font-size: 13px; line-height: 1.5; }
 .vd-v2-surum a { color: var(--tomato-dark, #BA3413); text-decoration: underline; text-underline-offset: 2px; font-family: var(--vd-font-kalin); font-weight: 700; }
 .vd-v2-surum b { color: var(--ink, #211E16); font-family: var(--vd-font-kalin); font-weight: 700; }
-.pg-video .vd-v2-surum, .pg-video ~ * .vd-v2-surum { background: var(--bg, #F9F9F9); }
+.pg-video .vd-v2-surum, .pg-video ~ * .vd-v2-surum { background: var(--paper, #fff); border-image: conic-gradient(var(--paper, #fff) 0 0) fill 0 / 0 / 0 100vmax; }
 
 /* (REVİZE 1, 5 Kas) Logo yanındaki "video" alt marka rozeti KALDIRILDI: her sayfada donördeki normal Dada Gastro logosu. */
 

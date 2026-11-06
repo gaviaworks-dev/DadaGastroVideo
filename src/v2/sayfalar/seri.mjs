@@ -92,7 +92,7 @@ export default async function (o) {
 <div class="vd-seri-sayfa vd-v2${dikey ? ' vd-seri-sayfa--dikey' : ''}">
  ${ozet}
  ${reklamSlotu('ust', o, { sayfa: 'seri' })}
- <section class="sec" aria-labelledby="vd-bolumler-h">
+ <section class="sec vd-zebra-sicak" aria-labelledby="vd-bolumler-h">
   <div class="sec-head">
    <div><span class="eyebrow">${ui(dikey ? 'fa-mobile-screen' : 'fa-list-ol')} ${dikey ? 'Kısa videolar' : 'Bölümler'}</span><h2 id="vd-bolumler-h">${dikey ? `${bol.length} kısa video` : `${bol.length} bölüm, baştan sona`}</h2>
    <p class="lead">${dikey ? 'Her biri 15–45 saniye: dokun, tam ekranda izle; yukarı kaydırınca sıradaki gelir.' : 'Bölümler sırayla birbirinin üstüne kurulur; her bölümün yazılı tarifi ve malzemeleri izleme sayfasında.'}</p></div>

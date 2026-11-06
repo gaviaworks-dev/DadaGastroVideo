@@ -13,7 +13,7 @@
 .vd-izle [hidden] { display: none !important; }
 
 /* 1 · Sinema bandı (D2: yalnız oynatıcı sahnesi koyu) */
-.vd-izle__sinema { padding: 0; } /* V2: banner'ın altındaki beyaz panelin içinde; kırıntı banner'da */
+.vd-izle__sinema { padding: 0 0 34px; } /* V2: banner'ın altındaki beyaz panelin içinde; kırıntı banner'da. Alt boşluk zebra bandına kadar */
 .vd-izle__sahne { padding: var(--vdi-ic); border-radius: var(--vdi-kr); background: var(--vdi-sahne); color: #fff; }
 .vd-izle__kirinti.rd-crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 16px; color: var(--vdi-ikincil); font-size: 13.5px; }
 .vd-izle__kirinti.rd-crumb a { color: var(--vdi-ikincil); text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
@@ -43,7 +43,7 @@
 .vd-izle--kilitli .vd-damga { cursor: default; }
 
 /* 3 · Gövde: sol bilgi akışı · sağda yapışkan yazılı tarif kartı */
-.vd-izle__govde { display: grid; grid-template-columns: minmax(0, 1fr) 360px; grid-template-areas: "bas yan" "sef yan" "seri yan"; column-gap: 48px; row-gap: var(--vdi-ara); align-items: start; padding-top: 32px; padding-bottom: var(--vd-bolum-ara, 64px); }
+.vd-izle__govde { display: grid; grid-template-columns: minmax(0, 1fr) 360px; grid-template-areas: "bas yan" "sef yan" "seri yan"; column-gap: 48px; row-gap: var(--vdi-ara); align-items: start; padding-top: var(--vd-bolum-ara, 64px); padding-bottom: var(--vd-bolum-ara, 64px); }
 .vd-izle__bas { grid-area: bas; min-width: 0; }
 .vd-izle__yan { grid-area: yan; position: sticky; top: calc(var(--header-offset, 112px) + 16px); align-self: start; }
 .vd-sunucu { grid-area: sef; }
@@ -173,7 +173,7 @@
 .vd-seri-baglam__afis, .vd-siradaki__medya .vd-seri-baglam__afis { position: absolute; inset: 0; display: grid; place-items: center; background: var(--vdi-sahne-2); color: var(--vdi-vurgu); font-size: 22px; }
 
 /* 7 · Benzer videolar — kendi zemininde (kenardan kenara bant YOK) */
-.vd-izle__benzer { padding: 0 0 var(--vd-bolum-ara, 64px); }
+.vd-izle__benzer { padding: var(--vd-bolum-ara, 64px) 0; }
 .vd-izle__benzer .sec-head { margin-bottom: 32px; }
 /* — hub .vd-izgara (4 sütun); 3 sütunlu aralıkta 4. kart gizlenir (yarım satır yok) */
 @media (max-width: 1180px) and (min-width: 861px) { .vd-izle__benzer .vd-izgara > :nth-child(4) { display: none; } }
@@ -199,7 +199,7 @@
   .vd-izle__govde { grid-template-columns: minmax(0, 1fr) 320px; column-gap: 32px; }
 }
 @media (max-width: 860px) {
-  .vd-izle__govde { grid-template-columns: minmax(0, 1fr); grid-template-areas: "bas" "yan" "sef" "seri"; row-gap: var(--vdi-ara); padding-top: var(--vdi-ara); padding-bottom: var(--vd-bolum-ara, 48px); }
+  .vd-izle__govde { grid-template-columns: minmax(0, 1fr); grid-template-areas: "bas" "yan" "sef" "seri"; row-gap: var(--vdi-ara); padding-top: var(--vd-bolum-ara, 48px); padding-bottom: var(--vd-bolum-ara, 48px); }
   .vd-izle__yan { position: static; }
   .vd-tarif-kart { display: grid; grid-template-columns: 200px minmax(0, 1fr); }
   .vd-tarif-kart__ust.eyebrow { grid-column: 1 / -1; }
@@ -207,7 +207,7 @@
   .vd-tarif-kart--kunye { display: block; }
 }
 @media (max-width: 640px) {
-  .vd-izle__sinema { padding: 16px 0 0; }
+  .vd-izle__sinema { padding: 16px 0 24px; }
   .vd-izle__kirinti.rd-crumb { margin-bottom: 12px; font-size: 12.5px; }
   .vd-damgalar { flex-direction: column; gap: 8px; }
   .vd-damgalar__iz { margin-inline: calc(var(--vdi-ic) * -1); padding-inline: var(--vdi-ic); scroll-padding-inline: var(--vdi-ic); }

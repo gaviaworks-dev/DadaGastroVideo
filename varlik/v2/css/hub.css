@@ -3,7 +3,16 @@
    D2: sayfa Gastro açık zemini; yalnız spotlight (oynatıcı sahnesi) koyu sinema bandı. */
 
 /* ---------- 1.1 Spotlight ---------- */
-.vd-spot { position: relative; overflow: hidden; color: var(--vd-sahne-metin); background: radial-gradient(900px 420px at 88% -12%, rgba(220, 61, 23, .24), transparent 62%), radial-gradient(700px 380px at -8% 110%, rgba(250, 192, 69, .08), transparent 60%), linear-gradient(180deg, var(--vd-sahne) 0%, var(--vd-sahne-2) 100%); }
+/* 6 Kas patron revizesi: kart değil, tam genişlik bölüm. Banner'a Gastro kuralıyla biner (`.below-header+section`: -22px, 22px üst köşe, gölge);
+   beyaz panel de altına aynı ölçüyle biner, alt boşluk bu 22px'i karşılar. İçerik Gastro .wrap'ında, banner yazısıyla aynı kenarda.
+   Zemin: seçili vitrin videosunun görseli + Gastro banner degradesinin (kabuk.css .vd-v2-banner) açılmış hâli + alta doğru koyulaşma. */
+.vd-spot { position: relative; overflow: hidden; isolation: isolate; padding: 70px 0 78px; color: var(--vd-sahne-metin); background: #211E16; }
+.vd-spot__zemin { position: absolute; inset: 0; z-index: -1; }
+.vd-spot__zemin::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28, 25, 18, .12), rgba(28, 25, 18, .6)), linear-gradient(90deg, rgba(28, 25, 18, .86), rgba(33, 30, 22, .58)); }
+.vd-spot__zemin-gorsel { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; filter: blur(4px); transform: scale(1.04); transition: opacity .5s var(--ease, ease); }
+.vd-spot__zemin-gorsel.is-acik { opacity: 1; }
+@media (max-width: 640px) { .vd-spot { padding: 54px 0 62px; } }
+@media (prefers-reduced-motion: reduce) { .vd-spot__zemin-gorsel { transition: none; } }
 .vd-spot__bas { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--vd-sahne-cizgi); }
 .vd-spot .eyebrow { color: #f1b1a2; }
 .vd-spot .eyebrow::before { background: var(--vd-kirmizi); }
@@ -91,7 +100,6 @@
 
 /* ---------- 1.4 Seri rayları ---------- */
 .vd-seri-raylari { display: flex; flex-direction: column; }
-.vd-seri-ray + .vd-seri-ray { margin-top: 48px; padding-top: 48px; border-top: 1px solid var(--line, #ececec); }
 .vd-seri-ray__bas { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; align-items: center; gap: 16px 24px; margin-bottom: 24px; }
 .vd-seri-ray__ikon { display: grid; place-items: center; width: 56px; height: 56px; border-radius: var(--vd-r); background: var(--tomato-tint, #FBE6E1); color: var(--tomato, #DC3D17); font-size: 22px; }
 .vd-seri-ray__metin { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -113,7 +121,6 @@
   .vd-seri-ray__arac { grid-column: 1 / -1; flex-wrap: wrap; }
 }
 @media (max-width: 640px) {
-  .vd-seri-ray + .vd-seri-ray { margin-top: 32px; padding-top: 32px; }
   .vd-seri-ray__bas { margin-bottom: 16px; gap: 12px 16px; }
   .vd-seri-ray__metin h3 { font-size: 19px; }
   .vd-seri-ray__metin p { font-size: 14px; }
@@ -142,9 +149,11 @@
 html.vd-reklamli .vd-hub .vd-reklam[data-vd-suzgec-gizli] { display: none !important; }
 
 /* ===== V2 (hub ajanı) — panel içi yerleşim. Sahne başlığı banner'a çıktı; sahne panelin ilk bloğu (container genişliği panelin wrap'ı) ===== */
-.vd-v2 > .vd-spot { width: auto; margin-inline: 0; }
 .vd-spot__bas--v2 { align-items: center; }
-.vd-v2 .vd-suzgec { margin-top: var(--vd-ara, 24px); }
+/* Süzgeç barı panelin ilk satırı; yapışınca zebra bantlarının üstünde tam genişlik beyaz durur */
+.vd-v2 .vd-suzgec { margin-top: 0; border-bottom: 0; background: var(--paper, #fff); -webkit-backdrop-filter: none; backdrop-filter: none; border-image: conic-gradient(var(--paper, #fff) 0 0) fill 0 / 0 / 0 100vmax; }
+.vd-v2 .vd-suzgec.is-yapisik { box-shadow: none; filter: drop-shadow(0 8px 12px rgba(33, 30, 22, .08)); }
+.vd-v2 .vd-devam { padding-top: 32px; }
 .vd-sec-bag { color: var(--slate, #211E16); font-weight: 700; text-decoration: none; border-bottom: 1px solid currentColor; }
 .vd-sec-bag:hover { color: var(--tomato, #DC3D17); }
 .vlock-badge.vd-baslik-rozet { position: static; vertical-align: middle; margin-left: 8px; font-size: 12px; }

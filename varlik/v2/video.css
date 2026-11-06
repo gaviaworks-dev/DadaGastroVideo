@@ -23,19 +23,18 @@
    Kutunun genişliği Gastro .wrap içeriği (var(--wrap) − 2 × --vd-kenar); içindeki .wrap'ın kendi kenar boşluğu sıfırlanır.
    Bölümler arası --vd-bolum-ara; hero ve süzgeç barından sonra --vd-ara. İstisna: yapışkan süzgeç barı (gezinme) tam genişlik. */
 .vd-sayfa { position: relative; }
-.vd-alan, .vd-spot, .vd-seri-hero, .vd-sade-hero {
+.vd-alan, .vd-seri-hero, .vd-sade-hero {
   box-sizing: border-box;
   width: min(calc(var(--wrap, 1240px) - 2 * var(--vd-kenar, 32px)), calc(100% - 2 * var(--vd-kenar, 32px)));
   margin-inline: auto;
   border-radius: var(--vd-kart-r, 16px);
   padding: var(--vd-ic, 24px);
 }
-.vd-alan > .wrap, .vd-spot > .wrap, .vd-seri-hero > .wrap, .vd-sade-hero > .wrap { max-width: none; margin: 0; padding: 0; }
+.vd-alan > .wrap, .vd-seri-hero > .wrap, .vd-sade-hero > .wrap { max-width: none; margin: 0; padding: 0; }
 .vd-alan { margin-top: var(--vd-bolum-ara, 64px); background: var(--paper, #fff); }
 .vd-alan--krem { background: var(--cream-2, #F7F1E6); }
 .vd-alan--duz { background: transparent; padding-inline: 0; }
-.vd-spot, .vd-seri-hero, .vd-sade-hero { margin-top: var(--vd-ara, 24px); }
-.vd-hub, .vd-seri-sayfa, .vd-seriler-sayfa { padding-bottom: var(--vd-bolum-ara, 64px); }
+.vd-seri-hero, .vd-sade-hero { margin-top: var(--vd-ara, 24px); }
 .vd-alan .sec-head { margin-bottom: 32px; }
 .vd-alan .sec-head h2 { font-size: 34px; }
 .vd-ornek { display: inline-flex; align-items: center; gap: 8px; padding: 4px 8px; border-radius: var(--vd-r-sm); background: var(--cream, #EFE5D3); color: var(--slate-2, #56514a); font-size: 11.5px; font-weight: 700; letter-spacing: .01em; line-height: 1.3; white-space: nowrap; vertical-align: middle; }
@@ -350,10 +349,13 @@ html.vd-reklamli :is(.vd-hub, .vd-seri-sayfa, .vd-seriler-sayfa) > .vd-reklam:no
 }
 
 /* Panel içindeki Gastro bölümleri: panelin ilk bölümünün üst payı (panel kendi payını verir) */
-.vd-v2 > .sec:first-child, .vd-v2 > .vd-spot:first-child { margin-top: 0; }
-.vd-v2 .sec { padding: 64px 0 0; }
-.vd-v2 > .sec:last-child, .vd-v2 > .vd-reklam:last-child { padding-bottom: 0; }
-@media (max-width: 640px) { .vd-v2 .sec { padding: 48px 0 0; } }
+.vd-v2 > .sec:first-child { margin-top: 0; }
+/* 6 Kas patron revizesi · zebra: bölümler sırayla beyaz / açık turuncu; geçiş çizgisiz ve gölgesiz, düz renk kenarı. Boşluk bölümün içinde
+   simetrik, renk kenarı içeriğe eşit uzaklıkta. Bant panelin .wrap'ını bozmadan ekran kenarına kadar uzar: border-image taşması kaydırma
+   oluşturmaz, içerik kolonu aynı kalır. Tek listeli sayfalarda başlık beyazda, liste bantta (.vd-bant). */
+.vd-v2 .sec, .vd-bant { padding: var(--vd-bolum-ara, 64px) 0; }
+.vd-zebra-sicak { background: var(--vd-zemin-sicak); border-image: conic-gradient(var(--vd-zemin-sicak) 0 0) fill 0 / 0 / 0 100vmax; }
+.vd-v2 .sec.vd-sec-giris { padding: 0; }
 
 /* eklendi: Gastro'nun takip edilen şef düğmesi görünümü (.sef-follow.on, sefler.css) ana sayfa şef kartında (.chef-follow) da — VD.takip */
 .chef-follow.on, .chef-follow[aria-pressed="true"] { border-color: var(--tomato, #DC3D17); color: var(--tomato, #DC3D17); background: var(--tomato-tint, #FBE6E1); }

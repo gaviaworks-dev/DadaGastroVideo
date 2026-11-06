@@ -50,13 +50,13 @@ export default async function (o) {
   const main = `<!-- V2 · hub ajanı · donör: Gastro ana sayfa http://127.0.0.1:8960/ (section.sec > .sec-head · .r-card) + süzgeç http://127.0.0.1:8960/tarifler (.lst-layout · .lst-side · .sort-dd · .lst-grid) -->
 <div class="vd-seriler-sayfa vd-v2">
  ${reklamSlotu('ust', o, { sayfa: 'seriler' })}
- <section class="sec" aria-labelledby="vd-sr-liste">
+ <section class="sec vd-sec-giris" aria-labelledby="vd-sr-liste">
   <div class="sec-head">
    <div><span class="eyebrow">${ui('fa-layer-group')} Seri listesi</span><h2 id="vd-sr-liste">Bir konu seç, bölüm bölüm ilerle</h2>
    <p class="lead">Kategoriye, mutfağa, şefe, zorluğa ve süreye göre daralt; her serinin formatı, ritmi ve sunan şefi kartında.</p></div>
    <div class="sec-tools"><a class="see-all" href="video-mutfagi.html">Bütün videolar ${ui('fa-arrow-right')}</a></div>
   </div>
-  ${suzgecDuzeni({ dosya: 'video-seriler.html', birim: 'seri', toplam: seriler.length, gruplar, siralar, liste, bos: { baslik: 'Bu süzgeçlere uyan seri yok', metin: 'Bir seçimi kaldırmayı ya da süzgeçleri temizlemeyi dene.', dugme: 'Süzgeçleri temizle' } })}
+  <div class="vd-zebra-sicak vd-bant">${suzgecDuzeni({ dosya: 'video-seriler.html', birim: 'seri', toplam: seriler.length, gruplar, siralar, liste, bos: { baslik: 'Bu süzgeçlere uyan seri yok', metin: 'Bir seçimi kaldırmayı ya da süzgeçleri temizlemeyi dene.', dugme: 'Süzgeçleri temizle' } })}</div>
  </section>
  ${reklamSlotu('alt', o, { sayfa: 'seriler' })}
 </div>`;

@@ -8,3 +8,5 @@
 /* Süzgeç kutusu solda olduğu için içerik kolonu daralır: geniş ekranda 3 sütun (6 şef = 2 tam satır; donörün 4'ü kolonsuz dizin içindi) */
 @media (min-width: 981px) { .vd-sefler .sef-grid.vd-sefler__izgara { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 .vd-sefler .lst-main > .sef-grid { margin-top: 24px; } /* Gastro .lst-grid'in üst boşluğu (aynı kalıp) */
+/* 6 Kas zebra: donörün gri zemini ve boşluğu kalkar; başlık beyaz panelde, liste bantta */
+.sef-sec.vd-sefler__sec { padding: 0; background: none; }

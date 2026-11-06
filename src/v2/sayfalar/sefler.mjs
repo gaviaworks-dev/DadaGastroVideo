@@ -72,7 +72,7 @@ ${kartlar}
     <input type="search" name="q" value="" placeholder="İsme göre ara..." aria-label="Şef adına göre ara" autocomplete="off">
    </form>
   </div>
-  ${duzen}
+  <div class="vd-zebra-sicak vd-bant">${duzen}</div>
  </section>
  ${reklamSlotu('alt', o, { sayfa: 'sefler' })}
 </div>`;

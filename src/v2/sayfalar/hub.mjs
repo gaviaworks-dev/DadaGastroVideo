@@ -1,7 +1,9 @@
 // V2 · Hub: v2/video-mutfagi.html (hub ajanı).
 // İskelet (kabuk, iskelet.mjs): koyu banner = donör /bugun-ne-pisirsem `.bnp-top` (kırıntı · eyebrow · h1 + .accent · .lead ·
 // .bnp-stats gerçek katalog sayaçları) + beyaz panel `.bnp-body`. `main` panelin içine girer.
-// Panel sırası: 1.1 koyu oynatıcı sahnesi (V1'den AYNEN; başlığı banner'a çıktı) · reklam üst · 1.2 süzgeç barı · İzlemeye devam et
+// Vitrin (6 Kas patron revizesi): kart değil; banner ile panel arasında tam genişlik bölüm (iskelet.ust), zemini seçili vitrin videosunun
+// görseli + Gastro banner degradesi. Zebra: bölümler sırayla beyaz / açık turuncu (ZEBRA).
+// Panel sırası: reklam üst · 1.2 süzgeç barı · İzlemeye devam et
 // (Gastro .feat-side yatay .r-card) · 1.3 30 Saniyede Tat (.row-track) · 1.4 seri rayları (her seri bir Gastro bölümü: .sec-head +
 // .row-track) · şefler (izle'nin sef-kart.mjs → Gastro .chef-row) · E.2b tüm videolar (Gastro .grid-4) · reklam alt.
 // donör: Gastro ana sayfa render DOM (http://127.0.0.1:8960/) `section.sec > .sec-head` + `.row-track` / `.feat-side` / `.grid-4` / `.chef-row`.
@@ -21,6 +23,8 @@ const VITRIN = [
   { ad: 'Sponsorlu Şef', ikon: 'fa-bullhorn', alt: 'sef', sponsor: true },
 ];
 const kisaAd = (b) => String(b).split(/[:·]/)[0].trim();
+// Bölümler aşağı indikçe beyaz / açık turuncu değişir: 'İzlemeye devam et' beyaz, 30 sn turuncu, seriler sırayla, şefler turuncu, arşiv beyaz.
+const ZEBRA = 'vd-zebra-sicak';
 const ILK = 12; // E.2b: sunucu render ilk sayfa (4'ün, 3'ün, 2'nin katı → hiçbir genişlikte yarım satır yok)
 
 export default async function (o) {
@@ -57,8 +61,14 @@ export default async function (o) {
     ${oynatici(v, o, { kip: 'spotlight', kilitli: !!(s && s.pro), baslikSeviye: 'h3', oncelik: i === 0 })}
    </div>`;
   }).join('');
+  // Zemin: her sekmenin kendi video görseli; seçili sekmeninki açık (hub.js is-acik'i taşır). Süs görsel, alt boş.
+  const zeminler = vitrinler.map((x, i) => {
+    const p = o.videoPosteri(x.v);
+    return p ? `<img class="vd-spot__zemin-gorsel${i ? '' : ' is-acik'}" data-vd-zemin="${i}" src="${esc(p.k1600)}" srcset="${esc(p.k640)} 640w, ${esc(p.k1600)} 1600w" sizes="100vw" alt="" width="1600" height="900" decoding="async"${i ? ' loading="lazy"' : ''}>` : '';
+  }).join('');
   // V2: sahnenin başlık/giriş kısmı banner'a (iskelet) çıktı; sahne sekmelerle başlar
   const spot = `<section class="vd-spot" aria-label="Haftanın vitrini" data-rk-hero="">
+ <div class="vd-spot__zemin" aria-hidden="true">${zeminler}</div>
  <div class="wrap">
   <div class="vd-spot__bas vd-spot__bas--v2">
    <span class="eyebrow">${ui('fa-clapperboard')} Vitrin</span>
@@ -100,14 +110,14 @@ export default async function (o) {
 
   /* ---------- 1.3 30 Saniyede Tat rayı ---------- */
   const kisaSeri = seriler.find((s) => s.format === '9:16');
-  const kisa = `<section class="sec vd-kisalar vd-ray vd-ray--kisa" id="kisa" aria-labelledby="vd-kisa-h" data-vd-anasayfa data-vd-ray>
+  const kisa = `<section class="sec ${ZEBRA} vd-kisalar vd-ray vd-ray--kisa" id="kisa" aria-labelledby="vd-kisa-h" data-vd-anasayfa data-vd-ray>
   ${basl({ ikon: kisaSeri ? kisaSeri.ikon : 'fa-bolt', ust: esc(kisaSeri ? kisaSeri.ad : '30 Saniyede Tat'), baslik: '30 saniyede bir fikir', id: 'vd-kisa-h', lead: `${esc(kisaSeri ? kisaSeri.vaat : '')} Dokun, tam ekranda yukarı kaydırarak sıradakine geç.`, araclar: `${kisaSeri ? `<a class="see-all" href="${esc(o.seriAdresi(kisaSeri))}">Seriyi Aç ${ui('fa-arrow-right')}</a>` : ''}${okDugmeleri('Kısa videolar')}` })}
   <div class="row-track" data-vd-ray-iz>${kisalar.map((k) => K.kisaKarti(k, o)).join('')}</div>
 </section>`;
 
   /* ---------- 1.4 Seri rayları — her seri bir Gastro bölümü ---------- */
   const uzunSeriler = seriler.filter((s) => s.format !== '9:16');
-  const seriRay = (s) => {
+  const seriRay = (s, i) => {
     const bol = videolar.filter((v) => v.seri === s.slug).sort((a, b) => a.bolum - b.bolum);
     const sef = o.SEF[s.sef];
     const sponsor = s.sponsor_yuvasi ? `<aside class="vd-sponsor" data-vd-reklamsiz aria-label="Sponsor alanı (prototip örneği)">
@@ -118,7 +128,7 @@ export default async function (o) {
     const ust = `Video serisi · ${bol.length} bölüm · ${K.sureAraligi(s)} · ${esc(s.ritim)}`;
     const lead = `${esc(s.vaat)}${sef ? ` Sunan: <a class="vd-sec-bag" href="${esc(o.sefAdresi(s.sef))}">${esc(sef.ad)}</a>.` : ''}`;
     const araclar = `${s.pro ? `<a class="see-all vd-pro-bag" href="https://dadagastro.com/pro">${ui('fa-crown')} Pro'ya Yükselt</a>` : ''}<a class="see-all" href="${esc(o.seriAdresi(s))}">Seriyi Aç ${ui('fa-arrow-right')}</a>${okDugmeleri(s.ad)}`;
-    return `<section class="sec vd-seri-ray vd-ray vd-ray--video" id="seri-${esc(s.slug)}" aria-labelledby="vd-ray-${s.slug}" data-vd-anasayfa data-vd-ray>
+    return `<section class="sec${i % 2 ? ` ${ZEBRA}` : ''} vd-seri-ray vd-ray vd-ray--video" id="seri-${esc(s.slug)}" aria-labelledby="vd-ray-${s.slug}" data-vd-anasayfa data-vd-ray>
   ${basl({ ikon: s.ikon, ust, baslik: `${esc(s.ad)}${s.pro ? ` <span class="vlock-badge vd-baslik-rozet">${ui('fa-lock')} Pro</span>` : ''}`, id: `vd-ray-${s.slug}`, lead, araclar })}
   ${sponsorEtiketi(s.slug)}
   ${sponsor}
@@ -128,7 +138,7 @@ export default async function (o) {
 
   /* ---------- Video şefleri — izle'nin sef-kart.mjs (Gastro .chef-row > .chef-card) ---------- */
   const sefler = [...new Set(seriler.map((s) => s.sef))].filter((k) => o.SEF[k]);
-  const sefBolum = `<section class="sec chefs vd-sefler" id="sefler" aria-labelledby="vd-sef-h" data-vd-anasayfa>
+  const sefBolum = `<section class="sec ${ZEBRA} chefs vd-sefler" id="sefler" aria-labelledby="vd-sef-h" data-vd-anasayfa>
   ${basl({ ikon: 'fa-utensils', ust: 'Şefler &amp; Yazarlar', baslik: 'Videoların ustaları', id: 'vd-sef-h', lead: 'Her seriyi bir Dada Gastro şefi sunar; tarifleri sitede de yayında.', araclar: `<a class="see-all" href="video-sefler.html">Tamamını Gör ${ui('fa-arrow-right')}</a>` })}
   ${sefRayi(sefler, o)}
 </section>`;
@@ -189,7 +199,6 @@ export default async function (o) {
 
   const main = `<!-- V2 · hub ajanı · donör: Gastro ana sayfa http://127.0.0.1:8960/ (section.sec > .sec-head · .row-track · .feat-side · .grid-4 · .r-card · .chef-row) — portal-*.css · kart-standart.css; koyu sahne V1'den -->
 <div class="vd-hub vd-v2" data-vd-hub data-vd-toplam="${videolar.length}">
-${spot}
 ${reklamSlotu('ust', o, { sayfa: 'hub' })}
 ${suzgec}
 ${devam}
@@ -206,6 +215,7 @@ ${kisaGoruntuleyici(o, { katman: true })}`;
     baslik: 'Video Mutfağı — adım adım tarif videoları · Dada Gastro (prototip)',
     aciklama: 'Dada Gastro Video Mutfağı: adım adım tarif videoları, şef teknikleri, restoran sırları, yöresel keşifler ve 30 saniyelik kısa videolar; video ilerledikçe malzemeler yanında açılır.',
     iskelet: {
+      ust: spot,
       kirinti: [{ ad: 'Video Mutfağı' }],
       eyebrow: { ikon: 'fa-circle-play', metin: 'İzle & Pişir' },
       baslik: 'Videoyu izle, malzemeler yanında açılsın',
