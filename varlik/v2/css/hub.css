@@ -5,18 +5,18 @@
 /* ---------- 1.1 Spotlight ---------- */
 /* 6 Kas patron revizesi: kart değil, tam genişlik bölüm. Banner'a Gastro kuralıyla biner (`.below-header+section`: -22px, 22px üst köşe, gölge);
    beyaz panel de altına aynı ölçüyle biner, alt boşluk bu 22px'i karşılar. İçerik Gastro .wrap'ında, banner yazısıyla aynı kenarda.
-   Zemin: seçili vitrin videosunun görseli + Gastro banner degradesinin (kabuk.css .vd-v2-banner) açılmış hâli + alta doğru koyulaşma. */
+   Zemin: seçili vitrin videosunun görseli bulanık ve geri planda (banner görseliyle üst üste binmiş görünmesin) + koyu sıcak örtü + hilalden aşağı sönen Gastro turuncusu. */
 /* Turuncu hilal: yalnız üst kenarlık; 22px köşe yarıçapında kalınlığı iki uca doğru sıfıra iner. Kenarlık kadar üst boşluk düşülür. */
 .vd-spot { position: relative; overflow: hidden; isolation: isolate; padding: 66px 0 78px; border-top: 4px solid var(--tomato, #DC3D17); color: var(--vd-sahne-metin); background: #211E16; }
 .vd-spot__zemin { position: absolute; inset: 0; z-index: -1; }
-.vd-spot__zemin::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(28, 25, 18, .12), rgba(28, 25, 18, .6)), linear-gradient(90deg, rgba(28, 25, 18, .86), rgba(33, 30, 22, .58)); }
-.vd-spot__zemin-gorsel { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; filter: blur(4px); transform: scale(1.04); transition: opacity .5s var(--ease, ease); }
+.vd-spot__zemin::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(220, 61, 23, .5) 0, rgba(156, 43, 16, .26) 180px, rgba(156, 43, 16, 0) 460px), linear-gradient(180deg, rgba(33, 19, 11, .8), rgba(26, 17, 11, .92)); }
+.vd-spot__zemin-gorsel { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; filter: blur(10px); transform: scale(1.08); transition: opacity .5s var(--ease, ease); }
 .vd-spot__zemin-gorsel.is-acik { opacity: 1; }
 @media (max-width: 640px) { .vd-spot { padding: 50px 0 62px; } }
 @media (prefers-reduced-motion: reduce) { .vd-spot__zemin-gorsel { transition: none; } }
 .vd-spot__bas { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--vd-sahne-cizgi); }
-.vd-spot .eyebrow { color: #f1b1a2; }
-.vd-spot .eyebrow::before { background: var(--vd-kirmizi); }
+.vd-spot .eyebrow { color: #fff; }
+.vd-spot .eyebrow::before { background: #fff; }
 .vd-spot h1 { margin: 8px 0 12px; color: #fff; font-size: 44px; line-height: 1.05; letter-spacing: -.03em; }
 .vd-spot__giris p { margin: 0; max-width: 520px; color: var(--vd-sahne-ikincil); font-size: 16px; line-height: 1.55; }
 .vd-spot__sekmeler { display: flex; gap: 8px; }
