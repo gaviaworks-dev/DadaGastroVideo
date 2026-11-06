@@ -34,6 +34,12 @@
    Donörde arka plan satır içi stilde: `linear-gradient(90deg,rgba(28,25,18,.93),rgba(33,30,22,.72)),url(<görsel>)` (bölüm) ve aynı
    görsel/degrade px-media/px-veil'de. V2'de satır içi stil yok: `--vd-banner` (görsel) `varlik/v2/banner.css`te `[data-vd-banner]`e göre
    kurulur (build-v2 üretir); degrade donördeki değerle burada. */
+/* 6 Kas revize 3: banner yerinde durur, beyaz panel kaydırınca üstüne çıkar (panelin z-index 2 ve -22px'i Gastro kuralı `.below-header+section`).
+   Köşelerin arkasında banner görseli kalır. Görsel bandın içinde sabit (Gastro .px-media fixed + --px-shift ölçüsü sticky bantta bozulur;
+   background-attachment: fixed yok). Banner pencereden uzun olabilen yatay telefonda sticky kapalı: alt kısmına ulaşılamaz olmasın. */
+.bnp-top.vd-v2-banner { position: sticky; top: 0; z-index: 0; }
+.vd-v2-banner .px-media { position: absolute; inset: 0; width: auto; height: auto; background-position: center; }
+@media (max-height: 560px) { .bnp-top.vd-v2-banner { position: relative; } }
 .vd-v2-banner { background-image: linear-gradient(90deg, rgba(28, 25, 18, .93), rgba(33, 30, 22, .72)), var(--vd-banner, none); background-size: cover; background-position: center; background-color: #211E16; }
 .vd-v2-banner .px-media { background-image: var(--vd-banner, none); }
 .vd-v2-banner .px-veil { background-image: linear-gradient(90deg, rgba(28, 25, 18, .93), rgba(33, 30, 22, .72)); }
@@ -51,16 +57,10 @@
 .vd-v2-surum p { margin: 0; font-size: 13px; line-height: 1.5; }
 .vd-v2-surum a { color: var(--tomato-dark, #BA3413); text-decoration: underline; text-underline-offset: 2px; font-family: var(--vd-font-kalin); font-weight: 700; }
 .vd-v2-surum b { color: var(--ink, #211E16); font-family: var(--vd-font-kalin); font-weight: 700; }
-.pg-video .vd-v2-surum, .pg-video ~ * .vd-v2-surum { background: var(--paper, #fff); border-image: conic-gradient(var(--paper, #fff) 0 0) fill 0 / 0 / 0 100vmax; }
+.pg-video .vd-v2-surum, .pg-video ~ * .vd-v2-surum { position: relative; z-index: 2; background: var(--paper, #fff); border-image: conic-gradient(var(--paper, #fff) 0 0) fill 0 / 0 / 0 100vmax; }
 
 /* (REVİZE 1, 5 Kas) Logo yanındaki "video" alt marka rozeti KALDIRILDI: her sayfada donördeki normal Dada Gastro logosu. */
 
-/* ---------- Üst menü ve çekmecede "Video Mutfağı · VİDEO" rozeti KIRMIZI (lead kararı 4 Kas, doküman D.1a "kırmızı rozet") ----------
-   Donör işaretlemesi (span.soon, Gastro'nun yeşil "yeni" rozeti) değişmez; yalnız Video bağının içindeki .soon boyanır (seçici bağın
-   href'iyle sınırlı → öteki .soon rozetleri etkilenmez). Zemin --tomato-dark (#BA3413, Gastro kırmızısının koyu tonu): beyaz metinle
-   kontrast 5,8:1 (AA). --tomato (#DC3D17) beyazla 4,45:1 verir, 9,5px metin için AA'nın (4,5) altında kalır. Tüm sayfalarda yüklü. */
-/* Reklamlı görünümde (?reklam=1) iç bağlar sorguyu taşır (reklam.js) → bağ "video-mutfagi.html?reklam=1" olur; rozet orada da kırmızı. */
-a[href="video-mutfagi.html"] > .soon, a[href^="video-mutfagi.html?"] > .soon { background: var(--tomato-dark, #BA3413); color: #fff; }
 /* Üst menüde "Video Mutfağı" ikonu: DadaGourmet header'ındaki ikonlu öğe kalıbı (metnin solunda, metin rengi, 6px). */
 .nav .nav-item > a > .vd-nav-ikon { margin: 0 6px 0 0; color: inherit; font-size: 13px; opacity: 1; }
 

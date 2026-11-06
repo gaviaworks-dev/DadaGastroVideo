@@ -130,8 +130,10 @@
     // hub'ın süzgeci: çekmece Gastro .lst-side.open (position: fixed), örtü .sheet-overlay.open
     return [...d.querySelectorAll('.sheet, .lst-side.open, .sheet-overlay.open, [data-vd-suzgec-cekmece]')].some((n) => { if (n.hidden || !gorunur(n) || getComputedStyle(n).position !== 'fixed') return false; const r = n.getBoundingClientRect(); return r.height > 0 && r.top < w.innerHeight && r.bottom > 0; });
   }
-  // V2: sayfada birden çok hero olabilir (koyu banner + hub spotlight / izleme sahnesi): kapı en alttakinin alt kenarına bakar
-  const heroAlti = () => { const h = [...d.querySelectorAll('main [data-rk-hero]')].filter((n) => n.getClientRects().length); return h.length ? Math.max(...h.map((n) => n.getBoundingClientRect().bottom)) : null; };
+  // V2: sayfada birden çok hero olabilir (koyu banner + hub spotlight / izleme sahnesi): kapı en alttakinin alt kenarına bakar.
+  // Banner sticky: alt kenarı yerinden oynamaz, görünen alt sınırı üstüne binen panelin üst kenarıdır.
+  const heroKenari = (n) => (n.matches('.vd-v2-banner') && n.nextElementSibling ? n.nextElementSibling.getBoundingClientRect().top : n.getBoundingClientRect().bottom);
+  const heroAlti = () => { const h = [...d.querySelectorAll('main [data-rk-hero]')].filter((n) => n.getClientRects().length); return h.length ? Math.max(...h.map(heroKenari)) : null; };
   function baslikAlti() {
     let alt = 0;
     d.querySelectorAll('header.header, .topbar, .vd-ust').forEach((n) => { const r = n.getBoundingClientRect(); if (r.height && r.top < 200 && r.bottom > 0) alt = Math.max(alt, r.bottom); });

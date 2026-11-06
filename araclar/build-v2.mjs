@@ -84,7 +84,7 @@ const CEKMECE_VIDEO = /<div class="d-item"><a class="d-link" href="video-mutfagi
 function videoMenusu(html, aktif, videoSayfasiMi) {
   const cur = (k) => (k === aktif ? ' class="active" aria-current="page"' : '');
   const ust = `<div class="nav-item">
-            <a href="video-mutfagi.html" class="${videoSayfasiMi ? 'active' : ''}"><i class="fa-solid fa-circle-play vd-nav-ikon" aria-hidden="true"></i>Video Mutfağı <span class="soon">VİDEO</span>
+            <a href="video-mutfagi.html" class="${videoSayfasiMi ? 'active' : ''}"><i class="fa-solid fa-circle-play vd-nav-ikon" aria-hidden="true"></i>Video Mutfağı
                                                         <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                                                 </a>
                                                 <div class="dropdown">
@@ -93,7 +93,7 @@ ${ALT().map(([k, ad, href, ik, alt]) => `                                       
                                         </div>`;
   const cek = `<div class="d-item d-has-sub">
       <div class="d-row">
-        <a class="d-link" href="video-mutfagi.html"><i class="fa-solid fa-circle-play"></i> Video Mutfağı <span class="soon">VİDEO</span></a>
+        <a class="d-link" href="video-mutfagi.html"><i class="fa-solid fa-circle-play"></i> Video Mutfağı</a>
         <button class="d-toggle" type="button" aria-expanded="false" aria-label="Video Mutfağı alt menüsü"><i class="fa-solid fa-chevron-down"></i></button>
       </div>
       <div class="d-sub">
